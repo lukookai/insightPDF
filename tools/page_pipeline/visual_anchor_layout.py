@@ -81,13 +81,22 @@ class FixedCanvasAnchorLayout:
                  grid: Dict[str, Any] | None = None,
                  bottom_reserved_regions: List[Dict[str, Any]] | None = None,
                  width_map: Dict[str, float] | None = None,
-                 frontmatter: Dict[str, Any] | None = None):
+                 frontmatter: Dict[str, Any] | None = None,
+                 fragment_targets: Dict[str, Dict[str, str]] | None = None,
+                 ink=None):
+        """``fragment_targets``: {logical_paragraph_id:
+        {fragment_id: target_text}} from VisualFragmentPartition -- a
+        page-local slice of the canonical translation (visual-v02).
+        ``ink``: optional SourceInkGeometry for ink-aware unresolved
+        second opinion."""
         self.page_model = page_model
         self.translations = translations
         self.grid = grid or {}
         self.bottom_reserved = bottom_reserved_regions or []
         self.width_map = width_map or {}
         self.frontmatter = frontmatter or {}
+        self.fragment_targets = fragment_targets or {}
+        self.ink = ink
         self.fit = LocalFitStrategy(self.width_map)
         self.unresolved: List[Dict[str, Any]] = []
 
@@ -154,6 +163,20 @@ class FixedCanvasAnchorLayout:
             }]
             rendered = p.get("fragment_translation_texts") or _split_translation(
                 zh, fragments)
+            # visual-v02: prefer the VisualFragmentPartition slice for this
+            # fragment (page-local target of the canonical translation).
+            part_map = self.fragment_targets.get(pid)
+            if part_map:
+                new_rendered = []
+                for frag in fragments:
+                    fid = frag.get("flow_fragment_id") or (pid + "-F0")
+                    if fid in part_map:
+                        new_rendered.append(part_map[fid])
+                    else:
+                        new_rendered.append(
+                            rendered[len(new_rendered)]
+                            if len(new_rendered) < len(rendered) else "")
+                rendered = new_rendered
             for index, (frag, frag_text) in enumerate(zip(fragments, rendered)):
                 flow_para = dict(frag)
                 flow_para.update({
@@ -271,6 +294,20 @@ class FixedCanvasAnchorLayout:
                     region_top, region_h, col_w)
                 fscale = float(fit["font_scale"])
                 lscale = float(fit["line_height_scale"])
+                if fit["unresolved"] and self.ink is not None \
+                        and sep_idx < len(separators):
+                    # visual-v02 ink second opinion: a raw bbox shortfall is
+                    # not a defect when the sequence's ACTUAL text extent
+                    # does not collide with the next anchor's SOURCE ink
+                    # (source-native overlap is legal, e.g. DLP00182 ", and"
+                    # beside formula B12 on 2504 p014).
+                    next_anchor = separators[sep_idx]
+                    nbox = next_anchor.get("box")
+                    if nbox is not None and not _ink_collides(
+                            seq, region_top, fit["est_height"], nbox):
+                        fit = dict(fit)
+                        fit["unresolved"] = False
+                        fit["detail"] = "ink-second-opinion pass"
                 if fit["unresolved"]:
                     self.unresolved.append({
                         "column": ci, "region_top": round(region_top, 3),
@@ -285,6 +322,33 @@ class FixedCanvasAnchorLayout:
                     _emit_para(s, fscale, lscale, fit["level"])
                 seq = []
                 seq_region_top = None
+
+            def _ink_collides(seq, region_top, est_height, anchor):
+                """True when the sequence's estimated text extent overlaps
+                the anchor's SOURCE ink (visible collision)."""
+                if self.ink is None:
+                    return True
+                if isinstance(anchor, dict):
+                    anchor_box = anchor.get("bbox") or []
+                else:
+                    anchor_box = anchor or []
+                if len(anchor_box) != 4:
+                    return True
+                from flow_layout import _est_text_width_em
+                boxes = []
+                for s in seq:
+                    fsize = s.get("base_font_size") or 10.0
+                    tw = _est_text_width_em(s.get("render_text") or "",
+                                            {}, fsize) * fsize
+                    top = s.get("anchor_y", 0.0)
+                    boxes.append([s.get("col_x0", col_x0), top,
+                                  min(col_x1, s.get("col_x0", col_x0)
+                                      + max(tw, 8.0)),
+                                  top + fsize * 1.3])
+                for b in boxes:
+                    if self.ink.visible_collision(b, anchor_box):
+                        return True
+                return False
 
             # walk paragraphs + separators in y order
             def _inside_anchor(p):

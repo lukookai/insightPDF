@@ -29,7 +29,7 @@ from front_matter import classify_front_matter  # noqa: E402
 from typography import build_typography  # noqa: E402
 from html_render import build_unified_html  # noqa: E402
 
-OUT = REPO / "outputs" / "visual_v01_checkpoint"
+OUT = REPO / "outputs" / "visual_v02_checkpoint"
 BALANCED_PROFILE = REPO / "outputs" / "phase4d2a_typography_audit" / "balanced_chinese_profile.json"
 P4E2A = REPO / "outputs" / "phase4e2a_qa_recovery"
 
@@ -76,8 +76,44 @@ def _dump(p, obj):
                        encoding="utf-8")
 
 
-def render_visual_page(doc_key, page, out_dir):
-    """Render one page via the visual route; returns the page QA bundle."""
+def build_document_partition(doc_key, pages):
+    """Document-level VisualFragmentPartition for the whole source PDF.
+
+    Collects every page model + merged canonical translations, then
+    partitions each multi-fragment logical paragraph.  Returns
+    {logical_paragraph_id: {fragment_id: target_text}} + closure QA.
+    """
+    info = DOCS[doc_key]
+    models = {}
+    translations = {}
+    for pg in pages:
+        src_dir = info["src"] / "pages" / ("p%03d" % pg)
+        m = _load(src_dir / "stitched_page_model.json", {})
+        if m:
+            models[pg] = m
+        t = _load(src_dir / "translation.json", {})
+        if t:
+            translations.update(t)
+    from visual_fragment_partition import VisualFragmentPartition, \
+        visual_fragment_closure_qa
+    part = VisualFragmentPartition(models, translations)
+    results = part.partition_all()
+    targets = {}
+    closure = {}
+    for lid, res in results.items():
+        closure[lid] = visual_fragment_closure_qa(res)
+        if len(res.get("fragments", [])) > 1:
+            targets[lid] = {f["fragment_id"]: f["target_text"]
+                            for f in res["fragments"]}
+    return {"targets": targets, "closure_qa": closure,
+            "partitions": results}
+
+
+def render_visual_page(doc_key, page, out_dir, fragment_targets=None):
+    """Render one page via the visual route; returns the page QA bundle.
+
+    ``fragment_targets``: optional {logical_id: {fragment_id: text}} from
+    the document-level VisualFragmentPartition (visual-v02)."""
     info = DOCS[doc_key]
     pdf_path = _resolve_desktop_pdf(doc_key)
     src_dir = info["src"] / "pages" / ("p%03d" % page)
@@ -101,10 +137,14 @@ def render_visual_page(doc_key, page, out_dir):
 
     # ---- visual layout (fixed canvas) -----------------------------------
     from visual_anchor_layout import FixedCanvasAnchorLayout
+    from source_ink_geometry import SourceInkGeometry
+    ink = SourceInkGeometry(pdf_path, model, page_idx)
     layout = FixedCanvasAnchorLayout(model, translations, grid=grid,
                                      bottom_reserved_regions=bottom_reserved,
                                      width_map=width_map,
-                                     frontmatter=frontmatter)
+                                     frontmatter=frontmatter,
+                                     fragment_targets=fragment_targets,
+                                     ink=ink)
     flows = layout.build_visual_flows()
     unresolved = layout.unresolved
 
@@ -139,12 +179,18 @@ def render_visual_page(doc_key, page, out_dir):
                                          pdf_path=pdf_path_out)
     expansion = visual_page_expansion_qa(pdf_path_out, source_pages=1)
     execution = visual_execution_integrity_qa(stage_statuses)
+    # visual-v02: SourceInkGeometryQA (ink-aware isolation)
+    from source_ink_geometry import source_ink_geometry_qa
+    ink_qa = source_ink_geometry_qa(model, flows, ink, pdf_path,
+                                    out_dir=out_dir)
     if anchor["decision"] == "fail":
         stage_statuses["visual_anchor_integrity"] = "fail"
     if region["decision"] == "fail":
         stage_statuses["fixed_canvas_text_region"] = "fail"
     if expansion["decision"] == "fail":
         stage_statuses["visual_page_expansion"] = "fail"
+    if ink_qa["decision"] == "fail":
+        stage_statuses["source_ink_geometry"] = "fail"
     execution = visual_execution_integrity_qa(stage_statuses)
 
     hard = {
@@ -162,6 +208,10 @@ def render_visual_page(doc_key, page, out_dir):
         "capacity_unresolved_count":
             region["metrics"]["capacity_unresolved_count"],
         "unexpected_extra_page_count": expansion["unexpected_extra_page_count"],
+        "source_ink_budget_violation_count":
+            ink_qa["metrics"]["source_native_overlap_budget_violation_count"],
+        "anchor_ink_displacement_count":
+            ink_qa["metrics"]["anchor_ink_displacement_count"],
     }
     passed = all(v == 0 for v in hard.values())
     bundle = {
@@ -169,6 +219,7 @@ def render_visual_page(doc_key, page, out_dir):
         "hard_metrics": hard,
         "anchor_integrity": anchor, "text_region": region,
         "page_expansion": expansion, "execution_integrity": execution,
+        "source_ink_geometry": ink_qa,
         "unresolved": unresolved,
         "render_ms": render_ms,
         "outputs": {"html": str(html_path.relative_to(OUT)),
@@ -234,23 +285,53 @@ def main():
                     for p in d["default_pages"]]
 
     OUT.mkdir(parents=True, exist_ok=True)
+    # document-level fragment partition (visual-v02) per source document
+    doc_partitions = {}
+    doc_closure = {}
+    doc_all_pages = {}
+    for dkey in set(f[0] for f in fixtures):
+        # read the full source page range from the frozen artifacts
+        pages = sorted(
+            int(p.name[1:]) for p in (DOCS[dkey]["src"] / "pages").iterdir()
+            if p.name.startswith("p") and p.is_dir())
+        doc_all_pages[dkey] = pages
+        dp = build_document_partition(dkey, pages)
+        doc_partitions[dkey] = dp["targets"]
+        doc_closure[dkey] = dp["closure_qa"]
+        _dump(OUT / ("%s_fragment_closure_qa.json" % dkey),
+              {"schema_version": "visual_v02.fragment_closure_qa.v1",
+               "closure_qa": dp["closure_qa"]})
+
     results = []
     for dkey, pg in fixtures:
         pdir = OUT / ("%s_p%03d" % (dkey, pg))
         pdir.mkdir(parents=True, exist_ok=True)
-        print("[visual-v01] %s p%03d ..." % (dkey, pg), flush=True)
+        print("[visual-v02] %s p%03d ..." % (dkey, pg), flush=True)
         try:
-            r = render_visual_page(dkey, pg, pdir)
+            r = render_visual_page(dkey, pg, pdir,
+                                   fragment_targets=doc_partitions.get(dkey))
+            r["fragment_closure"] = {
+                "multi_fragment_partitions":
+                    sum(1 for qa in doc_closure.get(dkey, {}).values()
+                        if (qa.get("metrics") or {})
+                        .get("fragment_target_chars", 0) > 0),
+                "closure_all_pass": all(
+                    qa["decision"] == "pass"
+                    for qa in doc_closure.get(dkey, {}).values()),
+            }
+            if r["fragment_closure"]["closure_all_pass"] is False:
+                r["passed"] = False
         except Exception as e:  # noqa: BLE001
             import traceback
             traceback.print_exc()
-            r = {"doc": dkey, "page": pg, "error": "%s: %s" % (type(e).__name__, e)}
+            r = {"doc": dkey, "page": pg,
+                 "error": "%s: %s" % (type(e).__name__, e)}
             _dump(pdir / "visual_page_qa.json", r)
         results.append(r)
 
     gate = build_gate(results)
     _dump(OUT / "checkpoint_gate.json", gate)
-    print("=== visual-v01 checkpoint gate ===")
+    print("=== visual-v02 checkpoint gate ===")
     print("decision:", gate["decision"])
     for k, v in gate["totals"].items():
         print("  %s: %d" % (k, v))
