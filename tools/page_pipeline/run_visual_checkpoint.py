@@ -29,7 +29,7 @@ from front_matter import classify_front_matter  # noqa: E402
 from typography import build_typography  # noqa: E402
 from html_render import build_unified_html  # noqa: E402
 
-OUT = REPO / "outputs" / "visual_v02_checkpoint"
+OUT = REPO / "outputs" / "visual_v03_checkpoint"
 BALANCED_PROFILE = REPO / "outputs" / "phase4d2a_typography_audit" / "balanced_chinese_profile.json"
 P4E2A = REPO / "outputs" / "phase4e2a_qa_recovery"
 
@@ -138,13 +138,17 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None):
     # ---- visual layout (fixed canvas) -----------------------------------
     from visual_anchor_layout import FixedCanvasAnchorLayout
     from source_ink_geometry import SourceInkGeometry
+    from source_visual_group import build_source_visual_groups
     ink = SourceInkGeometry(pdf_path, model, page_idx)
+    visual_groups = build_source_visual_groups(
+        model, content_frame=grid.get("content_frame"),
+        gutter=grid.get("gutter"))
     layout = FixedCanvasAnchorLayout(model, translations, grid=grid,
                                      bottom_reserved_regions=bottom_reserved,
                                      width_map=width_map,
                                      frontmatter=frontmatter,
                                      fragment_targets=fragment_targets,
-                                     ink=ink)
+                                     ink=ink, visual_groups=visual_groups)
     flows = layout.build_visual_flows()
     unresolved = layout.unresolved
 
@@ -183,6 +187,13 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None):
     from source_ink_geometry import source_ink_geometry_qa
     ink_qa = source_ink_geometry_qa(model, flows, ink, pdf_path,
                                     out_dir=out_dir)
+    # visual-v03: SourceVisualGroupQA + SourceTargetTopologyQA
+    from source_visual_group_qa import (source_visual_group_qa,
+                                        source_target_topology_qa)
+    group_qa = source_visual_group_qa(model, flows, grid=grid,
+                                      out_dir=out_dir)
+    topo_qa = source_target_topology_qa(model, flows, grid=grid,
+                                        out_dir=out_dir)
     if anchor["decision"] == "fail":
         stage_statuses["visual_anchor_integrity"] = "fail"
     if region["decision"] == "fail":
@@ -191,6 +202,10 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None):
         stage_statuses["visual_page_expansion"] = "fail"
     if ink_qa["decision"] == "fail":
         stage_statuses["source_ink_geometry"] = "fail"
+    if group_qa["decision"] == "fail":
+        stage_statuses["source_visual_group"] = "fail"
+    if topo_qa["decision"] == "fail":
+        stage_statuses["source_target_topology"] = "fail"
     execution = visual_execution_integrity_qa(stage_statuses)
 
     hard = {
@@ -212,6 +227,17 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None):
             ink_qa["metrics"]["source_native_overlap_budget_violation_count"],
         "anchor_ink_displacement_count":
             ink_qa["metrics"]["anchor_ink_displacement_count"],
+        "visual_group_split_count":
+            group_qa["metrics"]["visual_group_split_count"],
+        "caption_role_fragmentation_count":
+            group_qa["metrics"]["caption_role_fragmentation_count"],
+        "full_width_group_topology_violation_count":
+            group_qa["metrics"]["full_width_group_topology_violation_count"],
+        "group_target_drop_count": group_qa["metrics"]["group_target_drop_count"],
+        "group_target_duplicate_count":
+            group_qa["metrics"]["group_target_duplicate_count"],
+        "group_member_order_inversion_count":
+            group_qa["metrics"]["group_member_order_inversion_count"],
     }
     passed = all(v == 0 for v in hard.values())
     bundle = {
@@ -220,6 +246,9 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None):
         "anchor_integrity": anchor, "text_region": region,
         "page_expansion": expansion, "execution_integrity": execution,
         "source_ink_geometry": ink_qa,
+        "source_visual_group": group_qa,
+        "source_target_topology": topo_qa,
+        "visual_groups": [g.to_dict() for g in visual_groups],
         "unresolved": unresolved,
         "render_ms": render_ms,
         "outputs": {"html": str(html_path.relative_to(OUT)),
@@ -246,7 +275,14 @@ def build_gate(results):
                 "formula_orphan_count", "foreign_text_inside_formula_count",
                 "soft_text_region_overflow_count", "gutter_intrusion_count",
                 "anchor_invasion_count", "capacity_unresolved_count",
-                "unexpected_extra_page_count"):
+                "unexpected_extra_page_count",
+                "source_ink_budget_violation_count",
+                "anchor_ink_displacement_count",
+                "visual_group_split_count",
+                "caption_role_fragmentation_count",
+                "full_width_group_topology_violation_count",
+                "group_target_drop_count", "group_target_duplicate_count",
+                "group_member_order_inversion_count"):
         totals[key] = sum(r["hard_metrics"].get(key, 0) for r in results)
         conditions[key] = totals[key] == 0
     conditions["all_pages_rendered"] = all(

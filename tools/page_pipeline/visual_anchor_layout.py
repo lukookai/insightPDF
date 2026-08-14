@@ -83,12 +83,11 @@ class FixedCanvasAnchorLayout:
                  width_map: Dict[str, float] | None = None,
                  frontmatter: Dict[str, Any] | None = None,
                  fragment_targets: Dict[str, Dict[str, str]] | None = None,
-                 ink=None):
-        """``fragment_targets``: {logical_paragraph_id:
-        {fragment_id: target_text}} from VisualFragmentPartition -- a
-        page-local slice of the canonical translation (visual-v02).
-        ``ink``: optional SourceInkGeometry for ink-aware unresolved
-        second opinion."""
+                 ink=None,
+                 visual_groups=None):
+        """``visual_groups``: list of SourceVisualGroup (visual-v03) --
+        group members render as ONE full-width visual unit on the source
+        union bbox (provenance kept, existing translations concatenated)."""
         self.page_model = page_model
         self.translations = translations
         self.grid = grid or {}
@@ -97,6 +96,7 @@ class FixedCanvasAnchorLayout:
         self.frontmatter = frontmatter or {}
         self.fragment_targets = fragment_targets or {}
         self.ink = ink
+        self.visual_groups = visual_groups or []
         self.fit = LocalFitStrategy(self.width_map)
         self.unresolved: List[Dict[str, Any]] = []
 
@@ -121,6 +121,70 @@ class FixedCanvasAnchorLayout:
         paragraphs = [p for p in paragraphs
                       if (p.get("paragraph_id")
                           not in reserved_owner_ids)]
+        # visual-v03: merge SourceVisualGroup members into ONE full-width
+        # visual unit on the source union bbox (existing translations
+        # concatenated in reading order, provenance kept; no API calls).
+        if self.visual_groups:
+            merged_paras = []
+            consumed = set()
+            by_id = {p.get("paragraph_id"): p for p in paragraphs}
+            for g in self.visual_groups:
+                if getattr(g, "confidence", 0.0) < 0.55:
+                    continue
+                mids = g.member_paragraph_ids
+                # merge ONLY multi-member groups: a single-member "group" is
+                # a plain paragraph (no split to repair) and must NOT be
+                # re-labelled as a caption (avoids false merges when a large
+                # figure bbox swallows nearby body prose).
+                if len(mids) < 2:
+                    continue
+                if not all(pid in by_id for pid in mids):
+                    continue
+                ub = g.source_union_bbox
+                texts, src_texts = [], []
+                for pid in mids:
+                    part = self.fragment_targets.get(pid)
+                    if part:
+                        texts.append("".join(part.values()))
+                    else:
+                        texts.append(self.translations.get(
+                            pid, by_id[pid].get("source_text", "")))
+                    src_texts.append(by_id[pid].get("source_text", ""))
+                base = by_id[mids[0]]
+                merged = dict(base)
+                # render under the FIRST member's paragraph_id so the
+                # shared renderer's para_by_id lookup hits; provenance
+                # records every member (visual-v03).
+                merged["paragraph_id"] = mids[0]
+                merged["logical_paragraph_id"] = mids[0]
+                merged["bbox"] = list(ub)
+                merged["anchor_y"] = ub[1]
+                merged["column"] = -1
+                merged["col_x0"] = ub[0]
+                merged["col_x1"] = ub[2]
+                merged["col_width"] = ub[2] - ub[0]
+                merged["source_text"] = "".join(src_texts)
+                merged["source_fragments"] = [{
+                    "flow_fragment_id": mids[0] + "-G0",
+                    "column": -1, "anchor_y": ub[1], "bbox": list(ub),
+                    "col_x0": ub[0], "col_x1": ub[2],
+                    "col_width": ub[2] - ub[0],
+                    "base_font_size": base.get("base_font_size"),
+                    "source_text": merged["source_text"],
+                    "continuation": False,
+                }]
+                merged["group_provenance"] = [
+                    {"paragraph_id": pid, "target": t}
+                    for pid, t in zip(mids, texts)]
+                merged["_visual_label_override"] = (
+                    "reserved_caption"
+                    if "caption" in (g.group_type or "")
+                    else "soft_text")
+                merged_paras.append(merged)
+                consumed.update(mids)
+            paragraphs = ([p for p in paragraphs
+                           if p.get("paragraph_id") not in consumed]
+                          + merged_paras)
         display_boxes = _display_formula_boxes(pm)
         obstacles = _obstacle_boxes(pm)
 
@@ -151,8 +215,15 @@ class FixedCanvasAnchorLayout:
                     para_label[pid] = policy.label_of(r.get("region_id"))
         for p in paragraphs:
             pid = p.get("logical_paragraph_id") or p["paragraph_id"]
-            zh = self.translations.get(
-                pid, p.get("translation_source_text") or p.get("source_text", ""))
+            if p.get("group_provenance"):
+                # visual-v03 merged group: text = concatenated member
+                # translations in source reading order (no API call)
+                zh = "".join(item["target"]
+                             for item in p["group_provenance"])
+            else:
+                zh = self.translations.get(
+                    pid, p.get("translation_source_text")
+                    or p.get("source_text", ""))
             fragments = p.get("source_fragments") or [{
                 "flow_fragment_id": pid + "-F0", "column": p["column"],
                 "anchor_y": p["anchor_y"], "bbox": p.get("bbox", []),
@@ -186,7 +257,9 @@ class FixedCanvasAnchorLayout:
                     "render_text": frag_text,
                     "fragment_index": index,
                     "is_vertical": frag.get("column") == -2,
-                    "visual_label": para_label.get(pid, SOFT_TEXT),
+                    "visual_label": para_label.get(
+                        pid, p.get("_visual_label_override", SOFT_TEXT)),
+                    "group_provenance": p.get("group_provenance"),
                 })
                 columns.setdefault(frag["column"], []).append(flow_para)
 
@@ -273,6 +346,7 @@ class FixedCanvasAnchorLayout:
                     "is_vertical": bool(s.get("is_vertical")),
                     "visual_fit_level": fit_level,
                     "visual_label": s.get("visual_label", SOFT_TEXT),
+                    "group_provenance": s.get("group_provenance"),
                 })
 
             def _flush_sequence():
