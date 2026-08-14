@@ -1,0 +1,135 @@
+# ============================================================
+# Python
+# ============================================================
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+*.egg-info/
+build/
+dist/
+
+# ============================================================
+# Virtual environments
+# ============================================================
+.venv/
+venv/
+env/
+ENV/
+
+# ============================================================
+# Environment / secrets
+# ============================================================
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+runs/config.json
+
+# ============================================================
+# IDE / editor
+# ============================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ============================================================
+# OS
+# ============================================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ============================================================
+# Runtime output / experiment artifacts
+# ============================================================
+outputs/
+logs/
+tmp/
+temp/
+cache/
+.cache/
+
+# runs/: runtime/experiment workspace (config.json holds local API key, ignored)
+runs/
+
+# ============================================================
+# Translation caches
+# ============================================================
+translation_cache.json
+**/translation_cache.json
+translation_cache_audit.json
+**/translation_cache_audit.json
+temp_translation_cache/
+**/temp_translation_cache/
+
+# ============================================================
+# Generated documents / images
+# ============================================================
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.svg
+*.bmp
+
+# ============================================================
+# Model / checkpoints
+# ============================================================
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.bin
+*.safetensors
+*.h5
+*.pb
+
+# ============================================================
+# Archives
+# ============================================================
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
+
+# ============================================================
+# Browser / runtime artifacts
+# ============================================================
+playwright/.local-browsers/
+chromium-cache/
+ms-playwright/
+
+# ============================================================
+# Local workspace / assistant memory (not source code)
+# ============================================================
+.workbuddy/
+.tmp_mig/
+.tmp_orig_bh/
+_backup_implsrc_*/
+_append_memory*.py
+
+# ============================================================
+# Ad-hoc scratch files
+# ============================================================
+test_offline.html
+formula_crop_qa.json
+DeepSeek三方案对比_20260802/
+
+# ============================================================
+# Test fixtures exception (small required fixtures only)
+# ============================================================
+!tests/fixtures/
+!tests/fixtures/**/
+!tests/fixtures/**/*.pdf
+!tests/fixtures/**/*.png
+!tests/fixtures/**/*.jpg
