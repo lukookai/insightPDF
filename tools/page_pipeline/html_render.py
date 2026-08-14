@@ -744,7 +744,13 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
                 # column into the gutter.  Only the font family + line-height
                 # rhythm change for these roles.
                 fsize = fl.get("base_font_size") or para.get("base_font_size") or body_size
-                line_height = fsize * resolver.profile.body_line_height_ratio
+                # visual-v01 (fixed-canvas): the visual route may ship a
+                # region-local line-height_scale from the LocalFitStrategy.
+                # Default 1.0 keeps the shared-base behaviour byte-identical
+                # when no visual flows are supplied.
+                lh_scale = float(fl.get("line_height_scale") or 1.0)
+                line_height = fsize * resolver.profile.body_line_height_ratio \
+                    * lh_scale
                 weight = 400
             else:
                 tk = resolver.tokens_for(typo_role, heading_level, body_size)
