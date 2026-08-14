@@ -115,10 +115,29 @@ def _vector_ink_blocks(page_model, page) -> List[Dict[str, Any]]:
     A prose-adopted formula renders its source SVG paths into the final
     PDF (its cropped SVG contains the swallowed English body).  Those paths
     are VISIBLE text: they must participate in soft<->soft collision.
+
+    visual-v04: the production renderer EXCLUDES prose-adopted formulas
+    from HTML (placeholders no longer resolve to the source SVG), so a
+    vector-ink block only exists when the final PDF page ACTUALLY contains
+    glyph-like paths inside the region (the source SVG leaked).
     """
     out: List[Dict[str, Any]] = []
     if page is None:
         return out
+    from final_source_residual_qa import _text_like_paths, _inside_rect
+    anchor_regions = [[float(v) for v in r.get("bbox", [])]
+                      for r in page_model.get("regions", [])
+                      if r.get("type") in ("figure", "table", "image")
+                      and len(r.get("bbox", [])) == 4]
+    # real (non-prose-adopted) formulas nested inside a prose-adopted bbox
+    # render their atomic SVG legally -> excluded from the leak count
+    for r in page_model.get("regions", []):
+        if r.get("type") == "formula":
+            p = r.get("payload") or {}
+            if not is_prose_adopted_formula(p):
+                bb = p.get("layout_bbox") or []
+                if len(bb) == 4:
+                    anchor_regions.append([float(v) for v in bb])
     for r in page_model.get("regions", []):
         if r.get("type") != "formula":
             continue
@@ -128,6 +147,13 @@ def _vector_ink_blocks(page_model, page) -> List[Dict[str, Any]]:
         bb = [float(v) for v in (p.get("layout_bbox") or [])]
         if len(bb) != 4:
             continue
+        paths = _text_like_paths(page, bb)
+        # exclude legal anchor (figure/table/image) glyph paths: a formula
+        # bbox that spans both columns must not count figure content
+        paths = [pa for pa in paths
+                 if not any(_inside_rect(pa, ar) for ar in anchor_regions)]
+        if len(paths) < 40:
+            continue  # source SVG did not leak into the final PDF
         out.append({"kind": "prose_adopted_formula_ink",
                     "bbox": bb,
                     "formula_id": p.get("formula_id"),

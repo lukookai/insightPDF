@@ -84,10 +84,21 @@ class FixedCanvasAnchorLayout:
                  frontmatter: Dict[str, Any] | None = None,
                  fragment_targets: Dict[str, Dict[str, str]] | None = None,
                  ink=None,
-                 visual_groups=None):
+                 visual_groups=None,
+                 prose_recovery=None,
+                 pdf_path=None,
+                 page_idx=0):
         """``visual_groups``: list of SourceVisualGroup (visual-v03) --
         group members render as ONE full-width visual unit on the source
-        union bbox (provenance kept, existing translations concatenated)."""
+        union bbox (provenance kept, existing translations concatenated).
+
+        ``prose_recovery``: optional result of
+        ``prose_adopted_formula_recovery.recover_prose_adopted_formulas``
+        (visual-v04).  Recovered prose paragraphs render as SOFT TEXT with
+        their canonical target; the prose-adopted formula regions they came
+        from are EXCLUDED from formula rendering (RenderExclusivity: one
+        visual region renders target OR protected-source, never both).
+        """
         self.page_model = page_model
         self.translations = translations
         self.grid = grid or {}
@@ -97,6 +108,9 @@ class FixedCanvasAnchorLayout:
         self.fragment_targets = fragment_targets or {}
         self.ink = ink
         self.visual_groups = visual_groups or []
+        self.prose_recovery = prose_recovery or {}
+        self.pdf_path = pdf_path
+        self.page_idx = page_idx
         self.fit = LocalFitStrategy(self.width_map)
         self.unresolved: List[Dict[str, Any]] = []
 
@@ -185,7 +199,21 @@ class FixedCanvasAnchorLayout:
             paragraphs = ([p for p in paragraphs
                            if p.get("paragraph_id") not in consumed]
                           + merged_paras)
-        display_boxes = _display_formula_boxes(pm)
+        # visual-v04: prose-adopted formula recovery.  Recovered prose
+        # paragraphs are injected as SOFT TEXT (their canonical target
+        # renders in the source region); the prose-adopted formula regions
+        # are EXCLUDED from formula rendering (RenderExclusivity).
+        skipped_formulas = set(self.prose_recovery.get(
+            "skipped_formulas") or [])
+        if self.prose_recovery.get("recovered"):
+            for rec in self.prose_recovery["recovered"]:
+                if rec.get("target_text"):
+                    paragraphs.append(rec)
+            self._recovered_prose = True
+        else:
+            self._recovered_prose = False
+        display_boxes = [b for b in _display_formula_boxes(pm)
+                         if str(b.get("formula_id")) not in skipped_formulas]
         obstacles = _obstacle_boxes(pm)
 
         # column x ranges from the grid ColumnTracks (never paragraph bboxes)
@@ -221,9 +249,12 @@ class FixedCanvasAnchorLayout:
                 zh = "".join(item["target"]
                              for item in p["group_provenance"])
             else:
-                zh = self.translations.get(
-                    pid, p.get("translation_source_text")
-                    or p.get("source_text", ""))
+                # visual-v04: recovered prose carries its own canonical
+                # target; the shared translations map is never mutated.
+                zh = (p.get("target_text")
+                      or self.translations.get(
+                          pid, p.get("translation_source_text")
+                          or p.get("source_text", "")))
             fragments = p.get("source_fragments") or [{
                 "flow_fragment_id": pid + "-F0", "column": p["column"],
                 "anchor_y": p["anchor_y"], "bbox": p.get("bbox", []),
@@ -347,6 +378,50 @@ class FixedCanvasAnchorLayout:
                     "visual_fit_level": fit_level,
                     "visual_label": s.get("visual_label", SOFT_TEXT),
                     "group_provenance": s.get("group_provenance"),
+                    # visual-v04 RenderIdentity: recovered prose carries its
+                    # own paragraph payload + render provenance
+                    "_para": s if s.get("_recovered_prose") else None,
+                    "render_source": s.get("render_source",
+                                           "canonical_target"),
+                    "render_source_reason": s.get("render_source_reason",
+                                                  "normal_translation"),
+                    "protected_runs": s.get("protected_runs") or {},
+                })
+
+            def _emit_para_packed(s, top, est_h):
+                """Emit one soft block at an explicitly packed top
+                (visual-v04 RegionLocalPacking): flow_y = packed top, font
+                scale 1.0, no anchor displacement."""
+                fsize = s.get("base_font_size") or 10.0
+                items.append({
+                    "kind": "paragraph",
+                    "paragraph_id": s.get("paragraph_id"),
+                    "logical_paragraph_id": s.get("logical_paragraph_id"),
+                    "flow_fragment_id": s.get("flow_fragment_id"),
+                    "fragment_index": s.get("fragment_index", 0),
+                    "continuation": bool(s.get("continuation")),
+                    "render_text": s.get("render_text") or "",
+                    "style_role": s.get("style_role", "body"),
+                    "column": ci,
+                    "layout_bbox": [round(v, 3)
+                                    for v in (s.get("bbox") or [])],
+                    "flow_y": round(top, 3),
+                    "est_height": round(est_h, 3),
+                    "anchor_y": round(s.get("anchor_y", 0.0), 3),
+                    "base_font_size": round(fsize, 4),
+                    "font_scale": 1.0,
+                    "line_height_scale": 1.0,
+                    "is_reference": False,
+                    "is_vertical": bool(s.get("is_vertical")),
+                    "visual_fit_level": "packed",
+                    "visual_label": s.get("visual_label", SOFT_TEXT),
+                    "group_provenance": s.get("group_provenance"),
+                    "_para": s if s.get("_recovered_prose") else None,
+                    "render_source": s.get("render_source",
+                                           "canonical_target"),
+                    "render_source_reason": s.get("render_source_reason",
+                                                  "normal_translation"),
+                    "protected_runs": s.get("protected_runs") or {},
                 })
 
             def _flush_sequence():
@@ -359,41 +434,74 @@ class FixedCanvasAnchorLayout:
                 region_top = seq_region_top if seq_region_top is not None \
                     else seq[0]["anchor_y"]
                 region_h = max(region_bottom - region_top, 1.0)
-                fit = self.fit.fit_sequence(
-                    [{"paragraph_id": s.get("paragraph_id"),
-                      "text": s.get("render_text") or "",
-                      "font_size": s.get("base_font_size") or 10.0,
-                      "anchor_y": s.get("anchor_y", 0.0),
-                      "est_h0": 0.0} for s in seq],
-                    region_top, region_h, col_w)
-                fscale = float(fit["font_scale"])
-                lscale = float(fit["line_height_scale"])
-                if fit["unresolved"] and self.ink is not None \
-                        and sep_idx < len(separators):
-                    # visual-v02 ink second opinion: a raw bbox shortfall is
-                    # not a defect when the sequence's ACTUAL text extent
-                    # does not collide with the next anchor's SOURCE ink
-                    # (source-native overlap is legal, e.g. DLP00182 ", and"
-                    # beside formula B12 on 2504 p014).
-                    next_anchor = separators[sep_idx]
-                    nbox = next_anchor.get("box")
-                    if nbox is not None and not _ink_collides(
-                            seq, region_top, fit["est_height"], nbox):
-                        fit = dict(fit)
-                        fit["unresolved"] = False
-                        fit["detail"] = "ink-second-opinion pass"
-                if fit["unresolved"]:
-                    self.unresolved.append({
-                        "column": ci, "region_top": round(region_top, 3),
-                        "region_bottom": round(region_bottom, 3),
-                        "est_height": round(fit["est_height"], 3),
-                        "paragraph_ids": [s.get("paragraph_id")
-                                          for s in seq],
-                        "fit_level": fit["level"],
-                        "reason": "soft sequence does not fit source region",
-                    })
-                for s in seq:
-                    _emit_para(s, fscale, lscale, fit["level"])
+                # visual-v04: when this page carries recovered prose
+                # (prose-adopted formulas), soft blocks in the region are
+                # packed LOCALLY in reading order (no global flow, no
+                # anchor displacement) so they never share y-space.
+                if self._recovered_prose:
+                    from region_local_packing import pack_region
+                    packed = pack_region(
+                        [{"paragraph_id": s.get("paragraph_id"),
+                          "flow_fragment_id": s.get("flow_fragment_id"),
+                          "render_text": s.get("render_text") or "",
+                          "base_font_size": s.get("base_font_size") or 10.0,
+                          "anchor_y": s.get("anchor_y", 0.0),
+                          "line_height_scale": s.get("line_height_scale")}
+                         for s in seq],
+                        region_top, region_bottom, col_w, self.width_map)
+                    if not packed["fit"]:
+                        self.unresolved.append({
+                            "column": ci,
+                            "region_top": round(region_top, 3),
+                            "region_bottom": round(region_bottom, 3),
+                            "est_height": round(packed["total_height"], 3),
+                            "paragraph_ids": [s.get("paragraph_id")
+                                              for s in seq],
+                            "fit_level": "packed",
+                            "reason": "packed soft sequence exceeds region",
+                        })
+                    for s, pl in zip(seq, packed["placed"]):
+                        # region-local packing overrides the anchor_y cursor
+                        # (soft-soft overlap = 0); hard anchors are never
+                        # touched.  flow_y is the packed top.
+                        _emit_para_packed(s, pl["top"], pl["est_height"])
+                else:
+                    fit = self.fit.fit_sequence(
+                        [{"paragraph_id": s.get("paragraph_id"),
+                          "text": s.get("render_text") or "",
+                          "font_size": s.get("base_font_size") or 10.0,
+                          "anchor_y": s.get("anchor_y", 0.0),
+                          "est_h0": 0.0} for s in seq],
+                        region_top, region_h, col_w)
+                    fscale = float(fit["font_scale"])
+                    lscale = float(fit["line_height_scale"])
+                    if fit["unresolved"] and self.ink is not None \
+                            and sep_idx < len(separators):
+                        # visual-v02 ink second opinion: a raw bbox shortfall
+                        # is not a defect when the sequence's ACTUAL text
+                        # extent does not collide with the next anchor's
+                        # SOURCE ink (source-native overlap is legal).
+                        next_anchor = separators[sep_idx]
+                        nbox = next_anchor.get("box")
+                        if nbox is not None and not _ink_collides(
+                                seq, region_top, fit["est_height"], nbox):
+                            fit = dict(fit)
+                            fit["unresolved"] = False
+                            fit["detail"] = "ink-second-opinion pass"
+                    if fit["unresolved"]:
+                        self.unresolved.append({
+                            "column": ci,
+                            "region_top": round(region_top, 3),
+                            "region_bottom": round(region_bottom, 3),
+                            "est_height": round(fit["est_height"], 3),
+                            "paragraph_ids": [s.get("paragraph_id")
+                                              for s in seq],
+                            "fit_level": fit["level"],
+                            "reason": "soft sequence does not fit source "
+                                      "region",
+                        })
+                    for s in seq:
+                        _emit_para(s, fscale, lscale, fit["level"])
                 seq = []
                 seq_region_top = None
 

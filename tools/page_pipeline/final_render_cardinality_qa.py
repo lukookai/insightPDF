@@ -35,9 +35,9 @@ import pymupdf  # noqa: E402
 
 from final_visible_translation_qa import (  # noqa: E402
     EXEMPT_ROLES, TRANSLATABLE_ROLES, _NON_PROSE_RE, _char_seq,
-    _strip_tokens, normalize_visible_text)
+    _strip_tokens, normalize_visible_text, recover_target_in_lines)
 from final_source_residual_qa import (  # noqa: E402
-    is_prose_adopted_formula, _text_like_paths)
+    is_prose_adopted_formula, _text_like_paths, _inside_rect)
 
 TOKEN_RE = re.compile(r"\{\{[A-Z_0-9]+(?:_[A-Z0-9]+)?\}\}")
 
@@ -79,9 +79,17 @@ def final_render_cardinality_qa(
     final_pdf_path=None,
     html_path=None,
     out_dir=None,
+    recovered_formulas=None,
 ) -> Dict[str, Any]:
-    """Run FinalRenderCardinalityQA for one page."""
+    """Run FinalRenderCardinalityQA for one page.
+
+    ``recovered_formulas`` (visual-v04): formula ids whose prose was
+    recovered; their source SVG is excluded from rendering, so they never
+    count as source+target double renders.
+    """
     final_chars = ""
+    line_chars: List[str] = []
+    line_boxes: List[List[float]] = []
     page = None
     if final_pdf_path and Path(final_pdf_path).exists():
         try:
@@ -92,9 +100,12 @@ def final_render_cardinality_qa(
                 if b.get("type") != 0:
                     continue
                 for l in b.get("lines", []):
-                    for s in l.get("spans", []):
-                        final_chars += " " + normalize_visible_text(
-                            s.get("text") or "")
+                    txt = "".join(s.get("text") or ""
+                                  for s in l.get("spans", []))
+                    if txt.strip():
+                        final_chars += " " + normalize_visible_text(txt)
+                        line_chars.append(_char_seq(txt))
+                        line_boxes.append([float(v) for v in l["bbox"]])
             final_chars = _char_seq(final_chars)
         except Exception:  # noqa: BLE001
             page = None
@@ -142,10 +153,14 @@ def final_render_cardinality_qa(
         if pid in rendered_ids:
             continue
         rendered_ids.add(pid)
-        # count occurrences in final PDF (page-local render payload)
+        # render occurrence check: the payload must appear CONTIGUOUSLY
+        # inside one text layer line OR across consecutive lines of the
+        # same column (block reading order is column-major; a global concat
+        # would split a paragraph across columns)
         tseq = _char_seq(render_text, prot)
-        n = final_chars.count(tseq)
-        if n == 0:
+        status, _cov = recover_target_in_lines(
+            render_text, line_chars, prot, line_boxes)
+        if status != "full":
             # fallback source render check (HTML DOM evidence)
             hb = html_blocks.get(pid)
             rs = hb.get("render_source") if hb else None
@@ -155,14 +170,14 @@ def final_render_cardinality_qa(
                 "role": role, "target_excerpt": tseq[:60],
                 "html_render_source": rs or "unknown",
                 "final_pdf_occurrences": 0})
-        elif n > 1 and len(tseq) >= 8:
-            # short payloads (e.g. "如下：" / "忠实度{{FORMULA}}") legally
-            # recur in a long document; only substantive payloads count as
-            # duplicate renders
-            duplicate += n - 1
-            details.append({
-                "kind": "duplicate_render", "paragraph_id": pid,
-                "role": role, "final_pdf_occurrences": n})
+        elif len(tseq) >= 8:
+            # count duplicate occurrences across distinct lines
+            n = sum(1 for lc in line_chars if tseq in lc)
+            if n > 1:
+                duplicate += n - 1
+                details.append({
+                    "kind": "duplicate_render", "paragraph_id": pid,
+                    "role": role, "final_pdf_occurrences": n})
 
     # ---- 2. wrong region: target present but far from its flow_y ---------
     for it in flow_paras:
@@ -172,7 +187,7 @@ def final_render_cardinality_qa(
         prot = para_protected.get(pid, {})
         render_text = it.get("render_text") or ""
         tseq = _char_seq(render_text, prot)
-        if not tseq or tseq not in final_chars:
+        if not tseq or not any(tseq in lc for lc in line_chars):
             continue
         # locate the target span y in the final PDF: find the line whose
         # text contains the LONGEST prefix of the target (first line of the
@@ -208,19 +223,40 @@ def final_render_cardinality_qa(
                 "match_chars": best_len})
 
     # ---- 3. source AND target double render (same visual region) ---------
-    # a prose-adopted formula region renders source vector ink; if its
-    # swallowed prose also has a target text layer in the SAME y band ->
-    # double render
+    # visual-v04: a RECOVERED prose-adopted formula renders its target via
+    # the PAF soft-text paragraph (the source SVG is excluded from HTML).
+    # Double render is real ONLY when (a) the formula was NOT recovered
+    # (its source SVG still rendered) AND (b) a CJK text layer appears in
+    # the same band.  Path counts exclude figure/table/image regions (their
+    # vector content is legal).
+    recovered = set(recovered_formulas or [])
+    anchor_regions = [[float(v) for v in r.get("bbox", [])]
+                      for r in page_model.get("regions", [])
+                      if r.get("type") in ("figure", "table", "image")
+                      and len(r.get("bbox", [])) == 4]
+    # real (non-prose-adopted) formulas render atomic SVG legally
+    for r in page_model.get("regions", []):
+        if r.get("type") == "formula":
+            p = r.get("payload") or {}
+            if not is_prose_adopted_formula(p):
+                bb = p.get("layout_bbox") or []
+                if len(bb) == 4:
+                    anchor_regions.append([float(v) for v in bb])
     for r in page_model.get("regions", []):
         if r.get("type") != "formula":
             continue
         p = r.get("payload") or {}
         if not is_prose_adopted_formula(p):
             continue
+        fid = p.get("formula_id")
+        if fid in recovered:
+            continue  # target renders via PAF; source SVG excluded
         bb = [float(v) for v in (p.get("layout_bbox") or [])]
         if len(bb) != 4:
             continue
         paths = _text_like_paths(page, bb) if page else []
+        paths = [pa for pa in paths
+                 if not any(_inside_rect(pa, ar) for ar in anchor_regions)]
         if len(paths) < 40:
             continue
         # is there a CJK text layer inside the same band?
@@ -244,7 +280,7 @@ def final_render_cardinality_qa(
             double_render += 1
             details.append({
                 "kind": "source_and_target_double_render",
-                "formula_id": p.get("formula_id"),
+                "formula_id": fid,
                 "bbox": [round(v, 1) for v in bb],
                 "vector_ink_paths": len(paths),
                 "target_text_layer_in_band": True})

@@ -60,20 +60,29 @@ def run_final_render_truth_qa(
     source_pdf_path=None,
     out_dir=None,
     translation_pipeline_metrics: Dict[str, Any] | None = None,
+    recovered_formulas=None,
 ) -> Dict[str, Any]:
-    """Run all four QAs for one page and build the fail-closed gate."""
+    """Run all four QAs for one page and build the fail-closed gate.
+
+    ``recovered_formulas`` (visual-v04): formula ids whose prose was
+    recovered by the production pipeline (their source SVG is excluded
+    from rendering, so they are no longer translatable-missing units).
+    """
     qa1 = final_visible_translation_qa(
         page_model, translations, flows, final_pdf_path=final_pdf_path,
-        out_dir=out_dir)
+        out_dir=out_dir,
+        recovered_formulas=recovered_formulas)
     qa2 = final_source_residual_qa(
         page_model, translations, flows, final_pdf_path=final_pdf_path,
-        source_pdf_path=source_pdf_path, out_dir=out_dir)
+        source_pdf_path=source_pdf_path, out_dir=out_dir,
+        recovered_formulas=recovered_formulas)
     qa3 = soft_text_collision_qa(
         page_model, flows, final_pdf_path=final_pdf_path,
         html_path=html_path, out_dir=out_dir)
     qa4 = final_render_cardinality_qa(
         page_model, translations, flows, final_pdf_path=final_pdf_path,
-        html_path=html_path, out_dir=out_dir)
+        html_path=html_path, out_dir=out_dir,
+        recovered_formulas=recovered_formulas)
 
     hard = {
         "translatable_target_missing_count":

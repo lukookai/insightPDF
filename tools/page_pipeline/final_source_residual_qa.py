@@ -39,7 +39,7 @@ from final_visible_translation_qa import (  # noqa: E402
     EXEMPT_ROLES, TRANSLATABLE_ROLES, _NON_PROSE_RE, _char_seq,
     _prose_word_count, _strip_tokens, expand_visible_text,
     is_prose_adopted_formula, normalize_visible_text,
-    recover_target_in_final)
+    recover_target_in_lines)
 
 TOKEN_RE = re.compile(r"\{\{[A-Z_0-9]+(?:_[A-Z0-9]+)?\}\}")
 
@@ -82,6 +82,14 @@ def _runs(y_centers, gap=3.0):
     return bands
 
 
+def _inside_rect(a, b, tol=2.0):
+    """Path bbox a is (mostly) inside region b (center inside b)."""
+    cx = (a[0] + a[2]) / 2.0
+    cy = (a[1] + a[3]) / 2.0
+    return (b[0] - tol <= cx <= b[2] + tol
+            and b[1] - tol <= cy <= b[3] + tol)
+
+
 def final_source_residual_qa(
     page_model: Dict[str, Any],
     translations: Dict[str, str],
@@ -89,10 +97,17 @@ def final_source_residual_qa(
     final_pdf_path=None,
     source_pdf_path=None,
     out_dir=None,
+    recovered_formulas=None,
 ) -> Dict[str, Any]:
-    """Run FinalSourceResidualQA for one page."""
+    """Run FinalSourceResidualQA for one page.
+
+    ``recovered_formulas`` (visual-v04): formula ids whose prose was
+    recovered by the production pipeline; residual is only reported when
+    their source vector ink actually leaked into the final PDF.
+    """
     # ---- final PDF: text layer + vector page ------------------------------
     final_chars = ""
+    line_chars: List[str] = []
     page = None
     if final_pdf_path and Path(final_pdf_path).exists():
         try:
@@ -103,9 +118,11 @@ def final_source_residual_qa(
                 if b.get("type") != 0:
                     continue
                 for l in b.get("lines", []):
-                    for s in l.get("spans", []):
-                        final_chars += " " + normalize_visible_text(
-                            s.get("text") or "")
+                    txt = "".join(s.get("text") or ""
+                                  for s in l.get("spans", []))
+                    if txt.strip():
+                        final_chars += " " + normalize_visible_text(txt)
+                        line_chars.append(_char_seq(txt))
             final_chars = _char_seq(final_chars)
         except Exception:  # noqa: BLE001
             page = None
@@ -148,8 +165,8 @@ def final_source_residual_qa(
             status = "target_missing"
             cov = 0.0
         else:
-            status, cov = recover_target_in_final(
-                target, final_chars, prot)
+            status, cov = recover_target_in_lines(
+                target, line_chars, prot)
         if status != "full":
             # is the SOURCE itself substantially present in the text layer?
             src_seq = _char_seq(source, prot)
@@ -169,6 +186,25 @@ def final_source_residual_qa(
                     })
 
     # ---- path 2: vector-ink residual for prose-adopted formulas -----------
+    # visual-v04: when the production pipeline recovered this formula's
+    # prose (recovered_formulas), the source SVG must NOT be rendered.  A
+    # residual is real ONLY when glyph-like vector paths remain inside the
+    # formula's OWN region excluding:
+    #   * figure/table/image regions (legally vector content)
+    #   * REAL (non-prose-adopted) formula regions nested inside the
+    #     prose-adopted bbox (their atomic SVGs are legal)
+    anchor_regions = [[float(v) for v in r.get("bbox", [])]
+                      for r in page_model.get("regions", [])
+                      if r.get("type") in ("figure", "table", "image")
+                      and len(r.get("bbox", [])) == 4]
+    for r in page_model.get("regions", []):
+        if r.get("type") == "formula":
+            p = r.get("payload") or {}
+            if not is_prose_adopted_formula(p):
+                bb = p.get("layout_bbox") or []
+                if len(bb) == 4:
+                    anchor_regions.append([float(v) for v in bb])
+    recovered_formulas = set(recovered_formulas or [])
     for r in page_model.get("regions", []):
         if r.get("type") != "formula":
             continue
@@ -177,16 +213,16 @@ def final_source_residual_qa(
             continue
         bb = p.get("layout_bbox") or []
         fid = p.get("formula_id")
-        # canonical target for this formula region?  A prose-adopted formula
-        # should have been translated; if the translation map has no entry,
-        # the source prose was never routed to translation.
         tok = "{{FORMULA_%s}}" % fid
         has_target = any(TOKEN_RE.sub("", v or "").strip()
                          for v in translations.values())
         paths = _text_like_paths(page, [float(v) for v in bb]) if page else []
-        y_centers = [(pa[1] + pa[3]) / 2.0 for pa in paths]
+        # exclude legal anchor (figure/table/image) paths from the count
+        legal = [pa for pa in paths
+                 if not any(_inside_rect(pa, ar) for ar in anchor_regions)]
+        y_centers = [(pa[1] + pa[3]) / 2.0 for pa in legal]
         bands = _runs(y_centers)
-        if len(paths) >= 40 and bands >= 3:
+        if len(legal) >= 40 and bands >= 3:
             residuals.append({
                 "kind": "vector_ink_source_residual",
                 "formula_id": fid,
@@ -194,8 +230,9 @@ def final_source_residual_qa(
                 "bbox": [round(float(v), 1) for v in bb],
                 "source_word_count": _prose_word_count(
                     p.get("source_text") or ""),
-                "text_like_path_count": len(paths),
+                "text_like_path_count": len(legal),
                 "line_band_count": bands,
+                "recovered_by_pipeline": fid in recovered_formulas,
                 "has_formula_translation": has_target,
                 "detail": "prose-adopted formula rendered as source SVG "
                           "vector ink in final PDF",

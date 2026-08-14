@@ -119,6 +119,9 @@ def normalize_visible_text(text: str) -> str:
     t = re.sub(r"\{\{(?:END_)?(?:BOLD|ITALIC)_\d+\}\}", "", t)
     t = re.sub(r"[\u200b-\u200f\u2060\ufeff\u200d\u00ad]", "", t)
     t = t.replace("\u3000", " ")
+    # PDF-extraction variance: private-use math glyphs (U+E000..U+F8FF)
+    # and NUL/control placeholders for the same symbol are equivalent
+    t = re.sub(r"[\ue000-\uf8ff\x00-\x08\x0b\x0c\x0e-\x1f]", "\uE000", t)
     # curly quotes / dashes -> ASCII (common PDF-extraction variation)
     t = (t.replace("\u2018", "'").replace("\u2019", "'")
          .replace("\u201c", "\"").replace("\u201d", "\"")
@@ -162,6 +165,81 @@ def _char_seq(text: str, protected_runs: Dict[str, str] | None = None) -> str:
     text, mark-up tokens dropped, whitespace removed."""
     return re.sub(r"\s+", "", normalize_visible_text(
         expand_visible_text(text, protected_runs)))
+
+
+def _final_line_chars(lines) -> List[str]:
+    """PDF text layer as per-LINE char sequences.
+
+    A single rendered line may be split into several PDF spans; the line
+    (concat of its spans, normalized) is the matching unit so a wrapped
+    paragraph line stays contiguous.
+    """
+    return [_char_seq("".join(s.get("text") or "" for s in line))
+            for line in lines if any((s.get("text") or "").strip()
+                                     for s in line)]
+
+
+def recover_target_in_lines(target: str, lines: List[str],
+                            protected_runs: Dict[str, str] | None = None,
+                            line_boxes=None
+                            ) -> Tuple[str, float]:
+    """Exact per-line recovery of a target.
+
+    The target char sequence must appear as a contiguous run inside one
+    line, OR across consecutive lines of the SAME column (PDF text-layer
+    lines keep intra-line reading order; block order is column-major so a
+    naive whole-page concat would interleave columns).  ``line_boxes``
+    (optional list of [x0,y0,x1,y1]) enables column-aware chaining: lines
+    whose x-ranges overlap are chained in y order.
+    """
+    t = _char_seq(target, protected_runs)
+    if not t:
+        return "full", 1.0
+    if t in "".join(lines):
+        return "full", 1.0
+    # column-aware chaining: group lines by overlapping x-range (column),
+    # sort each group by y, concat -> match the target contiguously
+    if line_boxes:
+        grouped: List[Any] = []  # [{"lines": [...], "x0":.., "x1":..}]
+        for i, lc in enumerate(lines):
+            bx = line_boxes[i]
+            placed = False
+            for g in grouped:
+                if (bx[2] > g["x0"] - 4 and bx[0] < g["x1"] + 4):
+                    g["lines"].append(lc)
+                    g["x0"] = min(g["x0"], bx[0])
+                    g["x1"] = max(g["x1"], bx[2])
+                    placed = True
+                    break
+            if not placed:
+                grouped.append({"lines": [lc], "x0": bx[0], "x1": bx[2]})
+        for g in grouped:
+            if t in "".join(g["lines"]):
+                return "full", 1.0
+    # chunked recovery: split target at natural sentence boundaries and
+    # require every chunk to appear contiguously somewhere
+    chunks = re.split(r"(?<=[。！？；])", t)
+    chunks = [c for c in chunks if c]
+    if not chunks:
+        chunks = [t]
+    joined = "".join(lines)
+    covered = 0
+    for c in chunks:
+        if c in joined:
+            covered += len(c)
+    cov = covered / len(t) if t else 1.0
+    if cov >= 1.0:
+        return "full", 1.0
+    if cov >= 0.9:
+        return "partial", cov
+    # longest contiguous run fallback
+    best = 0
+    for i in range(len(t), 0, -1):
+        if t[:i] in joined:
+            best = i
+            break
+    cov2 = best / len(t)
+    return ("partial" if cov2 >= 0.9 else "missing", max(cov, cov2))
 
 
 def recover_target_in_final(target: str, final_chars: str,
@@ -212,31 +290,45 @@ def final_visible_translation_qa(
     final_pdf_path=None,
     out_dir=None,
     html_trace: Dict[str, Any] | None = None,
+    recovered_formulas=None,
 ) -> Dict[str, Any]:
     """Run FinalVisibleTranslationQA for one page.
 
     ``flows``: visual flows (render payload = render_source selection).
     ``html_trace``: optional {paragraph_id: {render_source, html_bbox}}
     extracted from the rendered HTML DOM (visual-v04 RenderIdentity).
+    ``recovered_formulas`` (visual-v04): prose-adopted formula ids that the
+    production pipeline recovered into PAF paragraphs -- their prose is
+    translated under the PAF id, so the raw formula region is no longer a
+    translatable-missing unit.
     """
     # ---- 1. final PDF text layer (the only delivery truth) ---------------
     final_chars = ""
+    line_chars: List[str] = []
+    line_boxes: List[List[float]] = []
     spans = []
     if final_pdf_path and Path(final_pdf_path).exists():
         try:
             doc = pymupdf.open(str(final_pdf_path))
             page = doc[0]
             d = page.get_text("dict")
+            pdf_lines = []
             for b in d.get("blocks", []):
                 if b.get("type") != 0:
                     continue
                 for l in b.get("lines", []):
+                    line_spans = []
                     for s in l.get("spans", []):
                         txt = s.get("text") or ""
                         if txt.strip():
                             spans.append({"bbox": [float(v) for v in s["bbox"]],
                                           "text": txt})
+                            line_spans.append(s)
+                    if line_spans:
+                        pdf_lines.append(line_spans)
             final_chars = _char_seq(" ".join(s["text"] for s in spans))
+            line_chars = _final_line_chars(pdf_lines)
+            line_boxes = [[float(v) for v in l[0]["bbox"]] for l in pdf_lines]
             doc.close()
         except Exception:  # noqa: BLE001
             final_chars = ""
@@ -291,8 +383,8 @@ def final_visible_translation_qa(
             dup = 0
             reason = "render_payload_empty"
         else:
-            status, cov = recover_target_in_final(
-                render_text, final_chars, prot)
+            status, cov = recover_target_in_lines(
+                render_text, line_chars, prot, line_boxes)
             dup = _duplicate_target_count(render_text, final_chars, prot)
             reason = "ok" if status == "full" else "final_pdf_missing"
             if status != "full" and target is None:
@@ -318,6 +410,7 @@ def final_visible_translation_qa(
     # visual route those regions render as source SVG vector ink (English
     # visible in the final PDF).  A translatable body with NO canonical
     # target in the translation map is a hard missing-translation defect.
+    recovered = set(recovered_formulas or [])
     for r in page_model.get("regions", []):
         if r.get("type") != "formula":
             continue
@@ -325,6 +418,23 @@ def final_visible_translation_qa(
         if not is_prose_adopted_formula(p):
             continue
         fid = p.get("formula_id")
+        if fid in recovered:
+            # visual-v04: prose recovered into a PAF paragraph (translated
+            # under the PAF id, rendered as soft text).  The raw formula
+            # region is no longer a translatable unit.
+            records.append({
+                "paragraph_id": "FORMULA_%s" % fid,
+                "semantic_role": "prose_adopted_formula",
+                "source_excerpt": normalize_visible_text(
+                    _strip_tokens(p.get("source_text") or ""))[:80],
+                "canonical_target_excerpt": "(recovered via PAF)",
+                "target_status": "full",
+                "target_coverage": 1.0,
+                "duplicate_count": 0,
+                "reason": "prose_recovered",
+                "translation_required": False,
+            })
+            continue
         token = "{{FORMULA_%s}}" % fid
         # canonical target exists if ANY translation entry covers this
         # formula's prose (documents translate prose under paragraph ids,
@@ -342,7 +452,8 @@ def final_visible_translation_qa(
             dup = 0
             reason = "prose_adopted_formula_no_canonical_target"
         else:
-            status, cov = recover_target_in_final(target, final_chars)
+            status, cov = recover_target_in_lines(
+                target, line_chars)
             dup = _duplicate_target_count(target, final_chars)
             reason = "ok" if status == "full" else "final_pdf_missing"
         records.append({

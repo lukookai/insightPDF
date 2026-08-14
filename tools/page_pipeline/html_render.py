@@ -56,14 +56,22 @@ def _extract_table_parts(table_model, page_w, page_h, cjk_family):
     return cells, rules
 
 
-def _inline_formula_map(page_model):
-    """token -> list of render_segment bboxes for INLINE formulas."""
+def _inline_formula_map(page_model, skip_formulas=None):
+    """token -> list of render_segment bboxes for INLINE formulas.
+
+    ``skip_formulas`` (visual-v04): prose-adopted formula ids whose region
+    is rendered as recovered prose text instead of source SVG -- their
+    placeholders must NOT resolve to the source SVG (RenderExclusivity).
+    """
+    skip = set(skip_formulas or [])
     out = {}
     for r in page_model["regions"]:
         if r["type"] != "formula":
             continue
         fm = r["payload"]
         if fm.get("placement") != "inline":
+            continue
+        if fm.get("formula_id") in skip:
             continue
         segs = [seg["render_viewbox"] or seg["layout_bbox"]
                 for seg in fm.get("render_segments", [])]
@@ -556,7 +564,7 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
                        table_model=None, flows=None, grid=None,
                        frontmatter=None, typography=None,
                        bottom_reserved_regions=None, resolver=None,
-                       gap_collector=None):
+                       gap_collector=None, skip_inline_formulas=None):
     """Return the unified page HTML (str) for one page.
 
     ``translations``: {paragraph_id: zh} (inline placeholders already
@@ -576,6 +584,8 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
     geometry and the column flow stay frozen.
     ``gap_collector``: optional list accumulating ``(text, gaps)`` for the
     ScriptBoundaryQA report.
+    ``skip_inline_formulas``: optional set of formula ids whose placeholders
+    must NOT render as source SVG (visual-v04 prose recovery).
     """
     from typography import build_typography, typography_css
     page_w = page_model["width"]
@@ -607,7 +617,8 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
         svg_name = "page%03d_full.svg" % page_model["page"]
         (out_dir / svg_name).write_text(full_svg, encoding="utf-8")
 
-    inline_map = _inline_formula_map(page_model)
+    inline_map = _inline_formula_map(page_model,
+                                     skip_inline_formulas)
 
     # ---------- display formula regions: flow_locked (Phase 4C.2R) --------
     # Internal geometry unchanged; container y comes from ColumnFlow.  Each
@@ -633,6 +644,8 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
         fm = r["payload"]
         if fm.get("placement") == "inline":
             continue
+        if fm.get("formula_id") in (skip_inline_formulas or set()):
+            continue  # prose-adopted formula: recovered prose renders here
         ff = formula_flow.get(fm["formula_id"])
         row_anchor = (ff["anchor_y"] if ff else
                       (fm.get("layout_bbox") or [0, 0, 0, 0])[1])
@@ -710,14 +723,26 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
     for flow, fl in flow_items:
         if fl["paragraph_id"] in fm_skip:
             continue  # front-matter block renders separately
-        r = para_by_id[fl["paragraph_id"]]
-        para = r["payload"]
+        r = para_by_id.get(fl["paragraph_id"])
+        if r is not None:
+            para = r["payload"]
+        else:
+            # visual-v04: recovered prose paragraphs are not page-model
+            # regions; the flow item itself carries the render payload.
+            para = fl.get("_para") or {
+                "paragraph_id": fl.get("paragraph_id"),
+                "source_text": fl.get("source_text", ""),
+                "protected_runs": fl.get("protected_runs") or {},
+                "style_role": fl.get("style_role", "body"),
+                "semantic_role": fl.get("semantic_role", "body"),
+            }
         pid = para["paragraph_id"]
         zh = fl.get("render_text") or translations.get(pid, para.get("source_text", ""))
         if not zh.strip():
             continue
-        top = fl.get("flow_y", para.get("anchor_y", r["bbox"][1]))
-        left = flow.get("col_x0", para.get("col_x0", r["bbox"][0]))
+        rbox = r["bbox"] if r is not None else [0, 0, 0, 0]
+        top = fl.get("flow_y", para.get("anchor_y", rbox[1]))
+        left = flow.get("col_x0", para.get("col_x0", rbox[0]))
         width = max(flow.get("col_x1", left + para.get("col_width", 1.0)) - left, 1.0)
         fsize = fl.get("base_font_size") or para.get("base_font_size") or 10.0
         line_height_scale = fl.get("line_height_scale", 1.0)
@@ -794,9 +819,17 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
                               "white-space:nowrap;overflow-wrap:normal;"
                               "word-break:keep-all;")
         family = body_family if balanced else ("%s,serif" % table_cjk)
+        # visual-v04 RenderIdentity: data-render-source records whether this
+        # block renders the canonical target or protected source, and why
+        render_source = fl.get("render_source", "canonical_target")
+        render_reason = fl.get("render_source_reason", "normal_translation")
+        _rp = fl.get("_para") or {}
+        render_id = _rp.get("paragraph_id", pid)
         parts.append(
             '<div class="paragraph-block" data-para="%s" data-flow-fragment="%s" '
             'data-fragment-index="%d" data-continuation="%s" data-role="%s" '
+            'data-render-id="%s" data-render-source="%s" '
+            'data-render-source-reason="%s" '
             '%s'
             'style="position:absolute;left:%.3fpt;top:%.3fpt;'
             'width:%.3fpt;white-space:normal;overflow:visible;'
@@ -806,7 +839,8 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
             'line-height:%.3fpt;color:#000;">%s</div>'
             % (pid, fl.get("flow_fragment_id", pid + "-F0"),
                int(fl.get("fragment_index", 0)), str(bool(fl.get("continuation"))).lower(),
-               role, font_audit, left, top, width, vertical_style,
+               role, render_id, render_source, render_reason, font_audit,
+               left, top, width, vertical_style,
                list_indent, weight_css, family, fsize, line_height, inner))
 
     # ---------- FigureRegion: own cropped SVG (Phase 4C.2R) ---------------
