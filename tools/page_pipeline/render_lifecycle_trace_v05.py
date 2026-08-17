@@ -49,7 +49,7 @@ from semantic_structure_closure_qa import (  # noqa: E402
     _source_heading_candidates)
 
 OUT = REPO / "outputs" / "visual_v05_checkpoint"
-V04 = REPO / "outputs" / "visual_v04_checkpoint"
+V04 = REPO / "outputs" / "visual_v05_checkpoint"
 
 DOCS = {
     "ppat": {"src": REPO / "outputs" / "phase4e2a_qa_recovery" / "doc2",
@@ -129,8 +129,27 @@ def trace_page(page: int):
                                          translator_fn=None)
     rec_boxes = [p.get("bbox") or [] for p in rec.get("recovered", [])]
 
+    # figure/table/image regions are legal vector content (their internal
+    # labels are NOT swallowed prose); the figure's caption band directly
+    # below it is figure-owned too
+    anchor_regions = []
+    for r in model.get("regions", []):
+        if r.get("type") not in ("figure", "table", "image"):
+            continue
+        bb = [float(v) for v in r.get("bbox", [])]
+        if len(bb) != 4:
+            continue
+        anchor_regions.append(bb)
+        anchor_regions.append([bb[0], bb[1], bb[2], bb[3] + 70.0])
     for fm in formulas:
+        if not fm["rendered"]:
+            # formula not rendered (fully prose-adopted & skipped): its
+            # swallowed rows never leak into the final PDF -> not adopted
+            continue
         lines = _source_lines_in_bbox(pdf, pidx, fm["bbox"])
+        lines = [ln for ln in lines
+                 if not any(_line_inside(ln["bbox"], ar)
+                            for ar in anchor_regions)]
         prose_lines = [ln for ln in lines
                        if is_translatable_prose_line(ln["text"])]
         formula_lines = [ln for ln in lines
