@@ -119,9 +119,12 @@ def normalize_visible_text(text: str) -> str:
     t = re.sub(r"\{\{(?:END_)?(?:BOLD|ITALIC)_\d+\}\}", "", t)
     t = re.sub(r"[\u200b-\u200f\u2060\ufeff\u200d\u00ad]", "", t)
     t = t.replace("\u3000", " ")
-    # PDF-extraction variance: private-use math glyphs (U+E000..U+F8FF)
-    # and NUL/control placeholders for the same symbol are equivalent
-    t = re.sub(r"[\ue000-\uf8ff\x00-\x08\x0b\x0c\x0e-\x1f]", "\uE000", t)
+    # PDF-extraction variance: private-use math glyphs (U+E000..U+F8FF),
+    # NUL/control placeholders and MATHEMATICAL ALPHANUMERIC SYMBOLS
+    # (U+1D400..U+1D7FF, e.g. 𝑢/𝐤/𝜆) encode the same rendered glyph
+    # differently across HTML -> PDF -> text extraction
+    t = re.sub(r"[\ue000-\uf8ff\x00-\x08\x0b\x0c\x0e-\x1f"
+               r"\U0001d400-\U0001d7ff]", "\uE000", t)
     # curly quotes / dashes -> ASCII (common PDF-extraction variation)
     t = (t.replace("\u2018", "'").replace("\u2019", "'")
          .replace("\u201c", "\"").replace("\u201d", "\"")

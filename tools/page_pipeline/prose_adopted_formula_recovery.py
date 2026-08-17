@@ -52,6 +52,23 @@ COL_SPLIT_X = 300.0
 MAX_PARA_LINES = 40
 
 
+# math-heavy characters: a line containing these is formula notation,
+# not recoverable prose (even when it embeds English words)
+_MATH_CHAR_RE = re.compile(
+    r"[\u2200-\u22ff\U0001d400-\U0001d7ff"
+    r"\u0370-\u03ff\u2190-\u21ff\u2b00-\u2bff]")
+
+
+def _is_plain_prose_line(text: str) -> bool:
+    """A line is RECOVERABLE prose when it has >= 2 English words AND no
+    math notation (formula glyphs).  Lines that carry formula symbols are
+    formula annotations, not swallowed prose."""
+    t = text or ""
+    if _MATH_CHAR_RE.search(t):
+        return False
+    return len(re.findall(r"[A-Za-z]{3,}", t)) >= 2
+
+
 def _is_prose_line(text: str) -> bool:
     """document-general: a line is PROSE when it carries real words.
 
@@ -101,14 +118,22 @@ def _text_lines_in_regions(pdf_path: str, page_idx: int,
 
 
 def _inside(a: List[float], b: List[float], tol: float = 2.0) -> bool:
-    """Line a (bbox) is (mostly) inside region b."""
-    # overlap of the line's horizontal span with b >= 60% of line width
+    """Line a (bbox) is inside region b: BOTH axes overlap >= 60%.
+
+    A line whose center is inside b but which extends well beyond b (a
+    body line beside an inline formula bbox) is NOT excluded -- it is
+    recoverable prose, not swallowed formula content."""
+    if len(a) != 4 or len(b) != 4:
+        return False
+    # horizontal overlap >= 60% of the LINE width
     xo = min(a[2], b[2]) - max(a[0], b[0])
     if xo < 0.6 * (a[2] - a[0]) - tol:
         return False
-    # vertical: line center inside b
-    cy = (a[1] + a[3]) / 2.0
-    return b[1] - tol <= cy <= b[3] + tol
+    # vertical overlap >= 60% of the LINE height
+    yo = min(a[3], b[3]) - max(a[1], b[1])
+    if yo < 0.6 * (a[3] - a[1]) - tol:
+        return False
+    return True
 
 
 def _cluster_lines(lines: List[Dict[str, Any]]) -> List[List[Dict[str, Any]]]:
@@ -125,7 +150,13 @@ def _cluster_lines(lines: List[Dict[str, Any]]) -> List[List[Dict[str, Any]]]:
         placed = False
         for cl in clusters:
             last = cl[-1]
-            # same column (x overlap) and vertically adjacent
+            # same-column check: line centers must be within ~12pt of each
+            # other (a left-column line x1~288 and a right-column line
+            # x0~306 overlap by 18pt of gutter -- they must NOT merge)
+            cx = (ln["bbox"][0] + ln["bbox"][2]) / 2.0
+            px = (last["bbox"][0] + last["bbox"][2]) / 2.0
+            if abs(cx - px) > 24.0:
+                continue
             x_overlap = (min(ln["bbox"][2], last["bbox"][2])
                          - max(ln["bbox"][0], last["bbox"][0]))
             gap = ln["bbox"][1] - last["bbox"][3]
@@ -158,8 +189,18 @@ def _cluster_lines(lines: List[Dict[str, Any]]) -> List[List[Dict[str, Any]]]:
     return [c for c in merged if len(c) <= MAX_PARA_LINES]
 
 
-def _exclusion_regions(page_model) -> List[List[float]]:
-    """Real (non-prose-adopted) formula region boxes + table/figure/image."""
+def _exclusion_regions(page_model, keep_ids=None) -> List[List[float]]:
+    """Real (non-prose-adopted) formula region boxes + table/figure/image.
+
+    ``keep_ids`` (visual-v04): candidate formula ids whose swallowed prose
+    must be recovered -- their regions are NOT exclusion boxes.
+
+    visual-v04: short formula boxes (height <= 16pt) are single-line
+    pseudo-formulas (an inline math run detected as a formula, e.g. the
+    "4 × 10-4" inside a body line).  They never exclude neighbouring prose
+    -- a body line that coincides with such a box is still recoverable.
+    """
+    keep = set(keep_ids or [])
     boxes = []
     for r in page_model.get("regions", []):
         t = r.get("type")
@@ -167,10 +208,16 @@ def _exclusion_regions(page_model) -> List[List[float]]:
             boxes.append([float(v) for v in r.get("bbox", [])])
         elif t == "formula":
             p = r.get("payload") or {}
-            if not is_prose_adopted_formula(p):
-                bb = p.get("layout_bbox") or []
-                if len(bb) == 4:
-                    boxes.append([float(v) for v in bb])
+            if str(p.get("formula_id")) in keep:
+                continue  # candidate: recover its prose
+            if is_prose_adopted_formula(p):
+                continue
+            bb = p.get("layout_bbox") or []
+            if len(bb) != 4:
+                continue
+            if bb[3] - bb[1] <= 16.0:
+                continue  # single-line pseudo formula: not an obstacle
+            boxes.append([float(v) for v in bb])
     return boxes
 
 
@@ -216,11 +263,11 @@ def recover_prose_adopted_formulas(
     pafs = [r for r in page_model.get("regions", [])
             if r.get("type") == "formula"
             and is_prose_adopted_formula(r.get("payload") or {})]
-    # visual-v04 extension: a formula whose bbox contains >= 2 source-PDF
-    # lines of real English prose (>= 2 words each) has swallowed prose even
-    # when its static height/word-count heuristic misses it (PPAT detector
-    # also labels single body lines as formulas, e.g. "to a Gaussian
-    # low-pass process in the frequency domain.").
+    # visual-v04 extension: a formula whose bbox contains a REAL English
+    # prose line (>= 3 words, NO math notation) has swallowed body text
+    # (PPAT detector labels single body lines as formulas, e.g. "to a
+    # Gaussian low-pass process...").  Formula annotations ("where F(.) and
+    # F^-1(.) denote...") carry math glyphs and stay formula regions.
     paf_ids = {str((r.get("payload") or {}).get("formula_id"))
                for r in pafs}
     for r in page_model.get("regions", []):
@@ -235,12 +282,10 @@ def recover_prose_adopted_formulas(
             continue
         region_lines = _text_lines_in_regions(
             str(pdf_path), page_idx, [[float(v) for v in bb]])
-        # >= 1 real English prose line (>= 3 words) inside the region means
-        # the detector swallowed body text (PPAT labels single body lines
-        # as formulas, e.g. "to a Gaussian low-pass process...").  Page
-        # footers ("Preprint submitted to Elsevier") are exempt.
+        # >= 1 plain prose line (no math notation) -> swallowed prose.
+        # Page footers ("Preprint submitted to Elsevier") are exempt.
         prose_lines = [ln for ln in region_lines
-                       if len(re.findall(r"[A-Za-z]{3,}", ln["text"])) >= 3
+                       if _is_plain_prose_line(ln["text"])
                        and not _NON_PROSE_RE.match(ln["text"].strip())]
         if len(prose_lines) >= 1:
             pafs.append(r)
@@ -254,14 +299,21 @@ def recover_prose_adopted_formulas(
                 for r in pafs]
     paf_boxes = [[float(v) for v in (r.get("payload") or {})
                   .get("layout_bbox", [])] for r in pafs]
-    # exclude real formulas / tables / figures / existing text regions
-    excl = _exclusion_regions(page_model) + _text_region_boxes(page_model)
+    # exclude REAL formulas / tables / figures / existing text regions.
+    # Candidate formulas (pafs) are NOT excluded -- their swallowed prose
+    # lines must be recovered.
+    excl = _exclusion_regions(page_model, keep_ids=paf_ids) \
+        + _text_region_boxes(page_model)
 
     lines = _text_lines_in_regions(str(pdf_path), page_idx, paf_boxes)
     # drop lines inside exclusion regions (real formulas keep their SVG)
     kept = [ln for ln in lines
             if not any(_inside(ln["bbox"], ex) for ex in excl)]
     clusters = _cluster_lines(kept)
+    # visual-v04: a REAL swallowed prose paragraph is >= 2 lines.  A single
+    # line ("if rj correctly supports ci" inside a 2504 formula) is formula
+    # annotation, not recovered prose -- never translate it.
+    clusters = [c for c in clusters if len(c) >= 2]
 
     existing = set(existing_ids or set())
     existing.update(translations.keys())
@@ -361,6 +413,70 @@ def recover_prose_adopted_formulas(
         "recovered_paragraphs": len(recovered),
         "api_calls": api_calls,
     }
+    # visual-v04: skipped formulas =
+    #   (a) candidates that produced ACTUAL recovered paragraphs
+    #   (b) ANY formula region overlapping a recovered paragraph bbox --
+    #       its content was swallowed prose already rendered as the PAF
+    #       target; keeping its SVG would double-render source English
+    #       (e.g. PPAT p005 B5 "multi-channel diffusion vector...")
+    #   (c) single-line pseudo-formulas (bbox height <= 16pt whose whole
+    #       region is plain prose, e.g. PPAT p005 B8 "expert is calculated
+    #       by:") -- their content is body text; rendering the SVG would
+    #       leak English and truncate the neighbouring recovered region.
+    # A candidate that yields zero prose but is a REAL multi-line formula
+    # must keep its SVG (skipping it would silently drop real formula
+    # content and shift region separators, e.g. 2504 p014 DLP00182
+    # boundary).
+    rec_boxes = [p.get("bbox") or [] for p in recovered]
+    skipped = set()
+    for r in page_model.get("regions", []):
+        if r.get("type") != "formula":
+            continue
+        f = str((r.get("payload") or {}).get("formula_id"))
+        if not f:
+            continue
+        bb = (r.get("payload") or {}).get("layout_bbox") or []
+        if f in [str(x) for x in fid_list]:
+            if any(_bbox_overlap(bb, p.get("bbox") or [])
+                   for p in recovered):
+                skipped.add(f)
+            elif len(bb) == 4 and bb[3] - bb[1] <= 16.0:
+                # candidate, no recovered paragraph, but single-line
+                # pseudo-formula whose region is plain prose
+                rl = _text_lines_in_regions(
+                    str(pdf_path), page_idx, [[float(v) for v in bb]])
+                if rl and all(_is_plain_prose_line(ln["text"])
+                              for ln in rl):
+                    skipped.add(f)
+                elif rl and all(_NON_PROSE_RE.match(ln["text"].strip())
+                                for ln in rl):
+                    # page-footer pseudo-formula ("Preprint submitted to
+                    # Elsevier") -- renders no body content, skip its SVG
+                    skipped.add(f)
+            continue
+        # (b) non-candidate formulas fully covered by a recovered paragraph
+        if any(_bbox_overlap(bb, rb) for rb in rec_boxes):
+            skipped.add(f)
+            continue
+        # (d) page-footer pseudo-formulas (short box, footer-only line):
+        # render no body content; keep the footer text via the text layer
+        # and drop their SVG (they would otherwise act as a hard separator
+        # truncating recovered body prose above them)
+        if len(bb) == 4 and bb[3] - bb[1] <= 16.0:
+            rl = _text_lines_in_regions(
+                str(pdf_path), page_idx, [[float(v) for v in bb]])
+            if rl and all(_NON_PROSE_RE.match(ln["text"].strip())
+                          for ln in rl):
+                skipped.add(f)
+    skipped = sorted(skipped)
     return {"recovered": recovered,
-            "skipped_formulas": [str(f) for f in fid_list],
+            "skipped_formulas": skipped,
             "trace": trace, "api_calls": api_calls}
+
+
+def _bbox_overlap(a, b):
+    if len(a) != 4 or len(b) != 4:
+        return False
+    xo = min(a[2], b[2]) - max(a[0], b[0])
+    yo = min(a[3], b[3]) - max(a[1], b[1])
+    return xo > 2.0 and yo > 2.0

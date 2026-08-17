@@ -168,14 +168,30 @@ def fixed_canvas_text_region_qa(page_model, flows, unresolved,
         next_y = {}
         all_items = sorted(flow.get("items", []),
                            key=lambda it: it.get("anchor_y", 0))
+        page_h = float(page_model.get("height") or 0.0)
         for i, it in enumerate(all_items):
             if it["kind"] != "paragraph":
                 continue
+            limit = None
             for jt in all_items[i + 1:]:
                 if jt["kind"] == "formula":
-                    next_y[it["paragraph_id"] + str(it.get("fragment_index", 0))] = \
-                        jt["anchor_y"]
+                    # visual-v04: page-footer formulas (bottom ~30pt of the
+                    # page, e.g. "Preprint submitted to Elsevier") are not
+                    # region boundaries for body text
+                    fy = jt.get("anchor_y") or 0.0
+                    if page_h > 0 and fy > page_h - 30.0:
+                        continue
+                    limit = jt["anchor_y"]
                     break
+            # visual-v04: a paragraph packed to the PHYSICAL page bottom
+            # (its flow_y + est_height reaches the page) is legal -- only
+            # paragraphs ending before a REAL anchor/formula below are
+            # region-bound at that anchor.  Without a formula below, the
+            # limit is the page bottom.
+            if limit is None and page_h > 0:
+                limit = page_h - 12.0
+            next_y[it["paragraph_id"] + str(it.get("fragment_index", 0))] = \
+                limit
         for it in items:
             is_soft = it.get("visual_label", "soft_text") == "soft_text"
             pid = it["paragraph_id"]

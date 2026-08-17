@@ -431,6 +431,17 @@ class FixedCanvasAnchorLayout:
                 region_bottom = separators[sep_idx]["top"] - 2.0 \
                     if sep_idx < len(separators) else (seq[-1]["anchor_y"]
                                                        + 200.0)
+                # visual-v04: a page_bottom separator (no hard anchor box)
+                # means the region legally extends to the physical page
+                # bottom -- packing must not truncate recovered prose at
+                # the body-flow estimate (PPAT p006 PAF_B6_02 needs ~9pt
+                # more than body_flow_bottom but fits the page).
+                if (sep_idx < len(separators)
+                        and separators[sep_idx].get("box") is None
+                        and separators[sep_idx].get("kind") in (
+                            "page_bottom", "body_bottom")):
+                    pm_h = float(pm.get("height") or 0.0)
+                    region_bottom = max(region_bottom, pm_h - 12.0)
                 region_top = seq_region_top if seq_region_top is not None \
                     else seq[0]["anchor_y"]
                 region_h = max(region_bottom - region_top, 1.0)
