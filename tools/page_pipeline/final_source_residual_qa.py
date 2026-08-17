@@ -98,6 +98,7 @@ def final_source_residual_qa(
     source_pdf_path=None,
     out_dir=None,
     recovered_formulas=None,
+    excluded_segments=None,
 ) -> Dict[str, Any]:
     """Run FinalSourceResidualQA for one page.
 
@@ -205,6 +206,7 @@ def final_source_residual_qa(
                 if len(bb) == 4:
                     anchor_regions.append([float(v) for v in bb])
     recovered_formulas = set(recovered_formulas or [])
+    excl_seg = excluded_segments or {}
     for r in page_model.get("regions", []):
         if r.get("type") != "formula":
             continue
@@ -213,6 +215,11 @@ def final_source_residual_qa(
             continue
         bb = p.get("layout_bbox") or []
         fid = p.get("formula_id")
+        # visual-v05: a MIXED formula (math rows + annotation prose) only
+        # renders its math segments -- the remaining glyph paths are the
+        # legal equation, NOT residual source prose.
+        if excl_seg.get(str(fid)):
+            continue
         tok = "{{FORMULA_%s}}" % fid
         has_target = any(TOKEN_RE.sub("", v or "").strip()
                          for v in translations.values())

@@ -56,34 +56,50 @@ def pack_region(blocks: List[Dict[str, Any]], region_top: float,
          "total_height": float, "fit": bool}
     """
     width_map = width_map or {}
-    cursor = region_top
-    placed = []
+    base_lscale = 1.0
+    if blocks:
+        base_lscale = float(blocks[0].get("line_height_scale") or 1.0)
+    placed: List[Dict[str, Any]] = []
     total_h = 0.0
-    for b in blocks:
-        fsize = b.get("base_font_size") or 10.0
-        lscale = float(b.get("line_height_scale") or 1.0)
-        est_h = estimate_paragraph_height(
-            b.get("render_text") or "", fsize, col_width, width_map,
-            line_height=BASE_LINE_HEIGHT * lscale)
-        anchor = float(b.get("anchor_y") or region_top)
-        # never move a block above its source top; pack after the cursor
-        top = max(cursor, anchor)
-        bottom = top + est_h
-        overflow = bottom > region_bottom + 1.0
-        placed.append({
-            "paragraph_id": b.get("paragraph_id"),
-            "flow_fragment_id": b.get("flow_fragment_id"),
-            "anchor_y": anchor,
-            "top": round(top, 3),
-            "est_height": round(est_h, 3),
-            "bottom": round(bottom, 3),
-            "overflow": overflow,
-            "font_scale": 1.0,
-            "line_height_scale": lscale,
-        })
-        advance = max(est_h, MIN_ADVANCE)
-        cursor = bottom + PACK_GAP
-        total_h = max(total_h, bottom - region_top)
-    fit = not any(p["overflow"] for p in placed)
+    lscale = base_lscale
+    for attempt in (1.0, 0.95, 0.9):
+        lscale = base_lscale * attempt
+        cursor = region_top
+        placed = []
+        total_h = 0.0
+        overflowed = False
+        for b in blocks:
+            fsize = b.get("base_font_size") or 10.0
+            est_h = estimate_paragraph_height(
+                b.get("render_text") or "", fsize, col_width, width_map,
+                line_height=BASE_LINE_HEIGHT * lscale)
+            anchor = float(b.get("anchor_y") or region_top)
+            # never move a block above its source top; pack after the cursor
+            top = max(cursor, anchor)
+            bottom = top + est_h
+            overflow = bottom > region_bottom + 1.0
+            if overflow:
+                overflowed = True
+                break
+            placed.append({
+                "paragraph_id": b.get("paragraph_id"),
+                "flow_fragment_id": b.get("flow_fragment_id"),
+                "anchor_y": anchor,
+                "top": round(top, 3),
+                "est_height": round(est_h, 3),
+                "bottom": round(bottom, 3),
+                "overflow": overflow,
+                "font_scale": 1.0,
+                "line_height_scale": lscale,
+            })
+            advance = max(est_h, MIN_ADVANCE)
+            cursor = bottom + PACK_GAP
+            total_h = max(total_h, bottom - region_top)
+        if not overflowed:
+            return {"placed": placed, "total_height": round(total_h, 3),
+                    "fit": True, "line_height_scale": lscale,
+                    "retry_count": 0 if attempt == 1.0 else
+                    (1 if attempt == 0.95 else 2)}
     return {"placed": placed, "total_height": round(total_h, 3),
-            "fit": fit}
+            "fit": False, "line_height_scale": lscale,
+            "retry_count": 3}

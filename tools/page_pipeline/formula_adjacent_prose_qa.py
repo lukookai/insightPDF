@@ -204,7 +204,11 @@ def formula_adjacent_prose_qa(
     # only FORMULA_ placeholders are protected math tokens; BOLD_/ITALIC_
     # markup tokens are render-time styling controls (stripped by the
     # renderer by design) and must NOT be counted as math-token loss.
+    # A token whose formula is FULLY prose-adopted (in recovered_formulas)
+    # is legally dropped by the renderer (no SVG remains) -- the prose was
+    # recovered as a PAF target instead; that is NOT a token loss.
     token_re = re.compile(r"\{\{(FORMULA_[A-Z0-9_]+)\}\}")
+    skip_ids = set(recovered_formulas or [])
     for pid, tgt in translations.items():
         tokens = token_re.findall(tgt or "")
         if not tokens:
@@ -216,6 +220,8 @@ def formula_adjacent_prose_qa(
         html_text = blk["text"]
         for tok in tokens:
             full = "{{%s}}" % tok
+            if tok[8:] in skip_ids:
+                continue  # fully prose-adopted formula: token legally gone
             # a token is PRESENT if the placeholder text exists OR the
             # renderer replaced it with an inline formula span
             inline_span = ('<span class="formula-inline" data-formula="%s"'
@@ -244,9 +250,13 @@ def formula_adjacent_prose_qa(
             continue
         raw = blk.get("raw") or ""
         html_tokens = token_re.findall(blk["text"])
-        # tokens replaced by inline formula spans count as present
+        # tokens replaced by inline formula spans count as present; tokens
+        # whose formula is fully prose-adopted are legally gone
         present = []
         for tok in tokens:
+            if tok[8:] in skip_ids:
+                present.append(tok)
+                continue
             if ("<span class=\"formula-inline\" data-formula=\"%s\""
                     % tok) in raw or ("{{%s}}" % tok) in blk["text"]:
                 present.append(tok)

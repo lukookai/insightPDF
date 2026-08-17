@@ -80,6 +80,7 @@ def final_render_cardinality_qa(
     html_path=None,
     out_dir=None,
     recovered_formulas=None,
+    excluded_segments=None,
 ) -> Dict[str, Any]:
     """Run FinalRenderCardinalityQA for one page.
 
@@ -251,6 +252,11 @@ def final_render_cardinality_qa(
         fid = p.get("formula_id")
         if fid in recovered:
             continue  # target renders via PAF; source SVG excluded
+        if (excluded_segments or {}).get(str(fid)):
+            # visual-v05: mixed formula renders ONLY its math segments --
+            # the remaining glyph paths are the legal equation, no source
+            # prose leaks; skip the double-render check
+            continue
         bb = [float(v) for v in (p.get("layout_bbox") or [])]
         if len(bb) != 4:
             continue

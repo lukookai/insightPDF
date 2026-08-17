@@ -176,11 +176,13 @@ def semantic_structure_closure_qa(
                     owner_kind = "recovered"
                     break
         #  3) HTML fallback: the heading's translated number pattern must
-        #     lead a block (document-general: \d+(\.\d+)* + CJK prefix)
+        #     lead a block (document-general: NUMBERED heading = digits +
+        #     a dot + CJK, e.g. "3.4 自适应..."; a bare "0 同时..." value
+        #     is NOT a heading)
         if owner is None:
             for blk in blocks:
                 t = re.sub(r"\s+", "", blk.get("text") or "")
-                if re.match(r"\d+(?:\.\d+)*[\u4e00-\u9fff]", t):
+                if re.match(r"\d+\.\d*[\u4e00-\u9fff]", t):
                     owner = {"paragraph_id": blk["id"],
                              "target_text": blk["text"],
                              "source_text": hkey}

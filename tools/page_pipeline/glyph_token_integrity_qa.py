@@ -48,10 +48,12 @@ def glyph_token_integrity_qa(
     html_path=None,
     source_pdf_path=None,
     out_dir=None,
+    recovered_formulas=None,
 ) -> Dict[str, Any]:
     """Run GlyphTokenIntegrityQA for one page."""
     details: List[Dict[str, Any]] = []
     m_repl = m_square = m_missing = m_tok_glyph = m_font = 0
+    skip_ids = set(recovered_formulas or [])
 
     # ---- A. HTML target text ---------------------------------------------
     if html_path and Path(html_path).exists():
@@ -154,6 +156,9 @@ def glyph_token_integrity_qa(
             inner = blk_m.group(1)
             text = re.sub(r"<[^>]+>", "", inner)
             for tok in toks:
+                if tok[8:] in skip_ids:
+                    continue  # fully prose-adopted formula: token gone by
+                              # design (RenderExclusivity), not glyph loss
                 full = "{{%s}}" % tok
                 inline_span = ('<span class="formula-inline" '
                                'data-formula="%s"' % tok) in inner

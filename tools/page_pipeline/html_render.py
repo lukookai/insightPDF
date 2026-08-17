@@ -56,14 +56,20 @@ def _extract_table_parts(table_model, page_w, page_h, cjk_family):
     return cells, rules
 
 
-def _inline_formula_map(page_model, skip_formulas=None):
+def _inline_formula_map(page_model, skip_formulas=None,
+                        excluded_segments=None):
     """token -> list of render_segment bboxes for INLINE formulas.
 
     ``skip_formulas`` (visual-v04): prose-adopted formula ids whose region
     is rendered as recovered prose text instead of source SVG -- their
     placeholders must NOT resolve to the source SVG (RenderExclusivity).
+    ``excluded_segments`` (visual-v05): {formula_id: [segment_id...]}
+    prose segments inside a MIXED formula (math rows + annotation prose).
+    Those segments must NOT render (English not visible) while the math
+    segments stay (equation preserved).
     """
     skip = set(skip_formulas or [])
+    excl = excluded_segments or {}
     out = {}
     for r in page_model["regions"]:
         if r["type"] != "formula":
@@ -73,9 +79,16 @@ def _inline_formula_map(page_model, skip_formulas=None):
             continue
         if fm.get("formula_id") in skip:
             continue
-        segs = [seg["render_viewbox"] or seg["layout_bbox"]
-                for seg in fm.get("render_segments", [])]
-        out["{{FORMULA_%s}}" % fm["formula_id"]] = segs
+        bad = set(excl.get(fm.get("formula_id"), []) or [])
+        segs = []
+        for seg in fm.get("render_segments", []):
+            if seg.get("segment_id") in bad:
+                continue
+            sb = seg["render_viewbox"] or seg["layout_bbox"]
+            if sb and len(sb) == 4:
+                segs.append(sb)
+        if segs:
+            out["{{FORMULA_%s}}" % fm["formula_id"]] = segs
     return out
 
 
@@ -564,7 +577,8 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
                        table_model=None, flows=None, grid=None,
                        frontmatter=None, typography=None,
                        bottom_reserved_regions=None, resolver=None,
-                       gap_collector=None, skip_inline_formulas=None):
+                       gap_collector=None, skip_inline_formulas=None,
+                       prose_excluded_segments=None):
     """Return the unified page HTML (str) for one page.
 
     ``translations``: {paragraph_id: zh} (inline placeholders already
@@ -618,7 +632,8 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
         (out_dir / svg_name).write_text(full_svg, encoding="utf-8")
 
     inline_map = _inline_formula_map(page_model,
-                                     skip_inline_formulas)
+                                     skip_inline_formulas,
+                                     prose_excluded_segments)
 
     # ---------- display formula regions: flow_locked (Phase 4C.2R) --------
     # Internal geometry unchanged; container y comes from ColumnFlow.  Each
@@ -646,10 +661,14 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
             continue
         if fm.get("formula_id") in (skip_inline_formulas or set()):
             continue  # prose-adopted formula: recovered prose renders here
+        bad_segs = set((prose_excluded_segments or {}).get(
+            fm.get("formula_id"), []) or [])
         ff = formula_flow.get(fm["formula_id"])
         row_anchor = (ff["anchor_y"] if ff else
                       (fm.get("layout_bbox") or [0, 0, 0, 0])[1])
         for seg in fm.get("render_segments", []):
+            if seg.get("segment_id") in bad_segs:
+                continue  # visual-v05: prose segment excluded (English gone)
             b = seg["render_viewbox"] or seg["layout_bbox"]
             dy = 0.0
             if ff is not None:
@@ -760,6 +779,14 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
         heading_level = None
         if balanced:
             typo_role, heading_level = resolver.paragraph_role(para)
+            # visual-v05: recovered heading blocks carry their semantic role
+            # from SOURCE provenance (RecoveredProseBlock) -- the typography
+            # resolver has no source-font evidence for them, so the role is
+            # taken from the recovered block directly.
+            if para.get("semantic_role") == "heading" or \
+                    para.get("style_role") == "heading":
+                typo_role = "heading"
+                heading_level = para.get("heading_level", 1)
             if typo_role in ("body", "body_bold_lead", "abstract_body",
                              "reference", "list_item"):
                 # Body / list text keeps its per-paragraph SOURCE size: the
@@ -819,6 +846,12 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
                               "white-space:nowrap;overflow-wrap:normal;"
                               "word-break:keep-all;")
         family = body_family if balanced else ("%s,serif" % table_cjk)
+        # visual-v05: recovered PAF prose keeps math alphanumeric symbols
+        # (U+1D400..U+1D7FF, e.g. script F) as Unicode text -- the CJK/Latin
+        # chain has no glyph for them and Chromium prints a control
+        # placeholder (tofu/NUL).  Append the platform math faces so the
+        # symbols resolve to a real glyph instead of a missing mapping.
+        family = family + ",'Cambria Math','Segoe UI Symbol','STIX Two Math'"
         # visual-v04 RenderIdentity: data-render-source records whether this
         # block renders the canonical target or protected source, and why
         render_source = fl.get("render_source", "canonical_target")

@@ -20,6 +20,7 @@ font_scale / line_height_scale from the fit strategy.
 from __future__ import annotations
 
 import math
+import re
 from typing import Any, Dict, List
 
 from flow_layout import estimate_paragraph_height, _split_translation  # noqa: E402
@@ -135,6 +136,15 @@ class FixedCanvasAnchorLayout:
         paragraphs = [p for p in paragraphs
                       if (p.get("paragraph_id")
                           not in reserved_owner_ids)]
+        # visual-v05: a text region whose SOURCE is pure punctuation (e.g.
+        # PPAT p004/p005/p006 ":" as an orphan formula-introduction block)
+        # has no content to translate -- rendering it would leave an
+        # isolated punctuation glyph in the final PDF (orphan punctuation).
+        # Drop it from the flow (document-general, no page constants).
+        _PUNCT_ONLY = re.compile(r"^[\s,;:!?()\[\].。，：；、？！（）【】…\u00b7\u2026]+$")
+        paragraphs = [p for p in paragraphs
+                      if not _PUNCT_ONLY.match(
+                          (p.get("source_text") or "").strip())]
         # visual-v03: merge SourceVisualGroup members into ONE full-width
         # visual unit on the source union bbox (existing translations
         # concatenated in reading order, provenance kept; no API calls).
@@ -388,10 +398,12 @@ class FixedCanvasAnchorLayout:
                     "protected_runs": s.get("protected_runs") or {},
                 })
 
-            def _emit_para_packed(s, top, est_h):
+            def _emit_para_packed(s, top, est_h, lscale=1.0):
                 """Emit one soft block at an explicitly packed top
                 (visual-v04 RegionLocalPacking): flow_y = packed top, font
-                scale 1.0, no anchor displacement."""
+                scale 1.0, no anchor displacement.  visual-v05: the packed
+                line-height scale (tighter CJK rhythm when the region is
+                tight) is forwarded to the renderer."""
                 fsize = s.get("base_font_size") or 10.0
                 items.append({
                     "kind": "paragraph",
@@ -410,7 +422,7 @@ class FixedCanvasAnchorLayout:
                     "anchor_y": round(s.get("anchor_y", 0.0), 3),
                     "base_font_size": round(fsize, 4),
                     "font_scale": 1.0,
-                    "line_height_scale": 1.0,
+                    "line_height_scale": round(float(lscale), 4),
                     "is_reference": False,
                     "is_vertical": bool(s.get("is_vertical")),
                     "visual_fit_level": "packed",
@@ -475,7 +487,8 @@ class FixedCanvasAnchorLayout:
                         # region-local packing overrides the anchor_y cursor
                         # (soft-soft overlap = 0); hard anchors are never
                         # touched.  flow_y is the packed top.
-                        _emit_para_packed(s, pl["top"], pl["est_height"])
+                        _emit_para_packed(s, pl["top"], pl["est_height"],
+                                          pl.get("line_height_scale", 1.0))
                 else:
                     fit = self.fit.fit_sequence(
                         [{"paragraph_id": s.get("paragraph_id"),

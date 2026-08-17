@@ -109,7 +109,8 @@ def _line_blocks(page) -> List[Dict[str, Any]]:
     return blocks
 
 
-def _vector_ink_blocks(page_model, page) -> List[Dict[str, Any]]:
+def _vector_ink_blocks(page_model, page, excluded_segments=None,
+                       recovered_formulas=None) -> List[Dict[str, Any]]:
     """Prose-adopted formulas as visible vector-ink blocks.
 
     A prose-adopted formula renders its source SVG paths into the final
@@ -120,11 +121,19 @@ def _vector_ink_blocks(page_model, page) -> List[Dict[str, Any]]:
     from HTML (placeholders no longer resolve to the source SVG), so a
     vector-ink block only exists when the final PDF page ACTUALLY contains
     glyph-like paths inside the region (the source SVG leaked).
+
+    visual-v05: a MIXED formula (math rows + annotation prose) only
+    renders its MATH segments (prose segments excluded).  The vector-ink
+    block bbox must be the union of the RENDERED segments -- NOT the
+    full layout bbox (which would collide with every recovered PAF block
+    in the same band).
     """
     out: List[Dict[str, Any]] = []
     if page is None:
         return out
     from final_source_residual_qa import _text_like_paths, _inside_rect
+    excl_seg = excluded_segments or {}
+    skip_ids = set(recovered_formulas or [])
     anchor_regions = [[float(v) for v in r.get("bbox", [])]
                       for r in page_model.get("regions", [])
                       if r.get("type") in ("figure", "table", "image")
@@ -142,11 +151,20 @@ def _vector_ink_blocks(page_model, page) -> List[Dict[str, Any]]:
         if r.get("type") != "formula":
             continue
         p = r.get("payload") or {}
+        fid = str(p.get("formula_id") or "")
         if not is_prose_adopted_formula(p):
             continue
         bb = [float(v) for v in (p.get("layout_bbox") or [])]
         if len(bb) != 4:
             continue
+        # visual-v05: rendered-segment union instead of the full layout bbox
+        bad = set(excl_seg.get(fid, []) or [])
+        seg_boxes = [seg["render_viewbox"] or seg["layout_bbox"]
+                     for seg in p.get("render_segments", [])
+                     if seg.get("segment_id") not in bad]
+        if seg_boxes:
+            bb = [min(s[0] for s in seg_boxes), min(s[1] for s in seg_boxes),
+                  max(s[2] for s in seg_boxes), max(s[3] for s in seg_boxes)]
         paths = _text_like_paths(page, bb)
         # exclude legal anchor (figure/table/image) glyph paths: a formula
         # bbox that spans both columns must not count figure content
@@ -173,6 +191,8 @@ def soft_text_collision_qa(
     final_pdf_path=None,
     html_path=None,
     out_dir=None,
+    excluded_segments=None,
+    recovered_formulas=None,
 ) -> Dict[str, Any]:
     """Run SoftTextCollisionQA for one page (final PDF as truth)."""
     page = None
@@ -187,7 +207,9 @@ def soft_text_collision_qa(
     blocks: List[Dict[str, Any]] = []
     if page is not None:
         blocks.extend(_line_blocks(page))
-    blocks.extend(_vector_ink_blocks(page_model, page))
+    blocks.extend(_vector_ink_blocks(page_model, page,
+                                     excluded_segments=excluded_segments,
+                                     recovered_formulas=recovered_formulas))
 
     collisions: List[Dict[str, Any]] = []
     severe = 0

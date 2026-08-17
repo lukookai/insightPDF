@@ -89,6 +89,38 @@ _SENTENCE_STARTERS = (
     "here", "also", "still", "thus", "hence", "e.g.", "i.e.", "namely",
 )
 
+# verb / pronoun cores that make a word run a SENTENCE rather than a math
+# annotation fragment ("we can extract ...", "it is the spatial ...")
+_SENTENCE_CORES = {
+    "we", "they", "it", "this", "these", "those", "there", "one", "both",
+    "each", "can", "will", "may", "must", "should", "would", "could",
+    "is", "are", "was", "were", "has", "have", "had", "does", "did",
+    "denotes", "denote", "represents", "represent", "means", "mean",
+    "contains", "uses", "used", "based", "obtained", "shown", "built",
+    "computed", "calculated", "evaluated", "conducted", "presents",
+    "introduces", "achieves", "shows", "illustrates",
+    "consists", "includes", "enables", "allows", "ensures", "preserves",
+    "retains", "transforms", "extracts", "performs", "applies",
+    "compensates", "emphasizes", "adapts", "controls", "employs",
+    "selects", "proposes", "demonstrates", "improves", "outperforms",
+    "suppresses", "amplifies", "learns", "yields", "leads", "causes",
+    "provides", "offers", "produces", "generates", "estimates",
+    "approximates", "measures", "captures", "encodes", "decodes",
+    "utilizes", "exploits", "combines", "integrates", "appends",
+    "follows", "precedes", "corresponds", "relates", "depends",
+    "increases", "decreases", "reduces", "achieves", "maintains",
+    "satisfies", "guarantees", "avoids", "prevents", "violates",
+    "occurs", "emerges", "appears", "remains", "becomes", "seems",
+    "limits", "restricts", "constrains", "determines", "defines",
+    "parametrizes", "characterizes", "denoted", "illustrated", "termed",
+    "instantiate", "instantiates", "conduct", "compare", "compares",
+    "evaluate", "evaluates", "evaluated", "report", "reports", "show",
+    "select", "employ", "propose", "introduce", "present", "build",
+    "construct", "constructs", "design", "designs", "leverage",
+    "leverages", "involve", "involves", "require", "requires",
+    "supports", "form", "forms", "constitute", "constitutes",
+}
+
 _MATH_CHARS_RE = re.compile(
     r"[\u0370-\u03ff\U0001d400-\U0001d7ff\u2200-\u22ff\u2190-\u21ff"
     r"\u2300-\u23ff\u00d7\u2212\u221a\u222b\u2264\u2265\u2260\u2248]")
@@ -134,10 +166,14 @@ def is_translatable_prose_line(text: str) -> bool:
     if len(words) < 3:
         return False
     stripped = t.strip()
-    first = stripped.split()[0].lower().rstrip("(;:,")
+    # first CONTENT word (skip leading math glyphs, e.g. "C channels, we
+    # can extract..." or "[lambda_1, ...] where ...")
+    fm = re.search(r"[A-Za-z]+", stripped)
+    first = fm.group(0).lower() if fm else ""
     has_period = bool(re.search(r"[.!?](?:['\u201d\u2019])?$", stripped)) or \
         ". " in stripped or ".  " in stripped or ". \u2014" in stripped
-    return has_period or first in _SENTENCE_STARTERS
+    has_verb_core = any(w in _SENTENCE_CORES for w in words)
+    return has_period or first in _SENTENCE_STARTERS or has_verb_core
 
 
 def _source_lines_in_bbox(pdf_path: str, page_idx: int,
@@ -185,6 +221,23 @@ def _rendered_formula_ids(html_path) -> List[str]:
     return sorted(set(ids))
 
 
+def _translated_text_region_boxes(page_model, translations) -> List[List[float]]:
+    """Text-region bboxes whose canonical target carries CJK (translated)."""
+    out: List[List[float]] = []
+    for r in page_model.get("regions", []):
+        if r.get("type") != "text":
+            continue
+        p = r.get("payload") or {}
+        pid = p.get("paragraph_id")
+        tgt = translations.get(pid, "") if pid else ""
+        if not _CJK_RE.search(tgt or ""):
+            continue
+        bb = [float(v) for v in r.get("bbox", [])]
+        if len(bb) == 4:
+            out.append(bb)
+    return out
+
+
 def _final_text_spans(final_pdf_path) -> List[Dict[str, Any]]:
     """Final PDF text layer spans (with bbox) + normalized text."""
     spans: List[Dict[str, Any]] = []
@@ -223,9 +276,11 @@ def residual_prose_truth_qa(
     out_dir=None,
     recovered_formulas=None,
     page_idx: int = 0,
+    excluded_segments=None,
 ) -> Dict[str, Any]:
     """Run ResidualProseTruthQA for one page."""
     recovered = set(recovered_formulas or [])
+    excl_seg = excluded_segments or {}
     rendered_ids = set(_rendered_formula_ids(html_path))
     final_spans = _final_text_spans(final_pdf_path)
     final_text = " ".join(s["text"] for s in final_spans)
@@ -253,9 +308,36 @@ def residual_prose_truth_qa(
         bb = [float(v) for v in (p.get("layout_bbox") or [])]
         if len(bb) != 4:
             continue
+        # visual-v05: a MIXED formula only renders its MATH segments; check
+        # the rendered-segment union, not the full layout bbox
+        bad = set(excl_seg.get(fid, []) or [])
+        seg_boxes = [seg["render_viewbox"] or seg["layout_bbox"]
+                     for seg in p.get("render_segments", [])
+                     if seg.get("segment_id") not in bad]
+        if seg_boxes:
+            bb = [min(s[0] for s in seg_boxes), min(s[1] for s in seg_boxes),
+                  max(s[2] for s in seg_boxes), max(s[3] for s in seg_boxes)]
         if source_pdf_path:
             lines = _source_lines_in_bbox(str(source_pdf_path), page_idx, bb)
-            prose = [ln for ln in lines if is_translatable_prose_line(ln["text"])]
+            # visual-v05: a prose line whose center lies inside a text
+            # region that ALREADY has a CJK target is a formula-internal
+            # annotation mirrored by the detector into both the formula and
+            # the translated paragraph (e.g. 2504 "RS denotes the set of
+            # references" lives in DLP00205's source) -- its translation
+            # exists, so it is NOT an untranslated residual
+            # (NON_TRANSLATABLE_MATH / covered annotation exemption).
+            covered = _translated_text_region_boxes(page_model, translations)
+            prose = []
+            for ln in lines:
+                if not is_translatable_prose_line(ln["text"]):
+                    continue
+                cy = (ln["bbox"][1] + ln["bbox"][3]) / 2.0
+                cx = (ln["bbox"][0] + ln["bbox"][2]) / 2.0
+                in_covered = any(c[0] - 2 <= cx <= c[2] + 2
+                                 and c[1] - 2 <= cy <= c[3] + 2
+                                 for c in covered)
+                if not in_covered:
+                    prose.append(ln)
             if prose:
                 src = " ".join(ln["text"] for ln in prose)
                 # the formula SVG renders these lines as vector ink

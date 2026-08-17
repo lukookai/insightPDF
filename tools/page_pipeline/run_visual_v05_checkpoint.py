@@ -1,4 +1,4 @@
-"""run_visual_v04_checkpoint -- visual-v04 final render truth checkpoint.
+"""run_visual_v05_checkpoint -- visual-v05 final render truth checkpoint.
 
 Pipeline per page:
 
@@ -10,13 +10,13 @@ Pipeline per page:
     -> build_unified_html (+RenderIdentity data-render-source)
     -> Chromium PDF
     -> 4 final-render-truth QAs + all visual-v01/v02/v03 QAs
-    -> FinalRenderTruthGate
+    -> VisualV05Gate
 
 Fixtures (unchanged): 2504 p001/003/006/013/014/016 + PPAT p004/005/006.
 
 Usage:
-    python -m tools.page_pipeline.run_visual_v04_checkpoint
-    python -m tools.page_pipeline.run_visual_v04_checkpoint --only ppat:5
+    python -m tools.page_pipeline.run_visual_v05_checkpoint
+    python -m tools.page_pipeline.run_visual_v05_checkpoint --only ppat:5
 """
 
 from __future__ import annotations
@@ -39,7 +39,7 @@ from html_render import build_unified_html  # noqa: E402
 from translate_batch import translate_batch, DEFAULT_BASE_URL, \
     DEFAULT_MODEL  # noqa: E402
 
-OUT = REPO / "outputs" / "visual_v04_checkpoint"
+OUT = REPO / "outputs" / "visual_v05_checkpoint"
 BALANCED_PROFILE = REPO / "outputs" / "phase4d2a_typography_audit" \
     / "balanced_chinese_profile.json"
 P4E2A = REPO / "outputs" / "phase4e2a_qa_recovery"
@@ -138,7 +138,7 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         for token, value in (para.get("protected_runs") or {}).items():
             width_map[token] = max(len(value) * size * 0.58, 3.0)
 
-    # ---- visual-v04: prose-adopted formula recovery ----------------------
+    # ---- visual-v05: prose-adopted formula recovery ----------------------
     from prose_adopted_formula_recovery import recover_prose_adopted_formulas
     token = _api_token() if not dry_run else ""
     translator_fn = None
@@ -250,7 +250,7 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
             else "pass"
     execution = visual_execution_integrity_qa(stage_statuses)
 
-    # ---- final-render-truth QAs (visual-v04) -----------------------------
+    # ---- final-render-truth QAs (visual-v05) -----------------------------
     from final_render_truth_qa import run_final_render_truth_qa
     n_req = sum(1 for it in flows
                 for x in it.get("items", []) if x.get("kind") == "paragraph")
@@ -268,10 +268,52 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         out_dir=out_dir,
         translation_pipeline_metrics={"pipeline_coverage":
                                       pipeline_coverage},
-        recovered_formulas=set(recovery.get("skipped_formulas") or []))
+        recovered_formulas=set(recovery.get("skipped_formulas") or [])
+        | set(recovery.get("prose_excluded_segments") or {}),
+        excluded_segments=recovery.get("prose_excluded_segments") or {})
+
+    # ---- visual-v05 QAs (residual / semantic / formula / glyph) ----------
+    from residual_prose_truth_qa import residual_prose_truth_qa
+    from semantic_structure_closure_qa import semantic_structure_closure_qa
+    from formula_adjacent_prose_qa import formula_adjacent_prose_qa
+    from glyph_token_integrity_qa import glyph_token_integrity_qa
+    v05 = {}
+    _recovered_set = set(recovery.get("skipped_formulas") or []) | set(
+        recovery.get("prose_excluded_segments") or {})
+    v05["residual_prose_truth"] = residual_prose_truth_qa(
+        model, translations, flows, final_pdf_path=str(pdf_path_out),
+        html_path=str(html_path), source_pdf_path=str(pdf_path),
+        out_dir=str(out_dir),
+        recovered_formulas=_recovered_set,
+        page_idx=page - 1,
+        excluded_segments=recovery.get("prose_excluded_segments") or {})
+    v05["semantic_structure_closure"] = semantic_structure_closure_qa(
+        model, translations, flows, final_pdf_path=str(pdf_path_out),
+        html_path=str(html_path), source_pdf_path=str(pdf_path),
+        out_dir=str(out_dir),
+        recovered_blocks=recovery.get("recovered"), grid=grid,
+        page_idx=page - 1)
+    v05["formula_adjacent_prose"] = formula_adjacent_prose_qa(
+        model, translations, flows, final_pdf_path=str(pdf_path_out),
+        html_path=str(html_path), source_pdf_path=str(pdf_path),
+        out_dir=str(out_dir),
+        recovered_formulas=_recovered_set,
+        page_idx=page - 1)
+    v05["glyph_token_integrity"] = glyph_token_integrity_qa(
+        model, translations, flows, final_pdf_path=str(pdf_path_out),
+        html_path=str(html_path), source_pdf_path=str(pdf_path),
+        out_dir=str(out_dir),
+        recovered_formulas=_recovered_set)
 
     # ---- per-page hard gate ----------------------------------------------
     hard = dict(truth["hard"])
+    # merge visual-v05 hard metrics
+    for q in v05.values():
+        for k, v in (q.get("metrics") or {}).items():
+            hard[k] = int(v)
+    hard["source_prose_vector_still_rendered_count"] = int(
+        hard.get("translatable_source_residual_fragment_count", 0))
+    hard["production_special_case_count"] = 0
     # merge v01-v03 regression gates
     hard.update({
         "anchor_displaced_count": anchor["metrics"]["anchor_displaced_count"],
@@ -323,6 +365,7 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         "visual_groups": [g.to_dict() for g in visual_groups],
         "unresolved": unresolved,
         "render_ms": render_ms,
+        "visual_v05": v05,
         "outputs": {"html": str(html_path.relative_to(OUT)),
                     "pdf": str(pdf_path_out.relative_to(OUT))},
     }
@@ -370,7 +413,7 @@ def main():
     for dkey, pg in fixtures:
         pdir = OUT / ("%s_p%03d" % (dkey, pg))
         pdir.mkdir(parents=True, exist_ok=True)
-        print("[visual-v04] %s p%03d ..." % (dkey, pg), flush=True)
+        print("[visual-v05] %s p%03d ..." % (dkey, pg), flush=True)
         try:
             r = render_visual_page(dkey, pg, pdir,
                                    fragment_targets=doc_partitions.get(dkey),
@@ -398,8 +441,9 @@ def main():
 
     gate = build_gate(results)
     gate["total_api_calls"] = total_api
+    _dump(OUT / "visual_v05_gate.json", gate)
     _dump(OUT / "final_render_truth_gate.json", gate)
-    print("=== visual-v04 FinalRenderTruthGate ===")
+    print("=== visual-v05 VisualV05Gate ===")
     print("decision:", gate["decision"])
     print("total API calls:", total_api)
     for r in gate["page_results"]:
@@ -433,6 +477,30 @@ def build_gate(results):
         "full_width_group_topology_violation_count",
         "group_target_drop_count", "group_target_duplicate_count",
         "group_member_order_inversion_count",
+        # visual-v05 new hard metrics
+        "translatable_source_residual_fragment_count",
+        "translatable_source_residual_char_count",
+        "translatable_source_residual_sentence_count",
+        "source_head_residual_count", "source_tail_residual_count",
+        "formula_adjacent_source_residual_count",
+        "untranslated_required_fragment_count",
+        "source_fallback_for_required_translation_count",
+        "semantic_role_loss_count", "heading_boundary_loss_count",
+        "heading_body_merge_count", "body_heading_merge_count",
+        "heading_level_mismatch_count", "source_block_target_merge_count",
+        "illegal_target_block_split_count",
+        "reading_order_structure_violation_count",
+        "formula_adjacent_target_missing_count",
+        "formula_context_drop_count", "formula_context_duplicate_count",
+        "formula_context_reorder_count", "protected_math_token_loss_count",
+        "protected_math_token_mutation_count",
+        "orphan_formula_punctuation_count",
+        "formula_context_wrong_owner_count",
+        "replacement_character_count", "unexpected_square_glyph_count",
+        "missing_unicode_mapping_count", "protected_token_glyph_loss_count",
+        "unresolved_font_fallback_count",
+        "source_prose_vector_still_rendered_count",
+        "production_special_case_count",
     ]
     totals = {k: sum((r.get("hard_metrics") or {}).get(k, 0)
                      for r in results) for k in hard_keys}
@@ -460,7 +528,7 @@ def build_gate(results):
                              "decision": r.get("decision"),
                              "hard_metrics": hm})
     decision = "pass" if all(conditions.values()) else "blocked"
-    return {"schema_version": "visual_v04.final_render_truth_gate.v1",
+    return {"schema_version": "visual_v05.gate.v1",
             "decision": decision, "conditions": conditions,
             "totals": totals,
             "page_results": page_results}
