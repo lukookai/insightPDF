@@ -291,6 +291,125 @@ def _text_region_boxes(page_model) -> List[List[float]]:
     return out
 
 
+def _union_bbox(lines):
+    """Union bbox of a cluster's lines."""
+    if not lines:
+        return [0.0, 0.0, 0.0, 0.0]
+    return [min(ln["bbox"][0] for ln in lines),
+            min(ln["bbox"][1] for ln in lines),
+            max(ln["bbox"][2] for ln in lines),
+            max(ln["bbox"][3] for ln in lines)]
+
+
+def _bbox_overlap_ratio(a, b):
+    """Overlap ratio of two bboxes (intersection / smaller-area)."""
+    if len(a) != 4 or len(b) != 4:
+        return 0.0
+    xa = max(a[0], b[0]); xb = min(a[2], b[2])
+    ya = max(a[1], b[1]); yb = min(a[3], b[3])
+    if xb <= xa or yb <= ya:
+        return 0.0
+    inter = (xb - xa) * (yb - ya)
+    aa = (a[2] - a[0]) * (a[3] - a[1])
+    bb = (b[2] - b[0]) * (b[3] - b[1])
+    denom = min(aa, bb) if min(aa, bb) > 0 else max(aa, bb)
+    return inter / denom if denom > 0 else 0.0
+
+
+def _merge_overlapping_clusters(clusters, min_ratio=0.3):
+    """Merge prose clusters whose bboxes overlap.
+
+    A single formula region's prose is often split into several interleaved
+    clusters by the math / figure lines that ``_text_lines_in_regions``
+    excludes (e.g. "where F(.) and F^-1(.) denote ... form and its inverse
+    transformation respectively." lands in two clusters whose line sets are
+    interleaved in y, so their union bboxes overlap ~97%).  Leaving them
+    separate makes the visual layout emit two overlapping soft-text blocks
+    (severe_soft_soft_collision + duplicate_baseline_cluster).  Merging them
+    reconstructs the original logical paragraph.
+
+    Heading clusters are NEVER merged into a body block -- they keep their
+    own RecoveredProseBlock with the heading semantic role.  A heading whose
+    bbox overlaps a body block is rendered adjacent to it (the body block's
+    real lines sit above/below the heading line), so no real text collision
+    occurs.
+    """
+    merged = [list(c) for c in clusters]
+    changed = True
+    while changed:
+        changed = False
+        for i in range(len(merged)):
+            for j in range(i + 1, len(merged)):
+                ci, cj = merged[i], merged[j]
+                hi = any(ln.get("is_heading") for ln in ci)
+                hj = any(ln.get("is_heading") for ln in cj)
+                if hi != hj:
+                    continue  # preserve heading blocks
+                if _bbox_overlap_ratio(_union_bbox(ci),
+                                       _union_bbox(cj)) >= min_ratio:
+                    ci.extend(cj)
+                    ci.sort(key=lambda ln: (ln["bbox"][1], ln["bbox"][0]))
+                    merged.pop(j)
+                    changed = True
+                    break
+            if changed:
+                break
+    return [c for c in merged if c]
+
+
+def _merge_inline_heading_clusters(clusters, col_split=COL_SPLIT_X):
+    """Fuse an inline (overlapping) heading cluster into the body cluster it
+    shares a visual line band with.
+
+    visual-v06: a section heading rendered INLINE with its body paragraph
+    (e.g. "3.4 Adaptive MoE Injector 将 Pi 的维度...") shares the body line's
+    vertical band.  The recovery keeps such a heading as its own block
+    (semantic_role=heading) which then OVERLAPS the body block in the final
+    render -> a severe_soft_soft_collision (a genuine final-PDF defect, not a
+    QA artifact).  When the heading cluster's bbox overlaps a body cluster's
+    bbox in the SAME column, the heading line is fused into the body paragraph
+    so the merged block renders the heading text as its first line (role=body
+    -- faithful to the source's inline layout, no overlap).  A standalone
+    heading on its OWN line (no overlapping body cluster, e.g. "4. Experiment")
+    is left untouched and keeps semantic_role=heading.
+
+    Correctness: body clusters are added to the result ONCE; a heading is
+    either fused into an existing body cluster (mutating it in place, never
+    re-appended) or appended once as a standalone heading block, so no
+    recovered paragraph is ever emitted twice.
+    """
+    body_clusters = [list(c) for c in clusters
+                     if not any(ln.get("is_heading") for ln in c)]
+    result = list(body_clusters)
+    for ci in clusters:
+        if not any(ln.get("is_heading") for ln in ci):
+            continue  # already in result as a body cluster
+        bi = ci[0].get("bbox")
+        fused = False
+        for bj in result:
+            if any(ln.get("is_heading") for ln in bj):
+                continue  # never fuse into another heading cluster
+            bb = _union_bbox(bj)
+            if len(bi) != 4 or len(bb) != 4:
+                continue
+            cx_i = (bi[0] + bi[2]) / 2.0
+            cx_j = (bb[0] + bb[2]) / 2.0
+            same_col = ((cx_i < col_split and cx_j < col_split)
+                        or (cx_i >= col_split and cx_j >= col_split))
+            if not same_col:
+                continue
+            if (_bbox_overlap_ratio(bi, bb) > 0.0
+                    or (min(bi[2], bb[2]) - max(bi[0], bb[0]) > 0
+                        and min(bi[3], bb[3]) - max(bi[1], bb[1]) > 0)):
+                bj.extend(ci)
+                bj.sort(key=lambda ln: (ln["bbox"][1], ln["bbox"][0]))
+                fused = True
+                break
+        if not fused:
+            result.append(list(ci))
+    return [c for c in result if c]
+
+
 def _assign_paragraph_ids(clusters, fid, existing):
     """Assign stable PAF ids; never collide with existing paragraph ids."""
     out = []
@@ -391,6 +510,12 @@ def recover_prose_adopted_formulas(
         ln["is_heading"] = any(_inside(ln["bbox"], hb, tol=3.0)
                                for hb in heading_rows)
     clusters = _cluster_lines(kept)
+    # visual-v06: merge overlapping prose clusters (over-split by interspersed
+    # formula/figure lines) so recovered blocks never collide in the render.
+    clusters = _merge_overlapping_clusters(clusters)
+    # visual-v06: fuse an inline heading cluster into the overlapping body
+    # cluster (same column) so they render as ONE block (no severe collision).
+    clusters = _merge_inline_heading_clusters(clusters)
     # ---- visual-v05: CLUSTER-level prose decision ------------------------
     # a cluster is recovered PROSE when its joined text carries a real
     # sentence (>= 6 words AND (any row passes the single-line test OR the
@@ -450,13 +575,17 @@ def recover_prose_adopted_formulas(
             bb[2] = min(bb[2], COL_SPLIT_X - 2.0)
         else:
             bb[0] = max(bb[0], COL_SPLIT_X + 2.0)
-        # visual-v05: heading rows (source typography evidence) become
-        # independent blocks with the heading semantic role -- the semantic
-        # structure is restored from SOURCE PROVENANCE, never guessed from
-        # the translated text.
-        is_heading = any(ln.get("is_heading") for ln in cl)
-        role = "heading" if is_heading else "body"
-        level = 1 if is_heading else 0
+        # visual-v06: a cluster is a HEADING block only when EVERY line is a
+        # heading line (a standalone section header such as "4. Experiment").
+        # When an inline heading was fused into its body paragraph (see
+        # _merge_inline_heading_clusters), the mixed cluster renders as BODY
+        # with the heading text as its first line -- faithful to the source's
+        # inline layout and free of overlap.  The heading's text is still
+        # recovered + translated (semantic_role_qa section 2 verifies CJK
+        # visibility on the heading bbox regardless of block role).
+        all_heading = bool(cl) and all(ln.get("is_heading") for ln in cl)
+        role = "heading" if all_heading else "body"
+        level = 1 if all_heading else 0
         # source formula region(s) owning this block's lines
         src_fids = []
         for ln in cl:

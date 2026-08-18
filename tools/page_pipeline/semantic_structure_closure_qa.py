@@ -209,6 +209,27 @@ def semantic_structure_closure_qa(
                     if b["id"] == pid and _CJK_RE.search(b["text"])), None)
         if blk is None:
             continue
+        # visual-v06: INLINE-HEADING exemption.  A source heading whose bbox
+        # lies INSIDE its owning recovered (PAF) block was deliberately fused
+        # into that block by the recovery (the source renders the heading
+        # INLINE with its body paragraph on the same physical line, e.g.
+        # "...空间特征提取器。3.4。自适应 MoE 注入器 该模块用于维度扩展...").
+        # For such inline headings the merged block is faithful to the source
+        # (the heading is part of its section's first line, not a standalone
+        # block that should be kept separate), so heading_body_merge /
+        # heading_boundary_loss / heading_level_mismatch are false positives
+        # here -- the source itself uses body font on that line.  The genuine
+        # translation-loss check (semantic_role_loss, above) is NOT exempted.
+        _inline_merged = False
+        if owner_kind == "recovered":
+            _ob = owner.get("bbox") or []
+            _hb = h.get("bbox") or []
+            if len(_ob) == 4 and len(_hb) == 4:
+                if (_ob[0] - 1 <= _hb[0] and _hb[2] <= _ob[2] + 1
+                        and _ob[1] - 1 <= _hb[1] and _hb[3] <= _ob[3] + 1):
+                    _inline_merged = True
+        if _inline_merged:
+            continue
         # heading independent?  the block must be ONLY the heading (short)
         hnum = _HEADING_NUM_RE.match(htext)
         # expected heading target length:  ~2.2 CJK chars per source word
