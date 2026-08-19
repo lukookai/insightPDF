@@ -24,6 +24,7 @@ from region_local_packing import PACK_GAP
 
 PT_PER_CSS_PX = 72.0 / 96.0
 FIT_TOLERANCE = 0.5
+LOCK_PAINT_TOLERANCE = 0.15
 
 
 @dataclass(frozen=True)
@@ -139,6 +140,11 @@ def build_fit_candidates(collision_qa: dict[str, Any], *,
         policy = TypographyFitPolicy(block.get("semantic_role"))
         if not policy.eligible:
             continue
+        if block.get("geometry_locked"):
+            # Task 4B locked blocks already exhausted their slot-local
+            # L0-L4 ladder.  A remaining collision is a hard BLOCK, never a
+            # reason to enter legacy successor-moving behavior.
+            continue
         if block.get("render_source") not in (None, "", "canonical_target"):
             continue
         if (block.get("column"), block.get("region_id")) != (
@@ -199,6 +205,25 @@ def apply_flow_fit_level(flows: list[dict[str, Any]], fragment_id: str,
     })
     if item.get("flow_y") != original_top:
         raise AssertionError("local typography fit changed paragraph top")
+    return updated
+
+
+def apply_flow_content_top_offset(
+        flows: list[dict[str, Any]], fragment_id: str,
+        offset: float) -> list[dict[str, Any]]:
+    """Move glyph paint inside a locked envelope without moving the block."""
+    updated = copy.deepcopy(flows)
+    item = _flow_item_map(updated).get(str(fragment_id))
+    if item is None:
+        raise ValueError("paragraph flow item not found: %s" % fragment_id)
+    original_geometry = (item.get("source_slot_left"), item.get("flow_y"),
+                         item.get("source_slot_width"),
+                         item.get("source_slot_height"))
+    item["source_slot_content_top_offset"] = round(float(offset), 3)
+    if original_geometry != (
+            item.get("source_slot_left"), item.get("flow_y"),
+            item.get("source_slot_width"), item.get("source_slot_height")):
+        raise AssertionError("content offset changed source slot geometry")
     return updated
 
 
@@ -269,6 +294,54 @@ def patch_html_fit_level(html_text: str, fragment_id: str, *,
     return html_text[:matched.start()] + new_tag + html_text[matched.end():]
 
 
+def patch_html_content_top_offset(html_text: str, fragment_id: str,
+                                  offset: float) -> str:
+    """Offset the inner text span while preserving the locked envelope."""
+    matched = _paragraph_tag(html_text, fragment_id)
+    if matched is None:
+        raise ValueError("paragraph RenderIdentity not found: %s" % fragment_id)
+    closing = re.search(r"</div\s*>", html_text[matched.end():],
+                        re.IGNORECASE)
+    if closing is None:
+        raise ValueError("paragraph closing tag not found: %s" % fragment_id)
+    paragraph_end = matched.end() + closing.start()
+    inner = re.search(
+        r'<span\b(?=[^>]*\bclass="[^"]*\bslot-text-content\b[^"]*")[^>]*>',
+        html_text[matched.end():paragraph_end], re.IGNORECASE)
+    if inner is None:
+        raise ValueError("locked paragraph has no inner text span: %s"
+                         % fragment_id)
+    start = matched.end() + inner.start()
+    end = matched.end() + inner.end()
+    tag = html_text[start:end]
+    style_match = re.search(r'\bstyle="([^"]*)"', tag, re.IGNORECASE)
+    if style_match is None:
+        raise ValueError("paragraph has no inline style: %s" % fragment_id)
+    style = style_match.group(1)
+    pattern = r"(?i)((?:^|;)\s*top\s*:)[^;]*"
+    value = float(offset)
+    if re.search(pattern, style):
+        style = re.sub(pattern,
+                       lambda match: "%s%.3fpt" % (match.group(1), value),
+                       style, count=1)
+    else:
+        style += ";top:%.3fpt" % value
+    new_tag = tag[:style_match.start(1)] + style + tag[style_match.end(1):]
+    updated = html_text[:start] + new_tag + html_text[end:]
+    opening = _paragraph_tag(updated, fragment_id)
+    opening_tag = opening.group(0)
+    attr_pattern = r'\bdata-slot-content-top-offset="[^"]*"'
+    if re.search(attr_pattern, opening_tag, re.IGNORECASE):
+        new_opening = re.sub(
+            attr_pattern, 'data-slot-content-top-offset="%.3f"' % value,
+            opening_tag, count=1, flags=re.IGNORECASE)
+    else:
+        new_opening = opening_tag[:-1] + (
+            ' data-slot-content-top-offset="%.3f">' % value)
+    return (updated[:opening.start()] + new_opening
+            + updated[opening.end():])
+
+
 def _with_base(html_text: str, source_html_path: str | Path) -> str:
     base = Path(source_html_path).resolve().parent.as_uri().rstrip("/") + "/"
     return html_text.replace("<head>", '<head><base href="%s">' % base, 1)
@@ -296,11 +369,34 @@ def measure_paragraph_blocks(html_path: str | Path,
             `.paragraph-block[data-flow-fragment="${CSS.escape(id)}"]`);
           if(!el) return [id,null];
           const r=el.getBoundingClientRect(), cs=getComputedStyle(el);
+          const painted=[];
+          const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);
+          let node;
+          while(node=walker.nextNode()){
+            if(!node.data.trim()) continue;
+            const range=document.createRange();
+            range.selectNodeContents(node);
+            for(const box of range.getClientRects()){
+              if(box.width>0.01 && box.height>0.01)
+                painted.push([box.x,box.y,box.right,box.bottom]);
+            }
+          }
+          for(const child of el.querySelectorAll('img,svg')){
+            const box=child.getBoundingClientRect();
+            if(box.width>0.01 && box.height>0.01)
+              painted.push([box.x,box.y,box.right,box.bottom]);
+          }
+          const paintedRect=painted.length ? [
+            Math.min(...painted.map(box=>box[0])),
+            Math.min(...painted.map(box=>box[1])),
+            Math.max(...painted.map(box=>box[2])),
+            Math.max(...painted.map(box=>box[3]))] : null;
           return [id,{render_id:el.dataset.renderId||'',
             flow_fragment_id:el.dataset.flowFragment||'',
             semantic_role:el.dataset.role||'body',
             render_source:el.dataset.renderSource||'',
             rect:[r.x,r.y,r.right,r.bottom],
+            painted_rect:paintedRect,
             font_size_px:parseFloat(cs.fontSize)||0,
             line_height_px:parseFloat(cs.lineHeight)||0}];
         }))""", ids)
@@ -322,14 +418,22 @@ def measure_paragraph_blocks(html_path: str | Path,
     for fragment_id in ids:
         row = raw[fragment_id]
         rect = row.pop("rect")
+        painted_rect = row.pop("painted_rect")
         font_size_px = row.pop("font_size_px")
         line_height_px = row.pop("line_height_px")
+        painted_bbox = ([round(value * PT_PER_CSS_PX, 3)
+                         for value in painted_rect]
+                        if painted_rect else [])
         result[fragment_id] = {
             **row,
             "dom_measured_bbox": [round(value * PT_PER_CSS_PX, 3)
                                   for value in rect],
             "dom_measured_height": round(
                 (rect[3] - rect[1]) * PT_PER_CSS_PX, 3),
+            "painted_content_bbox": painted_bbox,
+            "painted_content_height": round(
+                painted_bbox[3] - painted_bbox[1], 3)
+                if painted_bbox else 0.0,
             "final_font_size": round(
                 font_size_px * PT_PER_CSS_PX, 3),
             "final_line_height": round(
@@ -518,6 +622,217 @@ def fit_html_with_browser(
     }
 
 
+def _painted_content_fits(measured: dict[str, Any],
+                          source_bbox: list[float]) -> bool:
+    painted = measured.get("painted_content_bbox") or []
+    if len(painted) != 4 or len(source_bbox) != 4:
+        return False
+    tolerance = LOCK_PAINT_TOLERANCE
+    return (float(painted[0]) >= float(source_bbox[0]) - tolerance
+            and float(painted[1]) >= float(source_bbox[1]) - tolerance
+            and float(painted[2]) <= float(source_bbox[2]) + tolerance
+            and float(painted[3]) <= float(source_bbox[3]) + tolerance)
+
+
+def _locked_attempt(candidate: dict[str, Any],
+                    level: TypographyFitLevel,
+                    measured: dict[str, Any],
+                    initial_qa: dict[str, Any]) -> dict[str, Any]:
+    hierarchy_ok = _heading_hierarchy_ok(
+        candidate, float(measured["final_font_size"]), initial_qa)
+    fits = _painted_content_fits(measured, candidate["source_bbox"]) \
+        and hierarchy_ok
+    return {
+        **asdict(level), **measured,
+        "slot_height": float(candidate["source_height"]),
+        "fits_original_region": fits,
+        "heading_hierarchy_ok": hierarchy_ok,
+        "measurement_truth": "chromium_painted_content_trial",
+    }
+
+
+def _content_top_offset(candidate: dict[str, Any],
+                        measured: dict[str, Any]) -> float:
+    painted = measured.get("painted_content_bbox") or []
+    source = candidate.get("source_bbox") or []
+    if len(painted) != 4 or len(source) != 4:
+        return 0.0
+    lower = float(source[1]) - float(painted[1])
+    upper = float(source[3]) - float(painted[3])
+    if lower > upper + LOCK_PAINT_TOLERANCE:
+        return 0.0
+    if lower > 0.0:
+        required = lower
+    elif upper < 0.0:
+        required = upper
+    else:
+        required = 0.0
+    # A baseline correction larger than half the source line height is not a
+    # normal font-metric offset and must not be used to conceal real overflow.
+    bound = max(float(candidate.get("source_line_height") or 0.0) * 0.5,
+                LOCK_PAINT_TOLERANCE)
+    if abs(required) > bound:
+        return 0.0
+    return round(required, 3)
+
+
+def _locked_record(candidate: dict[str, Any], attempts: list[dict[str, Any]],
+                   selected: dict[str, Any] | None) -> dict[str, Any]:
+    final = selected or attempts[-1]
+    return {
+        **candidate,
+        "measured_height_before": attempts[0]["painted_content_height"],
+        "measured_height_after": final["painted_content_height"],
+        "final_envelope_bbox": final["dom_measured_bbox"],
+        "painted_content_bbox": final["painted_content_bbox"],
+        "final_font_size": final["final_font_size"],
+        "final_line_height": final["final_line_height"],
+        "font_scale": final["font_scale"],
+        "line_height_scale": final["line_height_scale"],
+        "fit_level": final["fit_level"],
+        "fit_success": selected is not None,
+        "repack_used": False,
+        "attempts": attempts,
+    }
+
+
+def fit_locked_flows_with_browser(
+        flows: list[dict[str, Any]], lock_trace: dict[str, Any],
+        initial_qa: dict[str, Any], render_trial: FlowTrialRenderer
+        ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Fit every locked flow inside its slot; never invokes repack."""
+    current = copy.deepcopy(flows)
+    records = []
+    for candidate in lock_trace.get("records") or []:
+        if not candidate.get("geometry_locked"):
+            records.append(copy.deepcopy(candidate))
+            continue
+        candidate = copy.deepcopy(candidate)
+        fragment = str(candidate["flow_fragment_id"])
+        policy = TypographyFitPolicy(candidate["semantic_role"])
+        levels = policy.levels
+        if not levels:
+            records.append({**candidate, "fit_success": False,
+                            "fit_failure_reason": "role_has_no_fit_policy"})
+            continue
+        measured = render_trial(
+            current, "%s_L0" % fragment, [fragment])[fragment]
+        content_offset = _content_top_offset(candidate, measured)
+        if abs(content_offset) > LOCK_PAINT_TOLERANCE:
+            current = apply_flow_content_top_offset(
+                current, fragment, content_offset)
+            measured = render_trial(
+                current, "%s_L0_aligned" % fragment, [fragment])[fragment]
+        candidate["content_top_offset"] = content_offset
+        attempts = [_locked_attempt(candidate, levels[0], measured,
+                                    initial_qa)]
+        selected = attempts[0] if attempts[0]["fits_original_region"] else None
+        last_trial = current
+        if selected is None:
+            for level in levels[1:]:
+                trial = apply_flow_fit_level(current, fragment, level)
+                measured = render_trial(
+                    trial, "%s_%s" % (fragment, level.fit_level),
+                    [fragment])[fragment]
+                attempt = _locked_attempt(candidate, level, measured,
+                                          initial_qa)
+                attempts.append(attempt)
+                last_trial = trial
+                if attempt["fits_original_region"]:
+                    selected = attempt
+                    current = trial
+                    break
+        if selected is None:
+            current = last_trial
+        records.append(_locked_record(candidate, attempts, selected))
+    return current, {
+        **{key: copy.deepcopy(value) for key, value in lock_trace.items()
+           if key != "records"},
+        "schema_version": "visual_v07.source_text_slot_lock.v1",
+        "fit_order": ["L0", "L1", "L2", "L3", "L4"],
+        "measurement_truth": "chromium_painted_content_each_level",
+        "records": records,
+        "slot_capacity_unresolved_count": sum(
+            row.get("geometry_locked") and row.get("fit_success") is False
+            for row in records),
+    }
+
+
+def fit_locked_html_with_browser(
+        html_text: str, lock_trace: dict[str, Any],
+        initial_qa: dict[str, Any], *, source_html_path: str | Path,
+        trial_dir: str | Path) -> tuple[str, dict[str, Any]]:
+    """Frozen-HTML equivalent of locked flow fitting."""
+    trial_dir = Path(trial_dir)
+    trial_dir.mkdir(parents=True, exist_ok=True)
+    current = html_text
+    records = []
+    for candidate in lock_trace.get("records") or []:
+        if not candidate.get("geometry_locked"):
+            records.append(copy.deepcopy(candidate))
+            continue
+        candidate = copy.deepcopy(candidate)
+        fragment = str(candidate["flow_fragment_id"])
+        policy = TypographyFitPolicy(candidate["semantic_role"])
+        levels = policy.levels
+        if not levels:
+            records.append({**candidate, "fit_success": False,
+                            "fit_failure_reason": "role_has_no_fit_policy"})
+            continue
+        safe_fragment = re.sub(r"[^A-Za-z0-9_.-]+", "_", fragment)
+
+        def measure(trial_html: str, level_name: str) -> dict[str, Any]:
+            path = trial_dir / ("%s_%s.html" % (safe_fragment, level_name))
+            path.write_text(_with_base(trial_html, source_html_path),
+                            encoding="utf-8")
+            return measure_paragraph_blocks(
+                path, [fragment],
+                screenshot_path=trial_dir / (
+                    "%s_%s.png" % (safe_fragment, level_name)))[fragment]
+
+        measured = measure(current, "L0")
+        content_offset = _content_top_offset(candidate, measured)
+        if abs(content_offset) > LOCK_PAINT_TOLERANCE:
+            current = patch_html_content_top_offset(
+                current, fragment, content_offset)
+            measured = measure(current, "L0_aligned")
+        candidate["content_top_offset"] = content_offset
+        attempts = [_locked_attempt(candidate, levels[0], measured,
+                                    initial_qa)]
+        selected = attempts[0] if attempts[0]["fits_original_region"] else None
+        last_trial = current
+        if selected is None:
+            for level in levels[1:]:
+                trial = patch_html_fit_level(
+                    current, fragment,
+                    source_font_size=float(candidate["source_font_size"]),
+                    source_line_height=float(candidate["source_line_height"]),
+                    level=level)
+                measured = measure(trial, level.fit_level)
+                attempt = _locked_attempt(candidate, level, measured,
+                                          initial_qa)
+                attempts.append(attempt)
+                last_trial = trial
+                if attempt["fits_original_region"]:
+                    selected = attempt
+                    current = trial
+                    break
+        if selected is None:
+            current = last_trial
+        records.append(_locked_record(candidate, attempts, selected))
+    return current, {
+        **{key: copy.deepcopy(value) for key, value in lock_trace.items()
+           if key != "records"},
+        "schema_version": "visual_v07.source_text_slot_lock.v1",
+        "fit_order": ["L0", "L1", "L2", "L3", "L4"],
+        "measurement_truth": "chromium_painted_content_each_level",
+        "records": records,
+        "slot_capacity_unresolved_count": sum(
+            row.get("geometry_locked") and row.get("fit_success") is False
+            for row in records),
+    }
+
+
 def mark_repack_usage(trace: dict[str, Any], repack: dict[str, Any]) -> dict:
     """Mark floor-exhausted candidates that legitimately entered fallback."""
     updated = copy.deepcopy(trace)
@@ -534,9 +849,11 @@ def mark_repack_usage(trace: dict[str, Any], repack: dict[str, Any]) -> dict:
 
 
 __all__ = [
-    "TypographyFitLevel", "TypographyFitPolicy", "apply_flow_fit_level",
+    "TypographyFitLevel", "TypographyFitPolicy",
+    "apply_flow_content_top_offset", "apply_flow_fit_level",
     "build_fit_candidates", "fit_flows_with_browser",
-    "fit_html_with_browser", "heading_hierarchy_violation_count",
+    "fit_html_with_browser", "fit_locked_flows_with_browser",
+    "fit_locked_html_with_browser", "heading_hierarchy_violation_count",
     "mark_repack_usage", "measure_paragraph_blocks",
-    "patch_html_fit_level",
+    "patch_html_content_top_offset", "patch_html_fit_level",
 ]

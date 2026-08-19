@@ -246,6 +246,73 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         model, html_path=html_path, final_pdf_path=pdf_path_out,
         screenshot_path=out_dir / "final_block_collision_initial.png")
     final_collision_qa = initial_collision_qa
+
+    # ---- visual-v07 task 4B: source-slot geometry, then slot-local fit ---
+    # The initial Chromium capture is only mapping/baseline provenance.  A
+    # unique high-confidence soft block is moved back to its SourceTextSlot,
+    # receives source-equivalent L0 typography, and exhausts L0-L4 inside
+    # that immutable envelope before any legacy fallback is considered.
+    from source_text_slot import build_source_text_slots
+    source_text_slots = build_source_text_slots(
+        model, visual_groups=visual_groups,
+        layout_baseline_blocks=initial_collision_qa["blocks"],
+        recovered_blocks=recovery.get("recovered") or [],
+        layout_grid=grid)
+    from source_text_slot_lock import apply_geometry_locks_to_flows
+    flows, source_text_slot_lock = apply_geometry_locks_to_flows(
+        flows, source_text_slots)
+
+    trial_number = [0]
+
+    def _render_typography_trial(trial_flows, trial_key, fragments):
+        from local_typography_fit import measure_paragraph_blocks
+
+        trial_number[0] += 1
+        safe_key = "".join(
+            char if char.isalnum() or char in "-_." else "_"
+            for char in str(trial_key))
+        trial_html_path = out_dir / (
+            "_local_typography_trial_%02d_%s.html"
+            % (trial_number[0], safe_key))
+        trial_html_path.write_text(_build_html(trial_flows),
+                                   encoding="utf-8")
+        return measure_paragraph_blocks(
+            trial_html_path, fragments,
+            screenshot_path=out_dir / (
+                "_local_typography_trial_%02d_%s.png"
+                % (trial_number[0], safe_key)))
+
+    if source_text_slot_lock["geometry_locked_block_count"]:
+        html = _build_html(flows)
+        html_path.write_text(html, encoding="utf-8")
+        render_html_to_pdf(html_path, pdf_path_out)
+        locked_l0_collision_qa = final_block_collision_qa(
+            model, html_path=html_path, final_pdf_path=pdf_path_out,
+            screenshot_path=out_dir / "source_slot_lock_l0.png")
+        from local_typography_fit import fit_locked_flows_with_browser
+        flows, source_text_slot_lock = fit_locked_flows_with_browser(
+            flows, source_text_slot_lock, initial_collision_qa,
+            _render_typography_trial)
+        html = _build_html(flows)
+        html_path.write_text(html, encoding="utf-8")
+        render_html_to_pdf(html_path, pdf_path_out)
+        final_collision_qa = final_block_collision_qa(
+            model, html_path=html_path, final_pdf_path=pdf_path_out,
+            screenshot_path=out_dir / "source_slot_lock_after_fit.png")
+    else:
+        locked_l0_collision_qa = initial_collision_qa
+
+    slot_capacity_unresolved = int(source_text_slot_lock.get(
+        "slot_capacity_unresolved_count", 0))
+    if slot_capacity_unresolved:
+        unresolved.extend({
+            "fragment_id": row.get("flow_fragment_id"),
+            "slot_id": row.get("slot_id"),
+            "reason": "source slot capacity unresolved after L4",
+        } for row in source_text_slot_lock.get("records") or []
+                          if row.get("geometry_locked")
+                          and row.get("fit_success") is False)
+
     local_typography_fit = {
         "schema_version": "visual_v07.local_typography_fit.v1",
         "fit_order": ["L0", "L1", "L2", "L3", "L4"],
@@ -260,7 +327,7 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         "cross_page_spill_count": 0, "unresolved_count": 0,
         "placements": [], "unresolved": [],
     }
-    if initial_collision_qa["metrics"]["final_block_collision_count"] > 0:
+    if final_collision_qa["metrics"]["final_block_collision_count"] > 0:
         import shutil
         shutil.copy2(html_path, out_dir / "zh_visual_initial.html")
         shutil.copy2(pdf_path_out, out_dir / "zh_visual_initial.pdf")
@@ -269,26 +336,8 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
                                           measure_paragraph_blocks,
                                           heading_hierarchy_violation_count)
 
-        trial_number = [0]
-
-        def _render_typography_trial(trial_flows, trial_key, fragments):
-            trial_number[0] += 1
-            safe_key = "".join(
-                char if char.isalnum() or char in "-_." else "_"
-                for char in str(trial_key))
-            trial_html_path = out_dir / (
-                "_local_typography_trial_%02d_%s.html"
-                % (trial_number[0], safe_key))
-            trial_html_path.write_text(_build_html(trial_flows),
-                                       encoding="utf-8")
-            return measure_paragraph_blocks(
-                trial_html_path, fragments,
-                screenshot_path=out_dir / (
-                    "_local_typography_trial_%02d_%s.png"
-                    % (trial_number[0], safe_key)))
-
         flows, local_typography_fit = fit_flows_with_browser(
-            flows, initial_collision_qa, _render_typography_trial)
+            flows, final_collision_qa, _render_typography_trial)
         html = _build_html(flows)
         html_path.write_text(html, encoding="utf-8")
         render_html_to_pdf(html_path, pdf_path_out)
@@ -317,7 +366,14 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
                 screenshot_path=out_dir / "final_block_collision_final.png")
         local_typography_fit["heading_hierarchy_violation_count"] = (
             heading_hierarchy_violation_count(
-                local_typography_fit["records"], initial_collision_qa))
+                local_typography_fit["records"], final_collision_qa))
+
+    from source_text_slot_lock_qa import source_text_slot_lock_qa
+    source_text_slot_lock_audit = source_text_slot_lock_qa(
+        source_text_slots, final_collision_qa,
+        lock_trace=source_text_slot_lock,
+        repack_trace=browser_repack,
+        artifact_label="production final source-slot geometry")
     from local_typography_fit_qa import local_typography_fit_qa
     local_typography_fit_audit = local_typography_fit_qa(
         local_typography_fit["records"],
@@ -454,6 +510,11 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
                 if rule.get("orientation") == "vertical"),
         })
 
+    _dump(out_dir / "source_text_slots.json", source_text_slots)
+    _dump(out_dir / "source_text_slot_lock.json", source_text_slot_lock)
+    _dump(out_dir / "source_text_slot_lock_qa.json",
+          source_text_slot_lock_audit)
+
     # ---- per-page hard gate ----------------------------------------------
     hard = dict(truth["hard"])
     # merge visual-v05 hard metrics
@@ -472,6 +533,17 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         hard[key] = int(value)
     for key, value in local_typography_fit_audit["metrics"].items():
         hard[key] = int(value)
+    for key in (
+            "geometry_locked_repack_count",
+            "geometry_locked_x_mutation_count",
+            "geometry_locked_y_mutation_count",
+            "geometry_locked_width_mutation_count",
+            "geometry_locked_outside_slot_count",
+            "geometry_locked_overflow_count",
+            "slot_capacity_unresolved_count",
+            "unexplained_geometry_mutation_count",
+            "slot_mapping_missing_count", "slot_mapping_ambiguous_count"):
+        hard[key] = int(source_text_slot_lock_audit["metrics"].get(key, 0))
     hard["browser_measured_repack_unresolved_count"] = int(
         browser_repack["unresolved_count"])
     hard["browser_repack_hard_anchor_moved_count"] = int(
@@ -538,7 +610,11 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         "table_cell_translation_qa": table_cell_qa,
         "table_structure": table_structure,
         "initial_final_block_collision_qa": initial_collision_qa,
+        "source_slot_l0_collision_qa": locked_l0_collision_qa,
         "final_block_collision_qa": final_collision_qa,
+        "source_text_slots": source_text_slots,
+        "source_text_slot_lock": source_text_slot_lock,
+        "source_text_slot_lock_qa": source_text_slot_lock_audit,
         "local_typography_fit": local_typography_fit,
         "local_typography_fit_qa": local_typography_fit_audit,
         "browser_measured_repack": browser_repack,

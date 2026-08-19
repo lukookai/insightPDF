@@ -13,10 +13,40 @@ from region_local_packing import PACK_GAP
 def _placement_plan(collision_qa: dict[str, Any], *, gap: float) -> tuple[
         list[dict[str, Any]], list[dict[str, Any]], int]:
     """Build one region-local placement plan from final DOM measurements."""
-    collision_groups = {
-        (int(row["column"]), str(row["region_id"]))
-        for row in collision_qa.get("collisions") or []
-    }
+    by_fragment = {
+        str(row.get("flow_fragment_id") or ""): row
+        for row in collision_qa.get("blocks") or []}
+    collision_groups = set()
+    unresolved = []
+    for collision in collision_qa.get("collisions") or []:
+        predecessor = by_fragment.get(str(
+            collision.get("predecessor_fragment_id") or ""), {})
+        successor = by_fragment.get(str(
+            collision.get("successor_fragment_id") or ""), {})
+        locked = [row for row in (predecessor, successor)
+                  if row.get("geometry_locked")]
+        if locked:
+            unresolved.append({
+                "column": int(collision["column"]),
+                "region_id": str(collision["region_id"]),
+                "fragment_id": str(locked[0].get("flow_fragment_id") or ""),
+                "reason": (
+                    "geometry-locked collision must BLOCK; repack forbidden"),
+            })
+            continue
+        collision_groups.add((int(collision["column"]),
+                              str(collision["region_id"])))
+    locked_region_groups = {
+        (int(row.get("column") or 0), str(row.get("region_id") or ""))
+        for row in collision_qa.get("blocks") or []
+        if row.get("geometry_locked")}
+    for key in sorted(collision_groups & locked_region_groups):
+        unresolved.append({
+            "column": key[0], "region_id": key[1], "fragment_id": "",
+            "reason": (
+                "region contains geometry-locked text; repack forbidden"),
+        })
+    collision_groups -= locked_region_groups
     groups: dict[tuple[int, str], list[dict[str, Any]]] = {}
     for block in collision_qa.get("blocks") or []:
         key = (int(block["column"]), str(block["region_id"]))
@@ -24,7 +54,6 @@ def _placement_plan(collision_qa: dict[str, Any], *, gap: float) -> tuple[
             groups.setdefault(key, []).append(block)
 
     placements = []
-    unresolved = []
     for key, blocks in groups.items():
         blocks.sort(key=lambda block: int(block["reading_order"]))
         cursor = None

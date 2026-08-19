@@ -763,6 +763,15 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
         top = fl.get("flow_y", para.get("anchor_y", rbox[1]))
         left = flow.get("col_x0", para.get("col_x0", rbox[0]))
         width = max(flow.get("col_x1", left + para.get("col_width", 1.0)) - left, 1.0)
+        geometry_locked = bool(fl.get("geometry_locked"))
+        source_slot_bbox = fl.get("source_slot_bbox") or []
+        if geometry_locked and len(source_slot_bbox) == 4:
+            # visual-v07 Task 4B: a unique high-confidence SourceTextSlot is
+            # the geometry authority.  The translated text may change only
+            # its bounded typography inside this exact envelope.
+            left = float(source_slot_bbox[0])
+            top = float(source_slot_bbox[1])
+            width = max(float(source_slot_bbox[2]) - left, 1.0)
         fsize = fl.get("base_font_size") or para.get("base_font_size") or 10.0
         line_height_scale = fl.get("line_height_scale", 1.0)
         role = para.get("style_role", "body")
@@ -838,6 +847,13 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
             fl.get("local_typography_line_height_scale") or 1.0)
         local_wrapping = str(
             fl.get("local_typography_wrapping") or "source")
+        if geometry_locked:
+            # L0 for a locked block is source-equivalent typography from the
+            # slot, not a resolver-enlarged target style.  The existing
+            # TypographyFitPolicy supplies only the bounded relative scales.
+            fsize = float(fl.get("source_slot_font_size") or fsize)
+            line_height = float(
+                fl.get("source_slot_line_height") or line_height)
         fsize *= local_font_scale
         line_height *= local_line_scale
 
@@ -885,6 +901,28 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
         render_reason = fl.get("render_source_reason", "normal_translation")
         _rp = fl.get("_para") or {}
         render_id = _rp.get("paragraph_id", pid)
+        slot_height_style = ""
+        if geometry_locked and len(source_slot_bbox) == 4:
+            slot_height_style = "height:%.3fpt;" % max(
+                float(source_slot_bbox[3])
+                - float(source_slot_bbox[1]), 0.1)
+        geometry_audit = (
+            'data-geometry-locked="%s" data-source-slot-id="%s" '
+            'data-source-slot-bbox="%s" data-slot-confidence="%.3f" '
+            'data-slot-content-top-offset="%.3f" data-repack-used="%s" '
+            % (str(geometry_locked).lower(),
+               fl.get("source_text_slot_id") or "",
+               ("%.3f,%.3f,%.3f,%.3f" % tuple(source_slot_bbox)
+               if len(source_slot_bbox) == 4 else ""),
+               float(fl.get("source_slot_confidence") or 0.0),
+               float(fl.get("source_slot_content_top_offset") or 0.0),
+               str(bool(fl.get("browser_repack_applied"))).lower()))
+        if geometry_locked:
+            inner = (
+                '<span class="slot-text-content" '
+                'style="position:relative;top:%.3fpt;">%s</span>'
+                % (float(fl.get("source_slot_content_top_offset") or 0.0),
+                   inner))
         parts.append(
             '<div class="paragraph-block" data-para="%s" data-flow-fragment="%s" '
             'data-fragment-index="%d" data-continuation="%s" data-role="%s" '
@@ -893,9 +931,9 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
             'data-local-fit-level="%s" data-local-font-scale="%.3f" '
             'data-local-line-height-scale="%.3f" '
             'data-local-wrapping="%s" '
-            '%s'
+            '%s%s'
             'style="position:absolute;left:%.3fpt;top:%.3fpt;'
-            'width:%.3fpt;white-space:normal;overflow:visible;'
+            'width:%.3fpt;%swhite-space:normal;overflow:visible;'
             '%s%s%s%s'
             'font-family:%s;font-size:%.3fpt;'
             'line-height:%.3fpt;color:#000;">%s</div>'
@@ -903,7 +941,8 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
                int(fl.get("fragment_index", 0)), str(bool(fl.get("continuation"))).lower(),
                role, render_id, render_source, render_reason,
                local_fit_level, local_font_scale, local_line_scale,
-               local_wrapping, font_audit, left, top, width, wrapping_style,
+               local_wrapping, font_audit, geometry_audit,
+               left, top, width, slot_height_style, wrapping_style,
                vertical_style,
                list_indent, weight_css, family, fsize, line_height, inner))
 

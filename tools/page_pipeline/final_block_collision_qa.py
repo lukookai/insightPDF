@@ -100,6 +100,10 @@ def _capture_dom(html_path: str | Path, screenshot_path: str | Path) -> dict:
               flow_fragment_id:el.dataset.flowFragment||'',
               semantic_role:el.dataset.role||'body',
               render_source:el.dataset.renderSource||'',
+              geometry_locked:el.dataset.geometryLocked==='true',
+              source_slot_id:el.dataset.sourceSlotId||'',
+              source_slot_bbox:el.dataset.sourceSlotBbox||'',
+              repack_used:el.dataset.repackUsed==='true',
               text:(el.innerText||el.textContent||'').replace(/\s+/g,' ').trim(),
               rect:rr(rect),line_rects:lineRects,
               style_left_pt:parseFloat(el.style.left)||0,
@@ -278,6 +282,13 @@ def final_block_collision_qa(
             "assigned_top": planned[1],
             "packing_region": None,
             "render_source": raw["render_source"],
+            "geometry_locked": bool(raw.get("geometry_locked")),
+            "source_slot_id": raw.get("source_slot_id") or None,
+            "source_slot_bbox": [
+                round(float(value), 3) for value in
+                str(raw.get("source_slot_bbox") or "").split(",")
+                if value.strip()] if raw.get("source_slot_bbox") else [],
+            "repack_used": bool(raw.get("repack_used")),
             "text_preview": raw["text"][:160],
             "dom_index": raw["dom_index"],
         })
