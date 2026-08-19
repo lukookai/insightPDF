@@ -223,18 +223,53 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
 
     # ---- render ----------------------------------------------------------
     t0 = time.time()
-    html = build_unified_html(
-        model, translations, pdf_path, out_dir,
-        table_model=[r["payload"] for r in model.get("regions", [])
-                     if r.get("type") == "table" and r.get("payload")],
-        flows=flows, grid=grid, frontmatter=frontmatter, typography=ty,
-        bottom_reserved_regions=bottom_reserved,
-        skip_inline_formulas=set(recovery.get("skipped_formulas") or []),
-        prose_excluded_segments=recovery.get("prose_excluded_segments") or {})
+    def _build_html(current_flows):
+        return build_unified_html(
+            model, translations, pdf_path, out_dir,
+            table_model=[r["payload"] for r in model.get("regions", [])
+                         if r.get("type") == "table" and r.get("payload")],
+            flows=current_flows, grid=grid, frontmatter=frontmatter,
+            typography=ty, bottom_reserved_regions=bottom_reserved,
+            skip_inline_formulas=set(recovery.get("skipped_formulas") or []),
+            prose_excluded_segments=(
+                recovery.get("prose_excluded_segments") or {}))
+
+    html = _build_html(flows)
     html_path = out_dir / "zh_visual.html"
     pdf_path_out = out_dir / "zh_visual.pdf"
     html_path.write_text(html, encoding="utf-8")
     render_html_to_pdf(html_path, pdf_path_out)
+
+    # ---- visual-v07 task 2: final DOM measurement + local repack --------
+    from final_block_collision_qa import final_block_collision_qa
+    initial_collision_qa = final_block_collision_qa(
+        model, html_path=html_path, final_pdf_path=pdf_path_out,
+        screenshot_path=out_dir / "final_block_collision_initial.png")
+    final_collision_qa = initial_collision_qa
+    browser_repack = {
+        "schema_version": "visual_v07.browser_measured_repack.v1",
+        "applied": False, "repacked_region_count": 0,
+        "measured_block_count": 0, "moved_block_count": 0,
+        "hard_anchor_moved_count": 0, "cross_region_spill_count": 0,
+        "cross_page_spill_count": 0, "unresolved_count": 0,
+        "placements": [], "unresolved": [],
+    }
+    if initial_collision_qa["metrics"]["final_block_collision_count"] > 0:
+        import shutil
+        shutil.copy2(html_path, out_dir / "zh_visual_initial.html")
+        shutil.copy2(pdf_path_out, out_dir / "zh_visual_initial.pdf")
+        from browser_measured_repack import repack_flows_from_final_geometry
+        flows, browser_repack = repack_flows_from_final_geometry(
+            flows, initial_collision_qa)
+        if browser_repack["unresolved_count"]:
+            unresolved.extend(browser_repack["unresolved"])
+        else:
+            html = _build_html(flows)
+            html_path.write_text(html, encoding="utf-8")
+            render_html_to_pdf(html_path, pdf_path_out)
+            final_collision_qa = final_block_collision_qa(
+                model, html_path=html_path, final_pdf_path=pdf_path_out,
+                screenshot_path=out_dir / "final_block_collision_final.png")
     render_ms = int((time.time() - t0) * 1000)
 
     # ---- existing visual QAs (v01/v02/v03 regression) --------------------
@@ -380,6 +415,16 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         if key not in ("required_table_cell_count",
                        "translated_table_cell_count"):
             hard[key] = int(value)
+    for key, value in final_collision_qa["metrics"].items():
+        hard[key] = int(value)
+    hard["browser_measured_repack_unresolved_count"] = int(
+        browser_repack["unresolved_count"])
+    hard["browser_repack_hard_anchor_moved_count"] = int(
+        browser_repack["hard_anchor_moved_count"])
+    hard["browser_repack_cross_region_spill_count"] = int(
+        browser_repack["cross_region_spill_count"])
+    hard["browser_repack_cross_page_spill_count"] = int(
+        browser_repack["cross_page_spill_count"])
     hard["source_prose_vector_still_rendered_count"] = int(
         hard.get("translatable_source_residual_fragment_count", 0))
     hard["production_special_case_count"] = 0
@@ -431,6 +476,9 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         "table_translation": table_translation,
         "table_cell_translation_qa": table_cell_qa,
         "table_structure": table_structure,
+        "initial_final_block_collision_qa": initial_collision_qa,
+        "final_block_collision_qa": final_collision_qa,
+        "browser_measured_repack": browser_repack,
         "anchor_integrity": anchor, "text_region": region,
         "page_expansion": expansion, "execution_integrity": execution,
         "source_ink_geometry": ink_qa, "source_visual_group": group_qa,
