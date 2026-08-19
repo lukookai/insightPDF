@@ -824,6 +824,23 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
             if role == "heading" and fsize < 14:
                 fsize = min(fsize * 1.15, 14.0)
 
+        # visual-v07 Task 3: source-relative, role-aware local typography
+        # fit.  These scales are emitted only after a Chromium-measured fit
+        # attempt selects a level.  They affect this complete soft paragraph
+        # block only; flow_y, width, column/region ownership, tables, figures,
+        # and formula anchors remain untouched.  Font and line-height scales
+        # are intentionally independent relative to the resolved source
+        # typography (L2 can tighten line rhythm without shrinking glyphs).
+        local_fit_level = str(fl.get("local_typography_fit_level") or "L0")
+        local_font_scale = float(
+            fl.get("local_typography_font_scale") or 1.0)
+        local_line_scale = float(
+            fl.get("local_typography_line_height_scale") or 1.0)
+        local_wrapping = str(
+            fl.get("local_typography_wrapping") or "source")
+        fsize *= local_font_scale
+        line_height *= local_line_scale
+
         if fl.get("continuation"):
             zh = re.sub(r"^\s*[•·∙▪●]\s*", "", zh)
 
@@ -845,6 +862,16 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
             vertical_style = ("writing-mode:vertical-rl;"
                               "white-space:nowrap;overflow-wrap:normal;"
                               "word-break:keep-all;")
+        wrapping_style = (
+            "overflow-wrap:anywhere;word-break:normal;hyphens:none;"
+            "line-break:auto;")
+        if local_wrapping == "optimized" and not fl.get("is_vertical"):
+            # Safe CJK opportunities only: protected Latin/math spans retain
+            # their own keep-all rule.  Avoid break-all/line-break:anywhere,
+            # which can split identifiers merely to make a fixture fit.
+            wrapping_style = (
+                "overflow-wrap:anywhere;word-break:break-word;hyphens:none;"
+                "line-break:loose;text-wrap:pretty;")
         family = body_family if balanced else ("%s,serif" % table_cjk)
         # visual-v05: recovered PAF prose keeps math alphanumeric symbols
         # (U+1D400..U+1D7FF, e.g. script F) as Unicode text -- the CJK/Latin
@@ -863,17 +890,21 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
             'data-fragment-index="%d" data-continuation="%s" data-role="%s" '
             'data-render-id="%s" data-render-source="%s" '
             'data-render-source-reason="%s" '
+            'data-local-fit-level="%s" data-local-font-scale="%.3f" '
+            'data-local-line-height-scale="%.3f" '
+            'data-local-wrapping="%s" '
             '%s'
             'style="position:absolute;left:%.3fpt;top:%.3fpt;'
             'width:%.3fpt;white-space:normal;overflow:visible;'
-            'overflow-wrap:anywhere;word-break:normal;hyphens:none;line-break:auto;'
-            '%s%s%s'
+            '%s%s%s%s'
             'font-family:%s;font-size:%.3fpt;'
             'line-height:%.3fpt;color:#000;">%s</div>'
             % (pid, fl.get("flow_fragment_id", pid + "-F0"),
                int(fl.get("fragment_index", 0)), str(bool(fl.get("continuation"))).lower(),
-               role, render_id, render_source, render_reason, font_audit,
-               left, top, width, vertical_style,
+               role, render_id, render_source, render_reason,
+               local_fit_level, local_font_scale, local_line_scale,
+               local_wrapping, font_audit, left, top, width, wrapping_style,
+               vertical_style,
                list_indent, weight_css, family, fsize, line_height, inner))
 
     # ---------- FigureRegion: own cropped SVG (Phase 4C.2R) ---------------

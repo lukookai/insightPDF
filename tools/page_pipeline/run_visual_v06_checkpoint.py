@@ -240,12 +240,18 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
     html_path.write_text(html, encoding="utf-8")
     render_html_to_pdf(html_path, pdf_path_out)
 
-    # ---- visual-v07 task 2: final DOM measurement + local repack --------
+    # ---- visual-v07 task 3: local typography fit, then Task 2 fallback ---
     from final_block_collision_qa import final_block_collision_qa
     initial_collision_qa = final_block_collision_qa(
         model, html_path=html_path, final_pdf_path=pdf_path_out,
         screenshot_path=out_dir / "final_block_collision_initial.png")
     final_collision_qa = initial_collision_qa
+    local_typography_fit = {
+        "schema_version": "visual_v07.local_typography_fit.v1",
+        "fit_order": ["L0", "L1", "L2", "L3", "L4"],
+        "measurement_truth": "chromium_dom_each_level",
+        "records": [],
+    }
     browser_repack = {
         "schema_version": "visual_v07.browser_measured_repack.v1",
         "applied": False, "repacked_region_count": 0,
@@ -258,18 +264,65 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         import shutil
         shutil.copy2(html_path, out_dir / "zh_visual_initial.html")
         shutil.copy2(pdf_path_out, out_dir / "zh_visual_initial.pdf")
+        from local_typography_fit import (fit_flows_with_browser,
+                                          mark_repack_usage,
+                                          measure_paragraph_blocks,
+                                          heading_hierarchy_violation_count)
+
+        trial_number = [0]
+
+        def _render_typography_trial(trial_flows, trial_key, fragments):
+            trial_number[0] += 1
+            safe_key = "".join(
+                char if char.isalnum() or char in "-_." else "_"
+                for char in str(trial_key))
+            trial_html_path = out_dir / (
+                "_local_typography_trial_%02d_%s.html"
+                % (trial_number[0], safe_key))
+            trial_html_path.write_text(_build_html(trial_flows),
+                                       encoding="utf-8")
+            return measure_paragraph_blocks(
+                trial_html_path, fragments,
+                screenshot_path=out_dir / (
+                    "_local_typography_trial_%02d_%s.png"
+                    % (trial_number[0], safe_key)))
+
+        flows, local_typography_fit = fit_flows_with_browser(
+            flows, initial_collision_qa, _render_typography_trial)
+        html = _build_html(flows)
+        html_path.write_text(html, encoding="utf-8")
+        render_html_to_pdf(html_path, pdf_path_out)
+        final_collision_qa = final_block_collision_qa(
+            model, html_path=html_path, final_pdf_path=pdf_path_out,
+            screenshot_path=(
+                out_dir / "final_block_collision_after_local_fit.png"))
+
+        # Only floor-exhausted collisions may enter Task 2's region-local
+        # browser-measured repack.  A successful local fit keeps every
+        # successor at its original source-derived top.
         from browser_measured_repack import repack_flows_from_final_geometry
-        flows, browser_repack = repack_flows_from_final_geometry(
-            flows, initial_collision_qa)
+        if final_collision_qa["metrics"]["final_block_collision_count"] > 0:
+            flows, browser_repack = repack_flows_from_final_geometry(
+                flows, final_collision_qa)
+        local_typography_fit = mark_repack_usage(
+            local_typography_fit, browser_repack)
         if browser_repack["unresolved_count"]:
             unresolved.extend(browser_repack["unresolved"])
-        else:
+        elif browser_repack["applied"]:
             html = _build_html(flows)
             html_path.write_text(html, encoding="utf-8")
             render_html_to_pdf(html_path, pdf_path_out)
             final_collision_qa = final_block_collision_qa(
                 model, html_path=html_path, final_pdf_path=pdf_path_out,
                 screenshot_path=out_dir / "final_block_collision_final.png")
+        local_typography_fit["heading_hierarchy_violation_count"] = (
+            heading_hierarchy_violation_count(
+                local_typography_fit["records"], initial_collision_qa))
+    from local_typography_fit_qa import local_typography_fit_qa
+    local_typography_fit_audit = local_typography_fit_qa(
+        local_typography_fit["records"],
+        heading_hierarchy_violations=int(local_typography_fit.get(
+            "heading_hierarchy_violation_count", 0)))
     render_ms = int((time.time() - t0) * 1000)
 
     # ---- existing visual QAs (v01/v02/v03 regression) --------------------
@@ -417,6 +470,8 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
             hard[key] = int(value)
     for key, value in final_collision_qa["metrics"].items():
         hard[key] = int(value)
+    for key, value in local_typography_fit_audit["metrics"].items():
+        hard[key] = int(value)
     hard["browser_measured_repack_unresolved_count"] = int(
         browser_repack["unresolved_count"])
     hard["browser_repack_hard_anchor_moved_count"] = int(
@@ -424,6 +479,12 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
     hard["browser_repack_cross_region_spill_count"] = int(
         browser_repack["cross_region_spill_count"])
     hard["browser_repack_cross_page_spill_count"] = int(
+        browser_repack["cross_page_spill_count"])
+    hard["hard_anchor_moved_count"] = int(
+        browser_repack["hard_anchor_moved_count"])
+    hard["cross_region_spill_count"] = int(
+        browser_repack["cross_region_spill_count"])
+    hard["cross_page_spill_count"] = int(
         browser_repack["cross_page_spill_count"])
     hard["source_prose_vector_still_rendered_count"] = int(
         hard.get("translatable_source_residual_fragment_count", 0))
@@ -478,6 +539,8 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         "table_structure": table_structure,
         "initial_final_block_collision_qa": initial_collision_qa,
         "final_block_collision_qa": final_collision_qa,
+        "local_typography_fit": local_typography_fit,
+        "local_typography_fit_qa": local_typography_fit_audit,
         "browser_measured_repack": browser_repack,
         "anchor_integrity": anchor, "text_region": region,
         "page_expansion": expansion, "execution_integrity": execution,
