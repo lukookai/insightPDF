@@ -61,6 +61,10 @@ DOCS = {
     },
 }
 
+TABLE_TRANSLATION_CACHE_PATHS = [
+    REPO / "outputs" / "phase4c_document_batch" / "translation_cache.json",
+]
+
 
 def _load(p, default=None):
     try:
@@ -114,7 +118,7 @@ def build_document_partition(doc_key, pages):
 
 
 def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
-                       dry_run=False):
+                       dry_run=False, table_cache_paths=None):
     info = DOCS[doc_key]
     pdf_path = info["pdf"]
     src_dir = info["src"] / "pages" / ("p%03d" % page)
@@ -126,6 +130,17 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
     bottom_reserved = qa_old.get("bottom_reserved_regions", [])
     if not model or not translations:
         return {"page": page, "error": "missing page artifacts"}
+
+    # ---- visual-v07 task 1: table-cell translation closure --------------
+    # Reuse the existing LogicalCell + row/column/ruling geometry.  Only the
+    # canonical target/render fields on each cell are enriched here.
+    from table_cell_translation import close_table_cell_translations
+    token = _api_token() if not dry_run else ""
+    model, table_translation = close_table_cell_translations(
+        model, translations=translations,
+        cache_paths=(table_cache_paths or TABLE_TRANSLATION_CACHE_PATHS),
+        token=token, base_url=DEFAULT_BASE_URL, model_name=DEFAULT_MODEL,
+        dry_run=dry_run)
 
     page_idx = page - 1
     frontmatter = classify_front_matter(pdf_path, page_idx, grid)
@@ -144,7 +159,6 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
 
     # ---- visual-v05: prose-adopted formula recovery ----------------------
     from prose_adopted_formula_recovery import recover_prose_adopted_formulas
-    token = _api_token() if not dry_run else ""
     translator_fn = None
     if not dry_run and token:
         from math_dense_translation_router import translate_math_dense
@@ -329,6 +343,29 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         page_idx=page - 1, recovered_paragraphs=recovered_blocks, grid=grid,
         skipped_formulas=recovery.get("skipped_formulas"))
 
+    # ---- visual-v07 task 1 QA: final visible table-cell truth -----------
+    from table_cell_translation_qa import table_cell_translation_qa
+    table_cell_qa = table_cell_translation_qa(
+        model, final_pdf_path=str(pdf_path_out), translations=translations)
+    table_structure = []
+    for table_region in model.get("regions", []):
+        if table_region.get("type") != "table" \
+                or not table_region.get("payload"):
+            continue
+        table = table_region["payload"]
+        table_structure.append({
+            "table_id": table_region.get("region_id"),
+            "row_count": len(table.get("rows") or []),
+            "col_count": len(table.get("columns") or []),
+            "cell_count": len(table.get("cells") or []),
+            "horizontal_ruling_count": sum(
+                1 for rule in table.get("rules") or []
+                if rule.get("orientation") == "horizontal"),
+            "vertical_ruling_count": sum(
+                1 for rule in table.get("rules") or []
+                if rule.get("orientation") == "vertical"),
+        })
+
     # ---- per-page hard gate ----------------------------------------------
     hard = dict(truth["hard"])
     # merge visual-v05 hard metrics
@@ -339,6 +376,10 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
     from visual_v06_gate import merge_v06_qa
     for qa_key in ("semantic_role", "short_fragment", "math_token"):
         hard = merge_v06_qa(v06[qa_key], hard)
+    for key, value in table_cell_qa["metrics"].items():
+        if key not in ("required_table_cell_count",
+                       "translated_table_cell_count"):
+            hard[key] = int(value)
     hard["source_prose_vector_still_rendered_count"] = int(
         hard.get("translatable_source_residual_fragment_count", 0))
     hard["production_special_case_count"] = 0
@@ -385,7 +426,11 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         "hard_metrics": hard,
         "final_render_truth": truth,
         "prose_recovery": recovery.get("trace", {}),
-        "api_calls": api_calls,
+        "api_calls": api_calls + table_translation["table_translation_api_calls"],
+        "prose_translation_api_calls": api_calls,
+        "table_translation": table_translation,
+        "table_cell_translation_qa": table_cell_qa,
+        "table_structure": table_structure,
         "anchor_integrity": anchor, "text_region": region,
         "page_expansion": expansion, "execution_integrity": execution,
         "source_ink_geometry": ink_qa, "source_visual_group": group_qa,

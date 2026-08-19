@@ -161,6 +161,7 @@ def build_zh_html(model, page_w, page_h, cjk_css_family, *,
 
     for cell in model["cells"]:
         cid = _cell_id(cell["row"], cell["col"])
+        logical_cid = str(cell.get("cell_id") or cid)
         text, is_cjk = _text_for_cell(cell, model)
         if not text:
             continue
@@ -175,7 +176,8 @@ def build_zh_html(model, page_w, page_h, cjk_css_family, *,
         if baseline is None:
             baseline = ly1
 
-        size = cell.get("source_font_size") or 9.0
+        size = cell.get("render_font_size") \
+            or cell.get("source_font_size") or 9.0
         size = float(overrides.get(cid, size))
 
         # ---- horizontal placement (anchor-preserving, no reflow) ----
@@ -220,9 +222,15 @@ def build_zh_html(model, page_w, page_h, cjk_css_family, *,
             f"text-align:{text_align};{margin}color:#000;"
         )
         parts.append(
-            '<div class="translated-cell" data-cell="%s"%s '
-            'style="%s">%s</div>'
-            % (cid, cell_lang_attr, style_attr, _html.escape(text, quote=True)))
+            '<div class="translated-cell" data-cell="%s" data-cell-id="%s" '
+            'data-row="%d" data-col="%d" data-status="%s" '
+            'data-render-source="%s"%s style="%s">%s</div>'
+            % (cid, _html.escape(logical_cid, quote=True), cell["row"],
+               cell["col"], _html.escape(str(cell.get("translation_status")
+                                              or ""), quote=True),
+               _html.escape(str(cell.get("render_source") or "source_text"),
+                            quote=True), cell_lang_attr, style_attr,
+               _html.escape(text, quote=True)))
 
     body = "".join(parts)
     if semantic:
