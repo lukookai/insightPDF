@@ -847,6 +847,18 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
             fl.get("local_typography_line_height_scale") or 1.0)
         local_wrapping = str(
             fl.get("local_typography_wrapping") or "source")
+        # visual-v07 Task 4C: the inverse, bounded fill ladder is applied
+        # only after geometry lock/Fit has reached a safe F0 baseline.  Fill
+        # has no geometry fields and therefore cannot move this block or any
+        # successor/anchor.
+        local_fill_level = str(
+            fl.get("local_typography_fill_level") or "F0")
+        local_fill_font_scale = float(
+            fl.get("local_typography_fill_font_scale") or 1.0)
+        local_fill_line_scale = float(
+            fl.get("local_typography_fill_line_height_scale") or 1.0)
+        local_fill_applied = bool(
+            fl.get("local_typography_fill_applied"))
         if geometry_locked:
             # L0 for a locked block is source-equivalent typography from the
             # slot, not a resolver-enlarged target style.  The existing
@@ -854,8 +866,8 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
             fsize = float(fl.get("source_slot_font_size") or fsize)
             line_height = float(
                 fl.get("source_slot_line_height") or line_height)
-        fsize *= local_font_scale
-        line_height *= local_line_scale
+        fsize *= local_font_scale * local_fill_font_scale
+        line_height *= local_line_scale * local_fill_line_scale
 
         if fl.get("continuation"):
             zh = re.sub(r"^\s*[•·∙▪●]\s*", "", zh)
@@ -931,6 +943,9 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
             'data-local-fit-level="%s" data-local-font-scale="%.3f" '
             'data-local-line-height-scale="%.3f" '
             'data-local-wrapping="%s" '
+            'data-local-fill-applied="%s" data-local-fill-level="%s" '
+            'data-local-fill-font-scale="%.3f" '
+            'data-local-fill-line-height-scale="%.3f" '
             '%s%s'
             'style="position:absolute;left:%.3fpt;top:%.3fpt;'
             'width:%.3fpt;%swhite-space:normal;overflow:visible;'
@@ -941,7 +956,9 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
                int(fl.get("fragment_index", 0)), str(bool(fl.get("continuation"))).lower(),
                role, render_id, render_source, render_reason,
                local_fit_level, local_font_scale, local_line_scale,
-               local_wrapping, font_audit, geometry_audit,
+               local_wrapping, str(local_fill_applied).lower(),
+               local_fill_level, local_fill_font_scale,
+               local_fill_line_scale, font_audit, geometry_audit,
                left, top, width, slot_height_style, wrapping_style,
                vertical_style,
                list_indent, weight_css, family, fsize, line_height, inner))

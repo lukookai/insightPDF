@@ -313,6 +313,54 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
                           if row.get("geometry_locked")
                           and row.get("fit_success") is False)
 
+    # ---- visual-v07 task 4C: source-occupancy typography fill ----------
+    # Candidate detection uses source spans/SourceInkGeometry versus the
+    # Task 4B Chromium painted-content truth.  FIT_APPLIED blocks and source
+    # slots intersecting a Figure are excluded before any fill trial.
+    from local_typography_fill_qa import (
+        detect_typography_fill_candidates)
+    local_typography_fill_candidates = detect_typography_fill_candidates(
+        model, source_text_slots, source_text_slot_lock,
+        final_collision_qa, source_ink=ink,
+        translation_closure_pass=(slot_capacity_unresolved == 0
+                                  and not unresolved))
+
+    def _render_fill_trial(trial_flows, trial_key, fragments):
+        from local_typography_fit import measure_paragraph_blocks
+
+        trial_number[0] += 1
+        safe_key = "".join(
+            char if char.isalnum() or char in "-_." else "_"
+            for char in str(trial_key))
+        stem = "_local_typography_fill_trial_%02d_%s" % (
+            trial_number[0], safe_key)
+        trial_html_path = out_dir / (stem + ".html")
+        trial_pdf_path = out_dir / (stem + ".pdf")
+        trial_html_path.write_text(_build_html(trial_flows),
+                                   encoding="utf-8")
+        render_html_to_pdf(trial_html_path, trial_pdf_path)
+        measurements = measure_paragraph_blocks(
+            trial_html_path, fragments,
+            screenshot_path=out_dir / (stem + ".png"))
+        collision_qa = final_block_collision_qa(
+            model, html_path=trial_html_path,
+            final_pdf_path=trial_pdf_path,
+            screenshot_path=out_dir / (stem + "_collision.png"))
+        return {"measurements": measurements,
+                "collision_qa": collision_qa}
+
+    from local_typography_fill import fill_locked_flows_with_browser
+    flows, local_typography_fill = fill_locked_flows_with_browser(
+        flows, local_typography_fill_candidates, _render_fill_trial)
+    if any(row.get("fill_applied")
+           for row in local_typography_fill.get("records") or []):
+        html = _build_html(flows)
+        html_path.write_text(html, encoding="utf-8")
+        render_html_to_pdf(html_path, pdf_path_out)
+        final_collision_qa = final_block_collision_qa(
+            model, html_path=html_path, final_pdf_path=pdf_path_out,
+            screenshot_path=out_dir / "local_typography_fill_final.png")
+
     local_typography_fit = {
         "schema_version": "visual_v07.local_typography_fit.v1",
         "fit_order": ["L0", "L1", "L2", "L3", "L4"],
@@ -374,6 +422,10 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         lock_trace=source_text_slot_lock,
         repack_trace=browser_repack,
         artifact_label="production final source-slot geometry")
+    from local_typography_fill_qa import typography_fill_qa
+    local_typography_fill_audit = typography_fill_qa(
+        local_typography_fill_candidates, local_typography_fill,
+        final_collision_qa)
     from local_typography_fit_qa import local_typography_fit_qa
     local_typography_fit_audit = local_typography_fit_qa(
         local_typography_fit["records"],
@@ -514,6 +566,12 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
     _dump(out_dir / "source_text_slot_lock.json", source_text_slot_lock)
     _dump(out_dir / "source_text_slot_lock_qa.json",
           source_text_slot_lock_audit)
+    _dump(out_dir / "local_typography_fill_candidates.json",
+          local_typography_fill_candidates)
+    _dump(out_dir / "local_typography_fill.json",
+          local_typography_fill)
+    _dump(out_dir / "local_typography_fill_qa.json",
+          local_typography_fill_audit)
 
     # ---- per-page hard gate ----------------------------------------------
     hard = dict(truth["hard"])
@@ -544,6 +602,15 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
             "unexplained_geometry_mutation_count",
             "slot_mapping_missing_count", "slot_mapping_ambiguous_count"):
         hard[key] = int(source_text_slot_lock_audit["metrics"].get(key, 0))
+    for key in (
+            "typography_fill_unnecessary_count",
+            "typography_fill_excessive_count",
+            "typography_fill_overflow_count",
+            "typography_fill_collision_count",
+            "typography_fill_slot_mutation_count",
+            "typography_fill_font_cap_violation_count",
+            "typography_fill_line_height_cap_violation_count"):
+        hard[key] = int(local_typography_fill_audit["metrics"].get(key, 0))
     hard["browser_measured_repack_unresolved_count"] = int(
         browser_repack["unresolved_count"])
     hard["browser_repack_hard_anchor_moved_count"] = int(
@@ -615,6 +682,10 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         "source_text_slots": source_text_slots,
         "source_text_slot_lock": source_text_slot_lock,
         "source_text_slot_lock_qa": source_text_slot_lock_audit,
+        "local_typography_fill_candidates": (
+            local_typography_fill_candidates),
+        "local_typography_fill": local_typography_fill,
+        "local_typography_fill_qa": local_typography_fill_audit,
         "local_typography_fit": local_typography_fit,
         "local_typography_fit_qa": local_typography_fit_audit,
         "browser_measured_repack": browser_repack,

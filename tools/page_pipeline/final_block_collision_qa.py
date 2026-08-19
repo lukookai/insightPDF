@@ -104,6 +104,12 @@ def _capture_dom(html_path: str | Path, screenshot_path: str | Path) -> dict:
               source_slot_id:el.dataset.sourceSlotId||'',
               source_slot_bbox:el.dataset.sourceSlotBbox||'',
               repack_used:el.dataset.repackUsed==='true',
+              fill_applied:el.dataset.localFillApplied==='true',
+              fill_level:el.dataset.localFillLevel||'F0',
+              fill_font_scale:parseFloat(
+                el.dataset.localFillFontScale||'1')||1,
+              fill_line_height_scale:parseFloat(
+                el.dataset.localFillLineHeightScale||'1')||1,
               text:(el.innerText||el.textContent||'').replace(/\s+/g,' ').trim(),
               rect:rr(rect),line_rects:lineRects,
               style_left_pt:parseFloat(el.style.left)||0,
@@ -289,6 +295,12 @@ def final_block_collision_qa(
                 str(raw.get("source_slot_bbox") or "").split(",")
                 if value.strip()] if raw.get("source_slot_bbox") else [],
             "repack_used": bool(raw.get("repack_used")),
+            "fill_applied": bool(raw.get("fill_applied")),
+            "fill_level": str(raw.get("fill_level") or "F0"),
+            "fill_font_scale": round(float(
+                raw.get("fill_font_scale") or 1.0), 3),
+            "fill_line_height_scale": round(float(
+                raw.get("fill_line_height_scale") or 1.0), 3),
             "text_preview": raw["text"][:160],
             "dom_index": raw["dom_index"],
         })
