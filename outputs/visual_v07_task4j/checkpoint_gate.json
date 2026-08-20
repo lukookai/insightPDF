@@ -1,0 +1,58 @@
+{
+  "schema_version": "visual_v07.task4j.checkpoint.v1",
+  "decision": "blocked",
+  "root_cause": "C.DOM_HEIGHT_STALE",
+  "qa_first": {
+    "required_signal": "soft_text_clip_count > 0 OR soft_text_paint_occlusion_count > 0",
+    "required_signal_count": 0,
+    "gate_pass": false
+  },
+  "metrics": {
+    "soft_text_clip_count": 0,
+    "soft_text_paint_occlusion_count": 0,
+    "dom_height_stale_count": 1,
+    "slot_overpaint_count": 1,
+    "production_special_case_count": 0
+  },
+  "review_bundle": {
+    "schema_version": "visual_v07.task4j.review_index.v1",
+    "decision": "blocked",
+    "root_cause": "C.DOM_HEIGHT_STALE",
+    "focus_bbox_pt": [
+      41.3,
+      437.24,
+      298.7,
+      706.19
+    ],
+    "files": [
+      {
+        "name": "clip_paint_overlay.png",
+        "sha256": "8b0fe85c14eae0698bcfb59b818f00fd46395279afd62086d3ef867fb020de9c"
+      },
+      {
+        "name": "dom_bbox_overlay.png",
+        "sha256": "7514f1e6234e10f89356a3a7f0ecd39fb6df1a92e4ca0fc8340373a794358950"
+      },
+      {
+        "name": "problem_before.png",
+        "sha256": "f61dc1b7e875f6120fbce272e6b3c306c30deac3400e020f31f2db47c2ffcb71"
+      }
+    ],
+    "legend": {
+      "blue": "declared SourceTextSlot",
+      "green": "previous final-PDF painted ink",
+      "purple": "next final-PDF painted ink",
+      "orange": "previous DOM box",
+      "red": "previous DOM text range",
+      "cyan": "next DOM box"
+    }
+  },
+  "renderer_modified": false,
+  "source_text_slot_modified": false,
+  "font_modified": false,
+  "math_reconstruction_modified": false,
+  "figure_modified": false,
+  "table_modified": false,
+  "tag_created": false,
+  "commit_message": "test(visual): audit soft text paint clipping"
+}

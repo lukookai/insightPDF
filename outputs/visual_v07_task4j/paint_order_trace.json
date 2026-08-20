@@ -1,0 +1,404 @@
+{
+  "previous_render_id": "PAF_B1_02",
+  "next_render_id": "PAF_B1_04",
+  "previous": {
+    "block_index": 1,
+    "render_id": "PAF_B1_02",
+    "paragraph_id": "PAF_B1_02",
+    "source_slot_id": "STS-P005-0003",
+    "source_slot_bbox_pt": [
+      51.3,
+      465.24,
+      288.7,
+      504.042
+    ],
+    "dom_bbox_pt": [
+      51.29296875,
+      465.234375,
+      288.69140625,
+      504.03515625
+    ],
+    "text_range_bbox_pt": [
+      51.29296875,
+      465.234375,
+      288.69140625,
+      513.84375
+    ],
+    "client_height_pt": 39,
+    "scroll_height_pt": 48.75,
+    "declared_height_pt": 38.8008,
+    "overflow": "visible",
+    "overflow_x": "visible",
+    "overflow_y": "visible",
+    "clip_path": "none",
+    "z_index": "auto",
+    "position": "absolute",
+    "background_color": "rgba(0, 0, 0, 0)",
+    "body_child_paint_index": 15,
+    "effective_clip_bbox_pt": [
+      0,
+      0,
+      595.265625,
+      793.69921875
+    ],
+    "clip_ancestors": [
+      {
+        "tag": "BODY",
+        "className": "",
+        "overflow": "hidden",
+        "overflowX": "hidden",
+        "overflowY": "hidden",
+        "clipPath": "none",
+        "bbox_pt": [
+          0,
+          0,
+          595.265625,
+          793.69921875
+        ]
+      },
+      {
+        "tag": "HTML",
+        "className": "",
+        "overflow": "hidden",
+        "overflowX": "hidden",
+        "overflowY": "hidden",
+        "clipPath": "none",
+        "bbox_pt": [
+          0,
+          0,
+          595.265625,
+          793.69921875
+        ]
+      }
+    ],
+    "has_sup": false,
+    "has_sub": true,
+    "scripts": [
+      {
+        "tag": "sub",
+        "text": "𝑐",
+        "bbox_pt": [
+          56.54296875,
+          469.93359375,
+          59.82421875,
+          477.43359375
+        ],
+        "base_bbox_pt": [
+          51.29296875,
+          465.984375,
+          56.54296875,
+          476.484375
+        ],
+        "font_size_pt": 7.125,
+        "baseline_offset_kind": "-2.28px"
+      }
+    ]
+  },
+  "next": {
+    "block_index": 2,
+    "render_id": "PAF_B1_04",
+    "paragraph_id": "PAF_B1_04",
+    "source_slot_id": "STS-P005-0004",
+    "source_slot_bbox_pt": [
+      51.3,
+      568.85,
+      288.7,
+      698.19
+    ],
+    "dom_bbox_pt": [
+      51.29296875,
+      568.83984375,
+      288.69140625,
+      698.1796875
+    ],
+    "text_range_bbox_pt": [
+      51.29296875,
+      569.58984375,
+      285.3046875,
+      686.87109375
+    ],
+    "client_height_pt": 129,
+    "scroll_height_pt": 129,
+    "declared_height_pt": 129.33975,
+    "overflow": "visible",
+    "overflow_x": "visible",
+    "overflow_y": "visible",
+    "clip_path": "none",
+    "z_index": "auto",
+    "position": "absolute",
+    "background_color": "rgba(0, 0, 0, 0)",
+    "body_child_paint_index": 16,
+    "effective_clip_bbox_pt": [
+      0,
+      0,
+      595.265625,
+      793.69921875
+    ],
+    "clip_ancestors": [
+      {
+        "tag": "BODY",
+        "className": "",
+        "overflow": "hidden",
+        "overflowX": "hidden",
+        "overflowY": "hidden",
+        "clipPath": "none",
+        "bbox_pt": [
+          0,
+          0,
+          595.265625,
+          793.69921875
+        ]
+      },
+      {
+        "tag": "HTML",
+        "className": "",
+        "overflow": "hidden",
+        "overflowX": "hidden",
+        "overflowY": "hidden",
+        "clipPath": "none",
+        "bbox_pt": [
+          0,
+          0,
+          595.265625,
+          793.69921875
+        ]
+      }
+    ],
+    "has_sup": false,
+    "has_sub": true,
+    "scripts": [
+      {
+        "tag": "sub",
+        "text": "𝑖",
+        "bbox_pt": [
+          57.29296875,
+          613.39453125,
+          59.671875,
+          621.64453125
+        ],
+        "base_bbox_pt": [
+          51.29296875,
+          609.3515625,
+          57.29296875,
+          620.6015625
+        ],
+        "font_size_pt": 7.5,
+        "baseline_offset_kind": "-2.4px"
+      },
+      {
+        "tag": "sub",
+        "text": "𝑖",
+        "bbox_pt": [
+          147.65625,
+          613.39453125,
+          150.03515625,
+          621.64453125
+        ],
+        "base_bbox_pt": [
+          141.65625,
+          609.3515625,
+          147.65625,
+          620.6015625
+        ],
+        "font_size_pt": 7.5,
+        "baseline_offset_kind": "-2.4px"
+      }
+    ]
+  },
+  "previous_painted_ink_bbox_pt": [
+    51.25,
+    466.0,
+    286.0,
+    511.75
+  ],
+  "previous_dom_isolated_ink_bbox_pt": [
+    51.0,
+    465.75,
+    286.125,
+    511.5
+  ],
+  "previous_final_pdf_ink_bbox_pt": [
+    51.25,
+    466.0,
+    286.0,
+    511.75
+  ],
+  "next_painted_ink_bbox_pt": [
+    51.5,
+    569.75,
+    285.0,
+    685.5
+  ],
+  "next_dom_isolated_ink_bbox_pt": [
+    51.375,
+    569.625,
+    285.375,
+    685.5
+  ],
+  "next_final_pdf_ink_bbox_pt": [
+    51.5,
+    569.75,
+    285.0,
+    685.5
+  ],
+  "previous_ink_bottom": 511.75,
+  "previous_declared_slot_bottom": 504.042,
+  "previous_clip_bottom": 793.699,
+  "next_painted_top": 569.75,
+  "clip_height": 0.0,
+  "painted_overlap_height": 0.0,
+  "slot_overpaint_height": 7.708,
+  "dom_height_stale_pt": 9.802,
+  "dom_paint_order": [
+    "PAF_B1_02",
+    "PAF_B1_04"
+  ],
+  "next_paints_after_previous": true,
+  "pixel_counts": {
+    "previous_dom_isolated_ink_pixels": 17141,
+    "next_dom_isolated_ink_pixels": 48857,
+    "previous_final_pdf_ink_pixels": 29283,
+    "next_final_pdf_ink_pixels": 84287
+  },
+  "task4i_sup_sub_effect": {
+    "semantic_sup_count": 1,
+    "semantic_sub_count": 5,
+    "problem_block_has_sup": false,
+    "problem_block_has_sub": true,
+    "runtime_neutralization": {
+      "records": [
+        {
+          "render_id": "PAF_B1_00",
+          "current_range_height_pt": 283.6640625,
+          "neutral_script_range_height_pt": 282.46875,
+          "range_height_delta_pt": 1.1953125,
+          "current_scroll_height_pt": 282.75,
+          "neutral_script_scroll_height_pt": 282.75,
+          "scroll_height_delta_pt": 0,
+          "script_count": 6
+        },
+        {
+          "render_id": "PAF_B1_02",
+          "current_range_height_pt": 48.609375,
+          "neutral_script_range_height_pt": 48.609375,
+          "range_height_delta_pt": 0,
+          "current_scroll_height_pt": 48.75,
+          "neutral_script_scroll_height_pt": 48.75,
+          "scroll_height_delta_pt": 0,
+          "script_count": 1
+        },
+        {
+          "render_id": "PAF_B1_04",
+          "current_range_height_pt": 117.28125,
+          "neutral_script_range_height_pt": 117.28125,
+          "range_height_delta_pt": 0,
+          "current_scroll_height_pt": 129,
+          "neutral_script_scroll_height_pt": 129,
+          "scroll_height_delta_pt": 0,
+          "script_count": 2
+        },
+        {
+          "render_id": "PAF_B1_01",
+          "current_range_height_pt": 92.7421875,
+          "neutral_script_range_height_pt": 92.7421875,
+          "range_height_delta_pt": 0,
+          "current_scroll_height_pt": 103.5,
+          "neutral_script_scroll_height_pt": 103.5,
+          "scroll_height_delta_pt": 0,
+          "script_count": 5
+        },
+        {
+          "render_id": "PAF_B1_03",
+          "current_range_height_pt": 51.99609375,
+          "neutral_script_range_height_pt": 51.99609375,
+          "range_height_delta_pt": 0,
+          "current_scroll_height_pt": 64.5,
+          "neutral_script_scroll_height_pt": 64.5,
+          "scroll_height_delta_pt": 0,
+          "script_count": 1
+        }
+      ],
+      "max_abs_scroll_height_delta_pt": 0,
+      "max_abs_range_height_delta_pt": 1.1953125
+    },
+    "baseline_block": {
+      "block_index": 1,
+      "render_id": "PAF_B1_02",
+      "paragraph_id": "PAF_B1_02",
+      "source_slot_id": "STS-P005-0003",
+      "source_slot_bbox_pt": [
+        51.3,
+        465.24,
+        288.7,
+        504.042
+      ],
+      "dom_bbox_pt": [
+        51.29296875,
+        465.234375,
+        288.69140625,
+        504.03515625
+      ],
+      "text_range_bbox_pt": [
+        51.29296875,
+        465.234375,
+        288.69140625,
+        513.84375
+      ],
+      "client_height_pt": 39,
+      "scroll_height_pt": 48.75,
+      "declared_height_pt": 38.8008,
+      "overflow": "visible",
+      "overflow_x": "visible",
+      "overflow_y": "visible",
+      "clip_path": "none",
+      "z_index": "auto",
+      "position": "absolute",
+      "background_color": "rgba(0, 0, 0, 0)",
+      "body_child_paint_index": 15,
+      "effective_clip_bbox_pt": [
+        0,
+        0,
+        595.265625,
+        793.69921875
+      ],
+      "clip_ancestors": [
+        {
+          "tag": "BODY",
+          "className": "",
+          "overflow": "hidden",
+          "overflowX": "hidden",
+          "overflowY": "hidden",
+          "clipPath": "none",
+          "bbox_pt": [
+            0,
+            0,
+            595.265625,
+            793.69921875
+          ]
+        },
+        {
+          "tag": "HTML",
+          "className": "",
+          "overflow": "hidden",
+          "overflowX": "hidden",
+          "overflowY": "hidden",
+          "clipPath": "none",
+          "bbox_pt": [
+            0,
+            0,
+            595.265625,
+            793.69921875
+          ]
+        }
+      ],
+      "has_sup": false,
+      "has_sub": false,
+      "scripts": []
+    },
+    "source_slot_height_unchanged": true,
+    "scroll_height_delta_from_baseline_pt": 0.0,
+    "range_bottom_delta_from_baseline_pt": 0.0,
+    "script_painted_ascent_pt": 1.195,
+    "script_painted_descent_pt": 1.043
+  }
+}
