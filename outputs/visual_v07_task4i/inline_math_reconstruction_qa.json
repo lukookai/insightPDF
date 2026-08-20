@@ -1,0 +1,1367 @@
+{
+  "schema_version": "visual_v07.inline_math_reconstruction_qa.v1",
+  "source_pdf": "C:\\Users\\74496\\Desktop\\PPAT.pdf",
+  "source_page_index": 4,
+  "html_path": "E:\\Code\\fanyi\\outputs\\visual_v07_task4i\\fixed_artifact\\zh_visual.html",
+  "records": [
+    {
+      "record_id": "INLINE-MATH-QA-000",
+      "block_index": 0,
+      "paragraph_id": null,
+      "source_slot_bbox": [
+        51.3,
+        50.79,
+        288.7,
+        333.392
+      ],
+      "group_id": "MAG-52F45C34EAFB",
+      "protected_token": "{{MATH_ATOM_GROUP_52F45C34EAFB}}",
+      "primary_owner": "FORMULA",
+      "owner_id": "B1",
+      "source_bbox": [
+        117.937,
+        55.275,
+        144.295,
+        67.637
+      ],
+      "source_atom_sequence": [
+        "𝓕",
+        "−1",
+        "(",
+        "⋅",
+        ")"
+      ],
+      "target_visible_text": "其中，𝓕(⋅)和𝓕−1(⋅)分别表示二维快速傅里叶变换及其逆变换。(𝐤; 𝝀)表示所有通道滤波器𝑐的聚合，⊙表示哈达玛积。通过这种方式，所提出的算子补偿了扩散引起的模糊，并自适应地强调结构边界和语义信息丰富的边缘。如图4所示，图4(e)中学习到的算子提供了比图4(c)中固定参数结果更清晰的目标边界和更少的背景响应。这是因为可学习的扩散尺度能够自适应地控制频谱补偿强度，而固定算子对所有特征应用相同的频率响应，可能遗漏弱轮廓或放大热噪声。因此，图4(e)更好地保留了用于TIR跟踪的判别性高频结构。我们同时构建了一个静态频率幅度网格𝐤，其中每个空间条目定义为𝐤𝑢,𝑣 = 𝑢2+𝑣2。为了适应不同语义通道中不同程度的热退化，我们引入了可学习的多通道扩散向量𝝀∈ℝ𝐶。A设计中的关键技巧是严格强制物理因果性。从热力学角度看，热扩散是一个不可逆过程，以熵产生为特征，严格受时间箭头（𝑡> 0）约束。因此，对于任何通道𝑐，扩散尺度𝜆𝑐≜𝜅𝑡在数学上必须是非负的，以表示有效的物理现实。无约束优化可能产生负的𝜆𝑐，这意味着物理上不可能的负扩散（热量的自发集中）。为防止这种违反并保持扩散启发公式中的物理一致性，我们通过Softplus激活函数对每个通道的无约束可学习权重𝜃𝑐进行重新参数化：",
+      "target_atom_coverage": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "missing_atoms": [],
+      "atom_order_preserved": true,
+      "normalized_group_occurrence_count": 1,
+      "source_superscript": "−1",
+      "final_superscript": "−1",
+      "superscript_structure_lost": false,
+      "source_subscript": "",
+      "final_subscript": "",
+      "subscript_structure_lost": false,
+      "source_geometry_evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and raised source baseline identify superscript",
+        "existing formula ownership contains the run"
+      ],
+      "source_atoms": [
+        {
+          "atom_id": "MAG-52F45C34EAFB-A00",
+          "text": "",
+          "role": "base",
+          "bbox": [
+            117.937,
+            55.275,
+            124.432,
+            65.238
+          ],
+          "font": "STIXMathCalligraphy-Regu",
+          "font_size": 9.963,
+          "baseline": 65.238,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-52F45C34EAFB-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-52F45C34EAFB-A01",
+          "text": "−1",
+          "role": "superscript",
+          "bbox": [
+            125.458,
+            56.074,
+            134.312,
+            63.546
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 7.472,
+          "baseline": 61.752,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-52F45C34EAFB-C001",
+            "MAG-52F45C34EAFB-C002"
+          ]
+        },
+        {
+          "atom_id": "MAG-52F45C34EAFB-A02",
+          "text": "(",
+          "role": "delimiter",
+          "bbox": [
+            134.811,
+            57.668,
+            138.129,
+            67.63
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 65.238,
+          "atom_order": 2,
+          "source_character_ids": [
+            "MAG-52F45C34EAFB-C003"
+          ]
+        },
+        {
+          "atom_id": "MAG-52F45C34EAFB-A03",
+          "text": "⋅",
+          "role": "operator",
+          "bbox": [
+            138.129,
+            57.674,
+            140.978,
+            67.637
+          ],
+          "font": "STIXMathScript-Regular",
+          "font_size": 9.963,
+          "baseline": 65.238,
+          "atom_order": 3,
+          "source_character_ids": [
+            "MAG-52F45C34EAFB-C004"
+          ]
+        },
+        {
+          "atom_id": "MAG-52F45C34EAFB-A04",
+          "text": ")",
+          "role": "delimiter",
+          "bbox": [
+            140.978,
+            57.668,
+            144.295,
+            67.63
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 65.238,
+          "atom_order": 4,
+          "source_character_ids": [
+            "MAG-52F45C34EAFB-C005"
+          ]
+        }
+      ]
+    },
+    {
+      "record_id": "INLINE-MATH-QA-001",
+      "block_index": 0,
+      "paragraph_id": null,
+      "source_slot_bbox": [
+        51.3,
+        50.79,
+        288.7,
+        333.392
+      ],
+      "group_id": "MAG-FD587A88A6FD",
+      "protected_token": "{{MATH_ATOM_GROUP_FD587A88A6FD}}",
+      "primary_owner": "FORMULA",
+      "owner_id": "B2",
+      "source_bbox": [
+        256.387,
+        79.186,
+        267.767,
+        93.253
+      ],
+      "source_atom_sequence": [
+        "",
+        "𝑐"
+      ],
+      "target_visible_text": "其中，𝓕(⋅)和𝓕−1(⋅)分别表示二维快速傅里叶变换及其逆变换。(𝐤; 𝝀)表示所有通道滤波器𝑐的聚合，⊙表示哈达玛积。通过这种方式，所提出的算子补偿了扩散引起的模糊，并自适应地强调结构边界和语义信息丰富的边缘。如图4所示，图4(e)中学习到的算子提供了比图4(c)中固定参数结果更清晰的目标边界和更少的背景响应。这是因为可学习的扩散尺度能够自适应地控制频谱补偿强度，而固定算子对所有特征应用相同的频率响应，可能遗漏弱轮廓或放大热噪声。因此，图4(e)更好地保留了用于TIR跟踪的判别性高频结构。我们同时构建了一个静态频率幅度网格𝐤，其中每个空间条目定义为𝐤𝑢,𝑣 = 𝑢2+𝑣2。为了适应不同语义通道中不同程度的热退化，我们引入了可学习的多通道扩散向量𝝀∈ℝ𝐶。A设计中的关键技巧是严格强制物理因果性。从热力学角度看，热扩散是一个不可逆过程，以熵产生为特征，严格受时间箭头（𝑡> 0）约束。因此，对于任何通道𝑐，扩散尺度𝜆𝑐≜𝜅𝑡在数学上必须是非负的，以表示有效的物理现实。无约束优化可能产生负的𝜆𝑐，这意味着物理上不可能的负扩散（热量的自发集中）。为防止这种违反并保持扩散启发公式中的物理一致性，我们通过Softplus激活函数对每个通道的无约束可学习权重𝜃𝑐进行重新参数化：",
+      "target_atom_coverage": [
+        true,
+        true
+      ],
+      "missing_atoms": [],
+      "atom_order_preserved": true,
+      "normalized_group_occurrence_count": 1,
+      "source_superscript": "",
+      "final_superscript": "",
+      "superscript_structure_lost": false,
+      "source_subscript": "𝑐",
+      "final_subscript": "𝑐",
+      "subscript_structure_lost": false,
+      "source_geometry_evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and lowered source baseline identify subscript",
+        "existing formula ownership contains the run"
+      ],
+      "source_atoms": [
+        {
+          "atom_id": "MAG-FD587A88A6FD-A00",
+          "text": "",
+          "role": "base",
+          "bbox": [
+            256.387,
+            79.186,
+            264.666,
+            89.149
+          ],
+          "font": "STIXMathCalligraphy-Regu",
+          "font_size": 9.963,
+          "baseline": 89.149,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-FD587A88A6FD-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-FD587A88A6FD-A01",
+          "text": "𝑐",
+          "role": "subscript",
+          "bbox": [
+            264.666,
+            85.781,
+            267.767,
+            93.253
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 91.639,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-FD587A88A6FD-C001"
+          ]
+        }
+      ]
+    },
+    {
+      "record_id": "INLINE-MATH-QA-002",
+      "block_index": 0,
+      "paragraph_id": null,
+      "source_slot_bbox": [
+        51.3,
+        50.79,
+        288.7,
+        333.392
+      ],
+      "group_id": "MAG-179831757CCB",
+      "protected_token": "{{MATH_ATOM_GROUP_179831757CCB}}",
+      "primary_owner": "FORMULA",
+      "owner_id": "B4",
+      "source_bbox": [
+        229.996,
+        247.356,
+        285.683,
+        260.626
+      ],
+      "source_atom_sequence": [
+        "𝐤",
+        "𝑢,𝑣",
+        "=",
+        "𝑢",
+        "2",
+        "+",
+        "𝑣",
+        "2"
+      ],
+      "target_visible_text": "其中，𝓕(⋅)和𝓕−1(⋅)分别表示二维快速傅里叶变换及其逆变换。(𝐤; 𝝀)表示所有通道滤波器𝑐的聚合，⊙表示哈达玛积。通过这种方式，所提出的算子补偿了扩散引起的模糊，并自适应地强调结构边界和语义信息丰富的边缘。如图4所示，图4(e)中学习到的算子提供了比图4(c)中固定参数结果更清晰的目标边界和更少的背景响应。这是因为可学习的扩散尺度能够自适应地控制频谱补偿强度，而固定算子对所有特征应用相同的频率响应，可能遗漏弱轮廓或放大热噪声。因此，图4(e)更好地保留了用于TIR跟踪的判别性高频结构。我们同时构建了一个静态频率幅度网格𝐤，其中每个空间条目定义为𝐤𝑢,𝑣 = 𝑢2+𝑣2。为了适应不同语义通道中不同程度的热退化，我们引入了可学习的多通道扩散向量𝝀∈ℝ𝐶。A设计中的关键技巧是严格强制物理因果性。从热力学角度看，热扩散是一个不可逆过程，以熵产生为特征，严格受时间箭头（𝑡> 0）约束。因此，对于任何通道𝑐，扩散尺度𝜆𝑐≜𝜅𝑡在数学上必须是非负的，以表示有效的物理现实。无约束优化可能产生负的𝜆𝑐，这意味着物理上不可能的负扩散（热量的自发集中）。为防止这种违反并保持扩散启发公式中的物理一致性，我们通过Softplus激活函数对每个通道的无约束可学习权重𝜃𝑐进行重新参数化：",
+      "target_atom_coverage": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "missing_atoms": [],
+      "atom_order_preserved": true,
+      "normalized_group_occurrence_count": 1,
+      "source_superscript": "22",
+      "final_superscript": "22",
+      "superscript_structure_lost": false,
+      "source_subscript": "𝑢,𝑣",
+      "final_subscript": "𝑢,𝑣",
+      "subscript_structure_lost": false,
+      "source_geometry_evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and raised source baseline identify superscript",
+        "smaller font and lowered source baseline identify subscript",
+        "existing formula ownership contains the run"
+      ],
+      "source_atoms": [
+        {
+          "atom_id": "MAG-179831757CCB-A00",
+          "text": "𝐤",
+          "role": "base",
+          "bbox": [
+            229.996,
+            248.838,
+            235.535,
+            258.801
+          ],
+          "font": "STIXMath-Bold",
+          "font_size": 9.963,
+          "baseline": 256.521,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-179831757CCB-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A01",
+          "text": "𝑢,𝑣",
+          "role": "subscript",
+          "bbox": [
+            235.538,
+            253.154,
+            244.729,
+            260.626
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 259.012,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-179831757CCB-C001",
+            "MAG-179831757CCB-C002",
+            "MAG-179831757CCB-C003"
+          ]
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A02",
+          "text": "=",
+          "role": "operator",
+          "bbox": [
+            247.994,
+            248.951,
+            254.818,
+            258.914
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 256.521,
+          "atom_order": 2,
+          "source_character_ids": [
+            "MAG-179831757CCB-C004"
+          ]
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A03",
+          "text": "𝑢",
+          "role": "argument",
+          "bbox": [
+            257.588,
+            248.71,
+            262.31,
+            258.673
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 256.521,
+          "atom_order": 3,
+          "source_character_ids": [
+            "MAG-179831757CCB-C005"
+          ]
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A04",
+          "text": "2",
+          "role": "superscript",
+          "bbox": [
+            262.308,
+            247.356,
+            266.044,
+            254.828
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 7.472,
+          "baseline": 253.034,
+          "atom_order": 4,
+          "source_character_ids": [
+            "MAG-179831757CCB-C006"
+          ]
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A05",
+          "text": "+",
+          "role": "operator",
+          "bbox": [
+            268.311,
+            248.951,
+            275.135,
+            258.914
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 256.521,
+          "atom_order": 5,
+          "source_character_ids": [
+            "MAG-179831757CCB-C007"
+          ]
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A06",
+          "text": "𝑣",
+          "role": "argument",
+          "bbox": [
+            276.909,
+            248.71,
+            281.95,
+            258.673
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 256.521,
+          "atom_order": 6,
+          "source_character_ids": [
+            "MAG-179831757CCB-C008"
+          ]
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A07",
+          "text": "2",
+          "role": "superscript",
+          "bbox": [
+            281.947,
+            247.356,
+            285.683,
+            254.828
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 7.472,
+          "baseline": 253.034,
+          "atom_order": 7,
+          "source_character_ids": [
+            "MAG-179831757CCB-C009"
+          ]
+        }
+      ]
+    },
+    {
+      "record_id": "INLINE-MATH-QA-003",
+      "block_index": 0,
+      "paragraph_id": null,
+      "source_slot_bbox": [
+        51.3,
+        50.79,
+        288.7,
+        333.392
+      ],
+      "group_id": "MAG-612662CB23BA",
+      "protected_token": "{{MATH_ATOM_GROUP_612662CB23BA}}",
+      "primary_owner": "FORMULA",
+      "owner_id": "B5",
+      "source_bbox": [
+        175.8,
+        283.042,
+        209.0,
+        294.808
+      ],
+      "source_atom_sequence": [
+        "𝝀",
+        "∈",
+        "ℝ",
+        "𝐶"
+      ],
+      "target_visible_text": "其中，𝓕(⋅)和𝓕−1(⋅)分别表示二维快速傅里叶变换及其逆变换。(𝐤; 𝝀)表示所有通道滤波器𝑐的聚合，⊙表示哈达玛积。通过这种方式，所提出的算子补偿了扩散引起的模糊，并自适应地强调结构边界和语义信息丰富的边缘。如图4所示，图4(e)中学习到的算子提供了比图4(c)中固定参数结果更清晰的目标边界和更少的背景响应。这是因为可学习的扩散尺度能够自适应地控制频谱补偿强度，而固定算子对所有特征应用相同的频率响应，可能遗漏弱轮廓或放大热噪声。因此，图4(e)更好地保留了用于TIR跟踪的判别性高频结构。我们同时构建了一个静态频率幅度网格𝐤，其中每个空间条目定义为𝐤𝑢,𝑣 = 𝑢2+𝑣2。为了适应不同语义通道中不同程度的热退化，我们引入了可学习的多通道扩散向量𝝀∈ℝ𝐶。A设计中的关键技巧是严格强制物理因果性。从热力学角度看，热扩散是一个不可逆过程，以熵产生为特征，严格受时间箭头（𝑡> 0）约束。因此，对于任何通道𝑐，扩散尺度𝜆𝑐≜𝜅𝑡在数学上必须是非负的，以表示有效的物理现实。无约束优化可能产生负的𝜆𝑐，这意味着物理上不可能的负扩散（热量的自发集中）。为防止这种违反并保持扩散启发公式中的物理一致性，我们通过Softplus激活函数对每个通道的无约束可学习权重𝜃𝑐进行重新参数化：",
+      "target_atom_coverage": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "missing_atoms": [],
+      "atom_order_preserved": true,
+      "normalized_group_occurrence_count": 1,
+      "source_superscript": "𝐶",
+      "final_superscript": "𝐶",
+      "superscript_structure_lost": false,
+      "source_subscript": "",
+      "final_subscript": "",
+      "subscript_structure_lost": false,
+      "source_geometry_evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and raised source baseline identify superscript",
+        "existing formula ownership contains the run"
+      ],
+      "source_atoms": [
+        {
+          "atom_id": "MAG-612662CB23BA-A00",
+          "text": "𝝀",
+          "role": "base",
+          "bbox": [
+            175.8,
+            284.691,
+            181.478,
+            294.654
+          ],
+          "font": "STIXMath-BoldItalic",
+          "font_size": 9.963,
+          "baseline": 292.387,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-612662CB23BA-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-612662CB23BA-A01",
+          "text": "∈",
+          "role": "operator",
+          "bbox": [
+            185.593,
+            284.817,
+            192.417,
+            294.78
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 292.387,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-612662CB23BA-C001"
+          ]
+        },
+        {
+          "atom_id": "MAG-612662CB23BA-A02",
+          "text": "ℝ",
+          "role": "argument",
+          "bbox": [
+            196.542,
+            284.845,
+            203.984,
+            294.808
+          ],
+          "font": "STIXMathBlackboard-Regul",
+          "font_size": 9.963,
+          "baseline": 292.387,
+          "atom_order": 2,
+          "source_character_ids": [
+            "MAG-612662CB23BA-C002"
+          ]
+        },
+        {
+          "atom_id": "MAG-612662CB23BA-A03",
+          "text": "𝐶",
+          "role": "superscript",
+          "bbox": [
+            203.986,
+            283.042,
+            209.0,
+            290.514
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 288.9,
+          "atom_order": 3,
+          "source_character_ids": [
+            "MAG-612662CB23BA-C003"
+          ]
+        }
+      ]
+    },
+    {
+      "record_id": "INLINE-MATH-QA-004",
+      "block_index": 1,
+      "paragraph_id": null,
+      "source_slot_bbox": [
+        51.3,
+        465.24,
+        288.7,
+        504.042
+      ],
+      "group_id": "MAG-98F1AC430FC0",
+      "protected_token": "{{MATH_ATOM_GROUP_98F1AC430FC0}}",
+      "primary_owner": "FORMULA",
+      "owner_id": "B11",
+      "source_bbox": [
+        80.517,
+        471.873,
+        117.863,
+        483.789
+      ],
+      "source_atom_sequence": [
+        "𝜆",
+        "𝑐",
+        ">",
+        "0"
+      ],
+      "target_visible_text": "𝜆𝑐 > 0 同时保持可微性。这使得网络能够端到端地自适应优化扩散补偿尺度。除了高频物理先验外，我们保留空间特征作为补充。因此，整个适配器可以构建如下：",
+      "target_atom_coverage": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "missing_atoms": [],
+      "atom_order_preserved": true,
+      "normalized_group_occurrence_count": 1,
+      "source_superscript": "",
+      "final_superscript": "",
+      "superscript_structure_lost": false,
+      "source_subscript": "𝑐",
+      "final_subscript": "𝑐",
+      "subscript_structure_lost": false,
+      "source_geometry_evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and lowered source baseline identify subscript",
+        "existing formula ownership contains the run"
+      ],
+      "source_atoms": [
+        {
+          "atom_id": "MAG-98F1AC430FC0-A00",
+          "text": "𝜆",
+          "role": "base",
+          "bbox": [
+            80.517,
+            471.873,
+            85.907,
+            481.836
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 479.684,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-98F1AC430FC0-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-98F1AC430FC0-A01",
+          "text": "𝑐",
+          "role": "subscript",
+          "bbox": [
+            85.903,
+            476.317,
+            89.004,
+            483.789
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 482.175,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-98F1AC430FC0-C001"
+          ]
+        },
+        {
+          "atom_id": "MAG-98F1AC430FC0-A02",
+          "text": ">",
+          "role": "operator",
+          "bbox": [
+            97.968,
+            471.873,
+            104.792,
+            481.836
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 479.684,
+          "atom_order": 2,
+          "source_character_ids": [
+            "MAG-98F1AC430FC0-C002"
+          ]
+        },
+        {
+          "atom_id": "MAG-98F1AC430FC0-A03",
+          "text": "0",
+          "role": "argument",
+          "bbox": [
+            112.882,
+            472.114,
+            117.863,
+            482.076
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 479.684,
+          "atom_order": 3,
+          "source_character_ids": [
+            "MAG-98F1AC430FC0-C003"
+          ]
+        }
+      ]
+    },
+    {
+      "record_id": "INLINE-MATH-QA-005",
+      "block_index": 2,
+      "paragraph_id": null,
+      "source_slot_bbox": [
+        51.3,
+        568.85,
+        288.7,
+        698.19
+      ],
+      "group_id": "MAG-954A3FCBE690",
+      "protected_token": "{{MATH_ATOM_GROUP_954A3FCBE690}}",
+      "primary_owner": "FORMULA",
+      "owner_id": "B13",
+      "source_bbox": [
+        51.307,
+        646.319,
+        59.549,
+        658.235
+      ],
+      "source_atom_sequence": [
+        "𝑃",
+        "𝑖"
+      ],
+      "target_visible_text": "其中 𝑆𝐸(⋅) 是使用与OSTrack相同路径嵌入的空间特征提取器。3.4。自适应MoE注入器 该模块用于维度扩展，然后自适应地重新加权跟踪中最有用的物理先验 𝑃𝑖。具体来说，它将 𝑃𝑖 的维度从 𝐵× 𝑁× 𝑑 变换为 𝐵× 𝑁× 𝐷，以匹配OSTrack中每个Transformer块的输入向量维度。如图 3 所示，该模块使用自适应混合专家（MoE）层，并负责多个专家输出的自适应混合。具体工作流程如下。首先，所有初始适配器 𝑃𝑖 都通过相同的自适应MoE进行处理。在并行处理中",
+      "target_atom_coverage": [
+        true,
+        true
+      ],
+      "missing_atoms": [],
+      "atom_order_preserved": true,
+      "normalized_group_occurrence_count": 1,
+      "source_superscript": "",
+      "final_superscript": "",
+      "superscript_structure_lost": false,
+      "source_subscript": "𝑖",
+      "final_subscript": "𝑖",
+      "subscript_structure_lost": false,
+      "source_geometry_evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and lowered source baseline identify subscript",
+        "existing formula ownership contains the run"
+      ],
+      "source_atoms": [
+        {
+          "atom_id": "MAG-954A3FCBE690-A00",
+          "text": "𝑃",
+          "role": "base",
+          "bbox": [
+            51.307,
+            646.319,
+            57.225,
+            656.282
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 654.13,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-954A3FCBE690-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-954A3FCBE690-A01",
+          "text": "𝑖",
+          "role": "subscript",
+          "bbox": [
+            57.225,
+            650.763,
+            59.549,
+            658.235
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 656.621,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-954A3FCBE690-C001"
+          ]
+        }
+      ]
+    },
+    {
+      "record_id": "INLINE-MATH-QA-006",
+      "block_index": 2,
+      "paragraph_id": null,
+      "source_slot_bbox": [
+        51.3,
+        568.85,
+        288.7,
+        698.19
+      ],
+      "group_id": "MAG-818DD43AAC31",
+      "protected_token": "{{MATH_ATOM_GROUP_818DD43AAC31}}",
+      "primary_owner": "FORMULA",
+      "owner_id": "B13",
+      "source_bbox": [
+        51.307,
+        658.274,
+        59.549,
+        670.19
+      ],
+      "source_atom_sequence": [
+        "𝑃",
+        "𝑖"
+      ],
+      "target_visible_text": "其中 𝑆𝐸(⋅) 是使用与OSTrack相同路径嵌入的空间特征提取器。3.4。自适应MoE注入器 该模块用于维度扩展，然后自适应地重新加权跟踪中最有用的物理先验 𝑃𝑖。具体来说，它将 𝑃𝑖 的维度从 𝐵× 𝑁× 𝑑 变换为 𝐵× 𝑁× 𝐷，以匹配OSTrack中每个Transformer块的输入向量维度。如图 3 所示，该模块使用自适应混合专家（MoE）层，并负责多个专家输出的自适应混合。具体工作流程如下。首先，所有初始适配器 𝑃𝑖 都通过相同的自适应MoE进行处理。在并行处理中",
+      "target_atom_coverage": [
+        true,
+        true
+      ],
+      "missing_atoms": [],
+      "atom_order_preserved": true,
+      "normalized_group_occurrence_count": 1,
+      "source_superscript": "",
+      "final_superscript": "",
+      "superscript_structure_lost": false,
+      "source_subscript": "𝑖",
+      "final_subscript": "𝑖",
+      "subscript_structure_lost": false,
+      "source_geometry_evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and lowered source baseline identify subscript",
+        "existing formula ownership contains the run"
+      ],
+      "source_atoms": [
+        {
+          "atom_id": "MAG-818DD43AAC31-A00",
+          "text": "𝑃",
+          "role": "base",
+          "bbox": [
+            51.307,
+            658.274,
+            57.225,
+            668.237
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 666.085,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-818DD43AAC31-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-818DD43AAC31-A01",
+          "text": "𝑖",
+          "role": "subscript",
+          "bbox": [
+            57.225,
+            662.718,
+            59.549,
+            670.19
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 668.576,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-818DD43AAC31-C001"
+          ]
+        }
+      ]
+    },
+    {
+      "record_id": "INLINE-MATH-QA-007",
+      "block_index": 4,
+      "paragraph_id": null,
+      "source_slot_bbox": [
+        306.6,
+        314.46,
+        544.0,
+        417.932
+      ],
+      "group_id": "MAG-21200F752707",
+      "protected_token": "{{MATH_ATOM_GROUP_21200F752707}}",
+      "primary_owner": "FORMULA",
+      "owner_id": "B6",
+      "source_bbox": [
+        379.142,
+        345.003,
+        404.591,
+        356.918
+      ],
+      "source_atom_sequence": [
+        "𝑓",
+        "𝑘",
+        "(",
+        "𝑃",
+        "𝑖",
+        ")"
+      ],
+      "target_visible_text": "在阶段中，𝐾个任务特定的FFN专家同时处理输入，以学习不同层次的特征，每个专家输出𝑓𝑘(𝑃𝑖)（𝑘= 1, 2, ..., 𝐾）。同时，一个互补的共享FFN单独处理输入，以提供通用特征，输出𝑓𝐹𝐹𝑁(𝑃𝑖)。在动态加权融合阶段，所有𝐾个专家的原始输出分数通过Softmax函数进行归一化，以计算路由权重。具体来说，第𝑘个专家的权重𝑤𝑘通过以下方式计算：",
+      "target_atom_coverage": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "missing_atoms": [],
+      "atom_order_preserved": true,
+      "normalized_group_occurrence_count": 1,
+      "source_superscript": "",
+      "final_superscript": "",
+      "superscript_structure_lost": false,
+      "source_subscript": "𝑘𝑖",
+      "final_subscript": "𝑘𝑖",
+      "subscript_structure_lost": false,
+      "source_geometry_evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and lowered source baseline identify subscript",
+        "existing formula ownership contains the run"
+      ],
+      "source_atoms": [
+        {
+          "atom_id": "MAG-21200F752707-A00",
+          "text": "𝑓",
+          "role": "base",
+          "bbox": [
+            379.142,
+            345.003,
+            384.671,
+            354.965
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 352.814,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-21200F752707-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-21200F752707-A01",
+          "text": "𝑘",
+          "role": "subscript",
+          "bbox": [
+            384.668,
+            349.445,
+            388.718,
+            356.918
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 355.304,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-21200F752707-C001"
+          ]
+        },
+        {
+          "atom_id": "MAG-21200F752707-A02",
+          "text": "(",
+          "role": "delimiter",
+          "bbox": [
+            389.215,
+            345.244,
+            392.533,
+            355.206
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 352.814,
+          "atom_order": 2,
+          "source_character_ids": [
+            "MAG-21200F752707-C002"
+          ]
+        },
+        {
+          "atom_id": "MAG-21200F752707-A03",
+          "text": "𝑃",
+          "role": "argument",
+          "bbox": [
+            392.533,
+            345.003,
+            398.45,
+            354.965
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 352.814,
+          "atom_order": 3,
+          "source_character_ids": [
+            "MAG-21200F752707-C003"
+          ]
+        },
+        {
+          "atom_id": "MAG-21200F752707-A04",
+          "text": "𝑖",
+          "role": "subscript",
+          "bbox": [
+            398.451,
+            349.445,
+            400.775,
+            356.918
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 355.304,
+          "atom_order": 4,
+          "source_character_ids": [
+            "MAG-21200F752707-C004"
+          ]
+        },
+        {
+          "atom_id": "MAG-21200F752707-A05",
+          "text": ")",
+          "role": "delimiter",
+          "bbox": [
+            401.273,
+            345.244,
+            404.591,
+            355.206
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 352.814,
+          "atom_order": 5,
+          "source_character_ids": [
+            "MAG-21200F752707-C005"
+          ]
+        }
+      ]
+    },
+    {
+      "record_id": "INLINE-MATH-QA-008",
+      "block_index": 4,
+      "paragraph_id": null,
+      "source_slot_bbox": [
+        306.6,
+        314.46,
+        544.0,
+        417.932
+      ],
+      "group_id": "MAG-3F6A4368F6C1",
+      "protected_token": "{{MATH_ATOM_GROUP_3F6A4368F6C1}}",
+      "primary_owner": "FORMULA",
+      "owner_id": "B6",
+      "source_bbox": [
+        476.456,
+        368.913,
+        516.291,
+        380.828
+      ],
+      "source_atom_sequence": [
+        "𝑓",
+        "𝐹𝐹𝑁",
+        "(",
+        "𝑃",
+        "𝑖",
+        ")"
+      ],
+      "target_visible_text": "在阶段中，𝐾个任务特定的FFN专家同时处理输入，以学习不同层次的特征，每个专家输出𝑓𝑘(𝑃𝑖)（𝑘= 1, 2, ..., 𝐾）。同时，一个互补的共享FFN单独处理输入，以提供通用特征，输出𝑓𝐹𝐹𝑁(𝑃𝑖)。在动态加权融合阶段，所有𝐾个专家的原始输出分数通过Softmax函数进行归一化，以计算路由权重。具体来说，第𝑘个专家的权重𝑤𝑘通过以下方式计算：",
+      "target_atom_coverage": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "missing_atoms": [],
+      "atom_order_preserved": true,
+      "normalized_group_occurrence_count": 1,
+      "source_superscript": "",
+      "final_superscript": "",
+      "superscript_structure_lost": false,
+      "source_subscript": "𝐹𝐹𝑁𝑖",
+      "final_subscript": "𝐹𝐹𝑁𝑖",
+      "subscript_structure_lost": false,
+      "source_geometry_evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and lowered source baseline identify subscript",
+        "existing formula ownership contains the run"
+      ],
+      "source_atoms": [
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A00",
+          "text": "𝑓",
+          "role": "base",
+          "bbox": [
+            476.456,
+            368.913,
+            481.985,
+            378.875
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 376.724,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-3F6A4368F6C1-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A01",
+          "text": "𝐹𝐹𝑁",
+          "role": "subscript",
+          "bbox": [
+            481.984,
+            373.356,
+            499.745,
+            380.828
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 379.215,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-3F6A4368F6C1-C001",
+            "MAG-3F6A4368F6C1-C002",
+            "MAG-3F6A4368F6C1-C003"
+          ]
+        },
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A02",
+          "text": "(",
+          "role": "delimiter",
+          "bbox": [
+            500.915,
+            369.154,
+            504.233,
+            379.116
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 376.724,
+          "atom_order": 2,
+          "source_character_ids": [
+            "MAG-3F6A4368F6C1-C004"
+          ]
+        },
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A03",
+          "text": "𝑃",
+          "role": "argument",
+          "bbox": [
+            504.233,
+            368.913,
+            510.15,
+            378.875
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 376.724,
+          "atom_order": 3,
+          "source_character_ids": [
+            "MAG-3F6A4368F6C1-C005"
+          ]
+        },
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A04",
+          "text": "𝑖",
+          "role": "subscript",
+          "bbox": [
+            510.151,
+            373.356,
+            512.475,
+            380.828
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 379.215,
+          "atom_order": 4,
+          "source_character_ids": [
+            "MAG-3F6A4368F6C1-C006"
+          ]
+        },
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A05",
+          "text": ")",
+          "role": "delimiter",
+          "bbox": [
+            512.973,
+            369.154,
+            516.291,
+            379.116
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 376.724,
+          "atom_order": 5,
+          "source_character_ids": [
+            "MAG-3F6A4368F6C1-C007"
+          ]
+        }
+      ]
+    },
+    {
+      "record_id": "INLINE-MATH-QA-009",
+      "block_index": 4,
+      "paragraph_id": null,
+      "source_slot_bbox": [
+        306.6,
+        314.46,
+        544.0,
+        417.932
+      ],
+      "group_id": "MAG-412216EF6F74",
+      "protected_token": "{{MATH_ATOM_GROUP_412216EF6F74}}",
+      "primary_owner": "FORMULA",
+      "owner_id": "B7",
+      "source_bbox": [
+        486.03,
+        404.779,
+        497.803,
+        416.693
+      ],
+      "source_atom_sequence": [
+        "𝑤",
+        "𝑘"
+      ],
+      "target_visible_text": "在阶段中，𝐾个任务特定的FFN专家同时处理输入，以学习不同层次的特征，每个专家输出𝑓𝑘(𝑃𝑖)（𝑘= 1, 2, ..., 𝐾）。同时，一个互补的共享FFN单独处理输入，以提供通用特征，输出𝑓𝐹𝐹𝑁(𝑃𝑖)。在动态加权融合阶段，所有𝐾个专家的原始输出分数通过Softmax函数进行归一化，以计算路由权重。具体来说，第𝑘个专家的权重𝑤𝑘通过以下方式计算：",
+      "target_atom_coverage": [
+        true,
+        true
+      ],
+      "missing_atoms": [],
+      "atom_order_preserved": true,
+      "normalized_group_occurrence_count": 1,
+      "source_superscript": "",
+      "final_superscript": "",
+      "superscript_structure_lost": false,
+      "source_subscript": "𝑘",
+      "final_subscript": "𝑘",
+      "subscript_structure_lost": false,
+      "source_geometry_evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and lowered source baseline identify subscript",
+        "existing formula ownership contains the run"
+      ],
+      "source_atoms": [
+        {
+          "atom_id": "MAG-412216EF6F74-A00",
+          "text": "𝑤",
+          "role": "base",
+          "bbox": [
+            486.03,
+            404.779,
+            493.751,
+            414.741
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 412.59,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-412216EF6F74-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-412216EF6F74-A01",
+          "text": "𝑘",
+          "role": "subscript",
+          "bbox": [
+            493.753,
+            409.221,
+            497.803,
+            416.693
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 415.08,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-412216EF6F74-C001"
+          ]
+        }
+      ]
+    },
+    {
+      "record_id": "INLINE-MATH-QA-010",
+      "block_index": 5,
+      "paragraph_id": null,
+      "source_slot_bbox": [
+        306.6,
+        469.83,
+        544.0,
+        534.5
+      ],
+      "group_id": "MAG-E9D29DCF0174",
+      "protected_token": "{{MATH_ATOM_GROUP_E9D29DCF0174}}",
+      "primary_owner": "FORMULA",
+      "owner_id": "B12",
+      "source_bbox": [
+        334.818,
+        476.461,
+        343.84,
+        488.377
+      ],
+      "source_atom_sequence": [
+        "𝑧",
+        "𝑘"
+      ],
+      "target_visible_text": "其中 𝑧𝑘 表示第 𝑘 个专家的原始置信度分数。Softmax 归一化确保所有专家权重之和等于 1，从而突出最适合当前物理状态的专家。最后，通过加权求和融合专家输出，得到最终精炼的物理先验：",
+      "target_atom_coverage": [
+        true,
+        true
+      ],
+      "missing_atoms": [],
+      "atom_order_preserved": true,
+      "normalized_group_occurrence_count": 1,
+      "source_superscript": "",
+      "final_superscript": "",
+      "superscript_structure_lost": false,
+      "source_subscript": "𝑘",
+      "final_subscript": "𝑘",
+      "subscript_structure_lost": false,
+      "source_geometry_evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and lowered source baseline identify subscript",
+        "existing formula ownership contains the run"
+      ],
+      "source_atoms": [
+        {
+          "atom_id": "MAG-E9D29DCF0174-A00",
+          "text": "𝑧",
+          "role": "base",
+          "bbox": [
+            334.818,
+            476.461,
+            339.789,
+            486.424
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 484.272,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-E9D29DCF0174-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-E9D29DCF0174-A01",
+          "text": "𝑘",
+          "role": "subscript",
+          "bbox": [
+            339.79,
+            480.905,
+            343.84,
+            488.377
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 486.763,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-E9D29DCF0174-C001"
+          ]
+        }
+      ]
+    }
+  ],
+  "metrics": {
+    "math_atom_loss_count": 0,
+    "math_atom_duplicate_count": 0,
+    "math_atom_order_error_count": 0,
+    "superscript_structure_loss_count": 0,
+    "subscript_structure_loss_count": 0,
+    "inline_math_target_missing_count": 0
+  },
+  "pass": true
+}

@@ -1,0 +1,106 @@
+{
+  "schema_version": "visual_v07.task4i.checkpoint.v1",
+  "decision": "pass",
+  "qa_first": {
+    "old_artifact_red": true,
+    "before_metrics": {
+      "math_atom_loss_count": 3,
+      "math_atom_duplicate_count": 0,
+      "math_atom_order_error_count": 0,
+      "superscript_structure_loss_count": 3,
+      "subscript_structure_loss_count": 9,
+      "inline_math_target_missing_count": 0
+    }
+  },
+  "metrics": {
+    "math_atom_loss_count": 0,
+    "math_atom_duplicate_count": 0,
+    "math_atom_order_error_count": 0,
+    "superscript_structure_loss_count": 0,
+    "subscript_structure_loss_count": 0,
+    "inline_math_target_missing_count": 0,
+    "final_block_collision_count": 0,
+    "production_special_case_count": 0,
+    "source_text_slot_geometry_mutation_count": 0,
+    "font_chain_modified_count": 0,
+    "figure_anchor_mutation_count": 0,
+    "table_anchor_mutation_count": 0,
+    "formula_anchor_mutation_count": 0,
+    "task4h_pua_regression_count": 0,
+    "semantic_math_group_count": 11,
+    "dom_superscript_raised_count": 3,
+    "dom_subscript_lowered_count": 9,
+    "final_pdf_math_group_ink_count": 11,
+    "final_pdf_atom_loss_count": 0,
+    "final_pdf_atom_order_error_count": 0
+  },
+  "source_atom_groups": [
+    "MAG-52F45C34EAFB",
+    "MAG-FD587A88A6FD",
+    "MAG-179831757CCB",
+    "MAG-612662CB23BA",
+    "MAG-98F1AC430FC0",
+    "MAG-954A3FCBE690",
+    "MAG-818DD43AAC31",
+    "MAG-21200F752707",
+    "MAG-3F6A4368F6C1",
+    "MAG-412216EF6F74",
+    "MAG-E9D29DCF0174"
+  ],
+  "fixed_artifact": {
+    "html": "E:\\Code\\fanyi\\outputs\\visual_v07_task4i\\fixed_artifact\\zh_visual.html",
+    "pdf": "E:\\Code\\fanyi\\outputs\\visual_v07_task4i\\fixed_artifact\\zh_visual.pdf",
+    "html_sha256": "08d1f1f6823229741b9d8278716e0d70e6ab8e9fcd8a009e2ca451dc291f95aa",
+    "pdf_sha256": "140a1b9c415eb587273bc69fc0f07df0419475e1cc4213e82a5f7a343b15feb7"
+  },
+  "review_bundle": {
+    "schema_version": "visual_v07.task4i.review_index.v1",
+    "decision": "pass",
+    "focus_bboxes_pt": [
+      [
+        45.0,
+        48.0,
+        294.0,
+        82.0
+      ],
+      [
+        45.0,
+        464.0,
+        294.0,
+        494.0
+      ]
+    ],
+    "files": [
+      {
+        "name": "inline_math_after.png",
+        "sha256": "2fe7f2b41bf914698d798da151da471c6235bdc538f7170492f16a03dff16de3"
+      },
+      {
+        "name": "inline_math_before.png",
+        "sha256": "4728e618d5b3101b7b6e549aaafa2b03e1e20b17a33a0fca6cdc2733d853a461"
+      },
+      {
+        "name": "inline_math_before_after.png",
+        "sha256": "ab8f41e95fb2a6a19824fdc7193ee6ce06cc9225eb7b6f208ed043106c2e8dff"
+      },
+      {
+        "name": "inline_math_source.png",
+        "sha256": "cbed8541ac03b8072dd895fa46a5fccce089f7c76b43d626bd1a6a2fba9e6712"
+      },
+      {
+        "name": "math_atom_structure_overlay.png",
+        "sha256": "d7bbfe9794038121050e02c00ec0e6c5d609879dde314469321138ce6764ed4b"
+      }
+    ],
+    "legend": {
+      "blue": "base",
+      "red": "superscript",
+      "purple": "subscript",
+      "green": "operator",
+      "orange": "delimiter",
+      "teal": "argument"
+    }
+  },
+  "commit_message": "fix(visual): restore inline math atom structure",
+  "tag_created": false
+}

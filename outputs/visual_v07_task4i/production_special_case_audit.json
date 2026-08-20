@@ -1,0 +1,5 @@
+{
+  "production_special_case_count": 0,
+  "hits": [],
+  "audit_basis": "AST constants used by production branch tests"
+}

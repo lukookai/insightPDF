@@ -301,6 +301,10 @@ class FixedCanvasAnchorLayout:
                     "visual_label": para_label.get(
                         pid, p.get("_visual_label_override", SOFT_TEXT)),
                     "group_provenance": p.get("group_provenance"),
+                    "inline_math_atom_groups": (
+                        p.get("inline_math_atom_groups") or {}),
+                    "protected_runs": p.get("protected_runs") or {},
+                    "_recovered_prose": bool(p.get("_recovered_prose")),
                 })
                 columns.setdefault(frag["column"], []).append(flow_para)
 
@@ -396,6 +400,8 @@ class FixedCanvasAnchorLayout:
                     "render_source_reason": s.get("render_source_reason",
                                                   "normal_translation"),
                     "protected_runs": s.get("protected_runs") or {},
+                    "inline_math_atom_groups": (
+                        s.get("inline_math_atom_groups") or {}),
                 })
 
             def _emit_para_packed(s, top, est_h, lscale=1.0):
@@ -434,6 +440,8 @@ class FixedCanvasAnchorLayout:
                     "render_source_reason": s.get("render_source_reason",
                                                   "normal_translation"),
                     "protected_runs": s.get("protected_runs") or {},
+                    "inline_math_atom_groups": (
+                        s.get("inline_math_atom_groups") or {}),
                 })
 
             def _flush_sequence():

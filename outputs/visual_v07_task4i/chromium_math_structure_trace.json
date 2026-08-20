@@ -1,0 +1,1071 @@
+[
+  {
+    "group_id": "MAG-52F45C34EAFB",
+    "atom_order": "base:MAG-52F45C34EAFB-A00|superscript:MAG-52F45C34EAFB-A01|delimiter:MAG-52F45C34EAFB-A02|operator:MAG-52F45C34EAFB-A03|delimiter:MAG-52F45C34EAFB-A04",
+    "text": "𝓕−1(⋅)",
+    "bbox_css_px": [
+      144.265625,
+      67.71875,
+      179.65625,
+      82.71875
+    ],
+    "atoms": [
+      {
+        "atom_id": "MAG-52F45C34EAFB-A00",
+        "role": "math-base",
+        "text": "𝓕",
+        "bbox_css_px": [
+          144.265625,
+          67.71875,
+          154.265625,
+          82.71875
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          108.199,
+          50.789,
+          115.699,
+          62.039
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-52F45C34EAFB-A01",
+        "role": "math-superscript",
+        "text": "−1",
+        "bbox_css_px": [
+          154.265625,
+          66.125,
+          166.75,
+          77.125
+        ],
+        "font_size_css_px": 10,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          115.699,
+          49.594,
+          125.062,
+          57.844
+        ],
+        "font_size_pt": 7.5
+      },
+      {
+        "atom_id": "MAG-52F45C34EAFB-A02",
+        "role": "math-delimiter",
+        "text": "(",
+        "bbox_css_px": [
+          166.75,
+          67.71875,
+          171.203125,
+          82.71875
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          125.062,
+          50.789,
+          128.402,
+          62.039
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-52F45C34EAFB-A03",
+        "role": "math-operator",
+        "text": "⋅",
+        "bbox_css_px": [
+          171.203125,
+          67.71875,
+          175.203125,
+          82.71875
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          128.402,
+          50.789,
+          131.402,
+          62.039
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-52F45C34EAFB-A04",
+        "role": "math-delimiter",
+        "text": ")",
+        "bbox_css_px": [
+          175.203125,
+          67.71875,
+          179.65625,
+          82.71875
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          131.402,
+          50.789,
+          134.742,
+          62.039
+        ],
+        "font_size_pt": 10.0
+      }
+    ],
+    "bbox_pt": [
+      108.199,
+      50.789,
+      134.742,
+      62.039
+    ]
+  },
+  {
+    "group_id": "MAG-FD587A88A6FD",
+    "atom_order": "base:MAG-FD587A88A6FD-A00|subscript:MAG-FD587A88A6FD-A01",
+    "text": "𝑐",
+    "bbox_css_px": [
+      289.734375,
+      84.09375,
+      311.828125,
+      99.09375
+    ],
+    "atoms": [
+      {
+        "atom_id": "MAG-FD587A88A6FD-A00",
+        "role": "math-base",
+        "text": "",
+        "bbox_css_px": [
+          289.734375,
+          84.09375,
+          307.21875,
+          99.09375
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          217.301,
+          63.07,
+          230.414,
+          74.32
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-FD587A88A6FD-A01",
+        "role": "math-subscript",
+        "text": "𝑐",
+        "bbox_css_px": [
+          307.21875,
+          89.484375,
+          311.828125,
+          100.484375
+        ],
+        "font_size_css_px": 10,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          230.414,
+          67.113,
+          233.871,
+          75.363
+        ],
+        "font_size_pt": 7.5
+      }
+    ],
+    "bbox_pt": [
+      217.301,
+      63.07,
+      233.871,
+      74.32
+    ]
+  },
+  {
+    "group_id": "MAG-179831757CCB",
+    "atom_order": "base:MAG-179831757CCB-A00|subscript:MAG-179831757CCB-A01|operator:MAG-179831757CCB-A02|argument:MAG-179831757CCB-A03|superscript:MAG-179831757CCB-A04|operator:MAG-179831757CCB-A05|argument:MAG-179831757CCB-A06|superscript:MAG-179831757CCB-A07",
+    "text": "𝐤𝑢,𝑣 = 𝑢2+𝑣2",
+    "bbox_css_px": [
+      175.03125,
+      264.21875,
+      242.4375,
+      279.21875
+    ],
+    "atoms": [
+      {
+        "atom_id": "MAG-179831757CCB-A00",
+        "role": "math-base",
+        "text": "𝐤",
+        "bbox_css_px": [
+          175.03125,
+          264.21875,
+          183.03125,
+          279.21875
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          131.273,
+          198.164,
+          137.273,
+          209.414
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-179831757CCB-A01",
+        "role": "math-subscript",
+        "text": "𝑢,𝑣",
+        "bbox_css_px": [
+          183.03125,
+          269.609375,
+          196.71875,
+          280.609375
+        ],
+        "font_size_css_px": 10,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          137.273,
+          202.207,
+          147.539,
+          210.457
+        ],
+        "font_size_pt": 7.5
+      },
+      {
+        "atom_id": "MAG-179831757CCB-A02",
+        "role": "math-operator",
+        "text": " = ",
+        "bbox_css_px": [
+          196.71875,
+          264.21875,
+          210.90625,
+          279.21875
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          147.539,
+          198.164,
+          158.18,
+          209.414
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-179831757CCB-A03",
+        "role": "math-argument",
+        "text": "𝑢",
+        "bbox_css_px": [
+          210.90625,
+          264.21875,
+          217.90625,
+          279.21875
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          158.18,
+          198.164,
+          163.43,
+          209.414
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-179831757CCB-A04",
+        "role": "math-superscript",
+        "text": "2",
+        "bbox_css_px": [
+          217.90625,
+          262.625,
+          222.90625,
+          273.625
+        ],
+        "font_size_css_px": 10,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          163.43,
+          196.969,
+          167.18,
+          205.219
+        ],
+        "font_size_pt": 7.5
+      },
+      {
+        "atom_id": "MAG-179831757CCB-A05",
+        "role": "math-operator",
+        "text": "+",
+        "bbox_css_px": [
+          222.90625,
+          264.21875,
+          230.4375,
+          279.21875
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          167.18,
+          198.164,
+          172.828,
+          209.414
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-179831757CCB-A06",
+        "role": "math-argument",
+        "text": "𝑣",
+        "bbox_css_px": [
+          230.4375,
+          264.21875,
+          237.4375,
+          279.21875
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          172.828,
+          198.164,
+          178.078,
+          209.414
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-179831757CCB-A07",
+        "role": "math-superscript",
+        "text": "2",
+        "bbox_css_px": [
+          237.4375,
+          262.625,
+          242.4375,
+          273.625
+        ],
+        "font_size_css_px": 10,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          178.078,
+          196.969,
+          181.828,
+          205.219
+        ],
+        "font_size_pt": 7.5
+      }
+    ],
+    "bbox_pt": [
+      131.273,
+      198.164,
+      181.828,
+      209.414
+    ]
+  },
+  {
+    "group_id": "MAG-612662CB23BA",
+    "atom_order": "base:MAG-612662CB23BA-A00|operator:MAG-612662CB23BA-A01|argument:MAG-612662CB23BA-A02|superscript:MAG-612662CB23BA-A03",
+    "text": "𝝀∈ℝ𝐶",
+    "bbox_css_px": [
+      121.71875,
+      296.96875,
+      157.6875,
+      311.96875
+    ],
+    "atoms": [
+      {
+        "atom_id": "MAG-612662CB23BA-A00",
+        "role": "math-base",
+        "text": "𝝀",
+        "bbox_css_px": [
+          121.71875,
+          296.96875,
+          128.71875,
+          311.96875
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          91.289,
+          222.727,
+          96.539,
+          233.977
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-612662CB23BA-A01",
+        "role": "math-operator",
+        "text": "∈",
+        "bbox_css_px": [
+          128.71875,
+          296.96875,
+          141.71875,
+          311.96875
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          96.539,
+          222.727,
+          106.289,
+          233.977
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-612662CB23BA-A02",
+        "role": "math-argument",
+        "text": "ℝ",
+        "bbox_css_px": [
+          141.71875,
+          296.96875,
+          151.71875,
+          311.96875
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          106.289,
+          222.727,
+          113.789,
+          233.977
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-612662CB23BA-A03",
+        "role": "math-superscript",
+        "text": "𝐶",
+        "bbox_css_px": [
+          151.71875,
+          295.375,
+          157.6875,
+          306.375
+        ],
+        "font_size_css_px": 10,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          113.789,
+          221.531,
+          118.266,
+          229.781
+        ],
+        "font_size_pt": 7.5
+      }
+    ],
+    "bbox_pt": [
+      91.289,
+      222.727,
+      118.266,
+      233.977
+    ]
+  },
+  {
+    "group_id": "MAG-98F1AC430FC0",
+    "atom_order": "base:MAG-98F1AC430FC0-A00|subscript:MAG-98F1AC430FC0-A01|operator:MAG-98F1AC430FC0-A02|argument:MAG-98F1AC430FC0-A03",
+    "text": "𝜆𝑐 > 0",
+    "bbox_css_px": [
+      68.390625,
+      621.3125,
+      99.59375,
+      635.3125
+    ],
+    "atoms": [
+      {
+        "atom_id": "MAG-98F1AC430FC0-A00",
+        "role": "math-base",
+        "text": "𝜆",
+        "bbox_css_px": [
+          68.390625,
+          621.3125,
+          75.390625,
+          635.3125
+        ],
+        "font_size_css_px": 12.6667,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          51.293,
+          465.984,
+          56.543,
+          476.484
+        ],
+        "font_size_pt": 9.5
+      },
+      {
+        "atom_id": "MAG-98F1AC430FC0-A01",
+        "role": "math-subscript",
+        "text": "𝑐",
+        "bbox_css_px": [
+          75.390625,
+          626.578125,
+          79.765625,
+          636.578125
+        ],
+        "font_size_css_px": 9.5,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          56.543,
+          469.934,
+          59.824,
+          477.434
+        ],
+        "font_size_pt": 7.125
+      },
+      {
+        "atom_id": "MAG-98F1AC430FC0-A02",
+        "role": "math-operator",
+        "text": " > ",
+        "bbox_css_px": [
+          79.765625,
+          621.3125,
+          93.25,
+          635.3125
+        ],
+        "font_size_css_px": 12.6667,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          59.824,
+          465.984,
+          69.938,
+          476.484
+        ],
+        "font_size_pt": 9.5
+      },
+      {
+        "atom_id": "MAG-98F1AC430FC0-A03",
+        "role": "math-argument",
+        "text": "0",
+        "bbox_css_px": [
+          93.25,
+          621.3125,
+          99.59375,
+          635.3125
+        ],
+        "font_size_css_px": 12.6667,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          69.938,
+          465.984,
+          74.695,
+          476.484
+        ],
+        "font_size_pt": 9.5
+      }
+    ],
+    "bbox_pt": [
+      51.293,
+      465.984,
+      74.695,
+      476.484
+    ]
+  },
+  {
+    "group_id": "MAG-954A3FCBE690",
+    "atom_order": "base:MAG-954A3FCBE690-A00|subscript:MAG-954A3FCBE690-A01",
+    "text": "𝑃𝑖",
+    "bbox_css_px": [
+      68.390625,
+      812.46875,
+      79.5625,
+      827.46875
+    ],
+    "atoms": [
+      {
+        "atom_id": "MAG-954A3FCBE690-A00",
+        "role": "math-base",
+        "text": "𝑃",
+        "bbox_css_px": [
+          68.390625,
+          812.46875,
+          76.390625,
+          827.46875
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          51.293,
+          609.352,
+          57.293,
+          620.602
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-954A3FCBE690-A01",
+        "role": "math-subscript",
+        "text": "𝑖",
+        "bbox_css_px": [
+          76.390625,
+          817.859375,
+          79.5625,
+          828.859375
+        ],
+        "font_size_css_px": 10,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          57.293,
+          613.395,
+          59.672,
+          621.645
+        ],
+        "font_size_pt": 7.5
+      }
+    ],
+    "bbox_pt": [
+      51.293,
+      609.352,
+      59.672,
+      620.602
+    ]
+  },
+  {
+    "group_id": "MAG-818DD43AAC31",
+    "atom_order": "base:MAG-818DD43AAC31-A00|subscript:MAG-818DD43AAC31-A01",
+    "text": "𝑃𝑖",
+    "bbox_css_px": [
+      188.875,
+      812.46875,
+      200.046875,
+      827.46875
+    ],
+    "atoms": [
+      {
+        "atom_id": "MAG-818DD43AAC31-A00",
+        "role": "math-base",
+        "text": "𝑃",
+        "bbox_css_px": [
+          188.875,
+          812.46875,
+          196.875,
+          827.46875
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          141.656,
+          609.352,
+          147.656,
+          620.602
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-818DD43AAC31-A01",
+        "role": "math-subscript",
+        "text": "𝑖",
+        "bbox_css_px": [
+          196.875,
+          817.859375,
+          200.046875,
+          828.859375
+        ],
+        "font_size_css_px": 10,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          147.656,
+          613.395,
+          150.035,
+          621.645
+        ],
+        "font_size_pt": 7.5
+      }
+    ],
+    "bbox_pt": [
+      141.656,
+      609.352,
+      150.035,
+      620.602
+    ]
+  },
+  {
+    "group_id": "MAG-21200F752707",
+    "atom_order": "base:MAG-21200F752707-A00|subscript:MAG-21200F752707-A01|delimiter:MAG-21200F752707-A02|argument:MAG-21200F752707-A03|subscript:MAG-21200F752707-A04|delimiter:MAG-21200F752707-A05",
+    "text": "𝑓𝑘(𝑃𝑖)",
+    "bbox_css_px": [
+      621.75,
+      438.375,
+      654.359375,
+      453.375
+    ],
+    "atoms": [
+      {
+        "atom_id": "MAG-21200F752707-A00",
+        "role": "math-base",
+        "text": "𝑓",
+        "bbox_css_px": [
+          621.75,
+          438.375,
+          628.75,
+          453.375
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          466.312,
+          328.781,
+          471.562,
+          340.031
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-21200F752707-A01",
+        "role": "math-subscript",
+        "text": "𝑘",
+        "bbox_css_px": [
+          628.75,
+          443.765625,
+          634.28125,
+          454.765625
+        ],
+        "font_size_css_px": 10,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          471.562,
+          332.824,
+          475.711,
+          341.074
+        ],
+        "font_size_pt": 7.5
+      },
+      {
+        "atom_id": "MAG-21200F752707-A02",
+        "role": "math-delimiter",
+        "text": "(",
+        "bbox_css_px": [
+          634.28125,
+          438.375,
+          638.734375,
+          453.375
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          475.711,
+          328.781,
+          479.051,
+          340.031
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-21200F752707-A03",
+        "role": "math-argument",
+        "text": "𝑃",
+        "bbox_css_px": [
+          638.734375,
+          438.375,
+          646.734375,
+          453.375
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          479.051,
+          328.781,
+          485.051,
+          340.031
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-21200F752707-A04",
+        "role": "math-subscript",
+        "text": "𝑖",
+        "bbox_css_px": [
+          646.734375,
+          443.765625,
+          649.90625,
+          454.765625
+        ],
+        "font_size_css_px": 10,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          485.051,
+          332.824,
+          487.43,
+          341.074
+        ],
+        "font_size_pt": 7.5
+      },
+      {
+        "atom_id": "MAG-21200F752707-A05",
+        "role": "math-delimiter",
+        "text": ")",
+        "bbox_css_px": [
+          649.90625,
+          438.375,
+          654.359375,
+          453.375
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          487.43,
+          328.781,
+          490.77,
+          340.031
+        ],
+        "font_size_pt": 10.0
+      }
+    ],
+    "bbox_pt": [
+      466.312,
+      328.781,
+      490.77,
+      340.031
+    ]
+  },
+  {
+    "group_id": "MAG-3F6A4368F6C1",
+    "atom_order": "base:MAG-3F6A4368F6C1-A00|subscript:MAG-3F6A4368F6C1-A01|delimiter:MAG-3F6A4368F6C1-A02|argument:MAG-3F6A4368F6C1-A03|subscript:MAG-3F6A4368F6C1-A04|delimiter:MAG-3F6A4368F6C1-A05",
+    "text": "𝑓𝐹𝐹𝑁(𝑃𝑖)",
+    "bbox_css_px": [
+      515.109375,
+      474.59375,
+      561.734375,
+      489.59375
+    ],
+    "atoms": [
+      {
+        "atom_id": "MAG-3F6A4368F6C1-A00",
+        "role": "math-base",
+        "text": "𝑓",
+        "bbox_css_px": [
+          515.109375,
+          474.59375,
+          522.109375,
+          489.59375
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          386.332,
+          355.945,
+          391.582,
+          367.195
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-3F6A4368F6C1-A01",
+        "role": "math-subscript",
+        "text": "𝐹𝐹𝑁",
+        "bbox_css_px": [
+          522.109375,
+          479.984375,
+          541.65625,
+          490.984375
+        ],
+        "font_size_css_px": 10,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          391.582,
+          359.988,
+          406.242,
+          368.238
+        ],
+        "font_size_pt": 7.5
+      },
+      {
+        "atom_id": "MAG-3F6A4368F6C1-A02",
+        "role": "math-delimiter",
+        "text": "(",
+        "bbox_css_px": [
+          541.65625,
+          474.59375,
+          546.109375,
+          489.59375
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          406.242,
+          355.945,
+          409.582,
+          367.195
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-3F6A4368F6C1-A03",
+        "role": "math-argument",
+        "text": "𝑃",
+        "bbox_css_px": [
+          546.109375,
+          474.59375,
+          554.109375,
+          489.59375
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          409.582,
+          355.945,
+          415.582,
+          367.195
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-3F6A4368F6C1-A04",
+        "role": "math-subscript",
+        "text": "𝑖",
+        "bbox_css_px": [
+          554.109375,
+          479.984375,
+          557.28125,
+          490.984375
+        ],
+        "font_size_css_px": 10,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          415.582,
+          359.988,
+          417.961,
+          368.238
+        ],
+        "font_size_pt": 7.5
+      },
+      {
+        "atom_id": "MAG-3F6A4368F6C1-A05",
+        "role": "math-delimiter",
+        "text": ")",
+        "bbox_css_px": [
+          557.28125,
+          474.59375,
+          561.734375,
+          489.59375
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          417.961,
+          355.945,
+          421.301,
+          367.195
+        ],
+        "font_size_pt": 10.0
+      }
+    ],
+    "bbox_pt": [
+      386.332,
+      355.945,
+      421.301,
+      367.195
+    ]
+  },
+  {
+    "group_id": "MAG-412216EF6F74",
+    "atom_order": "base:MAG-412216EF6F74-A00|subscript:MAG-412216EF6F74-A01",
+    "text": "𝑤𝑘",
+    "bbox_css_px": [
+      708.078125,
+      510.8125,
+      723.609375,
+      525.8125
+    ],
+    "atoms": [
+      {
+        "atom_id": "MAG-412216EF6F74-A00",
+        "role": "math-base",
+        "text": "𝑤",
+        "bbox_css_px": [
+          708.078125,
+          510.8125,
+          718.078125,
+          525.8125
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          531.059,
+          383.109,
+          538.559,
+          394.359
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-412216EF6F74-A01",
+        "role": "math-subscript",
+        "text": "𝑘",
+        "bbox_css_px": [
+          718.078125,
+          516.203125,
+          723.609375,
+          527.203125
+        ],
+        "font_size_css_px": 10,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          538.559,
+          387.152,
+          542.707,
+          395.402
+        ],
+        "font_size_pt": 7.5
+      }
+    ],
+    "bbox_pt": [
+      531.059,
+      383.109,
+      542.707,
+      394.359
+    ]
+  },
+  {
+    "group_id": "MAG-E9D29DCF0174",
+    "atom_order": "base:MAG-E9D29DCF0174-A00|subscript:MAG-E9D29DCF0174-A01",
+    "text": "𝑧𝑘",
+    "bbox_css_px": [
+      438.796875,
+      627.4375,
+      450.328125,
+      642.4375
+    ],
+    "atoms": [
+      {
+        "atom_id": "MAG-E9D29DCF0174-A00",
+        "role": "math-base",
+        "text": "𝑧",
+        "bbox_css_px": [
+          438.796875,
+          627.4375,
+          444.796875,
+          642.4375
+        ],
+        "font_size_css_px": 13.3333,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          329.098,
+          470.578,
+          333.598,
+          481.828
+        ],
+        "font_size_pt": 10.0
+      },
+      {
+        "atom_id": "MAG-E9D29DCF0174-A01",
+        "role": "math-subscript",
+        "text": "𝑘",
+        "bbox_css_px": [
+          444.796875,
+          632.828125,
+          450.328125,
+          643.828125
+        ],
+        "font_size_css_px": 10,
+        "actual_font": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "bbox_pt": [
+          333.598,
+          474.621,
+          337.746,
+          482.871
+        ],
+        "font_size_pt": 7.5
+      }
+    ],
+    "bbox_pt": [
+      329.098,
+      470.578,
+      337.746,
+      481.828
+    ]
+  }
+]

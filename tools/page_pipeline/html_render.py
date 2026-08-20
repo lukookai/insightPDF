@@ -242,6 +242,7 @@ def _render_paragraph_text(zh, para, inline_map, svg_name, page_w, page_h,
     the ScriptBoundaryQA report.
     """
     protected = para.get("protected_runs") or {}
+    inline_math_groups = para.get("inline_math_atom_groups") or {}
     token_re = re.compile(r"\{\{[A-Z_0-9]+\}\}")
     # Phase 4C.2E: long protected model identifiers must never break across
     # lines inside the paragraph (Chromium's overflow-wrap:anywhere would
@@ -297,6 +298,9 @@ def _render_paragraph_text(zh, para, inline_map, svg_name, page_w, page_h,
         elif token in protected:
             out.append('<code class="code-run" data-code-token="%s">%s</code>'
                        % (_esc(token.strip("{}")), _esc(protected[token])))
+        elif token in inline_math_groups:
+            from inline_math_reconstruction import render_math_atom_group_html
+            out.append(render_math_atom_group_html(inline_math_groups[token]))
         elif token.startswith("{{END_BOLD_"):
             out.append("</strong>")
         elif token.startswith("{{BOLD_"):
@@ -756,6 +760,8 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
                 "paragraph_id": fl.get("paragraph_id"),
                 "source_text": fl.get("source_text", ""),
                 "protected_runs": fl.get("protected_runs") or {},
+                "inline_math_atom_groups": (
+                    fl.get("inline_math_atom_groups") or {}),
                 "style_role": fl.get("style_role", "body"),
                 "semantic_role": fl.get("semantic_role", "body"),
             }
@@ -1108,6 +1114,11 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
         "overflow-wrap:normal;}"
         ".inline-bold{font-weight:700}.inline-italic{font-style:italic}"
         ".script-gap{display:inline-block;}"
+        ".math-atom-group{white-space:nowrap;font-family:inherit;}"
+        ".math-atom-group sup,.math-atom-group sub{font-size:.75em;"
+        "line-height:0;position:static;}"
+        ".math-atom-group sup{vertical-align:.46em;}"
+        ".math-atom-group sub{vertical-align:-.24em;}"
         ".paragraph-block[data-role='heading']{font-weight:700;}"
         "%s"
         "%s"

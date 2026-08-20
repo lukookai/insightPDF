@@ -117,6 +117,46 @@ def _text_lines_in_regions(pdf_path: str, page_idx: int,
         doc.close()
 
 
+def _enrich_prose_lines_with_inline_math(
+        pdf_path: str, page_idx: int, regions: List[List[float]],
+        prose_lines: List[Dict[str, Any]],
+        ) -> List[Dict[str, Any]]:
+    """Attach co-baseline math fragments to existing prose line anchors.
+
+    Candidate formula detection and paragraph clustering retain the exact
+    legacy anchor set.  Only each anchor's text/bbox is enriched, after the
+    ownership candidates are frozen, so SourceTextSlot count and paragraph
+    boundaries cannot change as a side effect of reconstruction.
+    """
+    from inline_math_reconstruction import merged_source_text_lines
+    merged = merged_source_text_lines(pdf_path, page_idx, regions)
+    output = []
+    used_rows = set()
+    for anchor in prose_lines:
+        center_y = (anchor["bbox"][1] + anchor["bbox"][3]) / 2.0
+        candidates = []
+        for index, row in enumerate(merged):
+            row_center_y = (row["bbox"][1] + row["bbox"][3]) / 2.0
+            horizontal_overlap = (min(anchor["bbox"][2], row["bbox"][2])
+                                  - max(anchor["bbox"][0], row["bbox"][0]))
+            if abs(center_y - row_center_y) <= 3.5 and horizontal_overlap > 0:
+                candidates.append((abs(center_y - row_center_y), index, row))
+        if candidates:
+            _, row_index, row = sorted(candidates)[0]
+            if row_index not in used_rows:
+                used_rows.add(row_index)
+                output.append({
+                    # Geometry remains the legacy prose anchor.  The joined
+                    # fragments alter only the source atom sequence.
+                    "bbox": list(anchor["bbox"]),
+                    "text": str(row.get("text") or ""),
+                    "size": float(anchor.get("size") or 0.0),
+                })
+                continue
+        output.append(anchor)
+    return output
+
+
 def _inside(a: List[float], b: List[float], tol: float = 2.0) -> bool:
     """Line a (bbox) is inside region b: BOTH axes overlap >= 60%.
 
@@ -494,6 +534,8 @@ def recover_prose_adopted_formulas(
         + _text_region_boxes(page_model)
 
     lines = _text_lines_in_regions(str(pdf_path), page_idx, paf_boxes)
+    lines = _enrich_prose_lines_with_inline_math(
+        str(pdf_path), page_idx, paf_boxes, lines)
     # drop lines inside exclusion regions (real formulas keep their SVG)
     # -- BUT keep ALL candidate-region lines (including paragraph-middle
     # rows that fail the single-line prose test): prose is decided at the
@@ -568,6 +610,12 @@ def recover_prose_adopted_formulas(
         mark_translation_source,
         target_paragraph_segments,
     )
+    from inline_math_reconstruction import (
+        extract_inline_math_atom_groups,
+        math_group_map,
+        normalize_group_for_render,
+        protect_source_math_groups,
+    )
     page_paragraph_candidates = detect_source_first_line_indent_candidates(
         extract_source_page_lines(pdf_path, page_idx))
 
@@ -606,6 +654,13 @@ def recover_prose_adopted_formulas(
             pid, role, cl, page_paragraph_candidates)
         translation_source_text = mark_translation_source(
             src, source_paragraph_styles)
+        inline_math_groups = extract_inline_math_atom_groups(
+            pdf_path, page_idx, bb, page_model=page_model)
+        normalized_inline_math_groups = [normalize_group_for_render(
+            group, pdf_path, page_idx) for group in inline_math_groups]
+        translation_source_text, math_protection_trace = (
+            protect_source_math_groups(
+                translation_source_text, normalized_inline_math_groups))
         # source formula region(s) owning this block's lines
         src_fids = []
         for ln in cl:
@@ -628,6 +683,9 @@ def recover_prose_adopted_formulas(
                 "font_size": round(float(line.get("size") or 0.0), 3),
             } for line in cl],
             "source_paragraph_styles": source_paragraph_styles,
+            "inline_math_atom_groups": math_group_map(
+                normalized_inline_math_groups),
+            "inline_math_protection_trace": math_protection_trace,
             "target_text": None,          # filled after translation
             "target_text_with_paragraph_markers": None,
             "bbox": [round(v, 2) for v in bb],
@@ -716,6 +774,12 @@ def recover_prose_adopted_formulas(
             page_paragraph_candidates.get("records") or []),
         "recovered_first_line_indent_count": sum(
             len(p.get("source_paragraph_styles") or []) for p in recovered),
+        "inline_math_atom_group_count": sum(
+            len(p.get("inline_math_atom_groups") or {}) for p in recovered),
+        "inline_math_protected_group_count": sum(
+            sum(bool(row.get("protected")) for row in
+                p.get("inline_math_protection_trace") or [])
+            for p in recovered),
         "api_calls": api_calls,
     }
     # visual-v04: skipped formulas =

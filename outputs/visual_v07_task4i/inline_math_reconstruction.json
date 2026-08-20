@@ -1,0 +1,240 @@
+{
+  "schema_version": "visual_v07.inline_math_html_reconstruction.v1",
+  "records": [
+    {
+      "block_index": 0,
+      "source_slot_bbox": [
+        51.3,
+        50.79,
+        288.7,
+        333.392
+      ],
+      "group_id": "MAG-52F45C34EAFB",
+      "source_atom_sequence": [
+        "𝓕",
+        "−1",
+        "(",
+        "⋅",
+        ")"
+      ],
+      "has_superscript": true,
+      "has_subscript": false,
+      "applied": true,
+      "method": "exact_normalized_atom_sequence",
+      "target_anchor": "𝓕−1(⋅)"
+    },
+    {
+      "block_index": 0,
+      "source_slot_bbox": [
+        51.3,
+        50.79,
+        288.7,
+        333.392
+      ],
+      "group_id": "MAG-FD587A88A6FD",
+      "source_atom_sequence": [
+        "",
+        "𝑐"
+      ],
+      "has_superscript": false,
+      "has_subscript": true,
+      "applied": true,
+      "method": "exact_normalized_atom_sequence",
+      "target_anchor": "𝑐"
+    },
+    {
+      "block_index": 0,
+      "source_slot_bbox": [
+        51.3,
+        50.79,
+        288.7,
+        333.392
+      ],
+      "group_id": "MAG-179831757CCB",
+      "source_atom_sequence": [
+        "𝐤",
+        "𝑢,𝑣",
+        "=",
+        "𝑢",
+        "2",
+        "+",
+        "𝑣",
+        "2"
+      ],
+      "has_superscript": true,
+      "has_subscript": true,
+      "applied": true,
+      "method": "exact_normalized_atom_sequence",
+      "target_anchor": "𝐤𝑢,𝑣= 𝑢2 + 𝑣2"
+    },
+    {
+      "block_index": 0,
+      "source_slot_bbox": [
+        51.3,
+        50.79,
+        288.7,
+        333.392
+      ],
+      "group_id": "MAG-612662CB23BA",
+      "source_atom_sequence": [
+        "𝝀",
+        "∈",
+        "ℝ",
+        "𝐶"
+      ],
+      "has_superscript": true,
+      "has_subscript": false,
+      "applied": true,
+      "method": "exact_normalized_atom_sequence",
+      "target_anchor": "𝝀∈ℝ𝐶"
+    },
+    {
+      "block_index": 1,
+      "source_slot_bbox": [
+        51.3,
+        465.24,
+        288.7,
+        504.042
+      ],
+      "group_id": "MAG-98F1AC430FC0",
+      "source_atom_sequence": [
+        "𝜆",
+        "𝑐",
+        ">",
+        "0"
+      ],
+      "has_superscript": false,
+      "has_subscript": true,
+      "applied": true,
+      "method": "unique_boundary_suffix_atom_anchor",
+      "target_anchor": "0"
+    },
+    {
+      "block_index": 2,
+      "source_slot_bbox": [
+        51.3,
+        568.85,
+        288.7,
+        698.19
+      ],
+      "group_id": "MAG-954A3FCBE690",
+      "source_atom_sequence": [
+        "𝑃",
+        "𝑖"
+      ],
+      "has_superscript": false,
+      "has_subscript": true,
+      "applied": true,
+      "method": "exact_normalized_atom_sequence",
+      "target_anchor": "𝑃𝑖"
+    },
+    {
+      "block_index": 2,
+      "source_slot_bbox": [
+        51.3,
+        568.85,
+        288.7,
+        698.19
+      ],
+      "group_id": "MAG-818DD43AAC31",
+      "source_atom_sequence": [
+        "𝑃",
+        "𝑖"
+      ],
+      "has_superscript": false,
+      "has_subscript": true,
+      "applied": true,
+      "method": "exact_normalized_atom_sequence",
+      "target_anchor": "𝑃𝑖"
+    },
+    {
+      "block_index": 4,
+      "source_slot_bbox": [
+        306.6,
+        314.46,
+        544.0,
+        417.932
+      ],
+      "group_id": "MAG-21200F752707",
+      "source_atom_sequence": [
+        "𝑓",
+        "𝑘",
+        "(",
+        "𝑃",
+        "𝑖",
+        ")"
+      ],
+      "has_superscript": false,
+      "has_subscript": true,
+      "applied": true,
+      "method": "exact_normalized_atom_sequence",
+      "target_anchor": "𝑓𝑘(𝑃𝑖)"
+    },
+    {
+      "block_index": 4,
+      "source_slot_bbox": [
+        306.6,
+        314.46,
+        544.0,
+        417.932
+      ],
+      "group_id": "MAG-3F6A4368F6C1",
+      "source_atom_sequence": [
+        "𝑓",
+        "𝐹𝐹𝑁",
+        "(",
+        "𝑃",
+        "𝑖",
+        ")"
+      ],
+      "has_superscript": false,
+      "has_subscript": true,
+      "applied": true,
+      "method": "exact_normalized_atom_sequence",
+      "target_anchor": "𝑓𝐹𝐹𝑁(𝑃𝑖)"
+    },
+    {
+      "block_index": 4,
+      "source_slot_bbox": [
+        306.6,
+        314.46,
+        544.0,
+        417.932
+      ],
+      "group_id": "MAG-412216EF6F74",
+      "source_atom_sequence": [
+        "𝑤",
+        "𝑘"
+      ],
+      "has_superscript": false,
+      "has_subscript": true,
+      "applied": true,
+      "method": "exact_normalized_atom_sequence",
+      "target_anchor": "𝑤𝑘"
+    },
+    {
+      "block_index": 5,
+      "source_slot_bbox": [
+        306.6,
+        469.83,
+        544.0,
+        534.5
+      ],
+      "group_id": "MAG-E9D29DCF0174",
+      "source_atom_sequence": [
+        "𝑧",
+        "𝑘"
+      ],
+      "has_superscript": false,
+      "has_subscript": true,
+      "applied": true,
+      "method": "exact_normalized_atom_sequence",
+      "target_anchor": "𝑧𝑘"
+    }
+  ],
+  "metrics": {
+    "candidate_group_count": 11,
+    "reconstructed_group_count": 11,
+    "unresolved_group_count": 0
+  }
+}

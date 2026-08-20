@@ -1,0 +1,48 @@
+{
+  "schema_version": "visual_v07.task4i.review_index.v1",
+  "decision": "pass",
+  "focus_bboxes_pt": [
+    [
+      45.0,
+      48.0,
+      294.0,
+      82.0
+    ],
+    [
+      45.0,
+      464.0,
+      294.0,
+      494.0
+    ]
+  ],
+  "files": [
+    {
+      "name": "inline_math_after.png",
+      "sha256": "2fe7f2b41bf914698d798da151da471c6235bdc538f7170492f16a03dff16de3"
+    },
+    {
+      "name": "inline_math_before.png",
+      "sha256": "4728e618d5b3101b7b6e549aaafa2b03e1e20b17a33a0fca6cdc2733d853a461"
+    },
+    {
+      "name": "inline_math_before_after.png",
+      "sha256": "ab8f41e95fb2a6a19824fdc7193ee6ce06cc9225eb7b6f208ed043106c2e8dff"
+    },
+    {
+      "name": "inline_math_source.png",
+      "sha256": "cbed8541ac03b8072dd895fa46a5fccce089f7c76b43d626bd1a6a2fba9e6712"
+    },
+    {
+      "name": "math_atom_structure_overlay.png",
+      "sha256": "d7bbfe9794038121050e02c00ec0e6c5d609879dde314469321138ce6764ed4b"
+    }
+  ],
+  "legend": {
+    "blue": "base",
+    "red": "superscript",
+    "purple": "subscript",
+    "green": "operator",
+    "orange": "delimiter",
+    "teal": "argument"
+  }
+}

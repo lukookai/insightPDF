@@ -1,0 +1,2149 @@
+{
+  "groups": [
+    {
+      "group_id": "MAG-52F45C34EAFB",
+      "protected_token": "{{MATH_ATOM_GROUP_52F45C34EAFB}}",
+      "source_bbox": [
+        117.937,
+        55.275,
+        144.295,
+        67.637
+      ],
+      "source_line_bbox": [
+        51.307,
+        55.275,
+        288.673,
+        67.637
+      ],
+      "source_text": "−1(⋅)",
+      "source_compact_text": "−1(⋅)",
+      "base": [
+        {
+          "atom_id": "MAG-52F45C34EAFB-A00",
+          "text": "𝓕",
+          "role": "base",
+          "bbox": [
+            117.937,
+            55.275,
+            124.432,
+            65.238
+          ],
+          "font": "STIXMathCalligraphy-Regu",
+          "font_size": 9.963,
+          "baseline": 65.238,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-52F45C34EAFB-C000"
+          ]
+        }
+      ],
+      "superscript": [
+        {
+          "atom_id": "MAG-52F45C34EAFB-A01",
+          "text": "−1",
+          "role": "superscript",
+          "bbox": [
+            125.458,
+            56.074,
+            134.312,
+            63.546
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 7.472,
+          "baseline": 61.752,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-52F45C34EAFB-C001",
+            "MAG-52F45C34EAFB-C002"
+          ]
+        }
+      ],
+      "subscript": [],
+      "operator": [
+        {
+          "atom_id": "MAG-52F45C34EAFB-A03",
+          "text": "⋅",
+          "role": "operator",
+          "bbox": [
+            138.129,
+            57.674,
+            140.978,
+            67.637
+          ],
+          "font": "STIXMathScript-Regular",
+          "font_size": 9.963,
+          "baseline": 65.238,
+          "atom_order": 3,
+          "source_character_ids": [
+            "MAG-52F45C34EAFB-C004"
+          ]
+        }
+      ],
+      "delimiter": [
+        {
+          "atom_id": "MAG-52F45C34EAFB-A02",
+          "text": "(",
+          "role": "delimiter",
+          "bbox": [
+            134.811,
+            57.668,
+            138.129,
+            67.63
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 65.238,
+          "atom_order": 2,
+          "source_character_ids": [
+            "MAG-52F45C34EAFB-C003"
+          ]
+        },
+        {
+          "atom_id": "MAG-52F45C34EAFB-A04",
+          "text": ")",
+          "role": "delimiter",
+          "bbox": [
+            140.978,
+            57.668,
+            144.295,
+            67.63
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 65.238,
+          "atom_order": 4,
+          "source_character_ids": [
+            "MAG-52F45C34EAFB-C005"
+          ]
+        }
+      ],
+      "argument": [],
+      "atom_order": [
+        {
+          "atom_id": "MAG-52F45C34EAFB-A00",
+          "text": "𝓕",
+          "role": "base",
+          "bbox": [
+            117.937,
+            55.275,
+            124.432,
+            65.238
+          ],
+          "font": "STIXMathCalligraphy-Regu",
+          "font_size": 9.963,
+          "baseline": 65.238,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-52F45C34EAFB-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-52F45C34EAFB-A01",
+          "text": "−1",
+          "role": "superscript",
+          "bbox": [
+            125.458,
+            56.074,
+            134.312,
+            63.546
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 7.472,
+          "baseline": 61.752,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-52F45C34EAFB-C001",
+            "MAG-52F45C34EAFB-C002"
+          ]
+        },
+        {
+          "atom_id": "MAG-52F45C34EAFB-A02",
+          "text": "(",
+          "role": "delimiter",
+          "bbox": [
+            134.811,
+            57.668,
+            138.129,
+            67.63
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 65.238,
+          "atom_order": 2,
+          "source_character_ids": [
+            "MAG-52F45C34EAFB-C003"
+          ]
+        },
+        {
+          "atom_id": "MAG-52F45C34EAFB-A03",
+          "text": "⋅",
+          "role": "operator",
+          "bbox": [
+            138.129,
+            57.674,
+            140.978,
+            67.637
+          ],
+          "font": "STIXMathScript-Regular",
+          "font_size": 9.963,
+          "baseline": 65.238,
+          "atom_order": 3,
+          "source_character_ids": [
+            "MAG-52F45C34EAFB-C004"
+          ]
+        },
+        {
+          "atom_id": "MAG-52F45C34EAFB-A04",
+          "text": ")",
+          "role": "delimiter",
+          "bbox": [
+            140.978,
+            57.668,
+            144.295,
+            67.63
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 65.238,
+          "atom_order": 4,
+          "source_character_ids": [
+            "MAG-52F45C34EAFB-C005"
+          ]
+        }
+      ],
+      "source_baseline": 65.238,
+      "source_font_size": 9.963,
+      "semantic_role": "inline_math",
+      "primary_owner": "FORMULA",
+      "owner_id": "B1",
+      "confidence": 0.99,
+      "evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and raised source baseline identify superscript",
+        "existing formula ownership contains the run"
+      ],
+      "normalization_records": [
+        {
+          "record_id": "legacy-pua-target-0000",
+          "target_text_index": 0,
+          "required": true,
+          "source_character": "",
+          "source_codepoint": "U+E232",
+          "source_provenance": {
+            "source_provenance_id": "p0004-s0006-c0000-pua001",
+            "source_pdf_path": "C:\\Users\\74496\\Desktop\\PPAT.pdf",
+            "source_page_index": 4,
+            "source_span_index": 6,
+            "source_char_index": 0,
+            "source_sequence_number": 0,
+            "source_character": "",
+            "source_codepoint": "U+E232",
+            "source_span_font": "STIXMathCalligraphy-Regu",
+            "source_font_family": "STIXMathCalligraphy",
+            "source_postscript_name": "STIXMathCalligraphy-Regular",
+            "source_font_xref": 849,
+            "source_glyph_id": 2,
+            "source_glyph_name": "uniE232",
+            "source_font_program_contains_glyph_name": true,
+            "source_origin": [
+              117.937,
+              65.238
+            ],
+            "source_bbox": [
+              117.937,
+              55.275,
+              124.432,
+              65.238
+            ],
+            "source_bbox_width": 6.496,
+            "source_ink_exists": true,
+            "source_span_provenance_complete": true
+          },
+          "registry_match": true,
+          "registry_id": "stix1-calligraphy-regular-uniE232-bold-script-capital-f",
+          "registry_standard_character": "𝓕",
+          "normalized": true,
+          "standard_character": "𝓕",
+          "standard_codepoint": "U+1D4D5",
+          "confidence": 1.0,
+          "resolution": "normalized_exact_provenance_match",
+          "production_context": {
+            "math_atom_group_id": "MAG-52F45C34EAFB",
+            "atom_id": "MAG-52F45C34EAFB-A00"
+          }
+        }
+      ],
+      "normalized_compact_text": "𝓕−1(⋅)"
+    },
+    {
+      "group_id": "MAG-FD587A88A6FD",
+      "protected_token": "{{MATH_ATOM_GROUP_FD587A88A6FD}}",
+      "source_bbox": [
+        256.387,
+        79.186,
+        267.767,
+        93.253
+      ],
+      "source_line_bbox": [
+        51.307,
+        79.186,
+        288.674,
+        93.253
+      ],
+      "source_text": "𝑐",
+      "source_compact_text": "𝑐",
+      "base": [
+        {
+          "atom_id": "MAG-FD587A88A6FD-A00",
+          "text": "",
+          "role": "base",
+          "bbox": [
+            256.387,
+            79.186,
+            264.666,
+            89.149
+          ],
+          "font": "STIXMathCalligraphy-Regu",
+          "font_size": 9.963,
+          "baseline": 89.149,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-FD587A88A6FD-C000"
+          ]
+        }
+      ],
+      "superscript": [],
+      "subscript": [
+        {
+          "atom_id": "MAG-FD587A88A6FD-A01",
+          "text": "𝑐",
+          "role": "subscript",
+          "bbox": [
+            264.666,
+            85.781,
+            267.767,
+            93.253
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 91.639,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-FD587A88A6FD-C001"
+          ]
+        }
+      ],
+      "operator": [],
+      "delimiter": [],
+      "argument": [],
+      "atom_order": [
+        {
+          "atom_id": "MAG-FD587A88A6FD-A00",
+          "text": "",
+          "role": "base",
+          "bbox": [
+            256.387,
+            79.186,
+            264.666,
+            89.149
+          ],
+          "font": "STIXMathCalligraphy-Regu",
+          "font_size": 9.963,
+          "baseline": 89.149,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-FD587A88A6FD-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-FD587A88A6FD-A01",
+          "text": "𝑐",
+          "role": "subscript",
+          "bbox": [
+            264.666,
+            85.781,
+            267.767,
+            93.253
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 91.639,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-FD587A88A6FD-C001"
+          ]
+        }
+      ],
+      "source_baseline": 89.149,
+      "source_font_size": 9.963,
+      "semantic_role": "inline_math",
+      "primary_owner": "FORMULA",
+      "owner_id": "B2",
+      "confidence": 0.99,
+      "evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and lowered source baseline identify subscript",
+        "existing formula ownership contains the run"
+      ],
+      "normalization_records": [
+        {
+          "record_id": "legacy-pua-target-0000",
+          "target_text_index": 0,
+          "required": false,
+          "source_character": "",
+          "source_codepoint": "U+E234",
+          "source_provenance": {
+            "source_provenance_id": "p0004-s0019-c0000-pua003",
+            "source_pdf_path": "C:\\Users\\74496\\Desktop\\PPAT.pdf",
+            "source_page_index": 4,
+            "source_span_index": 19,
+            "source_char_index": 0,
+            "source_sequence_number": 0,
+            "source_character": "",
+            "source_codepoint": "U+E234",
+            "source_span_font": "STIXMathCalligraphy-Regu",
+            "source_font_family": "STIXMathCalligraphy",
+            "source_postscript_name": "STIXMathCalligraphy-Regular",
+            "source_font_xref": 849,
+            "source_glyph_id": 3,
+            "source_glyph_name": "uniE234",
+            "source_font_program_contains_glyph_name": true,
+            "source_origin": [
+              256.387,
+              89.149
+            ],
+            "source_bbox": [
+              256.387,
+              79.186,
+              264.666,
+              89.149
+            ],
+            "source_bbox_width": 8.279,
+            "source_ink_exists": true,
+            "source_span_provenance_complete": true
+          },
+          "registry_match": false,
+          "registry_id": null,
+          "registry_standard_character": null,
+          "normalized": false,
+          "standard_character": null,
+          "standard_codepoint": null,
+          "confidence": null,
+          "resolution": "unresolved_unregistered_pua_left_unchanged",
+          "production_context": {
+            "math_atom_group_id": "MAG-FD587A88A6FD",
+            "atom_id": "MAG-FD587A88A6FD-A00"
+          }
+        }
+      ],
+      "normalized_compact_text": "𝑐"
+    },
+    {
+      "group_id": "MAG-179831757CCB",
+      "protected_token": "{{MATH_ATOM_GROUP_179831757CCB}}",
+      "source_bbox": [
+        229.996,
+        247.356,
+        285.683,
+        260.626
+      ],
+      "source_line_bbox": [
+        51.307,
+        247.356,
+        288.672,
+        260.626
+      ],
+      "source_text": "𝐤𝑢,𝑣 = 𝑢2+𝑣2",
+      "source_compact_text": "𝐤𝑢,𝑣=𝑢2+𝑣2",
+      "base": [
+        {
+          "atom_id": "MAG-179831757CCB-A00",
+          "text": "𝐤",
+          "role": "base",
+          "bbox": [
+            229.996,
+            248.838,
+            235.535,
+            258.801
+          ],
+          "font": "STIXMath-Bold",
+          "font_size": 9.963,
+          "baseline": 256.521,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-179831757CCB-C000"
+          ]
+        }
+      ],
+      "superscript": [
+        {
+          "atom_id": "MAG-179831757CCB-A04",
+          "text": "2",
+          "role": "superscript",
+          "bbox": [
+            262.308,
+            247.356,
+            266.044,
+            254.828
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 7.472,
+          "baseline": 253.034,
+          "atom_order": 4,
+          "source_character_ids": [
+            "MAG-179831757CCB-C006"
+          ]
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A07",
+          "text": "2",
+          "role": "superscript",
+          "bbox": [
+            281.947,
+            247.356,
+            285.683,
+            254.828
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 7.472,
+          "baseline": 253.034,
+          "atom_order": 7,
+          "source_character_ids": [
+            "MAG-179831757CCB-C009"
+          ]
+        }
+      ],
+      "subscript": [
+        {
+          "atom_id": "MAG-179831757CCB-A01",
+          "text": "𝑢,𝑣",
+          "role": "subscript",
+          "bbox": [
+            235.538,
+            253.154,
+            244.729,
+            260.626
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 259.012,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-179831757CCB-C001",
+            "MAG-179831757CCB-C002",
+            "MAG-179831757CCB-C003"
+          ]
+        }
+      ],
+      "operator": [
+        {
+          "atom_id": "MAG-179831757CCB-A02",
+          "text": "=",
+          "role": "operator",
+          "bbox": [
+            247.994,
+            248.951,
+            254.818,
+            258.914
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 256.521,
+          "atom_order": 2,
+          "source_character_ids": [
+            "MAG-179831757CCB-C004"
+          ]
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A05",
+          "text": "+",
+          "role": "operator",
+          "bbox": [
+            268.311,
+            248.951,
+            275.135,
+            258.914
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 256.521,
+          "atom_order": 5,
+          "source_character_ids": [
+            "MAG-179831757CCB-C007"
+          ]
+        }
+      ],
+      "delimiter": [],
+      "argument": [
+        {
+          "atom_id": "MAG-179831757CCB-A03",
+          "text": "𝑢",
+          "role": "argument",
+          "bbox": [
+            257.588,
+            248.71,
+            262.31,
+            258.673
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 256.521,
+          "atom_order": 3,
+          "source_character_ids": [
+            "MAG-179831757CCB-C005"
+          ]
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A06",
+          "text": "𝑣",
+          "role": "argument",
+          "bbox": [
+            276.909,
+            248.71,
+            281.95,
+            258.673
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 256.521,
+          "atom_order": 6,
+          "source_character_ids": [
+            "MAG-179831757CCB-C008"
+          ]
+        }
+      ],
+      "atom_order": [
+        {
+          "atom_id": "MAG-179831757CCB-A00",
+          "text": "𝐤",
+          "role": "base",
+          "bbox": [
+            229.996,
+            248.838,
+            235.535,
+            258.801
+          ],
+          "font": "STIXMath-Bold",
+          "font_size": 9.963,
+          "baseline": 256.521,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-179831757CCB-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A01",
+          "text": "𝑢,𝑣",
+          "role": "subscript",
+          "bbox": [
+            235.538,
+            253.154,
+            244.729,
+            260.626
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 259.012,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-179831757CCB-C001",
+            "MAG-179831757CCB-C002",
+            "MAG-179831757CCB-C003"
+          ]
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A02",
+          "text": "=",
+          "role": "operator",
+          "bbox": [
+            247.994,
+            248.951,
+            254.818,
+            258.914
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 256.521,
+          "atom_order": 2,
+          "source_character_ids": [
+            "MAG-179831757CCB-C004"
+          ]
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A03",
+          "text": "𝑢",
+          "role": "argument",
+          "bbox": [
+            257.588,
+            248.71,
+            262.31,
+            258.673
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 256.521,
+          "atom_order": 3,
+          "source_character_ids": [
+            "MAG-179831757CCB-C005"
+          ]
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A04",
+          "text": "2",
+          "role": "superscript",
+          "bbox": [
+            262.308,
+            247.356,
+            266.044,
+            254.828
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 7.472,
+          "baseline": 253.034,
+          "atom_order": 4,
+          "source_character_ids": [
+            "MAG-179831757CCB-C006"
+          ]
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A05",
+          "text": "+",
+          "role": "operator",
+          "bbox": [
+            268.311,
+            248.951,
+            275.135,
+            258.914
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 256.521,
+          "atom_order": 5,
+          "source_character_ids": [
+            "MAG-179831757CCB-C007"
+          ]
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A06",
+          "text": "𝑣",
+          "role": "argument",
+          "bbox": [
+            276.909,
+            248.71,
+            281.95,
+            258.673
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 256.521,
+          "atom_order": 6,
+          "source_character_ids": [
+            "MAG-179831757CCB-C008"
+          ]
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A07",
+          "text": "2",
+          "role": "superscript",
+          "bbox": [
+            281.947,
+            247.356,
+            285.683,
+            254.828
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 7.472,
+          "baseline": 253.034,
+          "atom_order": 7,
+          "source_character_ids": [
+            "MAG-179831757CCB-C009"
+          ]
+        }
+      ],
+      "source_baseline": 256.521,
+      "source_font_size": 9.963,
+      "semantic_role": "inline_math",
+      "primary_owner": "FORMULA",
+      "owner_id": "B4",
+      "confidence": 0.99,
+      "evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and raised source baseline identify superscript",
+        "smaller font and lowered source baseline identify subscript",
+        "existing formula ownership contains the run"
+      ],
+      "normalization_records": [],
+      "normalized_compact_text": "𝐤𝑢,𝑣=𝑢2+𝑣2"
+    },
+    {
+      "group_id": "MAG-612662CB23BA",
+      "protected_token": "{{MATH_ATOM_GROUP_612662CB23BA}}",
+      "source_bbox": [
+        175.8,
+        283.042,
+        209.0,
+        294.808
+      ],
+      "source_line_bbox": [
+        51.307,
+        283.042,
+        288.67,
+        294.808
+      ],
+      "source_text": "𝝀 ∈ ℝ𝐶",
+      "source_compact_text": "𝝀∈ℝ𝐶",
+      "base": [
+        {
+          "atom_id": "MAG-612662CB23BA-A00",
+          "text": "𝝀",
+          "role": "base",
+          "bbox": [
+            175.8,
+            284.691,
+            181.478,
+            294.654
+          ],
+          "font": "STIXMath-BoldItalic",
+          "font_size": 9.963,
+          "baseline": 292.387,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-612662CB23BA-C000"
+          ]
+        }
+      ],
+      "superscript": [
+        {
+          "atom_id": "MAG-612662CB23BA-A03",
+          "text": "𝐶",
+          "role": "superscript",
+          "bbox": [
+            203.986,
+            283.042,
+            209.0,
+            290.514
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 288.9,
+          "atom_order": 3,
+          "source_character_ids": [
+            "MAG-612662CB23BA-C003"
+          ]
+        }
+      ],
+      "subscript": [],
+      "operator": [
+        {
+          "atom_id": "MAG-612662CB23BA-A01",
+          "text": "∈",
+          "role": "operator",
+          "bbox": [
+            185.593,
+            284.817,
+            192.417,
+            294.78
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 292.387,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-612662CB23BA-C001"
+          ]
+        }
+      ],
+      "delimiter": [],
+      "argument": [
+        {
+          "atom_id": "MAG-612662CB23BA-A02",
+          "text": "ℝ",
+          "role": "argument",
+          "bbox": [
+            196.542,
+            284.845,
+            203.984,
+            294.808
+          ],
+          "font": "STIXMathBlackboard-Regul",
+          "font_size": 9.963,
+          "baseline": 292.387,
+          "atom_order": 2,
+          "source_character_ids": [
+            "MAG-612662CB23BA-C002"
+          ]
+        }
+      ],
+      "atom_order": [
+        {
+          "atom_id": "MAG-612662CB23BA-A00",
+          "text": "𝝀",
+          "role": "base",
+          "bbox": [
+            175.8,
+            284.691,
+            181.478,
+            294.654
+          ],
+          "font": "STIXMath-BoldItalic",
+          "font_size": 9.963,
+          "baseline": 292.387,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-612662CB23BA-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-612662CB23BA-A01",
+          "text": "∈",
+          "role": "operator",
+          "bbox": [
+            185.593,
+            284.817,
+            192.417,
+            294.78
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 292.387,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-612662CB23BA-C001"
+          ]
+        },
+        {
+          "atom_id": "MAG-612662CB23BA-A02",
+          "text": "ℝ",
+          "role": "argument",
+          "bbox": [
+            196.542,
+            284.845,
+            203.984,
+            294.808
+          ],
+          "font": "STIXMathBlackboard-Regul",
+          "font_size": 9.963,
+          "baseline": 292.387,
+          "atom_order": 2,
+          "source_character_ids": [
+            "MAG-612662CB23BA-C002"
+          ]
+        },
+        {
+          "atom_id": "MAG-612662CB23BA-A03",
+          "text": "𝐶",
+          "role": "superscript",
+          "bbox": [
+            203.986,
+            283.042,
+            209.0,
+            290.514
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 288.9,
+          "atom_order": 3,
+          "source_character_ids": [
+            "MAG-612662CB23BA-C003"
+          ]
+        }
+      ],
+      "source_baseline": 292.387,
+      "source_font_size": 9.963,
+      "semantic_role": "inline_math",
+      "primary_owner": "FORMULA",
+      "owner_id": "B5",
+      "confidence": 0.99,
+      "evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and raised source baseline identify superscript",
+        "existing formula ownership contains the run"
+      ],
+      "normalization_records": [],
+      "normalized_compact_text": "𝝀∈ℝ𝐶"
+    },
+    {
+      "group_id": "MAG-98F1AC430FC0",
+      "protected_token": "{{MATH_ATOM_GROUP_98F1AC430FC0}}",
+      "source_bbox": [
+        80.517,
+        471.873,
+        117.863,
+        483.789
+      ],
+      "source_line_bbox": [
+        51.307,
+        471.714,
+        288.672,
+        483.789
+      ],
+      "source_text": "𝜆𝑐 > 0",
+      "source_compact_text": "𝜆𝑐>0",
+      "base": [
+        {
+          "atom_id": "MAG-98F1AC430FC0-A00",
+          "text": "𝜆",
+          "role": "base",
+          "bbox": [
+            80.517,
+            471.873,
+            85.907,
+            481.836
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 479.684,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-98F1AC430FC0-C000"
+          ]
+        }
+      ],
+      "superscript": [],
+      "subscript": [
+        {
+          "atom_id": "MAG-98F1AC430FC0-A01",
+          "text": "𝑐",
+          "role": "subscript",
+          "bbox": [
+            85.903,
+            476.317,
+            89.004,
+            483.789
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 482.175,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-98F1AC430FC0-C001"
+          ]
+        }
+      ],
+      "operator": [
+        {
+          "atom_id": "MAG-98F1AC430FC0-A02",
+          "text": ">",
+          "role": "operator",
+          "bbox": [
+            97.968,
+            471.873,
+            104.792,
+            481.836
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 479.684,
+          "atom_order": 2,
+          "source_character_ids": [
+            "MAG-98F1AC430FC0-C002"
+          ]
+        }
+      ],
+      "delimiter": [],
+      "argument": [
+        {
+          "atom_id": "MAG-98F1AC430FC0-A03",
+          "text": "0",
+          "role": "argument",
+          "bbox": [
+            112.882,
+            472.114,
+            117.863,
+            482.076
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 479.684,
+          "atom_order": 3,
+          "source_character_ids": [
+            "MAG-98F1AC430FC0-C003"
+          ]
+        }
+      ],
+      "atom_order": [
+        {
+          "atom_id": "MAG-98F1AC430FC0-A00",
+          "text": "𝜆",
+          "role": "base",
+          "bbox": [
+            80.517,
+            471.873,
+            85.907,
+            481.836
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 479.684,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-98F1AC430FC0-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-98F1AC430FC0-A01",
+          "text": "𝑐",
+          "role": "subscript",
+          "bbox": [
+            85.903,
+            476.317,
+            89.004,
+            483.789
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 482.175,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-98F1AC430FC0-C001"
+          ]
+        },
+        {
+          "atom_id": "MAG-98F1AC430FC0-A02",
+          "text": ">",
+          "role": "operator",
+          "bbox": [
+            97.968,
+            471.873,
+            104.792,
+            481.836
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 479.684,
+          "atom_order": 2,
+          "source_character_ids": [
+            "MAG-98F1AC430FC0-C002"
+          ]
+        },
+        {
+          "atom_id": "MAG-98F1AC430FC0-A03",
+          "text": "0",
+          "role": "argument",
+          "bbox": [
+            112.882,
+            472.114,
+            117.863,
+            482.076
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 479.684,
+          "atom_order": 3,
+          "source_character_ids": [
+            "MAG-98F1AC430FC0-C003"
+          ]
+        }
+      ],
+      "source_baseline": 479.684,
+      "source_font_size": 9.963,
+      "semantic_role": "inline_math",
+      "primary_owner": "FORMULA",
+      "owner_id": "B11",
+      "confidence": 0.99,
+      "evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and lowered source baseline identify subscript",
+        "existing formula ownership contains the run"
+      ],
+      "normalization_records": [],
+      "normalized_compact_text": "𝜆𝑐>0"
+    },
+    {
+      "group_id": "MAG-954A3FCBE690",
+      "protected_token": "{{MATH_ATOM_GROUP_954A3FCBE690}}",
+      "source_bbox": [
+        51.307,
+        646.319,
+        59.549,
+        658.235
+      ],
+      "source_line_bbox": [
+        51.307,
+        646.16,
+        288.675,
+        658.235
+      ],
+      "source_text": "𝑃𝑖",
+      "source_compact_text": "𝑃𝑖",
+      "base": [
+        {
+          "atom_id": "MAG-954A3FCBE690-A00",
+          "text": "𝑃",
+          "role": "base",
+          "bbox": [
+            51.307,
+            646.319,
+            57.225,
+            656.282
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 654.13,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-954A3FCBE690-C000"
+          ]
+        }
+      ],
+      "superscript": [],
+      "subscript": [
+        {
+          "atom_id": "MAG-954A3FCBE690-A01",
+          "text": "𝑖",
+          "role": "subscript",
+          "bbox": [
+            57.225,
+            650.763,
+            59.549,
+            658.235
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 656.621,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-954A3FCBE690-C001"
+          ]
+        }
+      ],
+      "operator": [],
+      "delimiter": [],
+      "argument": [],
+      "atom_order": [
+        {
+          "atom_id": "MAG-954A3FCBE690-A00",
+          "text": "𝑃",
+          "role": "base",
+          "bbox": [
+            51.307,
+            646.319,
+            57.225,
+            656.282
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 654.13,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-954A3FCBE690-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-954A3FCBE690-A01",
+          "text": "𝑖",
+          "role": "subscript",
+          "bbox": [
+            57.225,
+            650.763,
+            59.549,
+            658.235
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 656.621,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-954A3FCBE690-C001"
+          ]
+        }
+      ],
+      "source_baseline": 654.13,
+      "source_font_size": 9.963,
+      "semantic_role": "inline_math",
+      "primary_owner": "FORMULA",
+      "owner_id": "B13",
+      "confidence": 0.99,
+      "evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and lowered source baseline identify subscript",
+        "existing formula ownership contains the run"
+      ],
+      "normalization_records": [],
+      "normalized_compact_text": "𝑃𝑖"
+    },
+    {
+      "group_id": "MAG-818DD43AAC31",
+      "protected_token": "{{MATH_ATOM_GROUP_818DD43AAC31}}",
+      "source_bbox": [
+        51.307,
+        658.274,
+        59.549,
+        670.19
+      ],
+      "source_line_bbox": [
+        51.307,
+        658.115,
+        288.667,
+        670.19
+      ],
+      "source_text": "𝑃𝑖",
+      "source_compact_text": "𝑃𝑖",
+      "base": [
+        {
+          "atom_id": "MAG-818DD43AAC31-A00",
+          "text": "𝑃",
+          "role": "base",
+          "bbox": [
+            51.307,
+            658.274,
+            57.225,
+            668.237
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 666.085,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-818DD43AAC31-C000"
+          ]
+        }
+      ],
+      "superscript": [],
+      "subscript": [
+        {
+          "atom_id": "MAG-818DD43AAC31-A01",
+          "text": "𝑖",
+          "role": "subscript",
+          "bbox": [
+            57.225,
+            662.718,
+            59.549,
+            670.19
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 668.576,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-818DD43AAC31-C001"
+          ]
+        }
+      ],
+      "operator": [],
+      "delimiter": [],
+      "argument": [],
+      "atom_order": [
+        {
+          "atom_id": "MAG-818DD43AAC31-A00",
+          "text": "𝑃",
+          "role": "base",
+          "bbox": [
+            51.307,
+            658.274,
+            57.225,
+            668.237
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 666.085,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-818DD43AAC31-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-818DD43AAC31-A01",
+          "text": "𝑖",
+          "role": "subscript",
+          "bbox": [
+            57.225,
+            662.718,
+            59.549,
+            670.19
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 668.576,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-818DD43AAC31-C001"
+          ]
+        }
+      ],
+      "source_baseline": 666.085,
+      "source_font_size": 9.963,
+      "semantic_role": "inline_math",
+      "primary_owner": "FORMULA",
+      "owner_id": "B13",
+      "confidence": 0.99,
+      "evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and lowered source baseline identify subscript",
+        "existing formula ownership contains the run"
+      ],
+      "normalization_records": [],
+      "normalized_compact_text": "𝑃𝑖"
+    },
+    {
+      "group_id": "MAG-21200F752707",
+      "protected_token": "{{MATH_ATOM_GROUP_21200F752707}}",
+      "source_bbox": [
+        379.142,
+        345.003,
+        404.591,
+        356.918
+      ],
+      "source_line_bbox": [
+        306.604,
+        344.844,
+        543.967,
+        356.918
+      ],
+      "source_text": "𝑓𝑘(𝑃𝑖)",
+      "source_compact_text": "𝑓𝑘(𝑃𝑖)",
+      "base": [
+        {
+          "atom_id": "MAG-21200F752707-A00",
+          "text": "𝑓",
+          "role": "base",
+          "bbox": [
+            379.142,
+            345.003,
+            384.671,
+            354.965
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 352.814,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-21200F752707-C000"
+          ]
+        }
+      ],
+      "superscript": [],
+      "subscript": [
+        {
+          "atom_id": "MAG-21200F752707-A01",
+          "text": "𝑘",
+          "role": "subscript",
+          "bbox": [
+            384.668,
+            349.445,
+            388.718,
+            356.918
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 355.304,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-21200F752707-C001"
+          ]
+        },
+        {
+          "atom_id": "MAG-21200F752707-A04",
+          "text": "𝑖",
+          "role": "subscript",
+          "bbox": [
+            398.451,
+            349.445,
+            400.775,
+            356.918
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 355.304,
+          "atom_order": 4,
+          "source_character_ids": [
+            "MAG-21200F752707-C004"
+          ]
+        }
+      ],
+      "operator": [],
+      "delimiter": [
+        {
+          "atom_id": "MAG-21200F752707-A02",
+          "text": "(",
+          "role": "delimiter",
+          "bbox": [
+            389.215,
+            345.244,
+            392.533,
+            355.206
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 352.814,
+          "atom_order": 2,
+          "source_character_ids": [
+            "MAG-21200F752707-C002"
+          ]
+        },
+        {
+          "atom_id": "MAG-21200F752707-A05",
+          "text": ")",
+          "role": "delimiter",
+          "bbox": [
+            401.273,
+            345.244,
+            404.591,
+            355.206
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 352.814,
+          "atom_order": 5,
+          "source_character_ids": [
+            "MAG-21200F752707-C005"
+          ]
+        }
+      ],
+      "argument": [
+        {
+          "atom_id": "MAG-21200F752707-A03",
+          "text": "𝑃",
+          "role": "argument",
+          "bbox": [
+            392.533,
+            345.003,
+            398.45,
+            354.965
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 352.814,
+          "atom_order": 3,
+          "source_character_ids": [
+            "MAG-21200F752707-C003"
+          ]
+        }
+      ],
+      "atom_order": [
+        {
+          "atom_id": "MAG-21200F752707-A00",
+          "text": "𝑓",
+          "role": "base",
+          "bbox": [
+            379.142,
+            345.003,
+            384.671,
+            354.965
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 352.814,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-21200F752707-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-21200F752707-A01",
+          "text": "𝑘",
+          "role": "subscript",
+          "bbox": [
+            384.668,
+            349.445,
+            388.718,
+            356.918
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 355.304,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-21200F752707-C001"
+          ]
+        },
+        {
+          "atom_id": "MAG-21200F752707-A02",
+          "text": "(",
+          "role": "delimiter",
+          "bbox": [
+            389.215,
+            345.244,
+            392.533,
+            355.206
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 352.814,
+          "atom_order": 2,
+          "source_character_ids": [
+            "MAG-21200F752707-C002"
+          ]
+        },
+        {
+          "atom_id": "MAG-21200F752707-A03",
+          "text": "𝑃",
+          "role": "argument",
+          "bbox": [
+            392.533,
+            345.003,
+            398.45,
+            354.965
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 352.814,
+          "atom_order": 3,
+          "source_character_ids": [
+            "MAG-21200F752707-C003"
+          ]
+        },
+        {
+          "atom_id": "MAG-21200F752707-A04",
+          "text": "𝑖",
+          "role": "subscript",
+          "bbox": [
+            398.451,
+            349.445,
+            400.775,
+            356.918
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 355.304,
+          "atom_order": 4,
+          "source_character_ids": [
+            "MAG-21200F752707-C004"
+          ]
+        },
+        {
+          "atom_id": "MAG-21200F752707-A05",
+          "text": ")",
+          "role": "delimiter",
+          "bbox": [
+            401.273,
+            345.244,
+            404.591,
+            355.206
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 352.814,
+          "atom_order": 5,
+          "source_character_ids": [
+            "MAG-21200F752707-C005"
+          ]
+        }
+      ],
+      "source_baseline": 352.814,
+      "source_font_size": 9.963,
+      "semantic_role": "inline_math",
+      "primary_owner": "FORMULA",
+      "owner_id": "B6",
+      "confidence": 0.99,
+      "evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and lowered source baseline identify subscript",
+        "existing formula ownership contains the run"
+      ],
+      "normalization_records": [],
+      "normalized_compact_text": "𝑓𝑘(𝑃𝑖)"
+    },
+    {
+      "group_id": "MAG-3F6A4368F6C1",
+      "protected_token": "{{MATH_ATOM_GROUP_3F6A4368F6C1}}",
+      "source_bbox": [
+        476.456,
+        368.913,
+        516.291,
+        380.828
+      ],
+      "source_line_bbox": [
+        306.604,
+        368.754,
+        543.967,
+        380.828
+      ],
+      "source_text": "𝑓𝐹𝐹𝑁(𝑃𝑖)",
+      "source_compact_text": "𝑓𝐹𝐹𝑁(𝑃𝑖)",
+      "base": [
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A00",
+          "text": "𝑓",
+          "role": "base",
+          "bbox": [
+            476.456,
+            368.913,
+            481.985,
+            378.875
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 376.724,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-3F6A4368F6C1-C000"
+          ]
+        }
+      ],
+      "superscript": [],
+      "subscript": [
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A01",
+          "text": "𝐹𝐹𝑁",
+          "role": "subscript",
+          "bbox": [
+            481.984,
+            373.356,
+            499.745,
+            380.828
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 379.215,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-3F6A4368F6C1-C001",
+            "MAG-3F6A4368F6C1-C002",
+            "MAG-3F6A4368F6C1-C003"
+          ]
+        },
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A04",
+          "text": "𝑖",
+          "role": "subscript",
+          "bbox": [
+            510.151,
+            373.356,
+            512.475,
+            380.828
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 379.215,
+          "atom_order": 4,
+          "source_character_ids": [
+            "MAG-3F6A4368F6C1-C006"
+          ]
+        }
+      ],
+      "operator": [],
+      "delimiter": [
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A02",
+          "text": "(",
+          "role": "delimiter",
+          "bbox": [
+            500.915,
+            369.154,
+            504.233,
+            379.116
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 376.724,
+          "atom_order": 2,
+          "source_character_ids": [
+            "MAG-3F6A4368F6C1-C004"
+          ]
+        },
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A05",
+          "text": ")",
+          "role": "delimiter",
+          "bbox": [
+            512.973,
+            369.154,
+            516.291,
+            379.116
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 376.724,
+          "atom_order": 5,
+          "source_character_ids": [
+            "MAG-3F6A4368F6C1-C007"
+          ]
+        }
+      ],
+      "argument": [
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A03",
+          "text": "𝑃",
+          "role": "argument",
+          "bbox": [
+            504.233,
+            368.913,
+            510.15,
+            378.875
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 376.724,
+          "atom_order": 3,
+          "source_character_ids": [
+            "MAG-3F6A4368F6C1-C005"
+          ]
+        }
+      ],
+      "atom_order": [
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A00",
+          "text": "𝑓",
+          "role": "base",
+          "bbox": [
+            476.456,
+            368.913,
+            481.985,
+            378.875
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 376.724,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-3F6A4368F6C1-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A01",
+          "text": "𝐹𝐹𝑁",
+          "role": "subscript",
+          "bbox": [
+            481.984,
+            373.356,
+            499.745,
+            380.828
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 379.215,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-3F6A4368F6C1-C001",
+            "MAG-3F6A4368F6C1-C002",
+            "MAG-3F6A4368F6C1-C003"
+          ]
+        },
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A02",
+          "text": "(",
+          "role": "delimiter",
+          "bbox": [
+            500.915,
+            369.154,
+            504.233,
+            379.116
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 376.724,
+          "atom_order": 2,
+          "source_character_ids": [
+            "MAG-3F6A4368F6C1-C004"
+          ]
+        },
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A03",
+          "text": "𝑃",
+          "role": "argument",
+          "bbox": [
+            504.233,
+            368.913,
+            510.15,
+            378.875
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 376.724,
+          "atom_order": 3,
+          "source_character_ids": [
+            "MAG-3F6A4368F6C1-C005"
+          ]
+        },
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A04",
+          "text": "𝑖",
+          "role": "subscript",
+          "bbox": [
+            510.151,
+            373.356,
+            512.475,
+            380.828
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 379.215,
+          "atom_order": 4,
+          "source_character_ids": [
+            "MAG-3F6A4368F6C1-C006"
+          ]
+        },
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A05",
+          "text": ")",
+          "role": "delimiter",
+          "bbox": [
+            512.973,
+            369.154,
+            516.291,
+            379.116
+          ],
+          "font": "STIXMath-Regular",
+          "font_size": 9.963,
+          "baseline": 376.724,
+          "atom_order": 5,
+          "source_character_ids": [
+            "MAG-3F6A4368F6C1-C007"
+          ]
+        }
+      ],
+      "source_baseline": 376.724,
+      "source_font_size": 9.963,
+      "semantic_role": "inline_math",
+      "primary_owner": "FORMULA",
+      "owner_id": "B6",
+      "confidence": 0.99,
+      "evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and lowered source baseline identify subscript",
+        "existing formula ownership contains the run"
+      ],
+      "normalization_records": [],
+      "normalized_compact_text": "𝑓𝐹𝐹𝑁(𝑃𝑖)"
+    },
+    {
+      "group_id": "MAG-412216EF6F74",
+      "protected_token": "{{MATH_ATOM_GROUP_412216EF6F74}}",
+      "source_bbox": [
+        486.03,
+        404.779,
+        497.803,
+        416.693
+      ],
+      "source_line_bbox": [
+        306.604,
+        404.62,
+        543.965,
+        416.693
+      ],
+      "source_text": "𝑤𝑘",
+      "source_compact_text": "𝑤𝑘",
+      "base": [
+        {
+          "atom_id": "MAG-412216EF6F74-A00",
+          "text": "𝑤",
+          "role": "base",
+          "bbox": [
+            486.03,
+            404.779,
+            493.751,
+            414.741
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 412.59,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-412216EF6F74-C000"
+          ]
+        }
+      ],
+      "superscript": [],
+      "subscript": [
+        {
+          "atom_id": "MAG-412216EF6F74-A01",
+          "text": "𝑘",
+          "role": "subscript",
+          "bbox": [
+            493.753,
+            409.221,
+            497.803,
+            416.693
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 415.08,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-412216EF6F74-C001"
+          ]
+        }
+      ],
+      "operator": [],
+      "delimiter": [],
+      "argument": [],
+      "atom_order": [
+        {
+          "atom_id": "MAG-412216EF6F74-A00",
+          "text": "𝑤",
+          "role": "base",
+          "bbox": [
+            486.03,
+            404.779,
+            493.751,
+            414.741
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 412.59,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-412216EF6F74-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-412216EF6F74-A01",
+          "text": "𝑘",
+          "role": "subscript",
+          "bbox": [
+            493.753,
+            409.221,
+            497.803,
+            416.693
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 415.08,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-412216EF6F74-C001"
+          ]
+        }
+      ],
+      "source_baseline": 412.59,
+      "source_font_size": 9.963,
+      "semantic_role": "inline_math",
+      "primary_owner": "FORMULA",
+      "owner_id": "B7",
+      "confidence": 0.99,
+      "evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and lowered source baseline identify subscript",
+        "existing formula ownership contains the run"
+      ],
+      "normalization_records": [],
+      "normalized_compact_text": "𝑤𝑘"
+    },
+    {
+      "group_id": "MAG-E9D29DCF0174",
+      "protected_token": "{{MATH_ATOM_GROUP_E9D29DCF0174}}",
+      "source_bbox": [
+        334.818,
+        476.461,
+        343.84,
+        488.377
+      ],
+      "source_line_bbox": [
+        306.604,
+        476.302,
+        543.968,
+        488.377
+      ],
+      "source_text": "𝑧𝑘",
+      "source_compact_text": "𝑧𝑘",
+      "base": [
+        {
+          "atom_id": "MAG-E9D29DCF0174-A00",
+          "text": "𝑧",
+          "role": "base",
+          "bbox": [
+            334.818,
+            476.461,
+            339.789,
+            486.424
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 484.272,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-E9D29DCF0174-C000"
+          ]
+        }
+      ],
+      "superscript": [],
+      "subscript": [
+        {
+          "atom_id": "MAG-E9D29DCF0174-A01",
+          "text": "𝑘",
+          "role": "subscript",
+          "bbox": [
+            339.79,
+            480.905,
+            343.84,
+            488.377
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 486.763,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-E9D29DCF0174-C001"
+          ]
+        }
+      ],
+      "operator": [],
+      "delimiter": [],
+      "argument": [],
+      "atom_order": [
+        {
+          "atom_id": "MAG-E9D29DCF0174-A00",
+          "text": "𝑧",
+          "role": "base",
+          "bbox": [
+            334.818,
+            476.461,
+            339.789,
+            486.424
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 9.963,
+          "baseline": 484.272,
+          "atom_order": 0,
+          "source_character_ids": [
+            "MAG-E9D29DCF0174-C000"
+          ]
+        },
+        {
+          "atom_id": "MAG-E9D29DCF0174-A01",
+          "text": "𝑘",
+          "role": "subscript",
+          "bbox": [
+            339.79,
+            480.905,
+            343.84,
+            488.377
+          ],
+          "font": "STIXMath-Italic",
+          "font_size": 7.472,
+          "baseline": 486.763,
+          "atom_order": 1,
+          "source_character_ids": [
+            "MAG-E9D29DCF0174-C001"
+          ]
+        }
+      ],
+      "source_baseline": 484.272,
+      "source_font_size": 9.963,
+      "semantic_role": "inline_math",
+      "primary_owner": "FORMULA",
+      "owner_id": "B12",
+      "confidence": 0.99,
+      "evidence": [
+        "source PDF character bboxes and baselines",
+        "math-font / mathematical-Unicode run on a prose-bearing line",
+        "font-relative horizontal adjacency",
+        "smaller font and lowered source baseline identify subscript",
+        "existing formula ownership contains the run"
+      ],
+      "normalization_records": [],
+      "normalized_compact_text": "𝑧𝑘"
+    }
+  ]
+}

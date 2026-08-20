@@ -1,0 +1,1044 @@
+{
+  "schema_version": "visual_v07.final_block_collision_qa.v1",
+  "decision": "pass",
+  "metrics": {
+    "final_block_collision_count": 0,
+    "body_body_collision_count": 0,
+    "body_heading_collision_count": 0,
+    "heading_body_collision_count": 0,
+    "caption_body_collision_count": 0,
+    "body_caption_collision_count": 0,
+    "reading_order_overlap_count": 0,
+    "final_bbox_missing_count": 0,
+    "final_bbox_order_mismatch_count": 0
+  },
+  "blocks": [
+    {
+      "render_id": "PAF_B1_00",
+      "paragraph_id": "PAF_B1_00",
+      "flow_fragment_id": "PAF_B1_00-F0",
+      "semantic_role": "body",
+      "column": 0,
+      "region_id": "column_0_region_0",
+      "reading_order": 0,
+      "source_bbox": [],
+      "planned_bbox": [
+        51.3,
+        50.79,
+        288.7,
+        333.392
+      ],
+      "dom_measured_bbox": [
+        51.293,
+        50.789,
+        288.691,
+        333.387
+      ],
+      "dom_line_bboxes": [
+        [
+          115.699,
+          49.594,
+          125.062,
+          57.844
+        ],
+        [
+          51.293,
+          50.789,
+          284.707,
+          62.039
+        ],
+        [
+          51.293,
+          63.07,
+          283.371,
+          74.32
+        ],
+        [
+          230.414,
+          67.113,
+          233.871,
+          75.363
+        ],
+        [
+          51.293,
+          75.352,
+          280.746,
+          86.602
+        ],
+        [
+          51.293,
+          87.633,
+          280.992,
+          98.883
+        ],
+        [
+          51.293,
+          99.914,
+          281.848,
+          111.164
+        ],
+        [
+          51.293,
+          112.195,
+          287.344,
+          123.445
+        ],
+        [
+          51.293,
+          124.477,
+          280.992,
+          135.727
+        ],
+        [
+          51.293,
+          136.758,
+          280.992,
+          148.008
+        ],
+        [
+          51.293,
+          149.039,
+          270.75,
+          160.289
+        ],
+        [
+          51.293,
+          161.32,
+          285.609,
+          172.57
+        ],
+        [
+          51.293,
+          173.602,
+          71.051,
+          184.852
+        ],
+        [
+          66.293,
+          185.883,
+          282.0,
+          197.133
+        ],
+        [
+          163.43,
+          196.969,
+          181.828,
+          205.219
+        ],
+        [
+          51.293,
+          198.164,
+          281.566,
+          209.414
+        ],
+        [
+          137.273,
+          202.207,
+          147.539,
+          210.457
+        ],
+        [
+          51.293,
+          210.445,
+          280.992,
+          221.695
+        ],
+        [
+          113.789,
+          221.531,
+          118.266,
+          229.781
+        ],
+        [
+          51.293,
+          222.727,
+          285.199,
+          233.977
+        ],
+        [
+          51.293,
+          235.008,
+          270.75,
+          246.258
+        ],
+        [
+          51.293,
+          247.289,
+          286.887,
+          258.539
+        ],
+        [
+          51.293,
+          259.57,
+          281.508,
+          270.82
+        ],
+        [
+          51.293,
+          271.852,
+          280.746,
+          283.102
+        ],
+        [
+          51.293,
+          284.133,
+          280.5,
+          295.383
+        ],
+        [
+          51.293,
+          296.414,
+          280.746,
+          307.664
+        ],
+        [
+          51.293,
+          308.695,
+          286.734,
+          319.945
+        ],
+        [
+          51.293,
+          320.977,
+          240.762,
+          332.227
+        ]
+      ],
+      "pdf_rendered_bbox": [
+        51.293,
+        49.871,
+        287.332,
+        332.221
+      ],
+      "final_bbox": [
+        51.293,
+        50.789,
+        288.691,
+        333.387
+      ],
+      "predecessor_id": null,
+      "successor_id": null,
+      "font_size": 10.0,
+      "line_height": 12.287,
+      "estimated_height": 282.602,
+      "estimator_probe_height": 282.602,
+      "dom_measured_height": 282.598,
+      "height_delta": -0.004,
+      "assigned_top": 50.79,
+      "packing_region": "column_0_region_0",
+      "render_source": "canonical_target",
+      "geometry_locked": true,
+      "source_slot_id": "STS-P005-0000",
+      "source_slot_bbox": [
+        51.3,
+        50.79,
+        288.7,
+        333.392
+      ],
+      "repack_used": false,
+      "fill_applied": false,
+      "fill_level": "F0",
+      "fill_font_scale": 1.0,
+      "fill_line_height_scale": 1.0,
+      "text_preview": "其中，𝓕(⋅)和𝓕−1(⋅)分别表示二维快速傅里叶变换及其逆变换。(𝐤; 𝝀)表示所有通道滤波器𝑐的聚合，⊙表示哈达玛积。通过这种方式，所提出的算子补偿了扩散引起的模糊，并自适应地强调结构边界和语义信息丰富的边缘。如图4所示，图4(e)中学习到的算子提供了比图4(c)中固定参数结果更清晰的目标边界和更少的背景响应。",
+      "dom_index": 2,
+      "region_top": 0.0,
+      "region_bottom": 446.29
+    },
+    {
+      "render_id": "PAF_B1_02",
+      "paragraph_id": "PAF_B1_02",
+      "flow_fragment_id": "PAF_B1_02-F0",
+      "semantic_role": "body",
+      "column": 0,
+      "region_id": "column_0_region_1",
+      "reading_order": 0,
+      "source_bbox": [],
+      "planned_bbox": [
+        51.3,
+        465.24,
+        288.7,
+        501.714
+      ],
+      "dom_measured_bbox": [
+        51.293,
+        465.234,
+        288.691,
+        504.035
+      ],
+      "dom_line_bboxes": [
+        [
+          51.293,
+          465.984,
+          286.219,
+          476.484
+        ],
+        [
+          56.543,
+          469.934,
+          59.824,
+          477.434
+        ],
+        [
+          51.293,
+          478.137,
+          137.004,
+          488.637
+        ],
+        [
+          65.543,
+          490.289,
+          284.449,
+          500.789
+        ],
+        [
+          51.293,
+          502.441,
+          194.238,
+          512.941
+        ]
+      ],
+      "pdf_rendered_bbox": [
+        51.293,
+        465.539,
+        286.214,
+        512.085
+      ],
+      "final_bbox": [
+        51.293,
+        465.234,
+        288.691,
+        504.035
+      ],
+      "predecessor_id": null,
+      "successor_id": null,
+      "font_size": 9.5,
+      "line_height": 12.158,
+      "estimated_height": 36.474,
+      "estimator_probe_height": 36.474,
+      "dom_measured_height": 38.801,
+      "height_delta": 2.327,
+      "assigned_top": 465.24,
+      "packing_region": "column_0_region_1",
+      "render_source": "canonical_target",
+      "geometry_locked": true,
+      "source_slot_id": "STS-P005-0003",
+      "source_slot_bbox": [
+        51.3,
+        465.24,
+        288.7,
+        504.042
+      ],
+      "repack_used": false,
+      "fill_applied": false,
+      "fill_level": "F0",
+      "fill_font_scale": 1.0,
+      "fill_line_height_scale": 1.0,
+      "text_preview": "𝜆𝑐 > 0 同时保持可微性。这使得网络能够端到端地自适应优化扩散补偿尺度。 除了高频物理先验外，我们保留空间特征作为补充。因此，整个适配器可以构建如下：",
+      "dom_index": 3,
+      "region_top": 448.29,
+      "region_bottom": 547.91
+    },
+    {
+      "render_id": "PAF_B1_04",
+      "paragraph_id": "PAF_B1_04",
+      "flow_fragment_id": "PAF_B1_04-F0",
+      "semantic_role": "body",
+      "column": 0,
+      "region_id": "column_0_region_2",
+      "reading_order": 0,
+      "source_bbox": [],
+      "planned_bbox": [
+        51.3,
+        568.85,
+        288.7,
+        701.42
+      ],
+      "dom_measured_bbox": [
+        51.293,
+        568.84,
+        288.691,
+        698.18
+      ],
+      "dom_line_bboxes": [
+        [
+          51.293,
+          569.59,
+          285.305,
+          580.84
+        ],
+        [
+          51.293,
+          582.844,
+          278.156,
+          594.094
+        ],
+        [
+          51.293,
+          596.098,
+          280.992,
+          607.348
+        ],
+        [
+          51.293,
+          609.352,
+          278.93,
+          620.602
+        ],
+        [
+          57.293,
+          613.395,
+          150.035,
+          621.645
+        ],
+        [
+          51.293,
+          622.605,
+          283.559,
+          633.855
+        ],
+        [
+          51.293,
+          635.859,
+          270.75,
+          647.109
+        ],
+        [
+          51.293,
+          649.113,
+          280.254,
+          660.363
+        ],
+        [
+          51.293,
+          662.367,
+          284.742,
+          673.617
+        ],
+        [
+          51.293,
+          675.621,
+          233.414,
+          686.871
+        ]
+      ],
+      "pdf_rendered_bbox": [
+        51.293,
+        569.341,
+        285.297,
+        686.913
+      ],
+      "final_bbox": [
+        51.293,
+        568.84,
+        288.691,
+        698.18
+      ],
+      "predecessor_id": null,
+      "successor_id": null,
+      "font_size": 10.0,
+      "line_height": 13.257,
+      "estimated_height": 132.57,
+      "estimator_probe_height": 132.57,
+      "dom_measured_height": 129.34,
+      "height_delta": -3.23,
+      "assigned_top": 568.85,
+      "packing_region": "column_0_region_2",
+      "render_source": "canonical_target",
+      "geometry_locked": true,
+      "source_slot_id": "STS-P005-0004",
+      "source_slot_bbox": [
+        51.3,
+        568.85,
+        288.7,
+        698.19
+      ],
+      "repack_used": false,
+      "fill_applied": true,
+      "fill_level": "F1",
+      "fill_font_scale": 1.0,
+      "fill_line_height_scale": 1.025,
+      "text_preview": "其中 𝑆𝐸(⋅) 是使用与OSTrack相同路径嵌入的空间特征提取器。3.4。自适应MoE注入器 该模块用于维度扩展，然后自适应地重新加权跟踪中最有用的物理先验 𝑃𝑖。具体来说，它将 𝑃𝑖 的维度从 𝐵× 𝑁× 𝑑 变换为 𝐵× 𝑁× 𝐷，以匹配OSTrack中每个Transformer块的输入向量维度。如图 3 所示",
+      "dom_index": 4,
+      "region_top": 549.91,
+      "region_bottom": 793.69921875
+    },
+    {
+      "render_id": "DLP00027",
+      "paragraph_id": "DLP00027",
+      "flow_fragment_id": "DLP00027-F0",
+      "semantic_role": "caption",
+      "column": 1,
+      "region_id": "column_1_region_1",
+      "reading_order": 0,
+      "source_bbox": [
+        306.604,
+        174.615,
+        544.044,
+        293.188
+      ],
+      "planned_bbox": [
+        306.6,
+        174.62,
+        544.04,
+        246.356
+      ],
+      "dom_measured_bbox": [
+        306.598,
+        174.609,
+        544.031,
+        293.168
+      ],
+      "dom_line_bboxes": [
+        [
+          306.598,
+          174.609,
+          543.738,
+          185.109
+        ],
+        [
+          306.598,
+          183.574,
+          543.586,
+          194.074
+        ],
+        [
+          306.598,
+          192.539,
+          541.594,
+          203.039
+        ],
+        [
+          306.598,
+          201.504,
+          540.609,
+          212.004
+        ],
+        [
+          306.598,
+          210.469,
+          539.625,
+          220.969
+        ],
+        [
+          306.598,
+          219.434,
+          538.277,
+          229.934
+        ],
+        [
+          306.598,
+          228.398,
+          396.223,
+          238.898
+        ]
+      ],
+      "pdf_rendered_bbox": [
+        306.598,
+        175.013,
+        543.736,
+        238.26
+      ],
+      "final_bbox": [
+        306.598,
+        174.609,
+        544.031,
+        293.168
+      ],
+      "predecessor_id": null,
+      "successor_id": "PAF_B1_01",
+      "font_size": 8.966,
+      "line_height": 8.967,
+      "estimated_height": 71.736,
+      "estimator_probe_height": 71.736,
+      "dom_measured_height": 118.559,
+      "height_delta": 46.823,
+      "assigned_top": 174.62,
+      "packing_region": "column_1_region_1",
+      "render_source": "canonical_target",
+      "geometry_locked": true,
+      "source_slot_id": "STS-P005-0007",
+      "source_slot_bbox": [
+        306.6,
+        174.62,
+        544.04,
+        293.19
+      ],
+      "repack_used": false,
+      "fill_applied": false,
+      "fill_level": "F0",
+      "fill_font_scale": 1.0,
+      "fill_line_height_scale": 1.0,
+      "text_preview": "图4：固定参数与学习参数的热扩散算子比较。(a)原始TIR图像。(b)固定参数的扩散启发滤波器和(c)其对应输出。(d)学习参数的扩散启发滤波器和(e)其对应输出。与(c)中的固定参数结果相比，(e)中的学习结果呈现出更清晰、更连续的目标边界，同时抑制了不相关的热背景响应。这表明可学习的扩散尺度可以自适应地控制频谱补偿",
+      "dom_index": 5,
+      "region_top": 53.7,
+      "region_bottom": 433.26
+    },
+    {
+      "render_id": "PAF_B1_01",
+      "paragraph_id": "PAF_B1_01",
+      "flow_fragment_id": "PAF_B1_01-F0",
+      "semantic_role": "body",
+      "column": 1,
+      "region_id": "column_1_region_1",
+      "reading_order": 1,
+      "source_bbox": [],
+      "planned_bbox": [
+        306.6,
+        314.46,
+        544.0,
+        423.108
+      ],
+      "dom_measured_bbox": [
+        306.598,
+        314.449,
+        543.996,
+        417.914
+      ],
+      "dom_line_bboxes": [
+        [
+          306.598,
+          315.199,
+          543.562,
+          326.449
+        ],
+        [
+          306.598,
+          328.781,
+          543.902,
+          340.031
+        ],
+        [
+          471.562,
+          332.824,
+          487.43,
+          341.074
+        ],
+        [
+          306.598,
+          342.363,
+          543.059,
+          353.613
+        ],
+        [
+          306.598,
+          355.945,
+          540.785,
+          367.195
+        ],
+        [
+          391.582,
+          359.988,
+          417.961,
+          368.238
+        ],
+        [
+          306.598,
+          369.527,
+          539.578,
+          380.777
+        ],
+        [
+          306.598,
+          383.109,
+          538.559,
+          394.359
+        ],
+        [
+          538.559,
+          387.152,
+          542.707,
+          395.402
+        ],
+        [
+          306.598,
+          396.691,
+          396.328,
+          407.941
+        ]
+      ],
+      "pdf_rendered_bbox": [
+        306.598,
+        315.091,
+        543.9,
+        407.156
+      ],
+      "final_bbox": [
+        306.598,
+        314.449,
+        543.996,
+        417.914
+      ],
+      "predecessor_id": "DLP00027",
+      "successor_id": null,
+      "font_size": 10.0,
+      "line_height": 13.581,
+      "estimated_height": 108.648,
+      "estimator_probe_height": 108.648,
+      "dom_measured_height": 103.465,
+      "height_delta": -5.183,
+      "assigned_top": 314.46,
+      "packing_region": "column_1_region_1",
+      "render_source": "canonical_target",
+      "geometry_locked": true,
+      "source_slot_id": "STS-P005-0008",
+      "source_slot_bbox": [
+        306.6,
+        314.46,
+        544.0,
+        417.932
+      ],
+      "repack_used": false,
+      "fill_applied": true,
+      "fill_level": "F2",
+      "fill_font_scale": 1.0,
+      "fill_line_height_scale": 1.05,
+      "text_preview": "在阶段中，𝐾个任务特定的FFN专家同时处理输入，以学习不同层次的特征，每个专家输出𝑓𝑘(𝑃𝑖)（𝑘= 1, 2, ..., 𝐾）。同时，一个互补的共享FFN单独处理输入，以提供通用特征，输出𝑓𝐹𝐹𝑁(𝑃𝑖)。在动态加权融合阶段，所有𝐾个专家的原始输出分数通过Softmax函数进行归一化，以计算路由权重。具体来说，第𝑘个",
+      "dom_index": 6,
+      "region_top": 53.7,
+      "region_bottom": 433.26
+    },
+    {
+      "render_id": "PAF_B1_03",
+      "paragraph_id": "PAF_B1_03",
+      "flow_fragment_id": "PAF_B1_03-F0",
+      "semantic_role": "body",
+      "column": 1,
+      "region_id": "column_1_region_5",
+      "reading_order": 0,
+      "source_bbox": [],
+      "planned_bbox": [
+        306.6,
+        469.83,
+        544.0,
+        537.735
+      ],
+      "dom_measured_bbox": [
+        306.598,
+        469.828,
+        543.996,
+        534.492
+      ],
+      "dom_line_bboxes": [
+        [
+          306.598,
+          470.578,
+          534.094,
+          481.828
+        ],
+        [
+          333.598,
+          474.621,
+          337.746,
+          482.871
+        ],
+        [
+          306.598,
+          484.16,
+          543.797,
+          495.41
+        ],
+        [
+          306.598,
+          497.742,
+          536.051,
+          508.992
+        ],
+        [
+          306.598,
+          511.324,
+          456.07,
+          522.574
+        ]
+      ],
+      "pdf_rendered_bbox": [
+        306.598,
+        470.341,
+        543.79,
+        521.906
+      ],
+      "final_bbox": [
+        306.598,
+        469.828,
+        543.996,
+        534.492
+      ],
+      "predecessor_id": null,
+      "successor_id": null,
+      "font_size": 10.0,
+      "line_height": 13.581,
+      "estimated_height": 67.905,
+      "estimator_probe_height": 67.905,
+      "dom_measured_height": 64.664,
+      "height_delta": -3.241,
+      "assigned_top": 469.83,
+      "packing_region": "column_1_region_5",
+      "render_source": "canonical_target",
+      "geometry_locked": true,
+      "source_slot_id": "STS-P005-0009",
+      "source_slot_bbox": [
+        306.6,
+        469.83,
+        544.0,
+        534.5
+      ],
+      "repack_used": false,
+      "fill_applied": true,
+      "fill_level": "F2",
+      "fill_font_scale": 1.0,
+      "fill_line_height_scale": 1.05,
+      "text_preview": "其中 𝑧𝑘 表示第 𝑘 个专家的原始置信度分数。Softmax 归一化确保所有专家权重之和等于 1，从而突出最适合当前物理状态的专家。最后，通过加权求和融合专家输出，得到最终精炼的物理先验：",
+      "dom_index": 7,
+      "region_top": 449.57,
+      "region_bottom": 546.43
+    },
+    {
+      "render_id": "PAF_B1_05",
+      "paragraph_id": "PAF_B1_05",
+      "flow_fragment_id": "PAF_B1_05-F0",
+      "semantic_role": "body",
+      "column": 1,
+      "region_id": "column_1_region_10",
+      "reading_order": 0,
+      "source_bbox": [],
+      "planned_bbox": [
+        306.6,
+        592.3,
+        544.0,
+        618.168
+      ],
+      "dom_measured_bbox": [
+        306.598,
+        592.289,
+        543.996,
+        618.152
+      ],
+      "dom_line_bboxes": [
+        [
+          306.598,
+          593.039,
+          535.805,
+          604.289
+        ],
+        [
+          306.598,
+          605.977,
+          346.348,
+          617.227
+        ]
+      ],
+      "pdf_rendered_bbox": [
+        306.598,
+        593.452,
+        535.797,
+        616.406
+      ],
+      "final_bbox": [
+        306.598,
+        592.289,
+        543.996,
+        618.152
+      ],
+      "predecessor_id": null,
+      "successor_id": "PAF_B1_06",
+      "font_size": 10.0,
+      "line_height": 12.934,
+      "estimated_height": 25.868,
+      "estimator_probe_height": 25.868,
+      "dom_measured_height": 25.863,
+      "height_delta": -0.005,
+      "assigned_top": 592.3,
+      "packing_region": "column_1_region_10",
+      "render_source": "canonical_target",
+      "geometry_locked": true,
+      "source_slot_id": "STS-P005-0010",
+      "source_slot_bbox": [
+        306.6,
+        592.3,
+        544.0,
+        618.168
+      ],
+      "repack_used": false,
+      "fill_applied": false,
+      "fill_level": "F0",
+      "fill_font_scale": 1.0,
+      "fill_line_height_scale": 1.0,
+      "text_preview": "其中 ⊙ 表示逐元素加权，而 𝐖 表示一个可学习的投影矩阵。",
+      "dom_index": 8,
+      "region_top": 580.15,
+      "region_bottom": 793.69921875
+    },
+    {
+      "render_id": "PAF_B1_06",
+      "paragraph_id": "PAF_B1_06",
+      "flow_fragment_id": "PAF_B1_06-F0",
+      "semantic_role": "body",
+      "column": 1,
+      "region_id": "column_1_region_10",
+      "reading_order": 1,
+      "source_bbox": [],
+      "planned_bbox": [
+        306.6,
+        651.26,
+        544.0,
+        735.074
+      ],
+      "dom_measured_bbox": [
+        306.598,
+        651.258,
+        543.996,
+        728.859
+      ],
+      "dom_line_bboxes": [
+        [
+          322.043,
+          652.008,
+          543.645,
+          663.258
+        ],
+        [
+          306.598,
+          665.977,
+          533.555,
+          677.227
+        ],
+        [
+          306.598,
+          679.945,
+          536.66,
+          691.195
+        ],
+        [
+          306.598,
+          693.914,
+          543.855,
+          705.164
+        ],
+        [
+          306.598,
+          707.883,
+          409.781,
+          719.133
+        ]
+      ],
+      "pdf_rendered_bbox": [
+        306.598,
+        651.574,
+        543.845,
+        718.448
+      ],
+      "final_bbox": [
+        306.598,
+        651.258,
+        543.996,
+        728.859
+      ],
+      "predecessor_id": "PAF_B1_05",
+      "successor_id": "DLP00028",
+      "font_size": 10.3,
+      "line_height": 13.969,
+      "estimated_height": 83.814,
+      "estimator_probe_height": 83.814,
+      "dom_measured_height": 77.601,
+      "height_delta": -6.213,
+      "assigned_top": 651.26,
+      "packing_region": "column_1_region_10",
+      "render_source": "canonical_target",
+      "geometry_locked": true,
+      "source_slot_id": "STS-P005-0011",
+      "source_slot_bbox": [
+        306.6,
+        651.26,
+        544.0,
+        728.864
+      ],
+      "repack_used": false,
+      "fill_applied": true,
+      "fill_level": "F4",
+      "fill_font_scale": 1.03,
+      "fill_line_height_scale": 1.08,
+      "text_preview": "在本节中，我们首先在4.1节和4.2节中分别介绍实现细节以及评估的数据集和跟踪器。然后，我们在4.3节中与超过20个跟踪器在四个TIR跟踪基准上进行了全面的比较和分析。最后，我们验证了所提出方法每个组件的有效性。",
+      "dom_index": 9,
+      "region_top": 580.15,
+      "region_bottom": 793.69921875
+    },
+    {
+      "render_id": "DLP00028",
+      "paragraph_id": "DLP00028",
+      "flow_fragment_id": "DLP00028-F0",
+      "semantic_role": "body",
+      "column": 1,
+      "region_id": "column_1_region_10",
+      "reading_order": 2,
+      "source_bbox": [
+        494.748,
+        757.951,
+        543.982,
+        766.918
+      ],
+      "planned_bbox": [
+        306.6,
+        757.951,
+        544.0,
+        769.548
+      ],
+      "dom_measured_bbox": [
+        306.598,
+        757.945,
+        543.996,
+        769.547
+      ],
+      "dom_line_bboxes": [
+        [
+          306.598,
+          757.945,
+          366.996,
+          768.445
+        ]
+      ],
+      "pdf_rendered_bbox": [
+        306.598,
+        758.513,
+        366.994,
+        768.439
+      ],
+      "final_bbox": [
+        306.598,
+        757.945,
+        543.996,
+        769.547
+      ],
+      "predecessor_id": "PAF_B1_06",
+      "successor_id": null,
+      "font_size": 8.966,
+      "line_height": 11.597,
+      "estimated_height": 11.597,
+      "estimator_probe_height": 11.597,
+      "dom_measured_height": 11.602,
+      "height_delta": 0.005,
+      "assigned_top": 757.951,
+      "packing_region": "column_1_region_10",
+      "render_source": "canonical_target",
+      "geometry_locked": false,
+      "source_slot_id": null,
+      "source_slot_bbox": [],
+      "repack_used": false,
+      "fill_applied": false,
+      "fill_level": "F0",
+      "fill_font_scale": 1.0,
+      "fill_line_height_scale": 1.0,
+      "text_preview": "第5页，共12页",
+      "dom_index": 10,
+      "region_top": 580.15,
+      "region_bottom": 793.69921875
+    }
+  ],
+  "collisions": [],
+  "geometry_truth": {
+    "primary": "chromium_dom_measured_bbox",
+    "secondary": "final_pdf_text_layer_at_dom_line_positions",
+    "render_identity": "data-render-id/data-flow-fragment",
+    "allowed_tolerance": "relative font-size + line-height + source-relation policy"
+  },
+  "screenshot": "E:\\Code\\fanyi\\outputs\\visual_v07_task4i\\final_block_collision_dom.png"
+}

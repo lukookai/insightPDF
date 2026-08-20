@@ -1,0 +1,1144 @@
+[
+  {
+    "group_id": "MAG-52F45C34EAFB",
+    "dom_text": "𝓕−1(⋅)",
+    "dom_bbox_pt": [
+      108.199,
+      50.789,
+      134.742,
+      62.039
+    ],
+    "final_pdf_text": "𝓕−1(⋅)",
+    "final_pdf_characters": [
+      {
+        "character": "𝓕",
+        "codepoint": "U+1D4D5",
+        "glyph_id": 2320,
+        "font": "CambriaMath",
+        "font_size": 9.997,
+        "origin": [
+          108.199,
+          60.0
+        ],
+        "bbox": [
+          108.199,
+          52.224,
+          115.668,
+          62.221
+        ],
+        "span_index": 8,
+        "char_index": 0
+      },
+      {
+        "character": "−",
+        "codepoint": "U+2212",
+        "glyph_id": 3398,
+        "font": "CambriaMath",
+        "font_size": 7.5,
+        "origin": [
+          115.699,
+          56.555
+        ],
+        "bbox": [
+          115.699,
+          50.721,
+          121.302,
+          58.221
+        ],
+        "span_index": 9,
+        "char_index": 0
+      },
+      {
+        "character": "1",
+        "codepoint": "U+0031",
+        "glyph_id": 20,
+        "font": "TimesNewRomanPSMT",
+        "font_size": 7.5,
+        "origin": [
+          121.302,
+          56.555
+        ],
+        "bbox": [
+          121.302,
+          50.52,
+          125.052,
+          58.02
+        ],
+        "span_index": 10,
+        "char_index": 0
+      },
+      {
+        "character": "(",
+        "codepoint": "U+0028",
+        "glyph_id": 11,
+        "font": "TimesNewRomanPSMT",
+        "font_size": 9.997,
+        "origin": [
+          125.062,
+          60.0
+        ],
+        "bbox": [
+          125.062,
+          51.955,
+          128.392,
+          61.953
+        ],
+        "span_index": 11,
+        "char_index": 0
+      },
+      {
+        "character": "⋅",
+        "codepoint": "U+22C5",
+        "glyph_id": 1668,
+        "font": "CambriaMath",
+        "font_size": 9.997,
+        "origin": [
+          128.402,
+          60.0
+        ],
+        "bbox": [
+          128.402,
+          52.224,
+          131.224,
+          62.221
+        ],
+        "span_index": 12,
+        "char_index": 0
+      },
+      {
+        "character": ")",
+        "codepoint": "U+0029",
+        "glyph_id": 12,
+        "font": "TimesNewRomanPSMT",
+        "font_size": 9.997,
+        "origin": [
+          131.402,
+          60.0
+        ],
+        "bbox": [
+          131.402,
+          51.955,
+          134.732,
+          61.953
+        ],
+        "span_index": 13,
+        "char_index": 0
+      }
+    ],
+    "final_pdf_ink_exists": true
+  },
+  {
+    "group_id": "MAG-FD587A88A6FD",
+    "dom_text": "𝑐",
+    "dom_bbox_pt": [
+      217.301,
+      63.07,
+      233.871,
+      74.32
+    ],
+    "final_pdf_text": "𝑐",
+    "final_pdf_characters": [
+      {
+        "character": "",
+        "codepoint": "U+E234",
+        "glyph_id": 6785,
+        "font": "SegoeUISymbol",
+        "font_size": 9.997,
+        "origin": [
+          217.301,
+          72.0
+        ],
+        "bbox": [
+          217.301,
+          63.889,
+          230.403,
+          73.886
+        ],
+        "span_index": 45,
+        "char_index": 0
+      },
+      {
+        "character": "𝑐",
+        "codepoint": "U+1D450",
+        "glyph_id": 1855,
+        "font": "CambriaMath",
+        "font_size": 7.5,
+        "origin": [
+          230.414,
+          73.793
+        ],
+        "bbox": [
+          230.414,
+          67.959,
+          233.864,
+          75.459
+        ],
+        "span_index": 46,
+        "char_index": 0
+      }
+    ],
+    "final_pdf_ink_exists": true
+  },
+  {
+    "group_id": "MAG-179831757CCB",
+    "dom_text": "𝐤𝑢,𝑣 = 𝑢2+𝑣2",
+    "dom_bbox_pt": [
+      131.273,
+      198.164,
+      181.828,
+      209.414
+    ],
+    "final_pdf_text": "𝐤𝑢,𝑣 = 𝑢2+𝑣2",
+    "final_pdf_characters": [
+      {
+        "character": "𝐤",
+        "codepoint": "U+1D424",
+        "glyph_id": 1811,
+        "font": "CambriaMath",
+        "font_size": 9.997,
+        "origin": [
+          131.273,
+          207.0
+        ],
+        "bbox": [
+          131.273,
+          199.224,
+          137.361,
+          209.221
+        ],
+        "span_index": 259,
+        "char_index": 0
+      },
+      {
+        "character": "𝑢",
+        "codepoint": "U+1D462",
+        "glyph_id": 1873,
+        "font": "CambriaMath",
+        "font_size": 7.5,
+        "origin": [
+          137.273,
+          208.793
+        ],
+        "bbox": [
+          137.273,
+          202.959,
+          141.576,
+          210.459
+        ],
+        "span_index": 260,
+        "char_index": 0
+      },
+      {
+        "character": ",",
+        "codepoint": "U+002C",
+        "glyph_id": 15,
+        "font": "TimesNewRomanPSMT",
+        "font_size": 7.5,
+        "origin": [
+          141.576,
+          208.793
+        ],
+        "bbox": [
+          141.576,
+          202.758,
+          143.451,
+          210.258
+        ],
+        "span_index": 261,
+        "char_index": 0
+      },
+      {
+        "character": "𝑣",
+        "codepoint": "U+1D463",
+        "glyph_id": 1874,
+        "font": "CambriaMath",
+        "font_size": 7.5,
+        "origin": [
+          143.451,
+          208.793
+        ],
+        "bbox": [
+          143.451,
+          202.959,
+          147.531,
+          210.459
+        ],
+        "span_index": 262,
+        "char_index": 0
+      },
+      {
+        "character": " ",
+        "codepoint": "U+0020",
+        "glyph_id": 3,
+        "font": "TimesNewRomanPSMT",
+        "font_size": 9.997,
+        "origin": [
+          147.539,
+          207.0
+        ],
+        "bbox": [
+          147.539,
+          198.955,
+          150.038,
+          208.953
+        ],
+        "span_index": 263,
+        "char_index": 0
+      },
+      {
+        "character": "=",
+        "codepoint": "U+003D",
+        "glyph_id": 32,
+        "font": "TimesNewRomanPSMT",
+        "font_size": 9.997,
+        "origin": [
+          150.038,
+          207.0
+        ],
+        "bbox": [
+          150.038,
+          198.955,
+          155.677,
+          208.953
+        ],
+        "span_index": 264,
+        "char_index": 0
+      },
+      {
+        "character": " ",
+        "codepoint": "U+0020",
+        "glyph_id": 3,
+        "font": "TimesNewRomanPSMT",
+        "font_size": 9.997,
+        "origin": [
+          155.677,
+          207.0
+        ],
+        "bbox": [
+          155.677,
+          198.955,
+          158.176,
+          208.953
+        ],
+        "span_index": 265,
+        "char_index": 0
+      },
+      {
+        "character": "𝑢",
+        "codepoint": "U+1D462",
+        "glyph_id": 1873,
+        "font": "CambriaMath",
+        "font_size": 9.997,
+        "origin": [
+          158.18,
+          207.0
+        ],
+        "bbox": [
+          158.18,
+          199.224,
+          163.916,
+          209.221
+        ],
+        "span_index": 266,
+        "char_index": 0
+      },
+      {
+        "character": "2",
+        "codepoint": "U+0032",
+        "glyph_id": 21,
+        "font": "TimesNewRomanPSMT",
+        "font_size": 7.5,
+        "origin": [
+          163.43,
+          203.555
+        ],
+        "bbox": [
+          163.43,
+          197.52,
+          167.18,
+          205.02
+        ],
+        "span_index": 267,
+        "char_index": 0
+      },
+      {
+        "character": "+",
+        "codepoint": "U+002B",
+        "glyph_id": 14,
+        "font": "TimesNewRomanPSMT",
+        "font_size": 9.997,
+        "origin": [
+          167.18,
+          207.0
+        ],
+        "bbox": [
+          167.18,
+          198.955,
+          172.818,
+          208.953
+        ],
+        "span_index": 268,
+        "char_index": 0
+      },
+      {
+        "character": "𝑣",
+        "codepoint": "U+1D463",
+        "glyph_id": 1874,
+        "font": "CambriaMath",
+        "font_size": 9.997,
+        "origin": [
+          172.828,
+          207.0
+        ],
+        "bbox": [
+          172.828,
+          199.224,
+          178.266,
+          209.221
+        ],
+        "span_index": 269,
+        "char_index": 0
+      },
+      {
+        "character": "2",
+        "codepoint": "U+0032",
+        "glyph_id": 21,
+        "font": "TimesNewRomanPSMT",
+        "font_size": 7.5,
+        "origin": [
+          178.078,
+          203.555
+        ],
+        "bbox": [
+          178.078,
+          197.52,
+          181.828,
+          205.02
+        ],
+        "span_index": 270,
+        "char_index": 0
+      }
+    ],
+    "final_pdf_ink_exists": true
+  },
+  {
+    "group_id": "MAG-612662CB23BA",
+    "dom_text": "𝝀∈ℝ𝐶",
+    "dom_bbox_pt": [
+      91.289,
+      222.727,
+      118.266,
+      233.977
+    ],
+    "final_pdf_text": "𝝀∈ℝ𝐶",
+    "final_pdf_characters": [
+      {
+        "character": "𝝀",
+        "codepoint": "U+1D740",
+        "glyph_id": 2245,
+        "font": "CambriaMath",
+        "font_size": 9.997,
+        "origin": [
+          91.289,
+          231.75
+        ],
+        "bbox": [
+          91.289,
+          223.974,
+          96.922,
+          233.971
+        ],
+        "span_index": 305,
+        "char_index": 0
+      },
+      {
+        "character": "∈",
+        "codepoint": "U+2208",
+        "glyph_id": 281,
+        "font": "SimSun",
+        "font_size": 9.997,
+        "origin": [
+          96.539,
+          231.75
+        ],
+        "bbox": [
+          96.539,
+          223.158,
+          106.537,
+          233.156
+        ],
+        "span_index": 306,
+        "char_index": 0
+      },
+      {
+        "character": "ℝ",
+        "codepoint": "U+211D",
+        "glyph_id": 1337,
+        "font": "CambriaMath",
+        "font_size": 9.997,
+        "origin": [
+          106.289,
+          231.75
+        ],
+        "bbox": [
+          106.289,
+          223.974,
+          113.733,
+          233.971
+        ],
+        "span_index": 307,
+        "char_index": 0
+      },
+      {
+        "character": "𝐶",
+        "codepoint": "U+1D436",
+        "glyph_id": 1829,
+        "font": "CambriaMath",
+        "font_size": 7.5,
+        "origin": [
+          113.789,
+          228.305
+        ],
+        "bbox": [
+          113.789,
+          222.471,
+          118.264,
+          229.971
+        ],
+        "span_index": 308,
+        "char_index": 0
+      }
+    ],
+    "final_pdf_ink_exists": true
+  },
+  {
+    "group_id": "MAG-98F1AC430FC0",
+    "dom_text": "𝜆𝑐 > 0",
+    "dom_bbox_pt": [
+      51.293,
+      465.984,
+      74.695,
+      476.484
+    ],
+    "final_pdf_text": "𝜆𝑐 > 0",
+    "final_pdf_characters": [
+      {
+        "character": "𝜆",
+        "codepoint": "U+1D706",
+        "glyph_id": 2019,
+        "font": "CambriaMath",
+        "font_size": 9.495,
+        "origin": [
+          51.293,
+          474.0
+        ],
+        "bbox": [
+          51.293,
+          466.614,
+          56.207,
+          476.109
+        ],
+        "span_index": 494,
+        "char_index": 0
+      },
+      {
+        "character": "𝑐",
+        "codepoint": "U+1D450",
+        "glyph_id": 1855,
+        "font": "CambriaMath",
+        "font_size": 7.125,
+        "origin": [
+          56.543,
+          475.699
+        ],
+        "bbox": [
+          56.543,
+          470.157,
+          59.82,
+          477.282
+        ],
+        "span_index": 495,
+        "char_index": 0
+      },
+      {
+        "character": " ",
+        "codepoint": "U+0020",
+        "glyph_id": 3,
+        "font": "TimesNewRomanPSMT",
+        "font_size": 9.495,
+        "origin": [
+          59.824,
+          474.0
+        ],
+        "bbox": [
+          59.824,
+          466.36,
+          62.198,
+          475.855
+        ],
+        "span_index": 496,
+        "char_index": 0
+      },
+      {
+        "character": ">",
+        "codepoint": "U+003E",
+        "glyph_id": 33,
+        "font": "TimesNewRomanPSMT",
+        "font_size": 9.495,
+        "origin": [
+          62.198,
+          474.0
+        ],
+        "bbox": [
+          62.198,
+          466.36,
+          67.553,
+          475.855
+        ],
+        "span_index": 497,
+        "char_index": 0
+      },
+      {
+        "character": " ",
+        "codepoint": "U+0020",
+        "glyph_id": 3,
+        "font": "TimesNewRomanPSMT",
+        "font_size": 9.495,
+        "origin": [
+          67.553,
+          474.0
+        ],
+        "bbox": [
+          67.553,
+          466.36,
+          69.927,
+          475.855
+        ],
+        "span_index": 498,
+        "char_index": 0
+      },
+      {
+        "character": "0",
+        "codepoint": "U+0030",
+        "glyph_id": 19,
+        "font": "TimesNewRomanPSMT",
+        "font_size": 9.495,
+        "origin": [
+          69.938,
+          474.0
+        ],
+        "bbox": [
+          69.938,
+          466.36,
+          74.685,
+          475.855
+        ],
+        "span_index": 499,
+        "char_index": 0
+      }
+    ],
+    "final_pdf_ink_exists": true
+  },
+  {
+    "group_id": "MAG-954A3FCBE690",
+    "dom_text": "𝑃𝑖",
+    "dom_bbox_pt": [
+      51.293,
+      609.352,
+      59.672,
+      620.602
+    ],
+    "final_pdf_text": "𝑃𝑖",
+    "final_pdf_characters": [
+      {
+        "character": "𝑃",
+        "codepoint": "U+1D443",
+        "glyph_id": 1842,
+        "font": "CambriaMath",
+        "font_size": 9.997,
+        "origin": [
+          51.293,
+          618.0
+        ],
+        "bbox": [
+          51.293,
+          610.224,
+          57.493,
+          620.221
+        ],
+        "span_index": 635,
+        "char_index": 0
+      },
+      {
+        "character": "𝑖",
+        "codepoint": "U+1D456",
+        "glyph_id": 1861,
+        "font": "CambriaMath",
+        "font_size": 7.5,
+        "origin": [
+          57.293,
+          619.793
+        ],
+        "bbox": [
+          57.293,
+          613.959,
+          59.67,
+          621.459
+        ],
+        "span_index": 636,
+        "char_index": 0
+      }
+    ],
+    "final_pdf_ink_exists": true
+  },
+  {
+    "group_id": "MAG-818DD43AAC31",
+    "dom_text": "𝑃𝑖",
+    "dom_bbox_pt": [
+      141.656,
+      609.352,
+      150.035,
+      620.602
+    ],
+    "final_pdf_text": "𝑃𝑖",
+    "final_pdf_characters": [
+      {
+        "character": "𝑃",
+        "codepoint": "U+1D443",
+        "glyph_id": 1842,
+        "font": "CambriaMath",
+        "font_size": 9.997,
+        "origin": [
+          141.656,
+          618.0
+        ],
+        "bbox": [
+          141.656,
+          610.224,
+          147.856,
+          620.221
+        ],
+        "span_index": 646,
+        "char_index": 0
+      },
+      {
+        "character": "𝑖",
+        "codepoint": "U+1D456",
+        "glyph_id": 1861,
+        "font": "CambriaMath",
+        "font_size": 7.5,
+        "origin": [
+          147.656,
+          619.793
+        ],
+        "bbox": [
+          147.656,
+          613.959,
+          150.033,
+          621.459
+        ],
+        "span_index": 647,
+        "char_index": 0
+      }
+    ],
+    "final_pdf_ink_exists": true
+  },
+  {
+    "group_id": "MAG-21200F752707",
+    "dom_text": "𝑓𝑘(𝑃𝑖)",
+    "dom_bbox_pt": [
+      466.312,
+      328.781,
+      490.77,
+      340.031
+    ],
+    "final_pdf_text": "𝑓𝑘(𝑃𝑖)",
+    "final_pdf_characters": [
+      {
+        "character": "𝑓",
+        "codepoint": "U+1D453",
+        "glyph_id": 1858,
+        "font": "CambriaMath",
+        "font_size": 9.997,
+        "origin": [
+          466.312,
+          337.5
+        ],
+        "bbox": [
+          466.312,
+          329.724,
+          471.809,
+          339.721
+        ],
+        "span_index": 962,
+        "char_index": 0
+      },
+      {
+        "character": "𝑘",
+        "codepoint": "U+1D458",
+        "glyph_id": 1863,
+        "font": "CambriaMath",
+        "font_size": 7.5,
+        "origin": [
+          471.562,
+          339.293
+        ],
+        "bbox": [
+          471.562,
+          333.459,
+          475.701,
+          340.959
+        ],
+        "span_index": 963,
+        "char_index": 0
+      },
+      {
+        "character": "(",
+        "codepoint": "U+0028",
+        "glyph_id": 11,
+        "font": "TimesNewRomanPSMT",
+        "font_size": 9.997,
+        "origin": [
+          475.711,
+          337.5
+        ],
+        "bbox": [
+          475.711,
+          329.455,
+          479.04,
+          339.453
+        ],
+        "span_index": 964,
+        "char_index": 0
+      },
+      {
+        "character": "𝑃",
+        "codepoint": "U+1D443",
+        "glyph_id": 1842,
+        "font": "CambriaMath",
+        "font_size": 9.997,
+        "origin": [
+          479.051,
+          337.5
+        ],
+        "bbox": [
+          479.051,
+          329.724,
+          485.25,
+          339.721
+        ],
+        "span_index": 965,
+        "char_index": 0
+      },
+      {
+        "character": "𝑖",
+        "codepoint": "U+1D456",
+        "glyph_id": 1861,
+        "font": "CambriaMath",
+        "font_size": 7.5,
+        "origin": [
+          485.051,
+          339.293
+        ],
+        "bbox": [
+          485.051,
+          333.459,
+          487.427,
+          340.959
+        ],
+        "span_index": 966,
+        "char_index": 0
+      },
+      {
+        "character": ")",
+        "codepoint": "U+0029",
+        "glyph_id": 12,
+        "font": "TimesNewRomanPSMT",
+        "font_size": 9.997,
+        "origin": [
+          487.43,
+          337.5
+        ],
+        "bbox": [
+          487.43,
+          329.455,
+          490.759,
+          339.453
+        ],
+        "span_index": 967,
+        "char_index": 0
+      }
+    ],
+    "final_pdf_ink_exists": true
+  },
+  {
+    "group_id": "MAG-3F6A4368F6C1",
+    "dom_text": "𝑓𝐹𝐹𝑁(𝑃𝑖)",
+    "dom_bbox_pt": [
+      386.332,
+      355.945,
+      421.301,
+      367.195
+    ],
+    "final_pdf_text": "𝑓𝐹𝐹𝑁(𝑃𝑖)",
+    "final_pdf_characters": [
+      {
+        "character": "𝑓",
+        "codepoint": "U+1D453",
+        "glyph_id": 1858,
+        "font": "CambriaMath",
+        "font_size": 9.997,
+        "origin": [
+          386.332,
+          365.25
+        ],
+        "bbox": [
+          386.332,
+          357.474,
+          391.829,
+          367.471
+        ],
+        "span_index": 1000,
+        "char_index": 0
+      },
+      {
+        "character": "𝐹",
+        "codepoint": "U+1D439",
+        "glyph_id": 1832,
+        "font": "CambriaMath",
+        "font_size": 7.5,
+        "origin": [
+          391.582,
+          367.043
+        ],
+        "bbox": [
+          391.582,
+          361.209,
+          396.163,
+          368.709
+        ],
+        "span_index": 1001,
+        "char_index": 0
+      },
+      {
+        "character": "𝐹",
+        "codepoint": "U+1D439",
+        "glyph_id": 1832,
+        "font": "CambriaMath",
+        "font_size": 7.5,
+        "origin": [
+          396.165,
+          367.043
+        ],
+        "bbox": [
+          396.165,
+          361.209,
+          400.746,
+          368.709
+        ],
+        "span_index": 1001,
+        "char_index": 1
+      },
+      {
+        "character": "𝑁",
+        "codepoint": "U+1D441",
+        "glyph_id": 1840,
+        "font": "CambriaMath",
+        "font_size": 7.5,
+        "origin": [
+          400.747,
+          367.043
+        ],
+        "bbox": [
+          400.747,
+          361.209,
+          406.24,
+          368.709
+        ],
+        "span_index": 1001,
+        "char_index": 2
+      },
+      {
+        "character": "(",
+        "codepoint": "U+0028",
+        "glyph_id": 11,
+        "font": "TimesNewRomanPSMT",
+        "font_size": 9.997,
+        "origin": [
+          406.242,
+          365.25
+        ],
+        "bbox": [
+          406.242,
+          357.205,
+          409.571,
+          367.203
+        ],
+        "span_index": 1002,
+        "char_index": 0
+      },
+      {
+        "character": "𝑃",
+        "codepoint": "U+1D443",
+        "glyph_id": 1842,
+        "font": "CambriaMath",
+        "font_size": 9.997,
+        "origin": [
+          409.582,
+          365.25
+        ],
+        "bbox": [
+          409.582,
+          357.474,
+          415.782,
+          367.471
+        ],
+        "span_index": 1003,
+        "char_index": 0
+      },
+      {
+        "character": "𝑖",
+        "codepoint": "U+1D456",
+        "glyph_id": 1861,
+        "font": "CambriaMath",
+        "font_size": 7.5,
+        "origin": [
+          415.582,
+          367.043
+        ],
+        "bbox": [
+          415.582,
+          361.209,
+          417.959,
+          368.709
+        ],
+        "span_index": 1004,
+        "char_index": 0
+      },
+      {
+        "character": ")",
+        "codepoint": "U+0029",
+        "glyph_id": 12,
+        "font": "TimesNewRomanPSMT",
+        "font_size": 9.997,
+        "origin": [
+          417.961,
+          365.25
+        ],
+        "bbox": [
+          417.961,
+          357.205,
+          421.29,
+          367.203
+        ],
+        "span_index": 1005,
+        "char_index": 0
+      }
+    ],
+    "final_pdf_ink_exists": true
+  },
+  {
+    "group_id": "MAG-412216EF6F74",
+    "dom_text": "𝑤𝑘",
+    "dom_bbox_pt": [
+      531.059,
+      383.109,
+      542.707,
+      394.359
+    ],
+    "final_pdf_text": "𝑤𝑘",
+    "final_pdf_characters": [
+      {
+        "character": "𝑤",
+        "codepoint": "U+1D464",
+        "glyph_id": 1875,
+        "font": "CambriaMath",
+        "font_size": 9.997,
+        "origin": [
+          531.059,
+          392.25
+        ],
+        "bbox": [
+          531.059,
+          384.474,
+          538.444,
+          394.471
+        ],
+        "span_index": 1058,
+        "char_index": 0
+      },
+      {
+        "character": "𝑘",
+        "codepoint": "U+1D458",
+        "glyph_id": 1863,
+        "font": "CambriaMath",
+        "font_size": 7.5,
+        "origin": [
+          538.559,
+          394.043
+        ],
+        "bbox": [
+          538.559,
+          388.209,
+          542.697,
+          395.709
+        ],
+        "span_index": 1059,
+        "char_index": 0
+      }
+    ],
+    "final_pdf_ink_exists": true
+  },
+  {
+    "group_id": "MAG-E9D29DCF0174",
+    "dom_text": "𝑧𝑘",
+    "dom_bbox_pt": [
+      329.098,
+      470.578,
+      337.746,
+      481.828
+    ],
+    "final_pdf_text": "𝑧𝑘",
+    "final_pdf_characters": [
+      {
+        "character": "𝑧",
+        "codepoint": "U+1D467",
+        "glyph_id": 1878,
+        "font": "CambriaMath",
+        "font_size": 9.997,
+        "origin": [
+          329.098,
+          479.25
+        ],
+        "bbox": [
+          329.098,
+          471.474,
+          333.93,
+          481.471
+        ],
+        "span_index": 1071,
+        "char_index": 0
+      },
+      {
+        "character": "𝑘",
+        "codepoint": "U+1D458",
+        "glyph_id": 1863,
+        "font": "CambriaMath",
+        "font_size": 7.5,
+        "origin": [
+          333.598,
+          481.043
+        ],
+        "bbox": [
+          333.598,
+          475.209,
+          337.736,
+          482.709
+        ],
+        "span_index": 1072,
+        "char_index": 0
+      }
+    ],
+    "final_pdf_ink_exists": true
+  }
+]
