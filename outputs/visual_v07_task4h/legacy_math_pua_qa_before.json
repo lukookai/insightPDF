@@ -1,0 +1,56 @@
+{
+  "schema_version": "visual_v07.legacy_math_pua_qa.v1",
+  "html_path": "E:\\Code\\fanyi\\outputs\\visual_v07_task4f\\fixed_artifact\\zh_visual.html",
+  "pdf_path": "E:\\Code\\fanyi\\outputs\\visual_v07_task4f\\fixed_artifact\\zh_visual.pdf",
+  "width_epsilon_pt": 0.05,
+  "metrics": {
+    "legacy_pua_html_count": 4,
+    "legacy_pua_pdf_count": 4,
+    "legacy_pua_visible_failure_count": 2,
+    "zero_width_math_glyph_count": 2,
+    "legacy_pua_normalized_count": 0,
+    "unresolved_required_pua_count": 1,
+    "normalized_math_glyph_missing_count": 0,
+    "normalization_wrong_character_count": 0,
+    "normalization_duplicate_character_count": 0
+  },
+  "old_artifact_red": true,
+  "after_hard_gate_pass": false,
+  "unresolved_required_codepoints": [
+    "U+E232"
+  ],
+  "zero_width_math_glyphs": [
+    {
+      "page_index": 0,
+      "character": "",
+      "unicode_codepoint": "U+E232",
+      "unicode_name": "PRIVATE-USE CHARACTER",
+      "font": "SegoeUISymbol",
+      "bbox": [
+        81.038,
+        49.212,
+        81.038,
+        62.509
+      ],
+      "bbox_width": 0.0,
+      "bbox_height": 13.297
+    },
+    {
+      "page_index": 0,
+      "character": "",
+      "unicode_codepoint": "U+E232",
+      "unicode_name": "PRIVATE-USE CHARACTER",
+      "font": "SegoeUISymbol",
+      "bbox": [
+        100.694,
+        49.212,
+        100.694,
+        62.509
+      ],
+      "bbox_width": 0.0,
+      "bbox_height": 13.297
+    }
+  ],
+  "normalized_math_glyph_missing": [],
+  "normalization_wrong_character": []
+}

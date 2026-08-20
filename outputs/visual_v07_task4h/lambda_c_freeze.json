@@ -1,0 +1,14 @@
+{
+  "diagnosis": "NOT_FONT_CAUSE",
+  "deferred_to_Task_4I": true,
+  "target_block_byte_identical": true,
+  "before_target_text": "0 同时保持可微性。这使得网络能够端到端地自适应优化扩散补偿尺度。除了高频物理先验外，我们保留空间特征作为补充。因此，整个适配器可以构建如下：",
+  "after_target_text": "0 同时保持可微性。这使得网络能够端到端地自适应优化扩散补偿尺度。除了高频物理先验外，我们保留空间特征作为补充。因此，整个适配器可以构建如下：",
+  "missing_before_chromium_codepoints": [
+    "U+1D706",
+    "U+1D450",
+    "U+003E"
+  ],
+  "missing_characters_still_absent": true,
+  "inline_math_reconstruction_modified": false
+}

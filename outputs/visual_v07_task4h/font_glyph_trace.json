@@ -1,0 +1,554 @@
+{
+  "platform_font_files": {
+    "Cambria Math": {
+      "path": "C:\\Windows\\Fonts\\cambria.ttc",
+      "font_index": 1,
+      "names": [
+        "Cambria Math",
+        "CambriaMath",
+        "Regular"
+      ],
+      "regular": true
+    },
+    "Times New Roman": {
+      "path": "C:\\Windows\\Fonts\\times.ttf",
+      "font_index": 0,
+      "names": [
+        "Arrunta",
+        "Navadno",
+        "Normaali",
+        "Normal",
+        "Normale",
+        "Normalny",
+        "Normál",
+        "Normálne",
+        "Regular",
+        "Standaard",
+        "Standard",
+        "Times New Roman",
+        "TimesNewRomanPSMT",
+        "normal",
+        "obyčejné",
+        "thường",
+        "Κανονικά",
+        "Обычный"
+      ],
+      "regular": true
+    }
+  },
+  "glyph_records": [
+    {
+      "probe_id": "math-font-audit-probe-0",
+      "actual_fallback_font": "Cambria Math",
+      "font_location": {
+        "path": "C:\\Windows\\Fonts\\cambria.ttc",
+        "font_index": 1,
+        "names": [
+          "Cambria Math",
+          "CambriaMath",
+          "Regular"
+        ],
+        "regular": true
+      },
+      "glyph": {
+        "font_path": "C:\\Windows\\Fonts\\cambria.ttc",
+        "font_index": 1,
+        "font_names": [
+          "Cambria Math",
+          "CambriaMath",
+          "Regular"
+        ],
+        "character": "𝓕",
+        "unicode_codepoint": "U+1D4D5",
+        "cmap_entry_present": true,
+        "glyph_name": "u1D4D5",
+        "glyph_id": 2320,
+        "advance_width_font_units": 1530,
+        "left_side_bearing_font_units": 0,
+        "units_per_em": 2048,
+        "glyph_supported": true,
+        "missing_glyph_evidence": []
+      }
+    },
+    {
+      "probe_id": "math-font-audit-probe-1",
+      "actual_fallback_font": "Times New Roman",
+      "font_location": {
+        "path": "C:\\Windows\\Fonts\\times.ttf",
+        "font_index": 0,
+        "names": [
+          "Arrunta",
+          "Navadno",
+          "Normaali",
+          "Normal",
+          "Normale",
+          "Normalny",
+          "Normál",
+          "Normálne",
+          "Regular",
+          "Standaard",
+          "Standard",
+          "Times New Roman",
+          "TimesNewRomanPSMT",
+          "normal",
+          "obyčejné",
+          "thường",
+          "Κανονικά",
+          "Обычный"
+        ],
+        "regular": true
+      },
+      "glyph": {
+        "font_path": "C:\\Windows\\Fonts\\times.ttf",
+        "font_index": 0,
+        "font_names": [
+          "Arrunta",
+          "Navadno",
+          "Normaali",
+          "Normal",
+          "Normale",
+          "Normalny",
+          "Normál",
+          "Normálne",
+          "Regular",
+          "Standaard",
+          "Standard",
+          "Times New Roman",
+          "TimesNewRomanPSMT",
+          "normal",
+          "obyčejné",
+          "thường",
+          "Κανονικά",
+          "Обычный"
+        ],
+        "character": "(",
+        "unicode_codepoint": "U+0028",
+        "cmap_entry_present": true,
+        "glyph_name": "parenleft",
+        "glyph_id": 11,
+        "advance_width_font_units": 682,
+        "left_side_bearing_font_units": 84,
+        "units_per_em": 2048,
+        "glyph_supported": true,
+        "missing_glyph_evidence": []
+      }
+    },
+    {
+      "probe_id": "math-font-audit-probe-2",
+      "actual_fallback_font": "Cambria Math",
+      "font_location": {
+        "path": "C:\\Windows\\Fonts\\cambria.ttc",
+        "font_index": 1,
+        "names": [
+          "Cambria Math",
+          "CambriaMath",
+          "Regular"
+        ],
+        "regular": true
+      },
+      "glyph": {
+        "font_path": "C:\\Windows\\Fonts\\cambria.ttc",
+        "font_index": 1,
+        "font_names": [
+          "Cambria Math",
+          "CambriaMath",
+          "Regular"
+        ],
+        "character": "⋅",
+        "unicode_codepoint": "U+22C5",
+        "cmap_entry_present": true,
+        "glyph_name": "dotmath",
+        "glyph_id": 1668,
+        "advance_width_font_units": 578,
+        "left_side_bearing_font_units": 173,
+        "units_per_em": 2048,
+        "glyph_supported": true,
+        "missing_glyph_evidence": []
+      }
+    },
+    {
+      "probe_id": "math-font-audit-probe-3",
+      "actual_fallback_font": "Times New Roman",
+      "font_location": {
+        "path": "C:\\Windows\\Fonts\\times.ttf",
+        "font_index": 0,
+        "names": [
+          "Arrunta",
+          "Navadno",
+          "Normaali",
+          "Normal",
+          "Normale",
+          "Normalny",
+          "Normál",
+          "Normálne",
+          "Regular",
+          "Standaard",
+          "Standard",
+          "Times New Roman",
+          "TimesNewRomanPSMT",
+          "normal",
+          "obyčejné",
+          "thường",
+          "Κανονικά",
+          "Обычный"
+        ],
+        "regular": true
+      },
+      "glyph": {
+        "font_path": "C:\\Windows\\Fonts\\times.ttf",
+        "font_index": 0,
+        "font_names": [
+          "Arrunta",
+          "Navadno",
+          "Normaali",
+          "Normal",
+          "Normale",
+          "Normalny",
+          "Normál",
+          "Normálne",
+          "Regular",
+          "Standaard",
+          "Standard",
+          "Times New Roman",
+          "TimesNewRomanPSMT",
+          "normal",
+          "obyčejné",
+          "thường",
+          "Κανονικά",
+          "Обычный"
+        ],
+        "character": ")",
+        "unicode_codepoint": "U+0029",
+        "cmap_entry_present": true,
+        "glyph_name": "parenright",
+        "glyph_id": 12,
+        "advance_width_font_units": 682,
+        "left_side_bearing_font_units": 46,
+        "units_per_em": 2048,
+        "glyph_supported": true,
+        "missing_glyph_evidence": []
+      }
+    },
+    {
+      "probe_id": "math-font-audit-probe-4",
+      "actual_fallback_font": "Cambria Math",
+      "font_location": {
+        "path": "C:\\Windows\\Fonts\\cambria.ttc",
+        "font_index": 1,
+        "names": [
+          "Cambria Math",
+          "CambriaMath",
+          "Regular"
+        ],
+        "regular": true
+      },
+      "glyph": {
+        "font_path": "C:\\Windows\\Fonts\\cambria.ttc",
+        "font_index": 1,
+        "font_names": [
+          "Cambria Math",
+          "CambriaMath",
+          "Regular"
+        ],
+        "character": "𝓕",
+        "unicode_codepoint": "U+1D4D5",
+        "cmap_entry_present": true,
+        "glyph_name": "u1D4D5",
+        "glyph_id": 2320,
+        "advance_width_font_units": 1530,
+        "left_side_bearing_font_units": 0,
+        "units_per_em": 2048,
+        "glyph_supported": true,
+        "missing_glyph_evidence": []
+      }
+    },
+    {
+      "probe_id": "math-font-audit-probe-5",
+      "actual_fallback_font": "Cambria Math",
+      "font_location": {
+        "path": "C:\\Windows\\Fonts\\cambria.ttc",
+        "font_index": 1,
+        "names": [
+          "Cambria Math",
+          "CambriaMath",
+          "Regular"
+        ],
+        "regular": true
+      },
+      "glyph": {
+        "font_path": "C:\\Windows\\Fonts\\cambria.ttc",
+        "font_index": 1,
+        "font_names": [
+          "Cambria Math",
+          "CambriaMath",
+          "Regular"
+        ],
+        "character": "−",
+        "unicode_codepoint": "U+2212",
+        "cmap_entry_present": true,
+        "glyph_name": "minus",
+        "glyph_id": 3398,
+        "advance_width_font_units": 1530,
+        "left_side_bearing_font_units": 149,
+        "units_per_em": 2048,
+        "glyph_supported": true,
+        "missing_glyph_evidence": []
+      }
+    },
+    {
+      "probe_id": "math-font-audit-probe-6",
+      "actual_fallback_font": "Times New Roman",
+      "font_location": {
+        "path": "C:\\Windows\\Fonts\\times.ttf",
+        "font_index": 0,
+        "names": [
+          "Arrunta",
+          "Navadno",
+          "Normaali",
+          "Normal",
+          "Normale",
+          "Normalny",
+          "Normál",
+          "Normálne",
+          "Regular",
+          "Standaard",
+          "Standard",
+          "Times New Roman",
+          "TimesNewRomanPSMT",
+          "normal",
+          "obyčejné",
+          "thường",
+          "Κανονικά",
+          "Обычный"
+        ],
+        "regular": true
+      },
+      "glyph": {
+        "font_path": "C:\\Windows\\Fonts\\times.ttf",
+        "font_index": 0,
+        "font_names": [
+          "Arrunta",
+          "Navadno",
+          "Normaali",
+          "Normal",
+          "Normale",
+          "Normalny",
+          "Normál",
+          "Normálne",
+          "Regular",
+          "Standaard",
+          "Standard",
+          "Times New Roman",
+          "TimesNewRomanPSMT",
+          "normal",
+          "obyčejné",
+          "thường",
+          "Κανονικά",
+          "Обычный"
+        ],
+        "character": "1",
+        "unicode_codepoint": "U+0031",
+        "cmap_entry_present": true,
+        "glyph_name": "one",
+        "glyph_id": 20,
+        "advance_width_font_units": 1024,
+        "left_side_bearing_font_units": 240,
+        "units_per_em": 2048,
+        "glyph_supported": true,
+        "missing_glyph_evidence": []
+      }
+    },
+    {
+      "probe_id": "math-font-audit-probe-7",
+      "actual_fallback_font": "Times New Roman",
+      "font_location": {
+        "path": "C:\\Windows\\Fonts\\times.ttf",
+        "font_index": 0,
+        "names": [
+          "Arrunta",
+          "Navadno",
+          "Normaali",
+          "Normal",
+          "Normale",
+          "Normalny",
+          "Normál",
+          "Normálne",
+          "Regular",
+          "Standaard",
+          "Standard",
+          "Times New Roman",
+          "TimesNewRomanPSMT",
+          "normal",
+          "obyčejné",
+          "thường",
+          "Κανονικά",
+          "Обычный"
+        ],
+        "regular": true
+      },
+      "glyph": {
+        "font_path": "C:\\Windows\\Fonts\\times.ttf",
+        "font_index": 0,
+        "font_names": [
+          "Arrunta",
+          "Navadno",
+          "Normaali",
+          "Normal",
+          "Normale",
+          "Normalny",
+          "Normál",
+          "Normálne",
+          "Regular",
+          "Standaard",
+          "Standard",
+          "Times New Roman",
+          "TimesNewRomanPSMT",
+          "normal",
+          "obyčejné",
+          "thường",
+          "Κανονικά",
+          "Обычный"
+        ],
+        "character": "(",
+        "unicode_codepoint": "U+0028",
+        "cmap_entry_present": true,
+        "glyph_name": "parenleft",
+        "glyph_id": 11,
+        "advance_width_font_units": 682,
+        "left_side_bearing_font_units": 84,
+        "units_per_em": 2048,
+        "glyph_supported": true,
+        "missing_glyph_evidence": []
+      }
+    },
+    {
+      "probe_id": "math-font-audit-probe-8",
+      "actual_fallback_font": "Cambria Math",
+      "font_location": {
+        "path": "C:\\Windows\\Fonts\\cambria.ttc",
+        "font_index": 1,
+        "names": [
+          "Cambria Math",
+          "CambriaMath",
+          "Regular"
+        ],
+        "regular": true
+      },
+      "glyph": {
+        "font_path": "C:\\Windows\\Fonts\\cambria.ttc",
+        "font_index": 1,
+        "font_names": [
+          "Cambria Math",
+          "CambriaMath",
+          "Regular"
+        ],
+        "character": "⋅",
+        "unicode_codepoint": "U+22C5",
+        "cmap_entry_present": true,
+        "glyph_name": "dotmath",
+        "glyph_id": 1668,
+        "advance_width_font_units": 578,
+        "left_side_bearing_font_units": 173,
+        "units_per_em": 2048,
+        "glyph_supported": true,
+        "missing_glyph_evidence": []
+      }
+    },
+    {
+      "probe_id": "math-font-audit-probe-9",
+      "actual_fallback_font": "Times New Roman",
+      "font_location": {
+        "path": "C:\\Windows\\Fonts\\times.ttf",
+        "font_index": 0,
+        "names": [
+          "Arrunta",
+          "Navadno",
+          "Normaali",
+          "Normal",
+          "Normale",
+          "Normalny",
+          "Normál",
+          "Normálne",
+          "Regular",
+          "Standaard",
+          "Standard",
+          "Times New Roman",
+          "TimesNewRomanPSMT",
+          "normal",
+          "obyčejné",
+          "thường",
+          "Κανονικά",
+          "Обычный"
+        ],
+        "regular": true
+      },
+      "glyph": {
+        "font_path": "C:\\Windows\\Fonts\\times.ttf",
+        "font_index": 0,
+        "font_names": [
+          "Arrunta",
+          "Navadno",
+          "Normaali",
+          "Normal",
+          "Normale",
+          "Normalny",
+          "Normál",
+          "Normálne",
+          "Regular",
+          "Standaard",
+          "Standard",
+          "Times New Roman",
+          "TimesNewRomanPSMT",
+          "normal",
+          "obyčejné",
+          "thường",
+          "Κανονικά",
+          "Обычный"
+        ],
+        "character": ")",
+        "unicode_codepoint": "U+0029",
+        "cmap_entry_present": true,
+        "glyph_name": "parenright",
+        "glyph_id": 12,
+        "advance_width_font_units": 682,
+        "left_side_bearing_font_units": 46,
+        "units_per_em": 2048,
+        "glyph_supported": true,
+        "missing_glyph_evidence": []
+      }
+    },
+    {
+      "probe_id": "math-font-audit-probe-10",
+      "actual_fallback_font": "Cambria Math",
+      "font_location": {
+        "path": "C:\\Windows\\Fonts\\cambria.ttc",
+        "font_index": 1,
+        "names": [
+          "Cambria Math",
+          "CambriaMath",
+          "Regular"
+        ],
+        "regular": true
+      },
+      "glyph": {
+        "font_path": "C:\\Windows\\Fonts\\cambria.ttc",
+        "font_index": 1,
+        "font_names": [
+          "Cambria Math",
+          "CambriaMath",
+          "Regular"
+        ],
+        "character": "𝓕",
+        "unicode_codepoint": "U+1D4D5",
+        "cmap_entry_present": true,
+        "glyph_name": "u1D4D5",
+        "glyph_id": 2320,
+        "advance_width_font_units": 1530,
+        "left_side_bearing_font_units": 0,
+        "units_per_em": 2048,
+        "glyph_supported": true,
+        "missing_glyph_evidence": []
+      }
+    }
+  ]
+}

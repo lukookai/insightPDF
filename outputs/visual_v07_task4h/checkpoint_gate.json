@@ -1,0 +1,286 @@
+{
+  "schema_version": "visual_v07.task4h.checkpoint.v1",
+  "decision": "pass",
+  "qa_first": {
+    "old_artifact_red": true,
+    "before_metrics": {
+      "legacy_pua_html_count": 4,
+      "legacy_pua_pdf_count": 4,
+      "legacy_pua_visible_failure_count": 2,
+      "zero_width_math_glyph_count": 2,
+      "legacy_pua_normalized_count": 0,
+      "unresolved_required_pua_count": 1,
+      "normalized_math_glyph_missing_count": 0,
+      "normalization_wrong_character_count": 0,
+      "normalization_duplicate_character_count": 0
+    }
+  },
+  "metrics": {
+    "legacy_pua_html_count": 2,
+    "legacy_pua_pdf_count": 2,
+    "legacy_pua_visible_failure_count": 0,
+    "zero_width_math_glyph_count": 0,
+    "legacy_pua_normalized_count": 2,
+    "unresolved_required_pua_count": 0,
+    "normalized_math_glyph_missing_count": 0,
+    "normalization_wrong_character_count": 0,
+    "normalization_duplicate_character_count": 0,
+    "final_block_collision_count": 0,
+    "production_special_case_count": 0,
+    "chromium_cambria_math_selection_count": 2,
+    "final_positive_width_math_glyph_count": 2,
+    "final_math_glyph_ink_count": 2,
+    "fourier_sequence_complete_count": 2,
+    "minus_one_regression_count": 0,
+    "html_non_normalization_change_count": 0,
+    "source_text_slot_geometry_mutation_count": 0,
+    "font_chain_modified_count": 0,
+    "inline_math_reconstruction_modified_count": 0,
+    "formula_crop_modified_count": 0,
+    "figure_modified_count": 0,
+    "table_modified_count": 0,
+    "typography_modified_count": 0,
+    "flow_modified_count": 0
+  },
+  "samples": [
+    {
+      "sample_id": "fourier_forward",
+      "display_name": "F(·)",
+      "selector": ".paragraph-block[data-para='PAF_B1_00']",
+      "needle": "𝓕(⋅)",
+      "occurrence": 0,
+      "html_sequence_present": true,
+      "restored_html_sequence": "𝓕(⋅)",
+      "css_font_family": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+      "chromium_actual_font": "Cambria Math",
+      "chromium_platform_fonts": [
+        {
+          "familyName": "Cambria Math",
+          "postScriptName": "CambriaMath",
+          "isCustomFont": false,
+          "glyphCount": 1
+        }
+      ],
+      "dom_glyph_bbox": [
+        81.035,
+        50.789,
+        88.547,
+        62.039
+      ],
+      "dom_glyph_width_pt": 7.512,
+      "system_font_glyph": {
+        "font_path": "C:\\Windows\\Fonts\\cambria.ttc",
+        "font_index": 1,
+        "font_names": [
+          "Cambria Math",
+          "CambriaMath",
+          "Regular"
+        ],
+        "character": "𝓕",
+        "unicode_codepoint": "U+1D4D5",
+        "cmap_entry_present": true,
+        "glyph_name": "u1D4D5",
+        "glyph_id": 2320,
+        "advance_width_font_units": 1530,
+        "left_side_bearing_font_units": 0,
+        "units_per_em": 2048,
+        "glyph_supported": true,
+        "missing_glyph_evidence": []
+      },
+      "glyph_supported": true,
+      "final_pdf_character": {
+        "character": "𝓕",
+        "unicode_codepoint": "U+1D4D5",
+        "font": "CambriaMath",
+        "font_size": 9.997,
+        "bbox": [
+          81.038,
+          52.224,
+          88.506,
+          62.221
+        ],
+        "origin": [
+          81.038,
+          60.0
+        ],
+        "order": 3,
+        "line_text": "其中，𝓕(⋅)和𝓕−1(⋅)分别表示二维快速傅里叶变换及其",
+        "bbox_width": 7.468,
+        "bbox_height": 9.997,
+        "dom_to_pdf_center_distance_pt": 0.809
+      },
+      "final_pdf_font_xref": 8,
+      "embedded_pdf_glyph": {
+        "xref": 8,
+        "embedded_name": "CAAAAA+CambriaMath",
+        "extension": "ttf",
+        "font_type": "Type0",
+        "embedded_bytes": 38256,
+        "character": "𝓕",
+        "unicode_codepoint": "U+1D4D5",
+        "glyph_name": "u1D4D5",
+        "glyph_id": 2320,
+        "advance_width_font_units": 1530,
+        "glyph_supported": true,
+        "missing_glyph_evidence": []
+      },
+      "final_pdf_sequence_complete": true,
+      "final_pdf_sequence": "𝓕(⋅)",
+      "final_pdf_glyph_width_pt": 7.468,
+      "final_raster_ink_pixel_count": 340,
+      "final_ink_exists": true
+    },
+    {
+      "sample_id": "fourier_inverse",
+      "display_name": "F^{-1}(·)",
+      "selector": ".paragraph-block[data-para='PAF_B1_00']",
+      "needle": "𝓕−1(⋅)",
+      "occurrence": 0,
+      "html_sequence_present": true,
+      "restored_html_sequence": "𝓕−1(⋅)",
+      "css_font_family": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+      "chromium_actual_font": "Cambria Math",
+      "chromium_platform_fonts": [
+        {
+          "familyName": "Cambria Math",
+          "postScriptName": "CambriaMath",
+          "isCustomFont": false,
+          "glyphCount": 1
+        }
+      ],
+      "dom_glyph_bbox": [
+        108.188,
+        50.789,
+        115.699,
+        62.039
+      ],
+      "dom_glyph_width_pt": 7.511,
+      "system_font_glyph": {
+        "font_path": "C:\\Windows\\Fonts\\cambria.ttc",
+        "font_index": 1,
+        "font_names": [
+          "Cambria Math",
+          "CambriaMath",
+          "Regular"
+        ],
+        "character": "𝓕",
+        "unicode_codepoint": "U+1D4D5",
+        "cmap_entry_present": true,
+        "glyph_name": "u1D4D5",
+        "glyph_id": 2320,
+        "advance_width_font_units": 1530,
+        "left_side_bearing_font_units": 0,
+        "units_per_em": 2048,
+        "glyph_supported": true,
+        "missing_glyph_evidence": []
+      },
+      "glyph_supported": true,
+      "final_pdf_character": {
+        "character": "𝓕",
+        "unicode_codepoint": "U+1D4D5",
+        "font": "CambriaMath",
+        "font_size": 9.997,
+        "bbox": [
+          108.194,
+          52.224,
+          115.662,
+          62.221
+        ],
+        "origin": [
+          108.194,
+          60.0
+        ],
+        "order": 8,
+        "line_text": "其中，𝓕(⋅)和𝓕−1(⋅)分别表示二维快速傅里叶变换及其",
+        "bbox_width": 7.468,
+        "bbox_height": 9.997,
+        "dom_to_pdf_center_distance_pt": 0.809
+      },
+      "final_pdf_font_xref": 8,
+      "embedded_pdf_glyph": {
+        "xref": 8,
+        "embedded_name": "CAAAAA+CambriaMath",
+        "extension": "ttf",
+        "font_type": "Type0",
+        "embedded_bytes": 38256,
+        "character": "𝓕",
+        "unicode_codepoint": "U+1D4D5",
+        "glyph_name": "u1D4D5",
+        "glyph_id": 2320,
+        "advance_width_font_units": 1530,
+        "glyph_supported": true,
+        "missing_glyph_evidence": []
+      },
+      "final_pdf_sequence_complete": true,
+      "final_pdf_sequence": "𝓕−1(⋅)",
+      "final_pdf_glyph_width_pt": 7.468,
+      "final_raster_ink_pixel_count": 333,
+      "final_ink_exists": true
+    }
+  ],
+  "lambda_c_freeze": {
+    "diagnosis": "NOT_FONT_CAUSE",
+    "deferred_to_Task_4I": true,
+    "target_block_byte_identical": true,
+    "before_target_text": "0 同时保持可微性。这使得网络能够端到端地自适应优化扩散补偿尺度。除了高频物理先验外，我们保留空间特征作为补充。因此，整个适配器可以构建如下：",
+    "after_target_text": "0 同时保持可微性。这使得网络能够端到端地自适应优化扩散补偿尺度。除了高频物理先验外，我们保留空间特征作为补充。因此，整个适配器可以构建如下：",
+    "missing_before_chromium_codepoints": [
+      "U+1D706",
+      "U+1D450",
+      "U+003E"
+    ],
+    "missing_characters_still_absent": true,
+    "inline_math_reconstruction_modified": false
+  },
+  "source_artifact": {
+    "source_pdf": "C:\\Users\\74496\\Desktop\\PPAT.pdf",
+    "before_html": "E:\\Code\\fanyi\\outputs\\visual_v07_task4f\\fixed_artifact\\zh_visual.html",
+    "before_pdf": "E:\\Code\\fanyi\\outputs\\visual_v07_task4f\\fixed_artifact\\zh_visual.pdf",
+    "before_html_sha256": "e1322259d987cc15b6da84aad3783eec20d2e3c9ce3a13b97946ed88d807cd45",
+    "before_pdf_sha256": "5635b3de23ae3aaddd0af1a84170c9200d209eef7f887e0cc26fd30c8531af32"
+  },
+  "fixed_artifact": {
+    "html": "E:\\Code\\fanyi\\outputs\\visual_v07_task4h\\fixed_artifact\\zh_visual.html",
+    "pdf": "E:\\Code\\fanyi\\outputs\\visual_v07_task4h\\fixed_artifact\\zh_visual.pdf",
+    "html_sha256": "92f7a08f16f97f655729c6e50c314c7364a3e5c51a0248d8f97df542d2853ae7",
+    "pdf_sha256": "f4e390595a549bb832bb71924650a34f1006d8bcbad4992d7fafdc0109de9777"
+  },
+  "review_bundle": {
+    "schema_version": "visual_v07.task4h.review_index.v1",
+    "decision": "pass",
+    "focus_bbox_pt": [
+      54.262,
+      39.275,
+      369.432,
+      96.238
+    ],
+    "files": [
+      {
+        "name": "math_pua_after.png",
+        "sha256": "410d9794ec8b7653545f23da192ff08939e2f475ffb14328c51df04f3a06b670"
+      },
+      {
+        "name": "math_pua_before.png",
+        "sha256": "d3d9ac46278500f24e90d40a0f6862e877d3ece8d0be55e9aa8106fd5bc04564"
+      },
+      {
+        "name": "math_pua_before_after.png",
+        "sha256": "8ab3ef5d354ebaded75331829d9865b420e200709d6aedd21ff6e87d8b3e82bb"
+      },
+      {
+        "name": "math_pua_normalization_overlay.png",
+        "sha256": "4042147229718b4b4ed309c792baca70236b1ff587ab3d0fedfe91260372f682"
+      },
+      {
+        "name": "math_pua_source.png",
+        "sha256": "e9aad8e3c07a0be15fb470f4eff10f830d9dd9c6dfe99dfd2736da06a811ec5d"
+      }
+    ],
+    "legend": {
+      "blue": "source U+E232 bbox with verified legacy font provenance",
+      "green": "final U+1D4D5 bbox with positive-width PDF ink"
+    }
+  },
+  "commit_message": "fix(visual): normalize legacy math PUA symbols",
+  "tag_created": false
+}

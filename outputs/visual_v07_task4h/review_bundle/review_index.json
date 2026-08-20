@@ -1,0 +1,36 @@
+{
+  "schema_version": "visual_v07.task4h.review_index.v1",
+  "decision": "pass",
+  "focus_bbox_pt": [
+    54.262,
+    39.275,
+    369.432,
+    96.238
+  ],
+  "files": [
+    {
+      "name": "math_pua_after.png",
+      "sha256": "410d9794ec8b7653545f23da192ff08939e2f475ffb14328c51df04f3a06b670"
+    },
+    {
+      "name": "math_pua_before.png",
+      "sha256": "d3d9ac46278500f24e90d40a0f6862e877d3ece8d0be55e9aa8106fd5bc04564"
+    },
+    {
+      "name": "math_pua_before_after.png",
+      "sha256": "8ab3ef5d354ebaded75331829d9865b420e200709d6aedd21ff6e87d8b3e82bb"
+    },
+    {
+      "name": "math_pua_normalization_overlay.png",
+      "sha256": "4042147229718b4b4ed309c792baca70236b1ff587ab3d0fedfe91260372f682"
+    },
+    {
+      "name": "math_pua_source.png",
+      "sha256": "e9aad8e3c07a0be15fb470f4eff10f830d9dd9c6dfe99dfd2736da06a811ec5d"
+    }
+  ],
+  "legend": {
+    "blue": "source U+E232 bbox with verified legacy font provenance",
+    "green": "final U+1D4D5 bbox with positive-width PDF ink"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": "visual_v07.legacy_math_pua_qa.v1",
+  "html_path": "E:\\Code\\fanyi\\outputs\\visual_v07_task4h\\fixed_artifact\\zh_visual.html",
+  "pdf_path": "E:\\Code\\fanyi\\outputs\\visual_v07_task4h\\fixed_artifact\\zh_visual.pdf",
+  "width_epsilon_pt": 0.05,
+  "metrics": {
+    "legacy_pua_html_count": 2,
+    "legacy_pua_pdf_count": 2,
+    "legacy_pua_visible_failure_count": 0,
+    "zero_width_math_glyph_count": 0,
+    "legacy_pua_normalized_count": 2,
+    "unresolved_required_pua_count": 0,
+    "normalized_math_glyph_missing_count": 0,
+    "normalization_wrong_character_count": 0,
+    "normalization_duplicate_character_count": 0
+  },
+  "old_artifact_red": false,
+  "after_hard_gate_pass": true,
+  "unresolved_required_codepoints": [],
+  "zero_width_math_glyphs": [],
+  "normalized_math_glyph_missing": [],
+  "normalization_wrong_character": []
+}

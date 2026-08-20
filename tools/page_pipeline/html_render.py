@@ -578,7 +578,8 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
                        frontmatter=None, typography=None,
                        bottom_reserved_regions=None, resolver=None,
                        gap_collector=None, skip_inline_formulas=None,
-                       prose_excluded_segments=None):
+                       prose_excluded_segments=None,
+                       legacy_math_pua_collector=None):
     """Return the unified page HTML (str) for one page.
 
     ``translations``: {paragraph_id: zh} (inline placeholders already
@@ -600,6 +601,9 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
     ScriptBoundaryQA report.
     ``skip_inline_formulas``: optional set of formula ids whose placeholders
     must NOT render as source SVG (visual-v04 prose recovery).
+    ``legacy_math_pua_collector``: optional list receiving provenance-backed
+    legacy math PUA normalization records.  Normalization itself is always
+    active and happens immediately before paragraph HTML is produced.
     """
     from typography import build_typography, typography_css
     page_w = page_model["width"]
@@ -872,6 +876,51 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
         if fl.get("continuation"):
             zh = re.sub(r"^\s*[•·∙▪●]\s*", "", zh)
 
+        # visual-v07 Task 4H: normalize only registry-backed legacy math PUA
+        # characters.  The source PDF fragment supplies the font family,
+        # PostScript name and glyph identity; a codepoint by itself can never
+        # authorize replacement.  This changes text only and leaves every
+        # SourceTextSlot / flow / hard-anchor geometry field untouched.
+        source_paragraph_segments = list(
+            fl.get("source_paragraph_segments") or [])
+        segments_match_before_normalization = (
+            source_paragraph_segments
+            and "".join(str(row.get("text") or "")
+                        for row in source_paragraph_segments) == zh)
+        if any(0xE000 <= ord(character) <= 0xF8FF
+               or 0xF0000 <= ord(character) <= 0xFFFFD
+               or 0x100000 <= ord(character) <= 0x10FFFD
+               for character in zh):
+            from legacy_math_pua_normalizer import (
+                apply_normalization_to_segments,
+                normalize_legacy_math_pua_text,
+            )
+            source_math_bbox = (fl.get("source_slot_bbox")
+                                or fl.get("layout_bbox")
+                                or para.get("bbox") or None)
+            pua_normalization = normalize_legacy_math_pua_text(
+                zh, pdf, page_idx, source_math_bbox,
+                context={
+                    "paragraph_id": pid,
+                    "flow_fragment_id": fl.get("flow_fragment_id"),
+                    "semantic_role": para.get("semantic_role"),
+                    "render_stage": "immediately_before_html_render",
+                })
+            if pua_normalization.get("blocked"):
+                unresolved = [
+                    row for row in pua_normalization.get("records") or []
+                    if row.get("required") and not row.get("normalized")]
+                raise RuntimeError(
+                    "legacy math PUA normalization BLOCK: %s"
+                    % ", ".join(str(row.get("source_codepoint") or "")
+                                for row in unresolved))
+            zh = pua_normalization["normalized_text"]
+            if segments_match_before_normalization:
+                source_paragraph_segments = apply_normalization_to_segments(
+                    source_paragraph_segments, pua_normalization)
+            if legacy_math_pua_collector is not None:
+                legacy_math_pua_collector.append(pua_normalization)
+
         lgap = ty.get("cjk_latin_gap_em", 0.0) if balanced else 0.0
         ngap = ty.get("cjk_number_gap_em", 0.0) if balanced else 0.0
         igl = ty.get("inline_formula_left_em", 0.0) if balanced else 0.0
@@ -890,8 +939,6 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
         # value, so Task 3 Fit / Task 4C Fill can scale type without changing
         # the indentation proportion.  Source PDF line wraps never enter this
         # structure and no x/y/width/height field is read or written here.
-        source_paragraph_segments = list(
-            fl.get("source_paragraph_segments") or [])
         segments_match = (
             source_paragraph_segments
             and "".join(str(row.get("text") or "")

@@ -1,0 +1,178 @@
+{
+  "samples": [
+    {
+      "sample_id": "fourier_forward",
+      "display_name": "F(·)",
+      "selector": ".paragraph-block[data-para='PAF_B1_00']",
+      "needle": "𝓕(⋅)",
+      "occurrence": 0,
+      "html_sequence_present": true,
+      "restored_html_sequence": "𝓕(⋅)",
+      "css_font_family": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+      "chromium_actual_font": "Cambria Math",
+      "chromium_platform_fonts": [
+        {
+          "familyName": "Cambria Math",
+          "postScriptName": "CambriaMath",
+          "isCustomFont": false,
+          "glyphCount": 1
+        }
+      ],
+      "dom_glyph_bbox": [
+        81.035,
+        50.789,
+        88.547,
+        62.039
+      ],
+      "dom_glyph_width_pt": 7.512,
+      "system_font_glyph": {
+        "font_path": "C:\\Windows\\Fonts\\cambria.ttc",
+        "font_index": 1,
+        "font_names": [
+          "Cambria Math",
+          "CambriaMath",
+          "Regular"
+        ],
+        "character": "𝓕",
+        "unicode_codepoint": "U+1D4D5",
+        "cmap_entry_present": true,
+        "glyph_name": "u1D4D5",
+        "glyph_id": 2320,
+        "advance_width_font_units": 1530,
+        "left_side_bearing_font_units": 0,
+        "units_per_em": 2048,
+        "glyph_supported": true,
+        "missing_glyph_evidence": []
+      },
+      "glyph_supported": true,
+      "final_pdf_character": {
+        "character": "𝓕",
+        "unicode_codepoint": "U+1D4D5",
+        "font": "CambriaMath",
+        "font_size": 9.997,
+        "bbox": [
+          81.038,
+          52.224,
+          88.506,
+          62.221
+        ],
+        "origin": [
+          81.038,
+          60.0
+        ],
+        "order": 3,
+        "line_text": "其中，𝓕(⋅)和𝓕−1(⋅)分别表示二维快速傅里叶变换及其",
+        "bbox_width": 7.468,
+        "bbox_height": 9.997,
+        "dom_to_pdf_center_distance_pt": 0.809
+      },
+      "final_pdf_font_xref": 8,
+      "embedded_pdf_glyph": {
+        "xref": 8,
+        "embedded_name": "CAAAAA+CambriaMath",
+        "extension": "ttf",
+        "font_type": "Type0",
+        "embedded_bytes": 38256,
+        "character": "𝓕",
+        "unicode_codepoint": "U+1D4D5",
+        "glyph_name": "u1D4D5",
+        "glyph_id": 2320,
+        "advance_width_font_units": 1530,
+        "glyph_supported": true,
+        "missing_glyph_evidence": []
+      },
+      "final_pdf_sequence_complete": true,
+      "final_pdf_sequence": "𝓕(⋅)",
+      "final_pdf_glyph_width_pt": 7.468,
+      "final_raster_ink_pixel_count": 340,
+      "final_ink_exists": true
+    },
+    {
+      "sample_id": "fourier_inverse",
+      "display_name": "F^{-1}(·)",
+      "selector": ".paragraph-block[data-para='PAF_B1_00']",
+      "needle": "𝓕−1(⋅)",
+      "occurrence": 0,
+      "html_sequence_present": true,
+      "restored_html_sequence": "𝓕−1(⋅)",
+      "css_font_family": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+      "chromium_actual_font": "Cambria Math",
+      "chromium_platform_fonts": [
+        {
+          "familyName": "Cambria Math",
+          "postScriptName": "CambriaMath",
+          "isCustomFont": false,
+          "glyphCount": 1
+        }
+      ],
+      "dom_glyph_bbox": [
+        108.188,
+        50.789,
+        115.699,
+        62.039
+      ],
+      "dom_glyph_width_pt": 7.511,
+      "system_font_glyph": {
+        "font_path": "C:\\Windows\\Fonts\\cambria.ttc",
+        "font_index": 1,
+        "font_names": [
+          "Cambria Math",
+          "CambriaMath",
+          "Regular"
+        ],
+        "character": "𝓕",
+        "unicode_codepoint": "U+1D4D5",
+        "cmap_entry_present": true,
+        "glyph_name": "u1D4D5",
+        "glyph_id": 2320,
+        "advance_width_font_units": 1530,
+        "left_side_bearing_font_units": 0,
+        "units_per_em": 2048,
+        "glyph_supported": true,
+        "missing_glyph_evidence": []
+      },
+      "glyph_supported": true,
+      "final_pdf_character": {
+        "character": "𝓕",
+        "unicode_codepoint": "U+1D4D5",
+        "font": "CambriaMath",
+        "font_size": 9.997,
+        "bbox": [
+          108.194,
+          52.224,
+          115.662,
+          62.221
+        ],
+        "origin": [
+          108.194,
+          60.0
+        ],
+        "order": 8,
+        "line_text": "其中，𝓕(⋅)和𝓕−1(⋅)分别表示二维快速傅里叶变换及其",
+        "bbox_width": 7.468,
+        "bbox_height": 9.997,
+        "dom_to_pdf_center_distance_pt": 0.809
+      },
+      "final_pdf_font_xref": 8,
+      "embedded_pdf_glyph": {
+        "xref": 8,
+        "embedded_name": "CAAAAA+CambriaMath",
+        "extension": "ttf",
+        "font_type": "Type0",
+        "embedded_bytes": 38256,
+        "character": "𝓕",
+        "unicode_codepoint": "U+1D4D5",
+        "glyph_name": "u1D4D5",
+        "glyph_id": 2320,
+        "advance_width_font_units": 1530,
+        "glyph_supported": true,
+        "missing_glyph_evidence": []
+      },
+      "final_pdf_sequence_complete": true,
+      "final_pdf_sequence": "𝓕−1(⋅)",
+      "final_pdf_glyph_width_pt": 7.468,
+      "final_raster_ink_pixel_count": 333,
+      "final_ink_exists": true
+    }
+  ]
+}

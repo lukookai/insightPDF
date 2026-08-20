@@ -1,0 +1,486 @@
+{
+  "records": [
+    {
+      "sample_id": "fourier_forward",
+      "found": true,
+      "selector": ".paragraph-block[data-para='PAF_B1_00']",
+      "needle": "𝓕(⋅)",
+      "occurrence": 0,
+      "text_node_value": "其中，𝓕(⋅)和𝓕−1(⋅)分别表示二维快速傅里叶变换及其逆变换。(𝐤; 𝝀)表示所有通道滤波器𝑐的聚合，⊙表示哈达玛积。通过这种方式，所提出的算子补偿了扩散引起的模糊，并自适应地强调结构边界和语义信息丰富的边缘。如图4所示，图4(e)中学习到的算子提供了比图4(c)中固定参数结果更清晰的目标边界和更少的背景响应。这是因为可学习的扩散尺度能够自适应地控制频谱补偿强度，而固定算子对所有特征应用相同的频率响应，可能遗漏弱轮廓或放大热噪声。因此，图4(e)更好地保留了用于",
+      "parent_tag": "SPAN",
+      "parent_class": "source-paragraph-segment",
+      "css": {
+        "font_family": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "font_size": "13.3333px",
+        "font_style": "normal",
+        "font_weight": "400",
+        "font_stretch": "100%",
+        "font_variant": "normal",
+        "line_height": "16.3827px"
+      },
+      "dom_rect": {
+        "x": 108.046875,
+        "y": 67.71875,
+        "width": 22.890625,
+        "height": 15,
+        "right": 130.9375,
+        "bottom": 82.71875
+      },
+      "chars": [
+        {
+          "character": "𝓕",
+          "probe_id": "math-font-audit-probe-0",
+          "dom_rect": {
+            "x": 108.046875,
+            "y": 67.71875,
+            "width": 10.015625,
+            "height": 15,
+            "right": 118.0625,
+            "bottom": 82.71875
+          },
+          "probe_rect": {
+            "x": -2000,
+            "y": 0,
+            "width": 10,
+            "height": 16.375,
+            "right": -1990,
+            "bottom": 16.375
+          },
+          "unicode_codepoint": "U+1D4D5",
+          "dom_bbox_pt": [
+            81.035,
+            50.789,
+            88.547,
+            62.039
+          ],
+          "platform_fonts": [
+            {
+              "familyName": "Cambria Math",
+              "postScriptName": "CambriaMath",
+              "isCustomFont": false,
+              "glyphCount": 1
+            }
+          ],
+          "actual_fallback_font": "Cambria Math",
+          "actual_font_is_custom": false
+        },
+        {
+          "character": "(",
+          "probe_id": "math-font-audit-probe-1",
+          "dom_rect": {
+            "x": 118.046875,
+            "y": 67.71875,
+            "width": 4.453125,
+            "height": 15,
+            "right": 122.5,
+            "bottom": 82.71875
+          },
+          "probe_rect": {
+            "x": -2000,
+            "y": 0,
+            "width": 4.453125,
+            "height": 16.375,
+            "right": -1995.546875,
+            "bottom": 16.375
+          },
+          "unicode_codepoint": "U+0028",
+          "dom_bbox_pt": [
+            88.535,
+            50.789,
+            91.875,
+            62.039
+          ],
+          "platform_fonts": [
+            {
+              "familyName": "Times New Roman",
+              "postScriptName": "TimesNewRomanPSMT",
+              "isCustomFont": false,
+              "glyphCount": 1
+            }
+          ],
+          "actual_fallback_font": "Times New Roman",
+          "actual_font_is_custom": false
+        },
+        {
+          "character": "⋅",
+          "probe_id": "math-font-audit-probe-2",
+          "dom_rect": {
+            "x": 122.484375,
+            "y": 67.71875,
+            "width": 4.015625,
+            "height": 15,
+            "right": 126.5,
+            "bottom": 82.71875
+          },
+          "probe_rect": {
+            "x": -2000,
+            "y": 0,
+            "width": 4,
+            "height": 16.375,
+            "right": -1996,
+            "bottom": 16.375
+          },
+          "unicode_codepoint": "U+22C5",
+          "dom_bbox_pt": [
+            91.863,
+            50.789,
+            94.875,
+            62.039
+          ],
+          "platform_fonts": [
+            {
+              "familyName": "Cambria Math",
+              "postScriptName": "CambriaMath",
+              "isCustomFont": false,
+              "glyphCount": 1
+            }
+          ],
+          "actual_fallback_font": "Cambria Math",
+          "actual_font_is_custom": false
+        },
+        {
+          "character": ")",
+          "probe_id": "math-font-audit-probe-3",
+          "dom_rect": {
+            "x": 126.484375,
+            "y": 67.71875,
+            "width": 4.453125,
+            "height": 15,
+            "right": 130.9375,
+            "bottom": 82.71875
+          },
+          "probe_rect": {
+            "x": -2000,
+            "y": 0,
+            "width": 4.453125,
+            "height": 16.375,
+            "right": -1995.546875,
+            "bottom": 16.375
+          },
+          "unicode_codepoint": "U+0029",
+          "dom_bbox_pt": [
+            94.863,
+            50.789,
+            98.203,
+            62.039
+          ],
+          "platform_fonts": [
+            {
+              "familyName": "Times New Roman",
+              "postScriptName": "TimesNewRomanPSMT",
+              "isCustomFont": false,
+              "glyphCount": 1
+            }
+          ],
+          "actual_fallback_font": "Times New Roman",
+          "actual_font_is_custom": false
+        }
+      ],
+      "dom_bbox_pt": [
+        81.035,
+        50.789,
+        98.203,
+        62.039
+      ]
+    },
+    {
+      "sample_id": "fourier_inverse",
+      "found": true,
+      "selector": ".paragraph-block[data-para='PAF_B1_00']",
+      "needle": "𝓕−1(⋅)",
+      "occurrence": 0,
+      "text_node_value": "其中，𝓕(⋅)和𝓕−1(⋅)分别表示二维快速傅里叶变换及其逆变换。(𝐤; 𝝀)表示所有通道滤波器𝑐的聚合，⊙表示哈达玛积。通过这种方式，所提出的算子补偿了扩散引起的模糊，并自适应地强调结构边界和语义信息丰富的边缘。如图4所示，图4(e)中学习到的算子提供了比图4(c)中固定参数结果更清晰的目标边界和更少的背景响应。这是因为可学习的扩散尺度能够自适应地控制频谱补偿强度，而固定算子对所有特征应用相同的频率响应，可能遗漏弱轮廓或放大热噪声。因此，图4(e)更好地保留了用于",
+      "parent_tag": "SPAN",
+      "parent_class": "source-paragraph-segment",
+      "css": {
+        "font_family": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "font_size": "13.3333px",
+        "font_style": "normal",
+        "font_weight": "400",
+        "font_stretch": "100%",
+        "font_variant": "normal",
+        "line_height": "16.3827px"
+      },
+      "dom_rect": {
+        "x": 144.25,
+        "y": 67.71875,
+        "width": 39.5625,
+        "height": 15,
+        "right": 183.8125,
+        "bottom": 82.71875
+      },
+      "chars": [
+        {
+          "character": "𝓕",
+          "probe_id": "math-font-audit-probe-4",
+          "dom_rect": {
+            "x": 144.25,
+            "y": 67.71875,
+            "width": 10.015625,
+            "height": 15,
+            "right": 154.265625,
+            "bottom": 82.71875
+          },
+          "probe_rect": {
+            "x": -2000,
+            "y": 0,
+            "width": 10,
+            "height": 16.375,
+            "right": -1990,
+            "bottom": 16.375
+          },
+          "unicode_codepoint": "U+1D4D5",
+          "dom_bbox_pt": [
+            108.188,
+            50.789,
+            115.699,
+            62.039
+          ],
+          "platform_fonts": [
+            {
+              "familyName": "Cambria Math",
+              "postScriptName": "CambriaMath",
+              "isCustomFont": false,
+              "glyphCount": 1
+            }
+          ],
+          "actual_fallback_font": "Cambria Math",
+          "actual_font_is_custom": false
+        },
+        {
+          "character": "−",
+          "probe_id": "math-font-audit-probe-5",
+          "dom_rect": {
+            "x": 154.25,
+            "y": 67.71875,
+            "width": 10.015625,
+            "height": 15,
+            "right": 164.265625,
+            "bottom": 82.71875
+          },
+          "probe_rect": {
+            "x": -2000,
+            "y": 0,
+            "width": 10,
+            "height": 16.375,
+            "right": -1990,
+            "bottom": 16.375
+          },
+          "unicode_codepoint": "U+2212",
+          "dom_bbox_pt": [
+            115.688,
+            50.789,
+            123.199,
+            62.039
+          ],
+          "platform_fonts": [
+            {
+              "familyName": "Cambria Math",
+              "postScriptName": "CambriaMath",
+              "isCustomFont": false,
+              "glyphCount": 1
+            }
+          ],
+          "actual_fallback_font": "Cambria Math",
+          "actual_font_is_custom": false
+        },
+        {
+          "character": "1",
+          "probe_id": "math-font-audit-probe-6",
+          "dom_rect": {
+            "x": 164.25,
+            "y": 67.71875,
+            "width": 6.6875,
+            "height": 15,
+            "right": 170.9375,
+            "bottom": 82.71875
+          },
+          "probe_rect": {
+            "x": -2000,
+            "y": 0,
+            "width": 6.671875,
+            "height": 16.375,
+            "right": -1993.328125,
+            "bottom": 16.375
+          },
+          "unicode_codepoint": "U+0031",
+          "dom_bbox_pt": [
+            123.188,
+            50.789,
+            128.203,
+            62.039
+          ],
+          "platform_fonts": [
+            {
+              "familyName": "Times New Roman",
+              "postScriptName": "TimesNewRomanPSMT",
+              "isCustomFont": false,
+              "glyphCount": 1
+            }
+          ],
+          "actual_fallback_font": "Times New Roman",
+          "actual_font_is_custom": false
+        },
+        {
+          "character": "(",
+          "probe_id": "math-font-audit-probe-7",
+          "dom_rect": {
+            "x": 170.921875,
+            "y": 67.71875,
+            "width": 4.453125,
+            "height": 15,
+            "right": 175.375,
+            "bottom": 82.71875
+          },
+          "probe_rect": {
+            "x": -2000,
+            "y": 0,
+            "width": 4.453125,
+            "height": 16.375,
+            "right": -1995.546875,
+            "bottom": 16.375
+          },
+          "unicode_codepoint": "U+0028",
+          "dom_bbox_pt": [
+            128.191,
+            50.789,
+            131.531,
+            62.039
+          ],
+          "platform_fonts": [
+            {
+              "familyName": "Times New Roman",
+              "postScriptName": "TimesNewRomanPSMT",
+              "isCustomFont": false,
+              "glyphCount": 1
+            }
+          ],
+          "actual_fallback_font": "Times New Roman",
+          "actual_font_is_custom": false
+        },
+        {
+          "character": "⋅",
+          "probe_id": "math-font-audit-probe-8",
+          "dom_rect": {
+            "x": 175.359375,
+            "y": 67.71875,
+            "width": 4.015625,
+            "height": 15,
+            "right": 179.375,
+            "bottom": 82.71875
+          },
+          "probe_rect": {
+            "x": -2000,
+            "y": 0,
+            "width": 4,
+            "height": 16.375,
+            "right": -1996,
+            "bottom": 16.375
+          },
+          "unicode_codepoint": "U+22C5",
+          "dom_bbox_pt": [
+            131.52,
+            50.789,
+            134.531,
+            62.039
+          ],
+          "platform_fonts": [
+            {
+              "familyName": "Cambria Math",
+              "postScriptName": "CambriaMath",
+              "isCustomFont": false,
+              "glyphCount": 1
+            }
+          ],
+          "actual_fallback_font": "Cambria Math",
+          "actual_font_is_custom": false
+        },
+        {
+          "character": ")",
+          "probe_id": "math-font-audit-probe-9",
+          "dom_rect": {
+            "x": 179.359375,
+            "y": 67.71875,
+            "width": 4.453125,
+            "height": 15,
+            "right": 183.8125,
+            "bottom": 82.71875
+          },
+          "probe_rect": {
+            "x": -2000,
+            "y": 0,
+            "width": 4.453125,
+            "height": 16.375,
+            "right": -1995.546875,
+            "bottom": 16.375
+          },
+          "unicode_codepoint": "U+0029",
+          "dom_bbox_pt": [
+            134.52,
+            50.789,
+            137.859,
+            62.039
+          ],
+          "platform_fonts": [
+            {
+              "familyName": "Times New Roman",
+              "postScriptName": "TimesNewRomanPSMT",
+              "isCustomFont": false,
+              "glyphCount": 1
+            }
+          ],
+          "actual_fallback_font": "Times New Roman",
+          "actual_font_is_custom": false
+        }
+      ],
+      "dom_bbox_pt": [
+        108.188,
+        50.789,
+        137.859,
+        62.039
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "character": "𝓕",
+      "probe_id": "math-font-audit-probe-10",
+      "probe_rect": {
+        "x": -2000,
+        "y": 0,
+        "width": 10,
+        "height": 16.375,
+        "right": -1990,
+        "bottom": 16.375
+      },
+      "css": {
+        "font_family": "\"Balanced Latin\", \"Balanced CJK\", SimSun, serif, \"Cambria Math\", \"Segoe UI Symbol\", \"STIX Two Math\"",
+        "font_size": "13.3333px",
+        "font_style": "normal",
+        "font_weight": "400",
+        "font_stretch": "100%",
+        "font_variant": "normal",
+        "line_height": "16.3827px"
+      },
+      "unicode_codepoint": "U+1D4D5",
+      "probe_bbox_pt": [
+        -1500.0,
+        0.0,
+        -1492.5,
+        12.281
+      ],
+      "platform_fonts": [
+        {
+          "familyName": "Cambria Math",
+          "postScriptName": "CambriaMath",
+          "isCustomFont": false,
+          "glyphCount": 1
+        }
+      ],
+      "actual_fallback_font": "Cambria Math",
+      "actual_font_is_custom": false
+    }
+  ],
+  "document_fonts_status": "loaded",
+  "html_path": "E:\\Code\\fanyi\\outputs\\visual_v07_task4h\\fixed_artifact\\zh_visual.html"
+}

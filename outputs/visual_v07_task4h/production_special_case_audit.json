@@ -1,0 +1,12 @@
+{
+  "production_special_case_count": 0,
+  "hits": [],
+  "registry_is_declarative_data": true,
+  "mapping_match_fields": [
+    "source_codepoint",
+    "source_font_family",
+    "source_postscript_name",
+    "source_glyph_name",
+    "confidence"
+  ]
+}
