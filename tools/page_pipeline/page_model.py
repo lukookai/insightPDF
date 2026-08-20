@@ -33,6 +33,10 @@ for p in (HERE, REPO / "tools" / "table_html_render",
         sys.path.insert(0, str(p))
 
 from formula_compose import compose_blocks  # noqa: E402
+from source_ownership import (  # noqa: E402
+    PrimaryOwner,
+    SourceOwnershipResolver,
+)
 
 # Phase 4C.2R.1: formula SVG crop safety.  A segment's render_viewbox must
 # cover ALL of its ink (components, including adopted condition text and
@@ -355,7 +359,8 @@ def _auto_table_payload(pdf, page_idx, roi, out_dir, table_index=0):
 
 def build_page_model(pdf, page_idx, out_dir, run_doclayout=True,
                      reuse_table_model=True, table_model_path=None,
-                     auto_reconstruct_tables=False):
+                     auto_reconstruct_tables=False,
+                     layout_regions_override=None):
     """Build the Unified PageModel for one page.
 
     Returns dict(page, width, height, regions, ownership, page_objects).
@@ -364,11 +369,16 @@ def build_page_model(pdf, page_idx, out_dir, run_doclayout=True,
         extract_source_objects(pdf, page_idx)
 
     # ---- DocLayout regions (for table ROI + figure + reading hints) ----
-    layout_regions = (_doclayout_regions(pdf, page_idx, out_dir)
-                      if run_doclayout else [])
+    layout_regions = (layout_regions_override
+                      if layout_regions_override is not None
+                      else (_doclayout_regions(pdf, page_idx, out_dir)
+                            if run_doclayout else []))
     table_rois = [r["bbox"] for r in layout_regions
                   if r.get("class_name") == "table"]
     figure_defs = [r for r in layout_regions if r.get("class_name") == "figure"]
+    ownership_figure_defs = [
+        dict(region, figure_id="FIG%d" % (index + 1))
+        for index, region in enumerate(figure_defs)]
     figure_rois = [r["bbox"] for r in figure_defs]
     caption_rois = [r["bbox"] for r in layout_regions
                     if r.get("class_name") == "figure_caption"]
@@ -586,16 +596,19 @@ def build_page_model(pdf, page_idx, out_dir, run_doclayout=True,
     # Phase 4C.2R.1: crop windows must cover adopted condition ink and
     # equation numbers (the SVG viewBox = render_viewbox or layout_bbox).
     _formula_crop_viewboxes(formulas)
-    # 3. figure / image regions
-    figure_span_ids = set()
-    for roi in figure_rois:
-        for s in spans:
-            if s["id"] in table_span_ids or s["id"] in formula_span_ids:
-                continue
-            if s["id"] in figure_span_ids:
-                continue
-            if _bbox_contains(roi, s["bbox"], margin=3.0):
-                figure_span_ids.add(s["id"])
+    # 3. exclusive primary ownership.  Figure classification is relative to
+    # each text span's area and happens before paragraph/semantic/translation
+    # construction.  Existing table/formula claims retain their precedence.
+    ownership_resolution = SourceOwnershipResolver().resolve(
+        spans,
+        figure_defs=ownership_figure_defs,
+        table_span_ids=table_span_ids,
+        formula_span_ids=formula_span_ids,
+    )
+    resolved_sets = ownership_resolution["owner_sets"]
+    table_span_ids = set(resolved_sets[PrimaryOwner.TABLE.value])
+    formula_span_ids = set(resolved_sets[PrimaryOwner.FORMULA.value])
+    figure_span_ids = set(resolved_sets[PrimaryOwner.FIGURE.value])
     image_owners = set()
     for img in images:
         for roi in figure_rois + table_rois:
@@ -603,8 +616,7 @@ def build_page_model(pdf, page_idx, out_dir, run_doclayout=True,
                 image_owners.add(img["xref"])
                 break
     # 4. remaining -> text owner
-    text_span_ids = {s["id"] for s in spans} - table_span_ids \
-        - formula_span_ids - figure_span_ids
+    text_span_ids = set(resolved_sets[PrimaryOwner.TEXT.value])
 
     # ---- conflicts / unowned ----
     conflicts = []
@@ -622,6 +634,15 @@ def build_page_model(pdf, page_idx, out_dir, run_doclayout=True,
         "text_span_ids": sorted(text_span_ids),
         "image_owner_xrefs": sorted(image_owners),
         "conflicts": conflicts,
+        "primary_owner_by_span": ownership_resolution[
+            "primary_owner_by_span"],
+        "source_ownership_policy": ownership_resolution["policy"],
+        "source_ownership_evidence_by_span": ownership_resolution[
+            "evidence_by_span"],
+        "source_span_multi_primary_owner_count": ownership_resolution[
+            "metrics"]["source_span_multi_primary_owner_count"],
+        "source_span_unowned_count": ownership_resolution[
+            "metrics"]["source_span_unowned_count"],
     }
 
     # ---- regions ----
@@ -679,8 +700,12 @@ def build_page_model(pdf, page_idx, out_dir, run_doclayout=True,
     # single page SVG, so original vector ink and in-figure text are retained.
     for i, roi_def in enumerate(figure_defs):
         roi = roi_def["bbox"]
-        span_ids = [s["id"] for s in spans if s["id"] in figure_span_ids
-                    and _bbox_contains(roi, s["bbox"], margin=3.0)]
+        figure_id = "FIG%d" % (i + 1)
+        span_ids = [
+            s["id"] for s in spans
+            if s["id"] in figure_span_ids
+            and ownership_resolution["figure_id_by_span"].get(s["id"])
+            == figure_id]
         drawing_ids = [d["id"] for d in drawings if _bbox_intersect(d["bbox"], roi)]
         regions.append({
             "region_id": "FIG%d" % (i + 1),
@@ -689,7 +714,7 @@ def build_page_model(pdf, page_idx, out_dir, run_doclayout=True,
             "reading_order": None,
             "owner": "figure",
             "payload": {
-                "figure_id": "FIG%d" % (i + 1),
+                "figure_id": figure_id,
                 "bbox": [round(v, 3) for v in roi],
                 "source_span_ids": span_ids,
                 "source_drawing_ids": drawing_ids,
@@ -801,4 +826,8 @@ def ownership_stats(model):
         "figure_spans": len(own["figure_span_ids"]),
         "text_spans": len(own["text_span_ids"]),
         "image_owned": len(own["image_owner_xrefs"]),
+        "source_span_multi_primary_owner_count": int(
+            own.get("source_span_multi_primary_owner_count") or 0),
+        "source_span_unowned_count": int(
+            own.get("source_span_unowned_count") or 0),
     }
