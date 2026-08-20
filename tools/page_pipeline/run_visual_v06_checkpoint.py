@@ -262,6 +262,20 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
     flows, source_text_slot_lock = apply_geometry_locks_to_flows(
         flows, source_text_slots)
 
+    # ---- visual-v07 task 4D: source-relative paragraph indent -----------
+    # This runs only after SourceTextSlot ownership is frozen and before Fit
+    # / Fill.  It adds paragraph-content markup; geometry remains immutable.
+    from source_paragraph_style_qa import (
+        detect_source_first_line_indent_candidates,
+        extract_source_page_lines,
+    )
+    source_paragraph_style_candidates = (
+        detect_source_first_line_indent_candidates(
+            extract_source_page_lines(pdf_path, page_idx)))
+    from source_paragraph_style import apply_source_paragraph_styles_to_flows
+    flows, source_paragraph_style = apply_source_paragraph_styles_to_flows(
+        flows, model, source_text_slots, source_paragraph_style_candidates)
+
     trial_number = [0]
 
     def _render_typography_trial(trial_flows, trial_key, fragments):
@@ -431,6 +445,11 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         local_typography_fit["records"],
         heading_hierarchy_violations=int(local_typography_fit.get(
             "heading_hierarchy_violation_count", 0)))
+    from source_paragraph_style_qa import source_paragraph_style_qa
+    source_paragraph_style_audit = source_paragraph_style_qa(
+        source_paragraph_style, html_path,
+        collision_qa=final_collision_qa,
+        screenshot_path=out_dir / "source_paragraph_style_final.png")
     render_ms = int((time.time() - t0) * 1000)
 
     # ---- existing visual QAs (v01/v02/v03 regression) --------------------
@@ -572,6 +591,12 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
           local_typography_fill)
     _dump(out_dir / "local_typography_fill_qa.json",
           local_typography_fill_audit)
+    _dump(out_dir / "source_paragraph_style_candidates.json",
+          source_paragraph_style_candidates)
+    _dump(out_dir / "source_paragraph_style.json",
+          source_paragraph_style)
+    _dump(out_dir / "source_paragraph_style_qa.json",
+          source_paragraph_style_audit)
 
     # ---- per-page hard gate ----------------------------------------------
     hard = dict(truth["hard"])
@@ -611,6 +636,12 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
             "typography_fill_font_cap_violation_count",
             "typography_fill_line_height_cap_violation_count"):
         hard[key] = int(local_typography_fill_audit["metrics"].get(key, 0))
+    for key in (
+            "first_line_indent_missing_count",
+            "first_line_indent_wrong_count",
+            "false_first_line_indent_count",
+            "slot_geometry_mutation_count"):
+        hard[key] = int(source_paragraph_style_audit["metrics"].get(key, 0))
     hard["browser_measured_repack_unresolved_count"] = int(
         browser_repack["unresolved_count"])
     hard["browser_repack_hard_anchor_moved_count"] = int(
@@ -688,6 +719,10 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         "local_typography_fill_qa": local_typography_fill_audit,
         "local_typography_fit": local_typography_fit,
         "local_typography_fit_qa": local_typography_fit_audit,
+        "source_paragraph_style_candidates": (
+            source_paragraph_style_candidates),
+        "source_paragraph_style": source_paragraph_style,
+        "source_paragraph_style_qa": source_paragraph_style_audit,
         "browser_measured_repack": browser_repack,
         "anchor_integrity": anchor, "text_region": region,
         "page_expansion": expansion, "execution_integrity": execution,

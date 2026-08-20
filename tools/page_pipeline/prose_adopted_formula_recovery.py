@@ -555,6 +555,22 @@ def recover_prose_adopted_formulas(
     prefix = str(fid_list[0]) if fid_list and fid_list[0] else "PAF"
     pids = _assign_paragraph_ids(clusters, prefix, existing)
 
+    # visual-v07 Task 4D: paragraph boundaries are source-geometry facts,
+    # not source line-break facts.  Detect page candidates once from PDF
+    # vector text (never OCR/content matching), then attach only candidates
+    # whose line bbox belongs to the recovered prose cluster.
+    from source_paragraph_style_qa import (
+        detect_source_first_line_indent_candidates,
+        extract_source_page_lines,
+    )
+    from source_paragraph_style import (
+        infer_recovered_paragraph_styles,
+        mark_translation_source,
+        target_paragraph_segments,
+    )
+    page_paragraph_candidates = detect_source_first_line_indent_candidates(
+        extract_source_page_lines(pdf_path, page_idx))
+
     recovered = []
     for cl, pid in zip(clusters, pids):
         # page-local source text joined with spaces (PDF lines split words)
@@ -586,6 +602,10 @@ def recover_prose_adopted_formulas(
         all_heading = bool(cl) and all(ln.get("is_heading") for ln in cl)
         role = "heading" if all_heading else "body"
         level = 1 if all_heading else 0
+        source_paragraph_styles = infer_recovered_paragraph_styles(
+            pid, role, cl, page_paragraph_candidates)
+        translation_source_text = mark_translation_source(
+            src, source_paragraph_styles)
         # source formula region(s) owning this block's lines
         src_fids = []
         for ln in cl:
@@ -600,7 +620,16 @@ def recover_prose_adopted_formulas(
             "paragraph_id": pid,
             "logical_paragraph_id": pid,
             "source_text": src,
+            "translation_source_text": translation_source_text,
+            "source_line_geometry": [{
+                "bbox": [round(float(value), 3)
+                         for value in (line.get("bbox") or [])],
+                "text": str(line.get("text") or ""),
+                "font_size": round(float(line.get("size") or 0.0), 3),
+            } for line in cl],
+            "source_paragraph_styles": source_paragraph_styles,
             "target_text": None,          # filled after translation
+            "target_text_with_paragraph_markers": None,
             "bbox": [round(v, 2) for v in bb],
             "anchor_y": round(bb[1], 2),
             "column": col,
@@ -639,7 +668,8 @@ def recover_prose_adopted_formulas(
     api_calls = 0
     if translator_fn is not None and recovered:
         items = [{"item_id": p["paragraph_id"], "type": "paragraph",
-                  "source_text": p["source_text"]} for p in recovered]
+                  "source_text": p.get("translation_source_text")
+                                 or p["source_text"]} for p in recovered]
         zh_map = translator_fn(items)  # {paragraph_id: zh}
         api_calls += max(1, (len(items) + 29) // 30)
         for p in recovered:
@@ -653,7 +683,11 @@ def recover_prose_adopted_formulas(
                 zh = None
                 p["render_source"] = "BLOCK"
                 p["render_source_reason"] = "translation_not_chinese"
-            p["target_text"] = zh if zh else None
+            p["target_text_with_paragraph_markers"] = zh if zh else None
+            clean_target = target_paragraph_segments(
+                zh, p["source_text"], p.get("source_paragraph_styles") or []
+            )[0] if zh else None
+            p["target_text"] = clean_target if clean_target else None
             if p["target_text"] is None and p.get("render_source") != "BLOCK":
                 p["render_source"] = "BLOCK"
                 p["render_source_reason"] = "target_missing_block"
@@ -662,7 +696,12 @@ def recover_prose_adopted_formulas(
         # the layout/render pipeline can be exercised; render_source marks it
         # as source (the QA keeps flagging it -> RED is preserved)
         for p in recovered:
-            p["target_text"] = p.get("source_text", "")
+            marked = p.get("translation_source_text") or p.get(
+                "source_text", "")
+            p["target_text_with_paragraph_markers"] = marked
+            p["target_text"] = target_paragraph_segments(
+                marked, p.get("source_text", ""),
+                p.get("source_paragraph_styles") or [])[0]
             p["render_source"] = "source"
             p["render_source_reason"] = "dry_run_no_translation"
 
@@ -673,6 +712,10 @@ def recover_prose_adopted_formulas(
         "kept_prose_lines": len(kept),
         "clusters": len(clusters),
         "recovered_paragraphs": len(recovered),
+        "source_first_line_indent_candidate_count": len(
+            page_paragraph_candidates.get("records") or []),
+        "recovered_first_line_indent_count": sum(
+            len(p.get("source_paragraph_styles") or []) for p in recovered),
         "api_calls": api_calls,
     }
     # visual-v04: skipped formulas =

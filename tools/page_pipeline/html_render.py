@@ -876,13 +876,50 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
         ngap = ty.get("cjk_number_gap_em", 0.0) if balanced else 0.0
         igl = ty.get("inline_formula_left_em", 0.0) if balanced else 0.0
         igr = ty.get("inline_formula_right_em", 0.0) if balanced else 0.0
-        inner = _render_paragraph_text(zh, para, inline_map,
-                                       svg_name if (formula_regions or figure_regions) else "",
-                                       page_w, page_h, fsize,
-                                       out_dir, full_svg,
-                                       latin_gap=lgap, number_gap=ngap,
-                                       inline_gap_l=igl, inline_gap_r=igr,
-                                       gap_collector=gap_collector)
+        def _render_text_part(text):
+            return _render_paragraph_text(
+                text, para, inline_map,
+                svg_name if (formula_regions or figure_regions) else "",
+                page_w, page_h, fsize, out_dir, full_svg,
+                latin_gap=lgap, number_gap=ngap,
+                inline_gap_l=igl, inline_gap_r=igr,
+                gap_collector=gap_collector)
+
+        # visual-v07 Task 4D: paragraph-only boundaries inside an immutable
+        # SourceTextSlot.  Each proven first line uses the source-relative em
+        # value, so Task 3 Fit / Task 4C Fill can scale type without changing
+        # the indentation proportion.  Source PDF line wraps never enter this
+        # structure and no x/y/width/height field is read or written here.
+        source_paragraph_segments = list(
+            fl.get("source_paragraph_segments") or [])
+        segments_match = (
+            source_paragraph_segments
+            and "".join(str(row.get("text") or "")
+                        for row in source_paragraph_segments) == zh)
+        if segments_match:
+            rendered_segments = []
+            for segment in source_paragraph_segments:
+                segment_inner = _render_text_part(
+                    str(segment.get("text") or ""))
+                source_style = segment.get("source_style") or {}
+                if source_style:
+                    indent_em = float(
+                        source_style.get("first_line_indent_em") or 0.0)
+                    rendered_segments.append(
+                        '<span class="source-paragraph-segment" '
+                        'data-source-style-id="%s" '
+                        'data-source-indent-em="%.3f" '
+                        'style="display:block;text-indent:%.3fem;">%s</span>'
+                        % (_esc(source_style.get("style_id") or ""),
+                           indent_em, indent_em, segment_inner))
+                else:
+                    rendered_segments.append(
+                        '<span class="source-paragraph-segment" '
+                        'style="display:block;text-indent:0;">%s</span>'
+                        % segment_inner)
+            inner = "".join(rendered_segments)
+        else:
+            inner = _render_text_part(zh)
         # vertical (rotated) source text, e.g. the arXiv sidebar header on
         # p001: keep it vertical so it never reflows into a narrow column
         vertical_style = ""
@@ -946,6 +983,7 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
             'data-local-fill-applied="%s" data-local-fill-level="%s" '
             'data-local-fill-font-scale="%.3f" '
             'data-local-fill-line-height-scale="%.3f" '
+            'data-source-paragraph-style-count="%d" '
             '%s%s'
             'style="position:absolute;left:%.3fpt;top:%.3fpt;'
             'width:%.3fpt;%swhite-space:normal;overflow:visible;'
@@ -958,7 +996,11 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
                local_fit_level, local_font_scale, local_line_scale,
                local_wrapping, str(local_fill_applied).lower(),
                local_fill_level, local_fill_font_scale,
-               local_fill_line_scale, font_audit, geometry_audit,
+               local_fill_line_scale,
+               (sum(bool(row.get("source_style"))
+                    for row in source_paragraph_segments)
+                if segments_match else 0),
+               font_audit, geometry_audit,
                left, top, width, slot_height_style, wrapping_style,
                vertical_style,
                list_indent, weight_css, family, fsize, line_height, inner))
