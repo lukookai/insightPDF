@@ -1,0 +1,127 @@
+{
+  "schema_version": "visual_v07.task4l.checkpoint.v1",
+  "decision": "pass",
+  "qa_first": {
+    "current_final_pdf": "E:\\Code\\fanyi\\outputs\\visual_v07_task4k\\fixed_artifact\\zh_visual.pdf",
+    "current_final_page_count": 1,
+    "audited_page_artifact_count": 5,
+    "audited_page_keys": [
+      "ppat_p005",
+      "ppat_p006",
+      "2504_p007",
+      "2504_p013",
+      "2504_p016"
+    ],
+    "all_inputs_read_only": true
+  },
+  "metrics": {
+    "math_atom_loss_count": 0,
+    "math_atom_duplicate_count": 0,
+    "math_atom_order_error_count": 0,
+    "superscript_structure_loss_count": 0,
+    "subscript_structure_loss_count": 0,
+    "final_pdf_atom_loss_count": 0,
+    "final_pdf_atom_order_error_count": 0,
+    "math_fixture_missing_count": 0,
+    "task4h_pua_regression_count": 0,
+    "dom_height_stale_count": 0,
+    "ink_outside_measurement_count": 0,
+    "final_block_collision_count": 0,
+    "painted_ink_containment_failure_count": 0,
+    "figure_internal_soft_text_owner_count": 0,
+    "figure_internal_duplicate_render_count": 0,
+    "source_span_multi_primary_owner_count": 0,
+    "source_span_render_owner_count_gt1": 0,
+    "erroneous_figure_internal_slot_count": 0,
+    "figure_hard_anchor_missing_count": 0,
+    "first_line_indent_missing_count": 0,
+    "first_line_indent_wrong_count": 0,
+    "false_first_line_indent_count": 0,
+    "slot_geometry_mutation_count": 0,
+    "text_slot_count": 8,
+    "table_cell_count": 158,
+    "required_table_cell_count": 52,
+    "table_overflow_count": 0,
+    "table_anchor_mutation_count": 0,
+    "table_translation_regression_count": 0,
+    "table_structure_mutation_count": 0,
+    "formula_anchor_mutation_count": 0,
+    "figure_geometry_mutation_count": 0,
+    "hard_anchor_moved_count": 0,
+    "production_special_case_count": 0
+  },
+  "required_zero_metrics": [
+    "math_atom_loss_count",
+    "math_atom_duplicate_count",
+    "math_atom_order_error_count",
+    "superscript_structure_loss_count",
+    "subscript_structure_loss_count",
+    "final_pdf_atom_loss_count",
+    "final_pdf_atom_order_error_count",
+    "math_fixture_missing_count",
+    "task4h_pua_regression_count",
+    "dom_height_stale_count",
+    "ink_outside_measurement_count",
+    "final_block_collision_count",
+    "painted_ink_containment_failure_count",
+    "figure_internal_soft_text_owner_count",
+    "figure_internal_duplicate_render_count",
+    "source_span_multi_primary_owner_count",
+    "source_span_render_owner_count_gt1",
+    "erroneous_figure_internal_slot_count",
+    "figure_hard_anchor_missing_count",
+    "first_line_indent_missing_count",
+    "first_line_indent_wrong_count",
+    "false_first_line_indent_count",
+    "slot_geometry_mutation_count",
+    "table_overflow_count",
+    "table_anchor_mutation_count",
+    "table_translation_regression_count",
+    "table_structure_mutation_count",
+    "formula_anchor_mutation_count",
+    "figure_geometry_mutation_count",
+    "hard_anchor_moved_count",
+    "production_special_case_count"
+  ],
+  "failures": {},
+  "review_bundle": {
+    "schema_version": "visual_v07.task4l.review_index.v1",
+    "decision": "pass",
+    "files": [
+      {
+        "name": "math_regression_overlay.png",
+        "sha256": "4368c81d1dc52ade66c769045dd8b5222ad3beba56f6d17bc5c21eebfb874542"
+      },
+      {
+        "name": "measurement_regression_overlay.png",
+        "sha256": "ef2d4d0a23d8e7426e872f88d73d9382b06d43ce880e59c3b01c2bfcf0265db0"
+      },
+      {
+        "name": "ownership_regression_overlay.png",
+        "sha256": "08a9c0c1308665cb71e13b90c467ff2606b2d11cd7f33e29e91ba20c38f173dc"
+      },
+      {
+        "name": "regression_summary.png",
+        "sha256": "12f9c22505b58ab8ef539cc0a7d1b63800eaf0a44bfb7fb5b805ce94928167d6"
+      }
+    ],
+    "rendering": "Poppler pdftoppm 144 DPI",
+    "page_keys": [
+      "ppat_p005",
+      "ppat_p006",
+      "2504_p007",
+      "2504_p013",
+      "2504_p016"
+    ],
+    "legend": {
+      "green": "pass / final painted ink / Figure hard owner",
+      "blue": "effective measurement / math base",
+      "red": "DOM-only bbox / superscript",
+      "purple": "subscript",
+      "cyan": "external caption"
+    }
+  },
+  "production_files_modified": false,
+  "tag_created": false,
+  "commit_message": "test(visual): full visual regression gate"
+}

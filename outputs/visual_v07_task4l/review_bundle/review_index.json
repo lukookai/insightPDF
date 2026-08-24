@@ -1,0 +1,37 @@
+{
+  "schema_version": "visual_v07.task4l.review_index.v1",
+  "decision": "pass",
+  "files": [
+    {
+      "name": "math_regression_overlay.png",
+      "sha256": "4368c81d1dc52ade66c769045dd8b5222ad3beba56f6d17bc5c21eebfb874542"
+    },
+    {
+      "name": "measurement_regression_overlay.png",
+      "sha256": "ef2d4d0a23d8e7426e872f88d73d9382b06d43ce880e59c3b01c2bfcf0265db0"
+    },
+    {
+      "name": "ownership_regression_overlay.png",
+      "sha256": "08a9c0c1308665cb71e13b90c467ff2606b2d11cd7f33e29e91ba20c38f173dc"
+    },
+    {
+      "name": "regression_summary.png",
+      "sha256": "12f9c22505b58ab8ef539cc0a7d1b63800eaf0a44bfb7fb5b805ce94928167d6"
+    }
+  ],
+  "rendering": "Poppler pdftoppm 144 DPI",
+  "page_keys": [
+    "ppat_p005",
+    "ppat_p006",
+    "2504_p007",
+    "2504_p013",
+    "2504_p016"
+  ],
+  "legend": {
+    "green": "pass / final painted ink / Figure hard owner",
+    "blue": "effective measurement / math base",
+    "red": "DOM-only bbox / superscript",
+    "purple": "subscript",
+    "cyan": "external caption"
+  }
+}
