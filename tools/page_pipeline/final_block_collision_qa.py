@@ -16,6 +16,7 @@ from typing import Any
 
 import pymupdf
 from PIL import Image, ImageDraw, ImageFont
+from math_aware_block_measurement import apply_math_aware_measurements
 from region_local_packing import PACK_GAP
 
 PT_PER_CSS_PX = 72.0 / 96.0
@@ -95,6 +96,21 @@ def _capture_dom(html_path: str | Path, screenshot_path: str | Path) -> dict:
               .sort((a,b)=>a.y-b.y).map(r=>({x:r.x,y:r.y,
                 width:r.right-r.x,height:r.bottom-r.y,
                 right:r.right,bottom:r.bottom}));
+            const mathGroups=Array.from(
+              el.querySelectorAll('.math-atom-group')).map(group=>{
+                const base=group.querySelector('.math-base');
+                const baseRect=base ? base.getBoundingClientRect() : null;
+                return {group_id:group.dataset.mathGroupId||'',
+                  bbox:rr(group.getBoundingClientRect()),
+                  atoms:Array.from(group.querySelectorAll('.math-atom')).map(
+                    atom=>({atom_id:atom.dataset.atomId||'',
+                      role:Array.from(atom.classList).find(value=>
+                        value.startsWith('math-')&&value!=='math-atom')
+                        ?.replace('math-','')||'',
+                      text:atom.textContent||'',
+                      bbox:rr(atom.getBoundingClientRect()),
+                      base_bbox:baseRect?rr(baseRect):null}))};
+              });
             blocks.push({dom_index:domIndex,render_id:el.dataset.renderId||'',
               paragraph_id:el.dataset.para||'',
               flow_fragment_id:el.dataset.flowFragment||'',
@@ -111,7 +127,7 @@ def _capture_dom(html_path: str | Path, screenshot_path: str | Path) -> dict:
               fill_line_height_scale:parseFloat(
                 el.dataset.localFillLineHeightScale||'1')||1,
               text:(el.innerText||el.textContent||'').replace(/\s+/g,' ').trim(),
-              rect:rr(rect),line_rects:lineRects,
+              rect:rr(rect),line_rects:lineRects,math_groups:mathGroups,
               style_left_pt:parseFloat(el.style.left)||0,
               style_top_pt:parseFloat(el.style.top)||0,
               style_width_pt:parseFloat(el.style.width)||0,
@@ -241,6 +257,58 @@ def _pdf_word_assignment(pdf_path: str | Path,
     return {key: _union(value) for key, value in assigned.items()}
 
 
+def _raster_ink_bbox(image: Image.Image, region: list[float],
+                     pixels_per_pt: float,
+                     threshold: int = 235) -> list[float] | None:
+    """Return actual non-background ink inside one owner-constrained region."""
+    rgb = image.convert("RGB")
+    x0 = max(0, int(math.floor((region[0] - 0.5) * pixels_per_pt)))
+    y0 = max(0, int(math.floor((region[1] - 0.5) * pixels_per_pt)))
+    x1 = min(rgb.width, int(math.ceil(
+        (region[2] + 0.5) * pixels_per_pt)))
+    y1 = min(rgb.height, int(math.ceil(
+        (region[3] + 0.5) * pixels_per_pt)))
+    minimum_x = minimum_y = None
+    maximum_x = maximum_y = None
+    pixels = rgb.load()
+    for y in range(y0, y1):
+        for x in range(x0, x1):
+            if min(pixels[x, y]) >= threshold:
+                continue
+            minimum_x = x if minimum_x is None else min(minimum_x, x)
+            minimum_y = y if minimum_y is None else min(minimum_y, y)
+            maximum_x = x if maximum_x is None else max(maximum_x, x)
+            maximum_y = y if maximum_y is None else max(maximum_y, y)
+    if minimum_x is None:
+        return None
+    return [round(minimum_x / pixels_per_pt, 3),
+            round(minimum_y / pixels_per_pt, 3),
+            round((maximum_x + 1) / pixels_per_pt, 3),
+            round((maximum_y + 1) / pixels_per_pt, 3)]
+
+
+def _pdf_painted_ink_assignment(
+        pdf_path: str | Path, blocks: list[dict],
+        text_boxes: dict[str, list[float] | None], *,
+        scale: float = 4.0) -> dict[str, list[float] | None]:
+    """Measure final raster ink inside each text owner's final glyph region."""
+    document = pymupdf.open(str(pdf_path))
+    try:
+        pixmap = document[0].get_pixmap(
+            matrix=pymupdf.Matrix(scale, scale), alpha=False)
+    finally:
+        document.close()
+    image = Image.frombytes("RGB", (pixmap.width, pixmap.height),
+                            pixmap.samples)
+    assigned: dict[str, list[float] | None] = {}
+    for block in blocks:
+        identity = block["flow_fragment_id"]
+        owner_region = text_boxes.get(identity)
+        assigned[identity] = (_raster_ink_bbox(image, owner_region, scale)
+                              if owner_region else None)
+    return assigned
+
+
 def final_block_collision_qa(
         page_model: dict, *, html_path: str | Path,
         final_pdf_path: str | Path, screenshot_path: str | Path,
@@ -276,6 +344,18 @@ def final_block_collision_qa(
             "planned_bbox": planned,
             "dom_measured_bbox": dom_bbox,
             "dom_line_bboxes": [_bbox(rect) for rect in raw["line_rects"]],
+            "math_atom_groups": [{
+                "group_id": group.get("group_id") or "",
+                "bbox_pt": _bbox(group["bbox"]),
+                "atoms": [{
+                    "atom_id": atom.get("atom_id") or "",
+                    "role": atom.get("role") or "",
+                    "text": atom.get("text") or "",
+                    "bbox_pt": _bbox(atom["bbox"]),
+                    "base_bbox_pt": (_bbox(atom["base_bbox"])
+                                     if atom.get("base_bbox") else None),
+                } for atom in group.get("atoms") or []],
+            } for group in raw.get("math_groups") or []],
             "pdf_rendered_bbox": None,
             "final_bbox": dom_bbox,
             "predecessor_id": None, "successor_id": None,
@@ -309,9 +389,14 @@ def final_block_collision_qa(
     page_height = float(snapshot["body"]["height"]) * PT_PER_CSS_PX
     _assign_tracks(blocks, hard_boxes, page_height)
     pdf_boxes = _pdf_word_assignment(final_pdf_path, blocks)
+    painted_boxes = _pdf_painted_ink_assignment(
+        final_pdf_path, blocks, pdf_boxes)
     for block in blocks:
         block["pdf_rendered_bbox"] = pdf_boxes.get(block["flow_fragment_id"])
+        block["final_pdf_painted_ink_bbox"] = painted_boxes.get(
+            block["flow_fragment_id"])
         block["packing_region"] = block["region_id"]
+    apply_math_aware_measurements(blocks)
 
     collisions = []
     groups: dict[tuple[int, str], list[dict]] = {}
@@ -422,8 +507,14 @@ def final_block_collision_qa(
         "blocks": blocks,
         "collisions": collisions,
         "geometry_truth": {
-            "primary": "chromium_dom_measured_bbox",
-            "secondary": "final_pdf_text_layer_at_dom_line_positions",
+            "primary": (
+                "union(chromium_dom_measured_bbox, "
+                "final_pdf_painted_glyph_bbox)"),
+            "dom_component": "chromium_dom_measured_bbox",
+            "painted_ink_component": (
+                "final_pdf_raster_ink_within_text_owner_glyph_bbox"),
+            "painted_owner_constraint": (
+                "final_pdf_text_layer_at_dom_line_positions"),
             "render_identity": "data-render-id/data-flow-fragment",
             "allowed_tolerance": (
                 "relative font-size + line-height + source-relation policy"),

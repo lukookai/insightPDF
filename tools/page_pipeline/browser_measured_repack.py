@@ -63,7 +63,12 @@ def _placement_plan(collision_qa: dict[str, Any], *, gap: float) -> tuple[
             original_top = float(block["assigned_top"])
             new_top = original_top if cursor is None else max(original_top,
                                                                cursor)
-            height = float(block["dom_measured_height"])
+            # Final ink can extend beyond the CSS/DOM height, especially for
+            # MathAtomGroup sup/sub runs.  Consume the independent effective
+            # measurement when available; legacy records retain the DOM
+            # fallback.  This does not alter SourceTextSlot geometry.
+            height = float(block.get("math_aware_measured_height")
+                           or block["dom_measured_height"])
             new_bottom = new_top + height
             fits = new_bottom <= region_bottom + 0.5
             if not fits:

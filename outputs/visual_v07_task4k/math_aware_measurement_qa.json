@@ -1,0 +1,1269 @@
+{
+  "schema_version": "visual_v07.math_aware_block_measurement_qa.v1",
+  "decision": "pass",
+  "metrics": {
+    "dom_height_stale_count": 0,
+    "ink_outside_measurement_count": 0,
+    "measurement_record_missing_count": 0
+  },
+  "required_render_ids": [
+    "PAF_B1_02"
+  ],
+  "missing_required_render_ids": [],
+  "observations": [
+    {
+      "render_id": "PAF_B1_00",
+      "source_slot_id": "STS-P005-0000",
+      "source_slot_bbox_pt": [
+        51.3,
+        50.79,
+        288.7,
+        333.392
+      ],
+      "dom_bbox_pt": [
+        51.293,
+        50.789,
+        288.691,
+        333.387
+      ],
+      "dom_height_pt": 282.598,
+      "painted_ink_bbox_pt": [
+        51.5,
+        51.25,
+        286.75,
+        331.0
+      ],
+      "painted_ink_height_pt": 279.75,
+      "effective_measurement_bbox_pt": [
+        51.293,
+        50.789,
+        288.691,
+        333.387
+      ],
+      "measured_height_pt": 282.598,
+      "previous_declared_bottom": 333.387,
+      "previous_ink_bottom": 331.0,
+      "measured_bottom": 333.387,
+      "measurement_mode": "dom_plus_final_painted_ink",
+      "has_math_atom_group": true,
+      "has_sup": true,
+      "has_sub": true,
+      "math_atoms": [
+        {
+          "atom_id": "MAG-52F45C34EAFB-A00",
+          "role": "base",
+          "text": "𝓕",
+          "bbox_pt": [
+            108.199,
+            50.789,
+            115.699,
+            62.039
+          ],
+          "base_bbox_pt": [
+            108.199,
+            50.789,
+            115.699,
+            62.039
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-52F45C34EAFB-A01",
+          "role": "superscript",
+          "text": "−1",
+          "bbox_pt": [
+            115.699,
+            49.594,
+            125.062,
+            57.844
+          ],
+          "base_bbox_pt": [
+            108.199,
+            50.789,
+            115.699,
+            62.039
+          ],
+          "ascent_extension_pt": 1.195,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-52F45C34EAFB-A02",
+          "role": "delimiter",
+          "text": "(",
+          "bbox_pt": [
+            125.062,
+            50.789,
+            128.402,
+            62.039
+          ],
+          "base_bbox_pt": [
+            108.199,
+            50.789,
+            115.699,
+            62.039
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-52F45C34EAFB-A03",
+          "role": "operator",
+          "text": "⋅",
+          "bbox_pt": [
+            128.402,
+            50.789,
+            131.402,
+            62.039
+          ],
+          "base_bbox_pt": [
+            108.199,
+            50.789,
+            115.699,
+            62.039
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-52F45C34EAFB-A04",
+          "role": "delimiter",
+          "text": ")",
+          "bbox_pt": [
+            131.402,
+            50.789,
+            134.742,
+            62.039
+          ],
+          "base_bbox_pt": [
+            108.199,
+            50.789,
+            115.699,
+            62.039
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-FD587A88A6FD-A00",
+          "role": "base",
+          "text": "",
+          "bbox_pt": [
+            217.301,
+            63.07,
+            230.414,
+            74.32
+          ],
+          "base_bbox_pt": [
+            217.301,
+            63.07,
+            230.414,
+            74.32
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-FD587A88A6FD-A01",
+          "role": "subscript",
+          "text": "𝑐",
+          "bbox_pt": [
+            230.414,
+            67.113,
+            233.871,
+            75.363
+          ],
+          "base_bbox_pt": [
+            217.301,
+            63.07,
+            230.414,
+            74.32
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 1.043
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A00",
+          "role": "base",
+          "text": "𝐤",
+          "bbox_pt": [
+            131.273,
+            198.164,
+            137.273,
+            209.414
+          ],
+          "base_bbox_pt": [
+            131.273,
+            198.164,
+            137.273,
+            209.414
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A01",
+          "role": "subscript",
+          "text": "𝑢,𝑣",
+          "bbox_pt": [
+            137.273,
+            202.207,
+            147.539,
+            210.457
+          ],
+          "base_bbox_pt": [
+            131.273,
+            198.164,
+            137.273,
+            209.414
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 1.043
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A02",
+          "role": "operator",
+          "text": " = ",
+          "bbox_pt": [
+            147.539,
+            198.164,
+            158.18,
+            209.414
+          ],
+          "base_bbox_pt": [
+            131.273,
+            198.164,
+            137.273,
+            209.414
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A03",
+          "role": "argument",
+          "text": "𝑢",
+          "bbox_pt": [
+            158.18,
+            198.164,
+            163.43,
+            209.414
+          ],
+          "base_bbox_pt": [
+            131.273,
+            198.164,
+            137.273,
+            209.414
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A04",
+          "role": "superscript",
+          "text": "2",
+          "bbox_pt": [
+            163.43,
+            196.969,
+            167.18,
+            205.219
+          ],
+          "base_bbox_pt": [
+            131.273,
+            198.164,
+            137.273,
+            209.414
+          ],
+          "ascent_extension_pt": 1.195,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A05",
+          "role": "operator",
+          "text": "+",
+          "bbox_pt": [
+            167.18,
+            198.164,
+            172.828,
+            209.414
+          ],
+          "base_bbox_pt": [
+            131.273,
+            198.164,
+            137.273,
+            209.414
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A06",
+          "role": "argument",
+          "text": "𝑣",
+          "bbox_pt": [
+            172.828,
+            198.164,
+            178.078,
+            209.414
+          ],
+          "base_bbox_pt": [
+            131.273,
+            198.164,
+            137.273,
+            209.414
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-179831757CCB-A07",
+          "role": "superscript",
+          "text": "2",
+          "bbox_pt": [
+            178.078,
+            196.969,
+            181.828,
+            205.219
+          ],
+          "base_bbox_pt": [
+            131.273,
+            198.164,
+            137.273,
+            209.414
+          ],
+          "ascent_extension_pt": 1.195,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-612662CB23BA-A00",
+          "role": "base",
+          "text": "𝝀",
+          "bbox_pt": [
+            91.289,
+            222.727,
+            96.539,
+            233.977
+          ],
+          "base_bbox_pt": [
+            91.289,
+            222.727,
+            96.539,
+            233.977
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-612662CB23BA-A01",
+          "role": "operator",
+          "text": "∈",
+          "bbox_pt": [
+            96.539,
+            222.727,
+            106.289,
+            233.977
+          ],
+          "base_bbox_pt": [
+            91.289,
+            222.727,
+            96.539,
+            233.977
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-612662CB23BA-A02",
+          "role": "argument",
+          "text": "ℝ",
+          "bbox_pt": [
+            106.289,
+            222.727,
+            113.789,
+            233.977
+          ],
+          "base_bbox_pt": [
+            91.289,
+            222.727,
+            96.539,
+            233.977
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-612662CB23BA-A03",
+          "role": "superscript",
+          "text": "𝐶",
+          "bbox_pt": [
+            113.789,
+            221.531,
+            118.266,
+            229.781
+          ],
+          "base_bbox_pt": [
+            91.289,
+            222.727,
+            96.539,
+            233.977
+          ],
+          "ascent_extension_pt": 1.196,
+          "descent_extension_pt": 0.0
+        }
+      ],
+      "ink_outside_measurement": false,
+      "dom_height_stale": false,
+      "outside_pt": {
+        "top": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "left": 0.0,
+        "tolerance_pt": 0.25
+      }
+    },
+    {
+      "render_id": "PAF_B1_02",
+      "source_slot_id": "STS-P005-0003",
+      "source_slot_bbox_pt": [
+        51.3,
+        465.24,
+        288.7,
+        504.042
+      ],
+      "dom_bbox_pt": [
+        51.293,
+        465.234,
+        288.691,
+        504.035
+      ],
+      "dom_height_pt": 38.801,
+      "painted_ink_bbox_pt": [
+        51.25,
+        466.0,
+        286.0,
+        511.75
+      ],
+      "painted_ink_height_pt": 45.75,
+      "effective_measurement_bbox_pt": [
+        51.25,
+        465.234,
+        288.691,
+        511.75
+      ],
+      "measured_height_pt": 46.516,
+      "previous_declared_bottom": 504.035,
+      "previous_ink_bottom": 511.75,
+      "measured_bottom": 511.75,
+      "measurement_mode": "dom_plus_final_painted_ink",
+      "has_math_atom_group": true,
+      "has_sup": false,
+      "has_sub": true,
+      "math_atoms": [
+        {
+          "atom_id": "MAG-98F1AC430FC0-A00",
+          "role": "base",
+          "text": "𝜆",
+          "bbox_pt": [
+            51.293,
+            465.984,
+            56.543,
+            476.484
+          ],
+          "base_bbox_pt": [
+            51.293,
+            465.984,
+            56.543,
+            476.484
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-98F1AC430FC0-A01",
+          "role": "subscript",
+          "text": "𝑐",
+          "bbox_pt": [
+            56.543,
+            469.934,
+            59.824,
+            477.434
+          ],
+          "base_bbox_pt": [
+            51.293,
+            465.984,
+            56.543,
+            476.484
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.95
+        },
+        {
+          "atom_id": "MAG-98F1AC430FC0-A02",
+          "role": "operator",
+          "text": " > ",
+          "bbox_pt": [
+            59.824,
+            465.984,
+            69.938,
+            476.484
+          ],
+          "base_bbox_pt": [
+            51.293,
+            465.984,
+            56.543,
+            476.484
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-98F1AC430FC0-A03",
+          "role": "argument",
+          "text": "0",
+          "bbox_pt": [
+            69.938,
+            465.984,
+            74.695,
+            476.484
+          ],
+          "base_bbox_pt": [
+            51.293,
+            465.984,
+            56.543,
+            476.484
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        }
+      ],
+      "ink_outside_measurement": false,
+      "dom_height_stale": false,
+      "outside_pt": {
+        "top": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "left": 0.0,
+        "tolerance_pt": 0.25
+      }
+    },
+    {
+      "render_id": "PAF_B1_04",
+      "source_slot_id": "STS-P005-0004",
+      "source_slot_bbox_pt": [
+        51.3,
+        568.85,
+        288.7,
+        698.19
+      ],
+      "dom_bbox_pt": [
+        51.293,
+        568.84,
+        288.691,
+        698.18
+      ],
+      "dom_height_pt": 129.34,
+      "painted_ink_bbox_pt": [
+        51.5,
+        569.75,
+        285.0,
+        685.5
+      ],
+      "painted_ink_height_pt": 115.75,
+      "effective_measurement_bbox_pt": [
+        51.293,
+        568.84,
+        288.691,
+        698.18
+      ],
+      "measured_height_pt": 129.34,
+      "previous_declared_bottom": 698.18,
+      "previous_ink_bottom": 685.5,
+      "measured_bottom": 698.18,
+      "measurement_mode": "dom_plus_final_painted_ink",
+      "has_math_atom_group": true,
+      "has_sup": false,
+      "has_sub": true,
+      "math_atoms": [
+        {
+          "atom_id": "MAG-954A3FCBE690-A00",
+          "role": "base",
+          "text": "𝑃",
+          "bbox_pt": [
+            51.293,
+            609.352,
+            57.293,
+            620.602
+          ],
+          "base_bbox_pt": [
+            51.293,
+            609.352,
+            57.293,
+            620.602
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-954A3FCBE690-A01",
+          "role": "subscript",
+          "text": "𝑖",
+          "bbox_pt": [
+            57.293,
+            613.395,
+            59.672,
+            621.645
+          ],
+          "base_bbox_pt": [
+            51.293,
+            609.352,
+            57.293,
+            620.602
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 1.043
+        },
+        {
+          "atom_id": "MAG-818DD43AAC31-A00",
+          "role": "base",
+          "text": "𝑃",
+          "bbox_pt": [
+            141.656,
+            609.352,
+            147.656,
+            620.602
+          ],
+          "base_bbox_pt": [
+            141.656,
+            609.352,
+            147.656,
+            620.602
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-818DD43AAC31-A01",
+          "role": "subscript",
+          "text": "𝑖",
+          "bbox_pt": [
+            147.656,
+            613.395,
+            150.035,
+            621.645
+          ],
+          "base_bbox_pt": [
+            141.656,
+            609.352,
+            147.656,
+            620.602
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 1.043
+        }
+      ],
+      "ink_outside_measurement": false,
+      "dom_height_stale": false,
+      "outside_pt": {
+        "top": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "left": 0.0,
+        "tolerance_pt": 0.25
+      }
+    },
+    {
+      "render_id": "DLP00027",
+      "source_slot_id": "STS-P005-0007",
+      "source_slot_bbox_pt": [
+        306.6,
+        174.62,
+        544.04,
+        293.19
+      ],
+      "dom_bbox_pt": [
+        306.598,
+        174.609,
+        544.031,
+        293.168
+      ],
+      "dom_height_pt": 118.559,
+      "painted_ink_bbox_pt": [
+        306.75,
+        175.5,
+        543.25,
+        237.75
+      ],
+      "painted_ink_height_pt": 62.25,
+      "effective_measurement_bbox_pt": [
+        306.598,
+        174.609,
+        544.031,
+        293.168
+      ],
+      "measured_height_pt": 118.559,
+      "previous_declared_bottom": 293.168,
+      "previous_ink_bottom": 237.75,
+      "measured_bottom": 293.168,
+      "measurement_mode": "dom_plus_final_painted_ink",
+      "has_math_atom_group": false,
+      "has_sup": false,
+      "has_sub": false,
+      "math_atoms": [],
+      "ink_outside_measurement": false,
+      "dom_height_stale": false,
+      "outside_pt": {
+        "top": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "left": 0.0,
+        "tolerance_pt": 0.25
+      }
+    },
+    {
+      "render_id": "PAF_B1_01",
+      "source_slot_id": "STS-P005-0008",
+      "source_slot_bbox_pt": [
+        306.6,
+        314.46,
+        544.0,
+        417.932
+      ],
+      "dom_bbox_pt": [
+        306.598,
+        314.449,
+        543.996,
+        417.914
+      ],
+      "dom_height_pt": 103.465,
+      "painted_ink_bbox_pt": [
+        306.75,
+        315.5,
+        543.5,
+        406.75
+      ],
+      "painted_ink_height_pt": 91.25,
+      "effective_measurement_bbox_pt": [
+        306.598,
+        314.449,
+        543.996,
+        417.914
+      ],
+      "measured_height_pt": 103.465,
+      "previous_declared_bottom": 417.914,
+      "previous_ink_bottom": 406.75,
+      "measured_bottom": 417.914,
+      "measurement_mode": "dom_plus_final_painted_ink",
+      "has_math_atom_group": true,
+      "has_sup": false,
+      "has_sub": true,
+      "math_atoms": [
+        {
+          "atom_id": "MAG-21200F752707-A00",
+          "role": "base",
+          "text": "𝑓",
+          "bbox_pt": [
+            466.312,
+            328.781,
+            471.562,
+            340.031
+          ],
+          "base_bbox_pt": [
+            466.312,
+            328.781,
+            471.562,
+            340.031
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-21200F752707-A01",
+          "role": "subscript",
+          "text": "𝑘",
+          "bbox_pt": [
+            471.562,
+            332.824,
+            475.711,
+            341.074
+          ],
+          "base_bbox_pt": [
+            466.312,
+            328.781,
+            471.562,
+            340.031
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 1.043
+        },
+        {
+          "atom_id": "MAG-21200F752707-A02",
+          "role": "delimiter",
+          "text": "(",
+          "bbox_pt": [
+            475.711,
+            328.781,
+            479.051,
+            340.031
+          ],
+          "base_bbox_pt": [
+            466.312,
+            328.781,
+            471.562,
+            340.031
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-21200F752707-A03",
+          "role": "argument",
+          "text": "𝑃",
+          "bbox_pt": [
+            479.051,
+            328.781,
+            485.051,
+            340.031
+          ],
+          "base_bbox_pt": [
+            466.312,
+            328.781,
+            471.562,
+            340.031
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-21200F752707-A04",
+          "role": "subscript",
+          "text": "𝑖",
+          "bbox_pt": [
+            485.051,
+            332.824,
+            487.43,
+            341.074
+          ],
+          "base_bbox_pt": [
+            466.312,
+            328.781,
+            471.562,
+            340.031
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 1.043
+        },
+        {
+          "atom_id": "MAG-21200F752707-A05",
+          "role": "delimiter",
+          "text": ")",
+          "bbox_pt": [
+            487.43,
+            328.781,
+            490.77,
+            340.031
+          ],
+          "base_bbox_pt": [
+            466.312,
+            328.781,
+            471.562,
+            340.031
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A00",
+          "role": "base",
+          "text": "𝑓",
+          "bbox_pt": [
+            386.332,
+            355.945,
+            391.582,
+            367.195
+          ],
+          "base_bbox_pt": [
+            386.332,
+            355.945,
+            391.582,
+            367.195
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A01",
+          "role": "subscript",
+          "text": "𝐹𝐹𝑁",
+          "bbox_pt": [
+            391.582,
+            359.988,
+            406.242,
+            368.238
+          ],
+          "base_bbox_pt": [
+            386.332,
+            355.945,
+            391.582,
+            367.195
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 1.043
+        },
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A02",
+          "role": "delimiter",
+          "text": "(",
+          "bbox_pt": [
+            406.242,
+            355.945,
+            409.582,
+            367.195
+          ],
+          "base_bbox_pt": [
+            386.332,
+            355.945,
+            391.582,
+            367.195
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A03",
+          "role": "argument",
+          "text": "𝑃",
+          "bbox_pt": [
+            409.582,
+            355.945,
+            415.582,
+            367.195
+          ],
+          "base_bbox_pt": [
+            386.332,
+            355.945,
+            391.582,
+            367.195
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A04",
+          "role": "subscript",
+          "text": "𝑖",
+          "bbox_pt": [
+            415.582,
+            359.988,
+            417.961,
+            368.238
+          ],
+          "base_bbox_pt": [
+            386.332,
+            355.945,
+            391.582,
+            367.195
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 1.043
+        },
+        {
+          "atom_id": "MAG-3F6A4368F6C1-A05",
+          "role": "delimiter",
+          "text": ")",
+          "bbox_pt": [
+            417.961,
+            355.945,
+            421.301,
+            367.195
+          ],
+          "base_bbox_pt": [
+            386.332,
+            355.945,
+            391.582,
+            367.195
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-412216EF6F74-A00",
+          "role": "base",
+          "text": "𝑤",
+          "bbox_pt": [
+            531.059,
+            383.109,
+            538.559,
+            394.359
+          ],
+          "base_bbox_pt": [
+            531.059,
+            383.109,
+            538.559,
+            394.359
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-412216EF6F74-A01",
+          "role": "subscript",
+          "text": "𝑘",
+          "bbox_pt": [
+            538.559,
+            387.152,
+            542.707,
+            395.402
+          ],
+          "base_bbox_pt": [
+            531.059,
+            383.109,
+            538.559,
+            394.359
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 1.043
+        }
+      ],
+      "ink_outside_measurement": false,
+      "dom_height_stale": false,
+      "outside_pt": {
+        "top": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "left": 0.0,
+        "tolerance_pt": 0.25
+      }
+    },
+    {
+      "render_id": "PAF_B1_03",
+      "source_slot_id": "STS-P005-0009",
+      "source_slot_bbox_pt": [
+        306.6,
+        469.83,
+        544.0,
+        534.5
+      ],
+      "dom_bbox_pt": [
+        306.598,
+        469.828,
+        543.996,
+        534.492
+      ],
+      "dom_height_pt": 64.664,
+      "painted_ink_bbox_pt": [
+        306.75,
+        470.75,
+        543.5,
+        521.5
+      ],
+      "painted_ink_height_pt": 50.75,
+      "effective_measurement_bbox_pt": [
+        306.598,
+        469.828,
+        543.996,
+        534.492
+      ],
+      "measured_height_pt": 64.664,
+      "previous_declared_bottom": 534.492,
+      "previous_ink_bottom": 521.5,
+      "measured_bottom": 534.492,
+      "measurement_mode": "dom_plus_final_painted_ink",
+      "has_math_atom_group": true,
+      "has_sup": false,
+      "has_sub": true,
+      "math_atoms": [
+        {
+          "atom_id": "MAG-E9D29DCF0174-A00",
+          "role": "base",
+          "text": "𝑧",
+          "bbox_pt": [
+            329.098,
+            470.578,
+            333.598,
+            481.828
+          ],
+          "base_bbox_pt": [
+            329.098,
+            470.578,
+            333.598,
+            481.828
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 0.0
+        },
+        {
+          "atom_id": "MAG-E9D29DCF0174-A01",
+          "role": "subscript",
+          "text": "𝑘",
+          "bbox_pt": [
+            333.598,
+            474.621,
+            337.746,
+            482.871
+          ],
+          "base_bbox_pt": [
+            329.098,
+            470.578,
+            333.598,
+            481.828
+          ],
+          "ascent_extension_pt": 0.0,
+          "descent_extension_pt": 1.043
+        }
+      ],
+      "ink_outside_measurement": false,
+      "dom_height_stale": false,
+      "outside_pt": {
+        "top": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "left": 0.0,
+        "tolerance_pt": 0.25
+      }
+    },
+    {
+      "render_id": "PAF_B1_05",
+      "source_slot_id": "STS-P005-0010",
+      "source_slot_bbox_pt": [
+        306.6,
+        592.3,
+        544.0,
+        618.168
+      ],
+      "dom_bbox_pt": [
+        306.598,
+        592.289,
+        543.996,
+        618.152
+      ],
+      "dom_height_pt": 25.863,
+      "painted_ink_bbox_pt": [
+        307.0,
+        593.75,
+        535.5,
+        616.0
+      ],
+      "painted_ink_height_pt": 22.25,
+      "effective_measurement_bbox_pt": [
+        306.598,
+        592.289,
+        543.996,
+        618.152
+      ],
+      "measured_height_pt": 25.863,
+      "previous_declared_bottom": 618.152,
+      "previous_ink_bottom": 616.0,
+      "measured_bottom": 618.152,
+      "measurement_mode": "dom_plus_final_painted_ink",
+      "has_math_atom_group": false,
+      "has_sup": false,
+      "has_sub": false,
+      "math_atoms": [],
+      "ink_outside_measurement": false,
+      "dom_height_stale": false,
+      "outside_pt": {
+        "top": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "left": 0.0,
+        "tolerance_pt": 0.25
+      }
+    },
+    {
+      "render_id": "PAF_B1_06",
+      "source_slot_id": "STS-P005-0011",
+      "source_slot_bbox_pt": [
+        306.6,
+        651.26,
+        544.0,
+        728.864
+      ],
+      "dom_bbox_pt": [
+        306.598,
+        651.258,
+        543.996,
+        728.859
+      ],
+      "dom_height_pt": 77.601,
+      "painted_ink_bbox_pt": [
+        306.75,
+        652.0,
+        543.5,
+        718.0
+      ],
+      "painted_ink_height_pt": 66.0,
+      "effective_measurement_bbox_pt": [
+        306.598,
+        651.258,
+        543.996,
+        728.859
+      ],
+      "measured_height_pt": 77.601,
+      "previous_declared_bottom": 728.859,
+      "previous_ink_bottom": 718.0,
+      "measured_bottom": 728.859,
+      "measurement_mode": "dom_plus_final_painted_ink",
+      "has_math_atom_group": false,
+      "has_sup": false,
+      "has_sub": false,
+      "math_atoms": [],
+      "ink_outside_measurement": false,
+      "dom_height_stale": false,
+      "outside_pt": {
+        "top": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "left": 0.0,
+        "tolerance_pt": 0.25
+      }
+    },
+    {
+      "render_id": "DLP00028",
+      "source_slot_id": "",
+      "source_slot_bbox_pt": null,
+      "dom_bbox_pt": [
+        306.598,
+        757.945,
+        543.996,
+        769.547
+      ],
+      "dom_height_pt": 11.602,
+      "painted_ink_bbox_pt": [
+        307.0,
+        759.0,
+        366.5,
+        767.25
+      ],
+      "painted_ink_height_pt": 8.25,
+      "effective_measurement_bbox_pt": [
+        306.598,
+        757.945,
+        543.996,
+        769.547
+      ],
+      "measured_height_pt": 11.602,
+      "previous_declared_bottom": 769.547,
+      "previous_ink_bottom": 767.25,
+      "measured_bottom": 769.547,
+      "measurement_mode": "dom_plus_final_painted_ink",
+      "has_math_atom_group": false,
+      "has_sup": false,
+      "has_sub": false,
+      "math_atoms": [],
+      "ink_outside_measurement": false,
+      "dom_height_stale": false,
+      "outside_pt": {
+        "top": 0.0,
+        "right": 0.0,
+        "bottom": 0.0,
+        "left": 0.0,
+        "tolerance_pt": 0.25
+      }
+    }
+  ],
+  "policy": {
+    "effective_measurement": "union of DOM block bbox and final painted-ink bbox",
+    "stale": "painted ink escapes effective measurement by more than 0.250pt",
+    "source_text_slot_geometry": "read-only comparison input"
+  }
+}

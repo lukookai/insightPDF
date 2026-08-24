@@ -1,0 +1,75 @@
+{
+  "schema_version": "visual_v07.task4k.checkpoint.v1",
+  "decision": "pass",
+  "qa_first": {
+    "old_artifact_red": true,
+    "captured_render_id": "PAF_B1_02",
+    "before_metrics": {
+      "dom_height_stale_count": 1,
+      "ink_outside_measurement_count": 1,
+      "measurement_record_missing_count": 0
+    }
+  },
+  "metrics": {
+    "dom_height_stale_count": 0,
+    "ink_outside_measurement_count": 0,
+    "final_block_collision_count": 0,
+    "slot_geometry_mutation_count": 0,
+    "figure_anchor_mutation_count": 0,
+    "table_anchor_mutation_count": 0,
+    "production_special_case_count": 0,
+    "math_atom_order_error_count": 0,
+    "task4h_regression_count": 0,
+    "superscript_structure_loss_count": 0,
+    "subscript_structure_loss_count": 0,
+    "pdf_content_mutation_count": 0
+  },
+  "proof": {
+    "before_declared_bottom_lt_ink_bottom": true,
+    "after_measured_bottom_gte_ink_bottom": true,
+    "source_slot_bbox_unchanged": true
+  },
+  "fixed_artifact": {
+    "html": "E:\\Code\\fanyi\\outputs\\visual_v07_task4k\\fixed_artifact\\zh_visual.html",
+    "pdf": "E:\\Code\\fanyi\\outputs\\visual_v07_task4k\\fixed_artifact\\zh_visual.pdf",
+    "html_sha256": "08d1f1f6823229741b9d8278716e0d70e6ab8e9fcd8a009e2ca451dc291f95aa",
+    "pdf_sha256": "140a1b9c415eb587273bc69fc0f07df0419475e1cc4213e82a5f7a343b15feb7"
+  },
+  "review_bundle": {
+    "schema_version": "visual_v07.task4k.review_index.v1",
+    "decision": "pass",
+    "focus_bbox_pt": [
+      42.25,
+      447.234,
+      297.691,
+      529.75
+    ],
+    "files": [
+      {
+        "name": "block_measure_after.png",
+        "sha256": "7444807e27be5e039a08aa0ffb9206c2dec8a38c4506a4e04f1d182bff17e60a"
+      },
+      {
+        "name": "block_measure_before.png",
+        "sha256": "e366e7f4130d2ebf88491bc36377302847d861b4082d7f29797cb42a50519cbb"
+      },
+      {
+        "name": "ink_bbox_overlay.png",
+        "sha256": "89fdd2c8edef8294b72f8e93832c133f53e36a6455b90f56ad9458d01c9a677b"
+      },
+      {
+        "name": "math_block_height_overlay.png",
+        "sha256": "9b79442200f6371d60ff638ce48e3badb33f17b5aa88ebaa9838ffa9f884179a"
+      }
+    ],
+    "legend": {
+      "orange": "immutable SourceTextSlot",
+      "red": "legacy DOM-only measurement",
+      "green": "independent final-PDF raster ink",
+      "blue": "math-aware effective measurement / base atom",
+      "purple": "subscript atom"
+    }
+  },
+  "commit_message": "fix(visual): measure math-aware block ink bounds",
+  "tag_created": false
+}

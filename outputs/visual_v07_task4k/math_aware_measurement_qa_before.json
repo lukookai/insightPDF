@@ -1,0 +1,87 @@
+{
+  "schema_version": "visual_v07.math_aware_block_measurement_qa.v1",
+  "decision": "fail",
+  "metrics": {
+    "dom_height_stale_count": 1,
+    "ink_outside_measurement_count": 1,
+    "measurement_record_missing_count": 0
+  },
+  "required_render_ids": [
+    "PAF_B1_02"
+  ],
+  "missing_required_render_ids": [],
+  "observations": [
+    {
+      "render_id": "PAF_B1_02",
+      "source_slot_id": "STS-P005-0003",
+      "source_slot_bbox_pt": [
+        51.3,
+        465.24,
+        288.7,
+        504.042
+      ],
+      "dom_bbox_pt": [
+        51.293,
+        465.234,
+        288.691,
+        504.035
+      ],
+      "dom_height_pt": 38.801,
+      "painted_ink_bbox_pt": [
+        51.25,
+        466.0,
+        286.0,
+        511.75
+      ],
+      "painted_ink_height_pt": 45.75,
+      "effective_measurement_bbox_pt": [
+        51.293,
+        465.234,
+        288.691,
+        504.035
+      ],
+      "measured_height_pt": 38.801,
+      "previous_declared_bottom": 504.035,
+      "previous_ink_bottom": 511.75,
+      "measured_bottom": 504.035,
+      "measurement_mode": "legacy_dom_only",
+      "has_math_atom_group": true,
+      "has_sup": false,
+      "has_sub": true,
+      "math_atoms": [
+        {
+          "tag": "sub",
+          "text": "𝑐",
+          "bbox_pt": [
+            56.54296875,
+            469.93359375,
+            59.82421875,
+            477.43359375
+          ],
+          "base_bbox_pt": [
+            51.29296875,
+            465.984375,
+            56.54296875,
+            476.484375
+          ],
+          "font_size_pt": 7.125,
+          "baseline_offset_kind": "-2.28px"
+        }
+      ],
+      "ink_outside_measurement": true,
+      "dom_height_stale": true,
+      "outside_pt": {
+        "top": 0.0,
+        "right": 0.0,
+        "bottom": 7.715,
+        "left": 0.043,
+        "tolerance_pt": 0.25
+      }
+    }
+  ],
+  "policy": {
+    "effective_measurement": "union of DOM block bbox and final painted-ink bbox",
+    "stale": "painted ink escapes effective measurement by more than 0.250pt",
+    "source_text_slot_geometry": "read-only comparison input"
+  }
+}

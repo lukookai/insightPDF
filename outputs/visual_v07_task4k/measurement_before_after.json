@@ -1,0 +1,213 @@
+{
+  "schema_version": "visual_v07.task4k.measurement_before_after.v1",
+  "render_id": "PAF_B1_02",
+  "before": {
+    "render_id": "PAF_B1_02",
+    "source_slot_id": "STS-P005-0003",
+    "source_slot_bbox_pt": [
+      51.3,
+      465.24,
+      288.7,
+      504.042
+    ],
+    "dom_bbox_pt": [
+      51.293,
+      465.234,
+      288.691,
+      504.035
+    ],
+    "dom_height_pt": 38.801,
+    "painted_ink_bbox_pt": [
+      51.25,
+      466.0,
+      286.0,
+      511.75
+    ],
+    "painted_ink_height_pt": 45.75,
+    "effective_measurement_bbox_pt": [
+      51.293,
+      465.234,
+      288.691,
+      504.035
+    ],
+    "measured_height_pt": 38.801,
+    "previous_declared_bottom": 504.035,
+    "previous_ink_bottom": 511.75,
+    "measured_bottom": 504.035,
+    "measurement_mode": "legacy_dom_only",
+    "has_math_atom_group": true,
+    "has_sup": false,
+    "has_sub": true,
+    "math_atoms": [
+      {
+        "tag": "sub",
+        "text": "𝑐",
+        "bbox_pt": [
+          56.54296875,
+          469.93359375,
+          59.82421875,
+          477.43359375
+        ],
+        "base_bbox_pt": [
+          51.29296875,
+          465.984375,
+          56.54296875,
+          476.484375
+        ],
+        "font_size_pt": 7.125,
+        "baseline_offset_kind": "-2.28px"
+      }
+    ],
+    "ink_outside_measurement": true,
+    "dom_height_stale": true,
+    "outside_pt": {
+      "top": 0.0,
+      "right": 0.0,
+      "bottom": 7.715,
+      "left": 0.043,
+      "tolerance_pt": 0.25
+    }
+  },
+  "after": {
+    "render_id": "PAF_B1_02",
+    "flow_fragment_id": "PAF_B1_02-F0",
+    "source_slot_id": "STS-P005-0003",
+    "source_slot_bbox_pt": [
+      51.3,
+      465.24,
+      288.7,
+      504.042
+    ],
+    "dom_bbox_pt": [
+      51.293,
+      465.234,
+      288.691,
+      504.035
+    ],
+    "final_pdf_text_bbox_pt": [
+      51.293,
+      465.539,
+      286.214,
+      512.085
+    ],
+    "painted_ink_bbox_pt": [
+      51.25,
+      466.0,
+      286.0,
+      511.75
+    ],
+    "effective_measurement_bbox_pt": [
+      51.25,
+      465.234,
+      288.691,
+      511.75
+    ],
+    "measurement_mode": "dom_plus_final_painted_ink",
+    "has_math_atom_group": true,
+    "has_sup": false,
+    "has_sub": true,
+    "math_atoms": [
+      {
+        "atom_id": "MAG-98F1AC430FC0-A00",
+        "role": "base",
+        "text": "𝜆",
+        "bbox_pt": [
+          51.293,
+          465.984,
+          56.543,
+          476.484
+        ],
+        "base_bbox_pt": [
+          51.293,
+          465.984,
+          56.543,
+          476.484
+        ],
+        "ascent_extension_pt": 0.0,
+        "descent_extension_pt": 0.0
+      },
+      {
+        "atom_id": "MAG-98F1AC430FC0-A01",
+        "role": "subscript",
+        "text": "𝑐",
+        "bbox_pt": [
+          56.543,
+          469.934,
+          59.824,
+          477.434
+        ],
+        "base_bbox_pt": [
+          51.293,
+          465.984,
+          56.543,
+          476.484
+        ],
+        "ascent_extension_pt": 0.0,
+        "descent_extension_pt": 0.95
+      },
+      {
+        "atom_id": "MAG-98F1AC430FC0-A02",
+        "role": "operator",
+        "text": " > ",
+        "bbox_pt": [
+          59.824,
+          465.984,
+          69.938,
+          476.484
+        ],
+        "base_bbox_pt": [
+          51.293,
+          465.984,
+          56.543,
+          476.484
+        ],
+        "ascent_extension_pt": 0.0,
+        "descent_extension_pt": 0.0
+      },
+      {
+        "atom_id": "MAG-98F1AC430FC0-A03",
+        "role": "argument",
+        "text": "0",
+        "bbox_pt": [
+          69.938,
+          465.984,
+          74.695,
+          476.484
+        ],
+        "base_bbox_pt": [
+          51.293,
+          465.984,
+          56.543,
+          476.484
+        ],
+        "ascent_extension_pt": 0.0,
+        "descent_extension_pt": 0.0
+      }
+    ],
+    "dom_height_pt": 38.801,
+    "painted_glyph_bbox_height_pt": 45.75,
+    "painted_ink_height_pt": 46.516,
+    "painted_extent_height_from_dom_top_pt": 46.516,
+    "measured_height_pt": 46.516,
+    "measured_height_from_dom_origin_pt": 46.516,
+    "ink_top_pt": 466.0,
+    "ink_bottom_pt": 511.75,
+    "ascent_extension_pt": 0.0,
+    "descent_extension_pt": 7.715,
+    "script_ascent_extension_pt": 0.0,
+    "script_descent_extension_pt": 0.95,
+    "painted_source": "final_pdf_raster_ink",
+    "formula": "measured_height = max(dom_height, painted_ink_height)"
+  },
+  "independent_final_pdf_raster_ink_bbox_pt": [
+    51.25,
+    466.0,
+    286.0,
+    511.75
+  ],
+  "proof": {
+    "before_declared_bottom_lt_ink_bottom": true,
+    "after_measured_bottom_gte_ink_bottom": true,
+    "source_slot_bbox_unchanged": true
+  }
+}
