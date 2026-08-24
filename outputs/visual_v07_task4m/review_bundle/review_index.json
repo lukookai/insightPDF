@@ -1,0 +1,28 @@
+{
+  "schema_version": "visual_v07.task4m.review_index.v1",
+  "decision": "blocked",
+  "flat_bundle": true,
+  "source_renderer": "Poppler pdftoppm 72 DPI",
+  "files": [
+    {
+      "name": "2504_full_19_pages_contact_sheet.png",
+      "sha256": "7a7e6840f8ff887bc5bba8073a6d3b5f1d2e22b2456e73eda0a21b5c815a3255"
+    },
+    {
+      "name": "2504_source_target_contact_sheet.png",
+      "sha256": "6565eb442dd9550cdabb02e131c5569218740efd70e86206b3c7bfc9811a10ff"
+    },
+    {
+      "name": "PPAT_full_12_pages_contact_sheet.png",
+      "sha256": "416b07a2aa16b993cbb661f43694a526505427517d354eccd49e604083ed175c"
+    },
+    {
+      "name": "PPAT_source_target_contact_sheet.png",
+      "sha256": "d204afe5b9fe7b0d07d5d0347c4ed2fad02bcfa572d1447ee31b276c8ed4ca18"
+    },
+    {
+      "name": "regression_summary.png",
+      "sha256": "0d7c641244ae9e78ff9da706664b2ca850fb3193e501afb24e44999b41a8d712"
+    }
+  ]
+}

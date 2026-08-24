@@ -1,0 +1,83 @@
+{
+  "input_pdf": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_documents\\PPAT_fresh_zh_visual.pdf",
+  "expected_physical_page_count": 12,
+  "physical_pdf_page_count": 13,
+  "unexpected_extra_page_count": 1,
+  "page_sizes": [
+    [
+      594.96,
+      793.92
+    ],
+    [
+      594.96,
+      793.92
+    ],
+    [
+      594.96,
+      793.92
+    ],
+    [
+      594.96,
+      793.92
+    ],
+    [
+      594.96,
+      793.92
+    ],
+    [
+      594.96,
+      793.92
+    ],
+    [
+      594.96,
+      793.92
+    ],
+    [
+      594.96,
+      793.92
+    ],
+    [
+      594.96,
+      793.92
+    ],
+    [
+      594.96,
+      793.92
+    ],
+    [
+      594.96,
+      793.92
+    ],
+    [
+      594.96,
+      793.92
+    ],
+    [
+      594.96,
+      793.92
+    ]
+  ],
+  "blank_page_count": 1,
+  "mostly_blank_page_count": 0,
+  "renderer_a_backend": "pymupdf",
+  "renderer_a_success": true,
+  "renderer_a_error": "",
+  "renderer_b_available": false,
+  "renderer_b_backend": null,
+  "renderer_b_success": true,
+  "renderer_b_error": "",
+  "renderer_specific_failure_count": 0,
+  "clipped_visual_region_count": 0,
+  "clipped_visual_regions": [],
+  "renderer_parity_diff_ratio": null,
+  "geometry_qa": {
+    "table": [],
+    "formula": [],
+    "figure": [],
+    "text": {}
+  },
+  "assertion_physical_page_count_passed": false,
+  "assertion_no_blank_passed": false,
+  "assertion_renderers_alive": false,
+  "all_assertions_passed": false
+}

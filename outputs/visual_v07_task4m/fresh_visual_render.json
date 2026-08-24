@@ -1,0 +1,312 @@
+{
+  "schema_version": "visual_v07.task4m.render.v1",
+  "started_at_epoch": 1787571589.0238178,
+  "finished_at_epoch": 1787575390.0104513,
+  "source_inventory": {
+    "documents": {
+      "ppat": {
+        "source_pdf": "C:\\Users\\74496\\Desktop\\PPAT.pdf",
+        "source_pdf_sha256": "cdf872bebc464de2051ff982c7896ca64b46061b7f6c21205939c9f0b5e62e3c",
+        "source_page_count": 12,
+        "fresh_source_chain": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain",
+        "fresh_model_count": 12,
+        "fresh_translation_count": 12,
+        "fresh_base_html_count": 12,
+        "fresh_base_pdf_count": 12,
+        "translation_cache_seed_only": true,
+        "old_html_or_pdf_used_as_visual_input": false,
+        "source_chain_delivery_gate": "blocked",
+        "source_chain_visual_gate": "blocked"
+      },
+      "2504": {
+        "source_pdf": "C:\\Users\\74496\\Desktop\\2504.05732v2.pdf",
+        "source_pdf_sha256": "47246bb6a3ff9dc00018e31dbddb7463c9acf12a4ef688a9afd4acfbff915516",
+        "source_page_count": 19,
+        "fresh_source_chain": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\2504_source_chain",
+        "fresh_model_count": 19,
+        "fresh_translation_count": 19,
+        "fresh_base_html_count": 19,
+        "fresh_base_pdf_count": 19,
+        "translation_cache_seed_only": true,
+        "old_html_or_pdf_used_as_visual_input": false,
+        "source_chain_delivery_gate": "blocked",
+        "source_chain_visual_gate": "blocked"
+      }
+    },
+    "failures": [],
+    "valid": true
+  },
+  "page_results": [
+    {
+      "doc": "ppat",
+      "page": 1,
+      "decision": "blocked",
+      "passed": false,
+      "error": "ValueError: measured paragraph missing: DLP00002-F0",
+      "api_calls": 0,
+      "continued_from_same_fresh_run": true
+    },
+    {
+      "doc": "ppat",
+      "page": 2,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 1,
+      "continued_from_same_fresh_run": true
+    },
+    {
+      "doc": "ppat",
+      "page": 3,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 1,
+      "continued_from_same_fresh_run": true
+    },
+    {
+      "doc": "ppat",
+      "page": 4,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 1
+    },
+    {
+      "doc": "ppat",
+      "page": 5,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 1
+    },
+    {
+      "doc": "ppat",
+      "page": 6,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 1
+    },
+    {
+      "doc": "ppat",
+      "page": 7,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 1
+    },
+    {
+      "doc": "ppat",
+      "page": 8,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 2
+    },
+    {
+      "doc": "ppat",
+      "page": 9,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 2
+    },
+    {
+      "doc": "ppat",
+      "page": 10,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 2
+    },
+    {
+      "doc": "ppat",
+      "page": 11,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 1
+    },
+    {
+      "doc": "ppat",
+      "page": 12,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 1
+    },
+    {
+      "doc": "2504",
+      "page": 1,
+      "decision": "blocked",
+      "passed": false,
+      "error": "ValueError: measured paragraph missing: DLP00001-F0",
+      "api_calls": 0
+    },
+    {
+      "doc": "2504",
+      "page": 2,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 0
+    },
+    {
+      "doc": "2504",
+      "page": 3,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 0
+    },
+    {
+      "doc": "2504",
+      "page": 4,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 0
+    },
+    {
+      "doc": "2504",
+      "page": 5,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 0
+    },
+    {
+      "doc": "2504",
+      "page": 6,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 0
+    },
+    {
+      "doc": "2504",
+      "page": 7,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 0
+    },
+    {
+      "doc": "2504",
+      "page": 8,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 0
+    },
+    {
+      "doc": "2504",
+      "page": 9,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 0
+    },
+    {
+      "doc": "2504",
+      "page": 10,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 0
+    },
+    {
+      "doc": "2504",
+      "page": 11,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 0
+    },
+    {
+      "doc": "2504",
+      "page": 12,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 1
+    },
+    {
+      "doc": "2504",
+      "page": 13,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 0
+    },
+    {
+      "doc": "2504",
+      "page": 14,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 0
+    },
+    {
+      "doc": "2504",
+      "page": 15,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 0
+    },
+    {
+      "doc": "2504",
+      "page": 16,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 0
+    },
+    {
+      "doc": "2504",
+      "page": 17,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 0
+    },
+    {
+      "doc": "2504",
+      "page": 18,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 0
+    },
+    {
+      "doc": "2504",
+      "page": 19,
+      "decision": "blocked",
+      "passed": false,
+      "error": null,
+      "api_calls": 0
+    }
+  ],
+  "merged_documents": {
+    "ppat": {
+      "created": true,
+      "path": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_documents\\PPAT_fresh_zh_visual.pdf",
+      "page_count": 13,
+      "sha256": "2c95f98eb7c8820d5af8f33e89b897d2b269a90dfcdb1f784e42e839b3a5fc3b",
+      "source_page_pdf_count": 12
+    },
+    "2504": {
+      "created": true,
+      "path": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_documents\\2504_fresh_zh_visual.pdf",
+      "page_count": 19,
+      "sha256": "8f65ab2cbc1b8e4af34abe4d3c1304fde3e10af7cdadc2a87f9920714df1c3fe",
+      "source_page_pdf_count": 19
+    }
+  },
+  "visual_page_count": 31,
+  "render_failure_count": 2,
+  "old_html_or_final_pdf_reused": false,
+  "translation_cache_reused": true
+}

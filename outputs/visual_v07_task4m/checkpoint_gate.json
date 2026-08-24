@@ -1,0 +1,3092 @@
+{
+  "schema_version": "visual_v07.task4m.checkpoint.v1",
+  "decision": "blocked",
+  "metrics": {
+    "ppat_source_page_count": 12,
+    "ppat_final_page_count": 13,
+    "2504_source_page_count": 19,
+    "2504_final_page_count": 19,
+    "audited_physical_page_count": 32,
+    "unexpected_extra_page_count": 1,
+    "missing_physical_page_count": 0,
+    "math_atom_loss_count": 45,
+    "math_atom_duplicate_count": 0,
+    "math_atom_order_error_count": 0,
+    "superscript_structure_loss_count": 9,
+    "subscript_structure_loss_count": 10,
+    "final_pdf_atom_loss_count": 1,
+    "final_pdf_atom_order_error_count": 0,
+    "math_fixture_failure_count": 0,
+    "dom_height_stale_count": 0,
+    "ink_outside_measurement_count": 0,
+    "final_block_collision_count": 6,
+    "figure_internal_soft_text_owner_count": 0,
+    "figure_internal_duplicate_render_count": 39,
+    "source_span_multi_primary_owner_count": 0,
+    "erroneous_figure_internal_slot_count": 6,
+    "first_line_indent_missing_count": 0,
+    "first_line_indent_wrong_count": 0,
+    "slot_geometry_mutation_count": 0,
+    "untranslated_required_table_cell_count": 14,
+    "table_cell_overflow_count": 0,
+    "p013_structure_failure_count": 0,
+    "hard_anchor_moved_count": 0,
+    "production_special_case_count": 0,
+    "source_chain_hard_defect_count": 57,
+    "visual_render_failure_count": 2,
+    "all_hard_defect_count": 299
+  },
+  "required_zero_metrics": [
+    "unexpected_extra_page_count",
+    "missing_physical_page_count",
+    "math_atom_loss_count",
+    "math_atom_duplicate_count",
+    "math_atom_order_error_count",
+    "superscript_structure_loss_count",
+    "subscript_structure_loss_count",
+    "final_pdf_atom_loss_count",
+    "final_pdf_atom_order_error_count",
+    "math_fixture_failure_count",
+    "dom_height_stale_count",
+    "ink_outside_measurement_count",
+    "final_block_collision_count",
+    "figure_internal_soft_text_owner_count",
+    "figure_internal_duplicate_render_count",
+    "source_span_multi_primary_owner_count",
+    "erroneous_figure_internal_slot_count",
+    "first_line_indent_missing_count",
+    "first_line_indent_wrong_count",
+    "slot_geometry_mutation_count",
+    "untranslated_required_table_cell_count",
+    "table_cell_overflow_count",
+    "p013_structure_failure_count",
+    "hard_anchor_moved_count",
+    "production_special_case_count",
+    "source_chain_hard_defect_count",
+    "visual_render_failure_count",
+    "all_hard_defect_count"
+  ],
+  "failures_by_page": [
+    {
+      "document": "ppat",
+      "page": 5,
+      "stage": "fresh_source_chain",
+      "defect_type": "page_assertion_false",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "page-level assertions failed",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 5,
+      "stage": "fresh_source_chain",
+      "defect_type": "physical_assertion_failure",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "blank=0 clipped=0 renderer_failures=0",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 5,
+      "stage": "fresh_source_chain",
+      "defect_type": "physical_page_mismatch",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "physical=2 expected=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 5,
+      "stage": "fresh_source_chain",
+      "defect_type": "overflow",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "overflow=1 bottom_overflow=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 5,
+      "stage": "fresh_source_chain",
+      "defect_type": "dom_render_failure",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "owned_unrendered=2 region_no_dom=0 dom_no_ink=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 5,
+      "stage": "fresh_source_chain",
+      "defect_type": "blank_formula",
+      "value": 1,
+      "root_cause_category": "MATH_FORMULA",
+      "detail": "blank=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 5,
+      "stage": "fresh_source_chain",
+      "defect_type": "render_collision",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "text_formula=0 text_table=0 text_figure=0 formula_formula=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 5,
+      "stage": "fresh_source_chain",
+      "defect_type": "visual_hard_gate_failure",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "blocked_layers=physical_pdf,render_collision,semantic",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 6,
+      "stage": "fresh_source_chain",
+      "defect_type": "page_assertion_false",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "page-level assertions failed",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 6,
+      "stage": "fresh_source_chain",
+      "defect_type": "physical_assertion_failure",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "blank=1 clipped=0 renderer_failures=0",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 6,
+      "stage": "fresh_source_chain",
+      "defect_type": "physical_page_mismatch",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "physical=2 expected=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 6,
+      "stage": "fresh_source_chain",
+      "defect_type": "overflow",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "overflow=1 bottom_overflow=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 6,
+      "stage": "fresh_source_chain",
+      "defect_type": "dom_render_failure",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "owned_unrendered=1 region_no_dom=0 dom_no_ink=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 6,
+      "stage": "fresh_source_chain",
+      "defect_type": "blank_formula",
+      "value": 1,
+      "root_cause_category": "MATH_FORMULA",
+      "detail": "blank=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 6,
+      "stage": "fresh_source_chain",
+      "defect_type": "render_collision",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "text_formula=0 text_table=0 text_figure=0 formula_formula=0",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 6,
+      "stage": "fresh_source_chain",
+      "defect_type": "grid_layout_failure",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "gutter=0 overlap=None outside=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 1,
+      "stage": "fresh_source_chain",
+      "defect_type": "page_assertion_false",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "page-level assertions failed",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 1,
+      "stage": "fresh_source_chain",
+      "defect_type": "dom_render_failure",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "owned_unrendered=35 region_no_dom=5 dom_no_ink=0",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 1,
+      "stage": "fresh_source_chain",
+      "defect_type": "formula_exclusivity_failure",
+      "value": 1,
+      "root_cause_category": "MATH_FORMULA",
+      "detail": "duplicate=0 residue=3 foreign_text=0",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 1,
+      "stage": "fresh_source_chain",
+      "defect_type": "residual_language",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "body=0 heading=0 short_tokens=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 1,
+      "stage": "fresh_source_chain",
+      "defect_type": "render_collision",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "text_formula=7 text_table=0 text_figure=0 formula_formula=0",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 1,
+      "stage": "fresh_source_chain",
+      "defect_type": "visual_hard_gate_failure",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "blocked_layers=formula_exclusivity,render_collision,residual_language,semantic",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 2,
+      "stage": "fresh_source_chain",
+      "defect_type": "page_assertion_false",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "page-level assertions failed",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 2,
+      "stage": "fresh_source_chain",
+      "defect_type": "overflow",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "overflow=1 bottom_overflow=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 2,
+      "stage": "fresh_source_chain",
+      "defect_type": "formula_exclusivity_failure",
+      "value": 1,
+      "root_cause_category": "MATH_FORMULA",
+      "detail": "duplicate=0 residue=0 foreign_text=4",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 2,
+      "stage": "fresh_source_chain",
+      "defect_type": "render_collision",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "text_formula=7 text_table=0 text_figure=42 formula_formula=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 2,
+      "stage": "fresh_source_chain",
+      "defect_type": "visual_hard_gate_failure",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "blocked_layers=formula_exclusivity,render_collision,semantic",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 10,
+      "stage": "fresh_source_chain",
+      "defect_type": "page_assertion_false",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "page-level assertions failed",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 10,
+      "stage": "fresh_source_chain",
+      "defect_type": "paragraph_structural_pollution",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "violations=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 10,
+      "stage": "fresh_source_chain",
+      "defect_type": "residual_language",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "body=1 heading=0 short_tokens=0",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 10,
+      "stage": "fresh_source_chain",
+      "defect_type": "render_collision",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "text_formula=0 text_table=0 text_figure=0 formula_formula=0",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 10,
+      "stage": "fresh_source_chain",
+      "defect_type": "visual_hard_gate_failure",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "blocked_layers=paragraph_structural,render_collision,residual_language,semantic",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "fresh_source_chain",
+      "defect_type": "page_assertion_false",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "page-level assertions failed",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "fresh_source_chain",
+      "defect_type": "overflow",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "overflow=1 bottom_overflow=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "fresh_source_chain",
+      "defect_type": "render_collision",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "text_formula=0 text_table=19 text_figure=0 formula_formula=0",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "fresh_source_chain",
+      "defect_type": "visual_hard_gate_failure",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "blocked_layers=post_obstacle_grid,render_collision,semantic",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 4,
+      "stage": "fresh_source_chain",
+      "defect_type": "page_assertion_false",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "page-level assertions failed",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 4,
+      "stage": "fresh_source_chain",
+      "defect_type": "paragraph_structural_pollution",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "violations=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 4,
+      "stage": "fresh_source_chain",
+      "defect_type": "render_collision",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "text_formula=8 text_table=0 text_figure=0 formula_formula=0",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 4,
+      "stage": "fresh_source_chain",
+      "defect_type": "grid_layout_failure",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "gutter=1 overlap=None outside=15",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 11,
+      "stage": "fresh_source_chain",
+      "defect_type": "page_assertion_false",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "page-level assertions failed",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 11,
+      "stage": "fresh_source_chain",
+      "defect_type": "formula_exclusivity_failure",
+      "value": 1,
+      "root_cause_category": "MATH_FORMULA",
+      "detail": "duplicate=0 residue=0 foreign_text=8",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 11,
+      "stage": "fresh_source_chain",
+      "defect_type": "render_collision",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "text_formula=17 text_table=0 text_figure=0 formula_formula=0",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 11,
+      "stage": "fresh_source_chain",
+      "defect_type": "visual_hard_gate_failure",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "blocked_layers=formula_exclusivity,render_collision,semantic",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 3,
+      "stage": "fresh_source_chain",
+      "defect_type": "page_assertion_false",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "page-level assertions failed",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 3,
+      "stage": "fresh_source_chain",
+      "defect_type": "visual_hard_gate_failure",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "blocked_layers=semantic",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 7,
+      "stage": "fresh_source_chain",
+      "defect_type": "page_assertion_false",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "page-level assertions failed",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 7,
+      "stage": "fresh_source_chain",
+      "defect_type": "visual_hard_gate_failure",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "blocked_layers=semantic",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 8,
+      "stage": "fresh_source_chain",
+      "defect_type": "page_assertion_false",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "page-level assertions failed",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 8,
+      "stage": "fresh_source_chain",
+      "defect_type": "visual_hard_gate_failure",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "blocked_layers=semantic",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 12,
+      "stage": "fresh_source_chain",
+      "defect_type": "page_assertion_false",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "page-level assertions failed",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": 12,
+      "stage": "fresh_source_chain",
+      "defect_type": "visual_hard_gate_failure",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "blocked_layers=semantic",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "ppat",
+      "page": null,
+      "stage": "fresh_source_chain",
+      "defect_type": "source_chain_delivery_gate",
+      "value": 1,
+      "root_cause_category": "SOURCE_CHAIN_GATE",
+      "detail": "blocked layers: semantic_qa, structural_paragraph_qa, translation_qa, dom_qa, physical_pdf_qa, formula_exclusivity_qa, residual_language_qa, rendered_collision_qa, qa_execution_incomplete",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\delivery_gate.json"
+    },
+    {
+      "document": "2504",
+      "page": 16,
+      "stage": "fresh_source_chain",
+      "defect_type": "render_collision",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "text_formula=0 text_table=1 text_figure=0 formula_formula=0",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\2504_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "2504",
+      "page": 16,
+      "stage": "fresh_source_chain",
+      "defect_type": "visual_hard_gate_failure",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "blocked_layers=render_collision",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\2504_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "2504",
+      "page": 10,
+      "stage": "fresh_source_chain",
+      "defect_type": "grid_layout_failure",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "gutter=1 overlap=None outside=0",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\2504_source_chain\\defect_pages.json"
+    },
+    {
+      "document": "2504",
+      "page": null,
+      "stage": "fresh_source_chain",
+      "defect_type": "source_chain_delivery_gate",
+      "value": 1,
+      "root_cause_category": "SOURCE_CHAIN_GATE",
+      "detail": "blocked layers: rendered_collision_qa",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\2504_source_chain\\delivery_gate.json"
+    },
+    {
+      "document": "ppat",
+      "page": 1,
+      "stage": "fresh_visual_render",
+      "defect_type": "visual_render_failure",
+      "value": 1,
+      "root_cause_category": "SOURCE_TEXT_SLOT_MEASUREMENT_MAPPING",
+      "detail": "ValueError: measured paragraph missing: DLP00002-F0",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p001\\task4m_render_failure.json"
+    },
+    {
+      "document": "2504",
+      "page": 1,
+      "stage": "fresh_visual_render",
+      "defect_type": "visual_render_failure",
+      "value": 1,
+      "root_cause_category": "SOURCE_TEXT_SLOT_MEASUREMENT_MAPPING",
+      "detail": "ValueError: measured paragraph missing: DLP00001-F0",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p001\\task4m_render_failure.json"
+    },
+    {
+      "document": "ppat",
+      "page": 1,
+      "stage": "fresh_visual_artifact",
+      "defect_type": "missing_fresh_page_artifact",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "visual page QA/HTML/PDF/model missing",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p001"
+    },
+    {
+      "document": "ppat",
+      "page": 2,
+      "stage": "visual_hard_gate",
+      "defect_type": "heading_target_missing_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "heading_target_missing_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p002\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "translatable_target_missing_count",
+      "value": 4,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "translatable_target_missing_count=4",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "severe_soft_soft_collision_count",
+      "value": 30,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "severe_soft_soft_collision_count=30",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "duplicate_baseline_cluster_count",
+      "value": 2,
+      "root_cause_category": "OTHER",
+      "detail": "duplicate_baseline_cluster_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "missing_render_count",
+      "value": 4,
+      "root_cause_category": "OTHER",
+      "detail": "missing_render_count=4",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "translatable_source_residual_fragment_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "translatable_source_residual_fragment_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "translatable_source_residual_char_count",
+      "value": 54,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "translatable_source_residual_char_count=54",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "translatable_source_residual_sentence_count",
+      "value": 2,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "translatable_source_residual_sentence_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "role_target_missing_count",
+      "value": 7,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "role_target_missing_count=7",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "heading_target_missing_count",
+      "value": 5,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "heading_target_missing_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "final_block_collision_count",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "final_block_collision_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "heading_body_collision_count",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "heading_body_collision_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "reading_order_overlap_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "reading_order_overlap_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "browser_measured_repack_unresolved_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "browser_measured_repack_unresolved_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "source_prose_vector_still_rendered_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "source_prose_vector_still_rendered_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "anchor_invasion_count",
+      "value": 2,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "anchor_invasion_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 4,
+      "stage": "visual_hard_gate",
+      "defect_type": "translatable_target_missing_count",
+      "value": 3,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "translatable_target_missing_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p004\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 4,
+      "stage": "visual_hard_gate",
+      "defect_type": "missing_render_count",
+      "value": 3,
+      "root_cause_category": "OTHER",
+      "detail": "missing_render_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p004\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 4,
+      "stage": "visual_hard_gate",
+      "defect_type": "final_block_collision_count",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "final_block_collision_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p004\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 4,
+      "stage": "visual_hard_gate",
+      "defect_type": "heading_body_collision_count",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "heading_body_collision_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p004\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 4,
+      "stage": "visual_hard_gate",
+      "defect_type": "reading_order_overlap_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "reading_order_overlap_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p004\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 4,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 5,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p004\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 4,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 5,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p004\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 4,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 5,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p004\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 4,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 5,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p004\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 4,
+      "stage": "visual_hard_gate",
+      "defect_type": "browser_measured_repack_unresolved_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "browser_measured_repack_unresolved_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p004\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 4,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 6,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=6",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p004\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 4,
+      "stage": "math_atom_qa",
+      "defect_type": "final_pdf_atom_loss_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "final_pdf_atom_loss_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p004\\task4m_math_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 4,
+      "stage": "source_ownership_qa",
+      "defect_type": "figure_internal_duplicate_render_count",
+      "value": 39,
+      "root_cause_category": "SOURCE_OWNERSHIP",
+      "detail": "figure_internal_duplicate_render_count=39",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p004\\task4m_source_ownership_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 4,
+      "stage": "source_ownership_qa",
+      "defect_type": "erroneous_figure_internal_slot_count",
+      "value": 4,
+      "root_cause_category": "SOURCE_OWNERSHIP",
+      "detail": "erroneous_figure_internal_slot_count=4",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p004\\task4m_source_ownership_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 5,
+      "stage": "visual_hard_gate",
+      "defect_type": "translatable_target_missing_count",
+      "value": 7,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "translatable_target_missing_count=7",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p005\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 5,
+      "stage": "visual_hard_gate",
+      "defect_type": "missing_render_count",
+      "value": 7,
+      "root_cause_category": "OTHER",
+      "detail": "missing_render_count=7",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p005\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 5,
+      "stage": "visual_hard_gate",
+      "defect_type": "heading_target_missing_count",
+      "value": 2,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "heading_target_missing_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p005\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 5,
+      "stage": "visual_hard_gate",
+      "defect_type": "final_block_collision_count",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "final_block_collision_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p005\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 5,
+      "stage": "visual_hard_gate",
+      "defect_type": "heading_body_collision_count",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "heading_body_collision_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p005\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 5,
+      "stage": "visual_hard_gate",
+      "defect_type": "reading_order_overlap_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "reading_order_overlap_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p005\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 5,
+      "stage": "visual_hard_gate",
+      "defect_type": "browser_measured_repack_unresolved_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "browser_measured_repack_unresolved_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p005\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 5,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p005\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 6,
+      "stage": "visual_hard_gate",
+      "defect_type": "translatable_target_missing_count",
+      "value": 2,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "translatable_target_missing_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p006\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 6,
+      "stage": "visual_hard_gate",
+      "defect_type": "missing_render_count",
+      "value": 2,
+      "root_cause_category": "OTHER",
+      "detail": "missing_render_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p006\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 6,
+      "stage": "visual_hard_gate",
+      "defect_type": "heading_target_missing_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "heading_target_missing_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p006\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 7,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 2,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p007\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 7,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 2,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p007\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 7,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 2,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p007\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 7,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 2,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p007\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 7,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 2,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p007\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 8,
+      "stage": "visual_hard_gate",
+      "defect_type": "role_target_missing_count",
+      "value": 2,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "role_target_missing_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p008\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 8,
+      "stage": "visual_hard_gate",
+      "defect_type": "heading_target_missing_count",
+      "value": 2,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "heading_target_missing_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p008\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 8,
+      "stage": "visual_hard_gate",
+      "defect_type": "short_translatable_source_residual_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "short_translatable_source_residual_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p008\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 8,
+      "stage": "visual_hard_gate",
+      "defect_type": "heading_short_residual_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "heading_short_residual_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p008\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 8,
+      "stage": "visual_hard_gate",
+      "defect_type": "untranslated_required_table_cell_count",
+      "value": 1,
+      "root_cause_category": "TABLE",
+      "detail": "untranslated_required_table_cell_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p008\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 8,
+      "stage": "visual_hard_gate",
+      "defect_type": "table_cell_target_missing_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "table_cell_target_missing_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p008\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 8,
+      "stage": "visual_hard_gate",
+      "defect_type": "table_cell_source_residual_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "table_cell_source_residual_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p008\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 8,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 2,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p008\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 8,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 2,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p008\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 8,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 2,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p008\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 8,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 2,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p008\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 8,
+      "stage": "visual_hard_gate",
+      "defect_type": "anchor_invasion_count",
+      "value": 3,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "anchor_invasion_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p008\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 8,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 4,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=4",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p008\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 8,
+      "stage": "visual_hard_gate",
+      "defect_type": "group_target_drop_count",
+      "value": 2,
+      "root_cause_category": "OTHER",
+      "detail": "group_target_drop_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p008\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "translatable_target_missing_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "translatable_target_missing_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "translatable_source_residual_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "translatable_source_residual_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "translatable_source_residual_fragment_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "translatable_source_residual_fragment_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "translatable_source_residual_char_count",
+      "value": 169,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "translatable_source_residual_char_count=169",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "translatable_source_residual_sentence_count",
+      "value": 2,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "translatable_source_residual_sentence_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "formula_adjacent_target_missing_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "formula_adjacent_target_missing_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "role_target_missing_count",
+      "value": 6,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "role_target_missing_count=6",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "short_translatable_source_residual_count",
+      "value": 3,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "short_translatable_source_residual_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "standalone_short_residual_count",
+      "value": 3,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "standalone_short_residual_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "formula_context_short_residual_count",
+      "value": 3,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "formula_context_short_residual_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "untranslated_required_table_cell_count",
+      "value": 1,
+      "root_cause_category": "TABLE",
+      "detail": "untranslated_required_table_cell_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "table_cell_target_missing_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "table_cell_target_missing_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "table_cell_source_residual_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "table_cell_source_residual_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 1,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 1,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 1,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "source_prose_vector_still_rendered_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "source_prose_vector_still_rendered_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 2,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "group_target_drop_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "group_target_drop_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 10,
+      "stage": "visual_hard_gate",
+      "defect_type": "role_target_missing_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "role_target_missing_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p010\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 10,
+      "stage": "visual_hard_gate",
+      "defect_type": "untranslated_required_table_cell_count",
+      "value": 6,
+      "root_cause_category": "TABLE",
+      "detail": "untranslated_required_table_cell_count=6",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p010\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 10,
+      "stage": "visual_hard_gate",
+      "defect_type": "table_cell_target_missing_count",
+      "value": 6,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "table_cell_target_missing_count=6",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p010\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 10,
+      "stage": "visual_hard_gate",
+      "defect_type": "table_cell_source_residual_count",
+      "value": 6,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "table_cell_source_residual_count=6",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p010\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 10,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 2,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p010\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 10,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 2,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p010\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 10,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 2,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p010\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 10,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 2,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p010\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 10,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 3,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p010\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 10,
+      "stage": "visual_hard_gate",
+      "defect_type": "group_target_drop_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "group_target_drop_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p010\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 10,
+      "stage": "source_ownership_qa",
+      "defect_type": "erroneous_figure_internal_slot_count",
+      "value": 2,
+      "root_cause_category": "SOURCE_OWNERSHIP",
+      "detail": "erroneous_figure_internal_slot_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p010\\task4m_source_ownership_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "translatable_target_missing_count",
+      "value": 2,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "translatable_target_missing_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "translatable_source_residual_count",
+      "value": 2,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "translatable_source_residual_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "severe_soft_soft_collision_count",
+      "value": 31,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "severe_soft_soft_collision_count=31",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "duplicate_baseline_cluster_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "duplicate_baseline_cluster_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "wrong_region_render_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "wrong_region_render_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "translatable_source_residual_fragment_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "translatable_source_residual_fragment_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "translatable_source_residual_char_count",
+      "value": 69,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "translatable_source_residual_char_count=69",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "translatable_source_residual_sentence_count",
+      "value": 2,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "translatable_source_residual_sentence_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "formula_adjacent_target_missing_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "formula_adjacent_target_missing_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "role_target_missing_count",
+      "value": 18,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "role_target_missing_count=18",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "heading_target_missing_count",
+      "value": 2,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "heading_target_missing_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "short_translatable_source_residual_count",
+      "value": 13,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "short_translatable_source_residual_count=13",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "standalone_short_residual_count",
+      "value": 13,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "standalone_short_residual_count=13",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "formula_context_short_residual_count",
+      "value": 13,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "formula_context_short_residual_count=13",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "source_prose_vector_still_rendered_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "source_prose_vector_still_rendered_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 12,
+      "stage": "visual_hard_gate",
+      "defect_type": "severe_soft_soft_collision_count",
+      "value": 47,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "severe_soft_soft_collision_count=47",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p012\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 12,
+      "stage": "visual_hard_gate",
+      "defect_type": "duplicate_baseline_cluster_count",
+      "value": 2,
+      "root_cause_category": "OTHER",
+      "detail": "duplicate_baseline_cluster_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p012\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": 12,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexpected_extra_page_count",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "unexpected_extra_page_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p012\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 1,
+      "stage": "fresh_visual_artifact",
+      "defect_type": "missing_fresh_page_artifact",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "visual page QA/HTML/PDF/model missing",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p001"
+    },
+    {
+      "document": "2504",
+      "page": 2,
+      "stage": "visual_hard_gate",
+      "defect_type": "role_target_missing_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "role_target_missing_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p002\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 2,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 1,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p002\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 2,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p002\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 2,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 1,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p002\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 2,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 1,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p002\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 2,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p002\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 3,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 3,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 3,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 3,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 3,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 3,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p003\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 3,
+      "stage": "math_atom_qa",
+      "defect_type": "math_atom_loss_count",
+      "value": 6,
+      "root_cause_category": "MATH_FORMULA",
+      "detail": "math_atom_loss_count=6",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p003\\task4m_math_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 3,
+      "stage": "math_atom_qa",
+      "defect_type": "subscript_structure_loss_count",
+      "value": 1,
+      "root_cause_category": "MATH_FORMULA",
+      "detail": "subscript_structure_loss_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p003\\task4m_math_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 3,
+      "stage": "math_atom_qa",
+      "defect_type": "inline_math_target_missing_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "inline_math_target_missing_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p003\\task4m_math_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 4,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 2,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p004\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 4,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 2,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p004\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 4,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 2,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p004\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 4,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 2,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p004\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 4,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 2,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p004\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 4,
+      "stage": "math_atom_qa",
+      "defect_type": "math_atom_loss_count",
+      "value": 5,
+      "root_cause_category": "MATH_FORMULA",
+      "detail": "math_atom_loss_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p004\\task4m_math_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 4,
+      "stage": "math_atom_qa",
+      "defect_type": "superscript_structure_loss_count",
+      "value": 1,
+      "root_cause_category": "MATH_FORMULA",
+      "detail": "superscript_structure_loss_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p004\\task4m_math_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 4,
+      "stage": "math_atom_qa",
+      "defect_type": "subscript_structure_loss_count",
+      "value": 1,
+      "root_cause_category": "MATH_FORMULA",
+      "detail": "subscript_structure_loss_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p004\\task4m_math_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 4,
+      "stage": "math_atom_qa",
+      "defect_type": "inline_math_target_missing_count",
+      "value": 2,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "inline_math_target_missing_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p004\\task4m_math_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 5,
+      "stage": "visual_hard_gate",
+      "defect_type": "role_target_missing_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "role_target_missing_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p005\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 5,
+      "stage": "visual_hard_gate",
+      "defect_type": "math_token_order_inversion_count",
+      "value": 1,
+      "root_cause_category": "MATH_FORMULA",
+      "detail": "math_token_order_inversion_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p005\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 5,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 5,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p005\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 5,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 5,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p005\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 5,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 5,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p005\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 5,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 5,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p005\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 5,
+      "stage": "visual_hard_gate",
+      "defect_type": "anchor_invasion_count",
+      "value": 1,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "anchor_invasion_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p005\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 5,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 5,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p005\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 5,
+      "stage": "math_atom_qa",
+      "defect_type": "math_atom_loss_count",
+      "value": 29,
+      "root_cause_category": "MATH_FORMULA",
+      "detail": "math_atom_loss_count=29",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p005\\task4m_math_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 5,
+      "stage": "math_atom_qa",
+      "defect_type": "superscript_structure_loss_count",
+      "value": 8,
+      "root_cause_category": "MATH_FORMULA",
+      "detail": "superscript_structure_loss_count=8",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p005\\task4m_math_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 5,
+      "stage": "math_atom_qa",
+      "defect_type": "subscript_structure_loss_count",
+      "value": 6,
+      "root_cause_category": "MATH_FORMULA",
+      "detail": "subscript_structure_loss_count=6",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p005\\task4m_math_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 5,
+      "stage": "math_atom_qa",
+      "defect_type": "inline_math_target_missing_count",
+      "value": 4,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "inline_math_target_missing_count=4",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p005\\task4m_math_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 6,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 2,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p006\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 6,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 2,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p006\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 6,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 2,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p006\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 6,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 2,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p006\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 6,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 2,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p006\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 7,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 4,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=4",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p007\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 7,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 4,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=4",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p007\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 7,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 4,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=4",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p007\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 7,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 4,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=4",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p007\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 7,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 4,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=4",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p007\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 8,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 2,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p008\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 8,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 2,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p008\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 8,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 2,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p008\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 8,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 2,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p008\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 8,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 2,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p008\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 3,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 3,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 3,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 3,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "gutter_intrusion_count",
+      "value": 11,
+      "root_cause_category": "OTHER",
+      "detail": "gutter_intrusion_count=11",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 9,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 3,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p009\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 10,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 1,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p010\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 10,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p010\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 10,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 1,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p010\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 10,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 1,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p010\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 10,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p010\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "math_base_symbol_loss_count",
+      "value": 6,
+      "root_cause_category": "MATH_FORMULA",
+      "detail": "math_base_symbol_loss_count=6",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 8,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=8",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 8,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=8",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 8,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=8",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 9,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=9",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 11,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 8,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=8",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p011\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 12,
+      "stage": "visual_hard_gate",
+      "defect_type": "untranslated_required_table_cell_count",
+      "value": 4,
+      "root_cause_category": "TABLE",
+      "detail": "untranslated_required_table_cell_count=4",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p012\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 12,
+      "stage": "visual_hard_gate",
+      "defect_type": "table_cell_target_missing_count",
+      "value": 3,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "table_cell_target_missing_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p012\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 12,
+      "stage": "visual_hard_gate",
+      "defect_type": "table_cell_source_residual_count",
+      "value": 3,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "table_cell_source_residual_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p012\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 12,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 5,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p012\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 12,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 5,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p012\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 12,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 5,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p012\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 12,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 5,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p012\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 12,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 5,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p012\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 13,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 2,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p013\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 13,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 2,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p013\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 13,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 2,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p013\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 13,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 7,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=7",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p013\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 13,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 2,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p013\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 14,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 7,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=7",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p014\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 14,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 7,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=7",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p014\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 14,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 7,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=7",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p014\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 14,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 7,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=7",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p014\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 14,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 7,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=7",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p014\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 14,
+      "stage": "math_atom_qa",
+      "defect_type": "math_atom_loss_count",
+      "value": 3,
+      "root_cause_category": "MATH_FORMULA",
+      "detail": "math_atom_loss_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p014\\task4m_math_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 14,
+      "stage": "math_atom_qa",
+      "defect_type": "subscript_structure_loss_count",
+      "value": 1,
+      "root_cause_category": "MATH_FORMULA",
+      "detail": "subscript_structure_loss_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p014\\task4m_math_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 14,
+      "stage": "math_atom_qa",
+      "defect_type": "inline_math_target_missing_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "inline_math_target_missing_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p014\\task4m_math_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 15,
+      "stage": "visual_hard_gate",
+      "defect_type": "translatable_target_duplicate_count",
+      "value": 3,
+      "root_cause_category": "TABLE",
+      "detail": "translatable_target_duplicate_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p015\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 15,
+      "stage": "visual_hard_gate",
+      "defect_type": "severe_soft_soft_collision_count",
+      "value": 4,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "severe_soft_soft_collision_count=4",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p015\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 15,
+      "stage": "visual_hard_gate",
+      "defect_type": "duplicate_baseline_cluster_count",
+      "value": 4,
+      "root_cause_category": "OTHER",
+      "detail": "duplicate_baseline_cluster_count=4",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p015\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 15,
+      "stage": "visual_hard_gate",
+      "defect_type": "duplicate_render_count",
+      "value": 3,
+      "root_cause_category": "SOURCE_OWNERSHIP",
+      "detail": "duplicate_render_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p015\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 15,
+      "stage": "visual_hard_gate",
+      "defect_type": "untranslated_required_table_cell_count",
+      "value": 2,
+      "root_cause_category": "TABLE",
+      "detail": "untranslated_required_table_cell_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p015\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 15,
+      "stage": "visual_hard_gate",
+      "defect_type": "table_cell_wrong_owner_count",
+      "value": 2,
+      "root_cause_category": "TABLE",
+      "detail": "table_cell_wrong_owner_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p015\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 15,
+      "stage": "visual_hard_gate",
+      "defect_type": "final_block_collision_count",
+      "value": 3,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "final_block_collision_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p015\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 15,
+      "stage": "visual_hard_gate",
+      "defect_type": "reading_order_overlap_count",
+      "value": 3,
+      "root_cause_category": "OTHER",
+      "detail": "reading_order_overlap_count=3",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p015\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 15,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 2,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p015\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 15,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 2,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p015\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 15,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 2,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p015\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 15,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 2,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p015\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 15,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_mapping_ambiguous_count",
+      "value": 5,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_mapping_ambiguous_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p015\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 15,
+      "stage": "visual_hard_gate",
+      "defect_type": "browser_measured_repack_unresolved_count",
+      "value": 2,
+      "root_cause_category": "OTHER",
+      "detail": "browser_measured_repack_unresolved_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p015\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 15,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 4,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=4",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p015\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 15,
+      "stage": "math_atom_qa",
+      "defect_type": "math_atom_loss_count",
+      "value": 2,
+      "root_cause_category": "MATH_FORMULA",
+      "detail": "math_atom_loss_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p015\\task4m_math_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 15,
+      "stage": "math_atom_qa",
+      "defect_type": "subscript_structure_loss_count",
+      "value": 1,
+      "root_cause_category": "MATH_FORMULA",
+      "detail": "subscript_structure_loss_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p015\\task4m_math_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 15,
+      "stage": "math_atom_qa",
+      "defect_type": "inline_math_target_missing_count",
+      "value": 1,
+      "root_cause_category": "TRANSLATION_CLOSURE",
+      "detail": "inline_math_target_missing_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p015\\task4m_math_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 16,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 5,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p016\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 16,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 5,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p016\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 16,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 5,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p016\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 16,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 5,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p016\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 16,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 5,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=5",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p016\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 17,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 1,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p017\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 17,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p017\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 17,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 1,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p017\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 17,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 1,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p017\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 17,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p017\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 18,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 1,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p018\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 18,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 1,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p018\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 18,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 1,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p018\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 18,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 1,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p018\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 18,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 1,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=1",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p018\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 19,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_outside_slot_count",
+      "value": 2,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "geometry_locked_outside_slot_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p019\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 19,
+      "stage": "visual_hard_gate",
+      "defect_type": "geometry_locked_overflow_count",
+      "value": 2,
+      "root_cause_category": "MEASUREMENT_COLLISION",
+      "detail": "geometry_locked_overflow_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p019\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 19,
+      "stage": "visual_hard_gate",
+      "defect_type": "slot_capacity_unresolved_count",
+      "value": 2,
+      "root_cause_category": "SOURCE_TEXT_SLOT_TYPOGRAPHY",
+      "detail": "slot_capacity_unresolved_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p019\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 19,
+      "stage": "visual_hard_gate",
+      "defect_type": "unexplained_geometry_mutation_count",
+      "value": 2,
+      "root_cause_category": "HARD_ANCHOR",
+      "detail": "unexplained_geometry_mutation_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p019\\visual_page_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": 19,
+      "stage": "visual_hard_gate",
+      "defect_type": "capacity_unresolved_count",
+      "value": 2,
+      "root_cause_category": "OTHER",
+      "detail": "capacity_unresolved_count=2",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p019\\visual_page_qa.json"
+    },
+    {
+      "document": "ppat",
+      "page": null,
+      "stage": "full_document_physical_pdf_qa",
+      "defect_type": "physical_pdf_qa_failure",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "full-document Physical PDF QA blocked",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\ppat_fresh_physical_pdf_qa.json"
+    },
+    {
+      "document": "2504",
+      "page": null,
+      "stage": "full_document_physical_pdf_qa",
+      "defect_type": "physical_pdf_qa_failure",
+      "value": 1,
+      "root_cause_category": "PHYSICAL_PDF",
+      "detail": "full-document Physical PDF QA blocked",
+      "evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\2504_fresh_physical_pdf_qa.json"
+    }
+  ],
+  "review_bundle": {
+    "schema_version": "visual_v07.task4m.review_index.v1",
+    "decision": "blocked",
+    "flat_bundle": true,
+    "source_renderer": "Poppler pdftoppm 72 DPI",
+    "files": [
+      {
+        "name": "2504_full_19_pages_contact_sheet.png",
+        "sha256": "7a7e6840f8ff887bc5bba8073a6d3b5f1d2e22b2456e73eda0a21b5c815a3255"
+      },
+      {
+        "name": "2504_source_target_contact_sheet.png",
+        "sha256": "6565eb442dd9550cdabb02e131c5569218740efd70e86206b3c7bfc9811a10ff"
+      },
+      {
+        "name": "PPAT_full_12_pages_contact_sheet.png",
+        "sha256": "416b07a2aa16b993cbb661f43694a526505427517d354eccd49e604083ed175c"
+      },
+      {
+        "name": "PPAT_source_target_contact_sheet.png",
+        "sha256": "d204afe5b9fe7b0d07d5d0347c4ed2fad02bcfa572d1447ee31b276c8ed4ca18"
+      },
+      {
+        "name": "regression_summary.png",
+        "sha256": "0d7c641244ae9e78ff9da706664b2ca850fb3193e501afb24e44999b41a8d712"
+      }
+    ]
+  },
+  "production_files_modified": false,
+  "tag_created": false,
+  "commit_message": "test(visual): fresh full document regression"
+}
