@@ -1,0 +1,101 @@
+{
+  "schema_version": "fast.v01.existing_bottleneck_ranking.v1",
+  "decision": "pass",
+  "source_artifact_root": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m",
+  "analysis_constraints": {
+    "fresh_run_performed": false,
+    "chromium_invoked": false,
+    "poppler_invoked": false,
+    "translation_api_invoked": false,
+    "qa_rerun": false,
+    "png_or_contact_sheet_generated": false
+  },
+  "production_compute": {
+    "effective_visual_render_seconds": 4145.535,
+    "effective_visual_render_human": "1h09m06s",
+    "effective_source_chain_seconds": 1222.021,
+    "effective_source_chain_human": "20m22s",
+    "qa_accumulated_seconds": 1862.239,
+    "qa_accumulated_human": "31m02s",
+    "five_minute_target_seconds": 300,
+    "visual_plus_source_seconds": 5367.556,
+    "visual_plus_source_over_target_seconds": 5067.556
+  },
+  "qa_breakdown": {
+    "source_chain_qa_closure_seconds": 892.365,
+    "visual_hard_gate_seconds": 432.161,
+    "first_full_audit_seconds": 255.977,
+    "duplicate_full_audit_seconds": 281.736
+  },
+  "non_production_compute": {
+    "interruption_idle": {
+      "seconds": 5923.908,
+      "last_completed_timestamp": "2026-08-24T18:01:05.115",
+      "resume_timestamp": "2026-08-24T19:39:49.023",
+      "classification": "non_production_interruption_idle"
+    },
+    "invalid_interpreter_run": {
+      "seconds": 869.093,
+      "start_timestamp": "2026-08-24T17:12:22.872",
+      "finish_timestamp": "2026-08-24T17:26:51.965",
+      "classification": "non_production_invalid_interpreter_run"
+    },
+    "duplicate_full_audit": {
+      "seconds": 281.736,
+      "human": "4m42s",
+      "classification": "non_production_duplicate_diagnostic_run"
+    }
+  },
+  "source_chain_documents": {
+    "ppat": {
+      "root": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain",
+      "start_timestamp": "2026-08-24T17:27:46.163",
+      "finish_timestamp": "2026-08-24T17:42:28.538",
+      "finish_evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\phase4c1a_qa_report.json",
+      "seconds": 882.375
+    },
+    "2504": {
+      "root": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\2504_source_chain",
+      "start_timestamp": "2026-08-24T17:43:26.974",
+      "finish_timestamp": "2026-08-24T17:49:06.620",
+      "finish_evidence": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\2504_source_chain\\phase4c1a_qa_report.json",
+      "seconds": 339.646
+    }
+  },
+  "visual_render_evidence": {
+    "pre_interruption_completed_seconds": 344.548,
+    "resumed_render_seconds": 3800.987,
+    "effective_seconds": 4145.535,
+    "evidence": [
+      "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_render.json",
+      "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_fragment_closure_qa.json",
+      "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p003\\visual_page_qa.json"
+    ]
+  },
+  "translation_cache": {
+    "cache_hit": 960,
+    "cache_miss": 0,
+    "actual_new_translation_call_count": 0
+  },
+  "production_bottleneck_ranking": [
+    {
+      "rank": 1,
+      "component": "effective_visual_render",
+      "seconds": 4145.535,
+      "human": "1h09m06s"
+    },
+    {
+      "rank": 2,
+      "component": "qa_accumulated",
+      "seconds": 1862.239,
+      "human": "31m02s",
+      "note": "overlaps source/visual production windows; not additive to visual_plus_source"
+    },
+    {
+      "rank": 3,
+      "component": "effective_source_chain",
+      "seconds": 1222.021,
+      "human": "20m22s"
+    }
+  ]
+}

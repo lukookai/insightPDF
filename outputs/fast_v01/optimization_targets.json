@@ -1,0 +1,48 @@
+{
+  "schema_version": "fast.v01.optimization_targets.v1",
+  "target_total_seconds": 300.0,
+  "baseline_visual_plus_source_seconds": 5367.556,
+  "required_reduction_seconds": 5067.556,
+  "targets": [
+    {
+      "priority": "P0",
+      "name": "Typography Fit/Fill multi-round trial render",
+      "evidence": "Slow pages carry dozens of explicit _local_typography_*trial HTML/Chromium measurement artifacts; PPAT p011 also carries ten trial PDFs and alone spans about 8m16s.",
+      "why_blocks_five_minutes": "A single page can exceed the entire 300-second document budget because every trial launches measurement/render work before the final page is accepted.",
+      "first_measure": "Collapse/strictly bound trial count while preserving the current visual policy; implementation deferred."
+    },
+    {
+      "priority": "P1",
+      "name": "Per-page Chromium/PDF print lifecycle",
+      "evidence": "The frozen renderer prints each page independently and reprints the same zh_visual.pdf after lock/fill/fit.",
+      "why_blocks_five_minutes": "Twelve or nineteen independent browser/print lifecycles consume most of the effective 69m06s visual window; the five-minute target permits only seconds per page.",
+      "first_measure": "Reduce print lifecycle cardinality/batch document work; implementation deferred."
+    },
+    {
+      "priority": "P2",
+      "name": "Repeated production-path QA, PDF reopen, rasterize",
+      "evidence": "Accumulated QA closure is 31m02s, including repeated source/final PDF inspection; the full audit was also duplicated once.",
+      "why_blocks_five_minutes": "The verifier reopens/rasterizes artifacts already measured during production, so validation approaches or exceeds the complete target budget.",
+      "first_measure": "Reuse a production render ledger and separate fast gate from asynchronous full regression; implementation deferred."
+    }
+  ],
+  "excluded_non_production_time": {
+    "interruption_idle": {
+      "seconds": 5923.908,
+      "last_completed_timestamp": "2026-08-24T18:01:05.115",
+      "resume_timestamp": "2026-08-24T19:39:49.023",
+      "classification": "non_production_interruption_idle"
+    },
+    "invalid_interpreter_run": {
+      "seconds": 869.093,
+      "start_timestamp": "2026-08-24T17:12:22.872",
+      "finish_timestamp": "2026-08-24T17:26:51.965",
+      "classification": "non_production_invalid_interpreter_run"
+    },
+    "duplicate_full_audit": {
+      "seconds": 281.736,
+      "human": "4m42s",
+      "classification": "non_production_duplicate_diagnostic_run"
+    }
+  }
+}
