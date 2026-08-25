@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""run_visual_v06_checkpoint -- visual-v06 all-role + short-residual + math-token closure.
+"""Visual renderer with FAST and explicit deep-QA modes.
 
-Pipeline per page (identical to visual-v05, plus three new closure QAs):
+Default production path per page:
 
     source page model
     -> prose-adopted formula recovery (translates swallowed prose via the
@@ -10,6 +10,10 @@ Pipeline per page (identical to visual-v05, plus three new closure QAs):
        formulas excluded from formula rendering)
     -> build_unified_html (+RenderIdentity data-render-source)
     -> Chromium PDF
+    -> FAST_GATE (PageModel + RenderLedger + one PDF structure open)
+
+Explicit ``--qa-mode release|debug|regression`` continues with:
+
     -> 4 final-render-truth + visual v01/v02/v03 QAs
     -> 4 visual-v05 QAs (residual / semantic-structure / formula-adjacent /
        glyph)
@@ -21,6 +25,7 @@ Fixtures (unchanged): 2504 p001/003/006/013/014/016 + PPAT p004/005/006.
 Usage:
     python -m tools.page_pipeline.run_visual_v06_checkpoint
     python -m tools.page_pipeline.run_visual_v06_checkpoint --only ppat:5
+    python -m tools.page_pipeline.run_visual_v06_checkpoint --qa-mode release
 """
 
 from __future__ import annotations
@@ -117,7 +122,10 @@ def build_document_partition(doc_key, pages):
 
 
 def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
-                       dry_run=False, table_cache_paths=None):
+                       dry_run=False, table_cache_paths=None,
+                       qa_mode="fast"):
+    from production_fast_gate import normalize_qa_mode
+    qa_mode = normalize_qa_mode(qa_mode)
     info = DOCS[doc_key]
     pdf_path = info["pdf"]
     src_dir = info["src"] / "pages" / ("p%03d" % page)
@@ -263,7 +271,9 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
             _build_html, out_dir / "_typography_fast_path") as fast_session:
         initial_snapshot = fast_session.capture_dom(
             flows, capture_name="source_slot_baseline",
-            screenshot_path=out_dir / "final_block_collision_initial.png")
+            screenshot_path=(
+                None if qa_mode == "fast"
+                else out_dir / "final_block_collision_initial.png"))
         initial_collision_qa = final_block_collision_qa_from_snapshot(
             model, snapshot=initial_snapshot)
 
@@ -321,9 +331,12 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
             reason="final_delivery_after_dom_fit_fill")
         final_snapshot = fast_session.capture_dom(
             capture_name="final_delivery_render_ledger",
-            screenshot_path=out_dir / "typography_fast_path_final.png")
+            screenshot_path=(
+                None if qa_mode == "fast"
+                else out_dir / "typography_fast_path_final.png"))
         final_collision_qa = final_block_collision_qa_from_snapshot(
-            model, snapshot=final_snapshot, final_pdf_path=pdf_path_out)
+            model, snapshot=final_snapshot,
+            final_pdf_path=(None if qa_mode == "fast" else pdf_path_out))
         typography_fast_path = write_fast_trace(
             out_dir / "typography_fast_path.json", fast_session,
             source_text_slot_lock, local_typography_fill)
@@ -354,6 +367,80 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
             "collision_count": int(final_collision_qa["metrics"][
                 "final_block_collision_count"]),
         })
+
+    # ---- fast-v04: production FAST_GATE, no deep QA hot path ------------
+    if qa_mode == "fast":
+        from production_fast_gate import run_fast_gate
+        fast_gate = run_fast_gate(
+            model, final_pdf_path=pdf_path_out,
+            render_ledger={
+                "blocks": final_collision_qa.get("blocks") or [],
+                "hard": final_snapshot.get("hard") or [],
+                "metrics": final_collision_qa.get("metrics") or {},
+            },
+            source_text_slot_lock=source_text_slot_lock,
+            render_metadata=typography_fast_path,
+            flows=flows, expected_physical_page_count=1)
+        render_ms = int((time.time() - t0) * 1000)
+        fast_hard = dict(fast_gate["metrics"])
+        fast_hard.update({
+            "render_failure_count": int(
+                not fast_gate["checks"]["render_success"]),
+            "physical_page_count_invalid_count": int(
+                not fast_gate["checks"]["physical_page_count_valid"]),
+            "fast_gate_time_excess_count": int(
+                float(fast_gate["performance"]["fast_gate_time"]) > 2.0),
+            "unnecessary_pdf_reopen_count": int(
+                fast_gate["performance"]["unnecessary_pdf_reopen_count"]),
+            "rasterize_count": int(
+                fast_gate["performance"]["rasterize_count"]),
+        })
+        table_structure = []
+        for table_region in model.get("regions") or []:
+            if table_region.get("type") != "table":
+                continue
+            table = table_region.get("payload") or {}
+            table_structure.append({
+                "table_id": table_region.get("region_id"),
+                "row_count": len(table.get("rows") or []),
+                "col_count": len(table.get("columns") or []),
+                "cell_count": len(table.get("cells") or []),
+            })
+        _dump(out_dir / "source_text_slots.json", source_text_slots)
+        _dump(out_dir / "source_text_slot_lock.json", source_text_slot_lock)
+        _dump(out_dir / "fast_gate.json", fast_gate)
+        passed = fast_gate["decision"] == "pass"
+        bundle = {
+            "page": page, "doc": doc_key, "qa_mode": qa_mode,
+            "passed": passed,
+            "decision": "pass" if passed else "blocked",
+            "hard_metrics": fast_hard,
+            "fast_gate": fast_gate,
+            "deep_qa": {
+                "executed": False,
+                "explicit_modes": ["release", "debug", "regression"],
+                "skipped_count": fast_gate["performance"][
+                    "heavy_qa_skipped_count"],
+                "skipped_categories": fast_gate["heavy_qa_skipped"],
+            },
+            "production_special_case_count": 0,
+            "prose_recovery": recovery.get("trace", {}),
+            "api_calls": (api_calls
+                          + table_translation["table_translation_api_calls"]),
+            "prose_translation_api_calls": api_calls,
+            "table_translation": table_translation,
+            "table_structure": table_structure,
+            "source_text_slots": source_text_slots,
+            "source_text_slot_lock": source_text_slot_lock,
+            "typography_fast_path": typography_fast_path,
+            "final_block_collision_qa": final_collision_qa,
+            "unresolved": unresolved,
+            "render_ms": render_ms,
+            "outputs": {"html": str(html_path.relative_to(OUT)),
+                        "pdf": str(pdf_path_out.relative_to(OUT))},
+        }
+        _dump(out_dir / "visual_page_qa.json", bundle)
+        return bundle
 
     from source_text_slot_lock_qa import source_text_slot_lock_qa
     source_text_slot_lock_audit = source_text_slot_lock_qa(
@@ -635,7 +722,8 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
                  if k not in ("final_visible_translation_coverage",
                               "translation_pipeline_coverage"))
     bundle = {
-        "page": page, "doc": doc_key, "passed": passed,
+        "page": page, "doc": doc_key, "qa_mode": qa_mode,
+        "passed": passed,
         "decision": "pass" if passed else "blocked",
         "hard_metrics": hard,
         "final_render_truth": truth,
@@ -672,6 +760,7 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         "render_ms": render_ms,
         "visual_v05": v05,
         "visual_v06": v06,
+        "deep_qa": {"executed": True, "explicit_mode": qa_mode},
         "outputs": {"html": str(html_path.relative_to(OUT)),
                     "pdf": str(pdf_path_out.relative_to(OUT))},
     }
@@ -685,6 +774,10 @@ def main():
     ap.add_argument("--only", default=None)
     ap.add_argument("--dry-run", action="store_true",
                     help="skip API calls (recovered prose stays source)")
+    ap.add_argument(
+        "--qa-mode", choices=("fast", "release", "debug", "regression"),
+        default="fast",
+        help="fast runs only FAST_GATE; other modes run the existing deep QA")
     args = ap.parse_args()
 
     if args.only:
@@ -723,7 +816,8 @@ def main():
         try:
             r = render_visual_page(dkey, pg, pdir,
                                    fragment_targets=doc_partitions.get(dkey),
-                                   dry_run=args.dry_run)
+                                   dry_run=args.dry_run,
+                                   qa_mode=args.qa_mode)
             r["fragment_closure"] = {
                 "multi_fragment_partitions":
                     sum(1 for qa in doc_closure.get(dkey, {}).values()

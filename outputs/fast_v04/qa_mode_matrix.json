@@ -1,0 +1,102 @@
+{
+  "schema_version": "fast.v04.qa_mode_matrix.v1",
+  "default_qa_mode": "fast",
+  "available_qa_modes": [
+    "fast",
+    "release",
+    "debug",
+    "regression"
+  ],
+  "modes": [
+    {
+      "qa_mode": "fast",
+      "default_on_fast_branch": true,
+      "runs_fast_gate": true,
+      "runs_existing_deep_qa": false,
+      "blocks_delivery_with": "FAST_GATE",
+      "heavy_qa_skipped_count": 8,
+      "heavy_qa_categories": [
+        "full_math_provenance_audit",
+        "source_protected_html_pdf_chain_audit",
+        "full_figure_ownership_audit",
+        "painted_ink_deep_audit",
+        "full_raster_visual_qa",
+        "contact_sheet",
+        "review_bundle",
+        "full_document_regression"
+      ],
+      "requires_explicit_selection": false
+    },
+    {
+      "qa_mode": "release",
+      "default_on_fast_branch": false,
+      "runs_fast_gate": false,
+      "runs_existing_deep_qa": true,
+      "blocks_delivery_with": "existing full QA gate",
+      "heavy_qa_skipped_count": 0,
+      "heavy_qa_categories": [],
+      "requires_explicit_selection": true
+    },
+    {
+      "qa_mode": "debug",
+      "default_on_fast_branch": false,
+      "runs_fast_gate": false,
+      "runs_existing_deep_qa": true,
+      "blocks_delivery_with": "existing full QA gate",
+      "heavy_qa_skipped_count": 0,
+      "heavy_qa_categories": [],
+      "requires_explicit_selection": true
+    },
+    {
+      "qa_mode": "regression",
+      "default_on_fast_branch": false,
+      "runs_fast_gate": false,
+      "runs_existing_deep_qa": true,
+      "blocks_delivery_with": "existing full QA gate",
+      "heavy_qa_skipped_count": 0,
+      "heavy_qa_categories": [],
+      "requires_explicit_selection": true
+    }
+  ],
+  "old_qa_preserved": true,
+  "fast_gate_checks": [
+    "render_success",
+    "physical_page_count_valid",
+    "required_translation_missing_count",
+    "required_table_cell_missing_count",
+    "source_span_multi_primary_owner_count",
+    "obvious_block_collision_count",
+    "obvious_overflow_count",
+    "hard_anchor_missing_count",
+    "invalid_bbox_count"
+  ],
+  "existing_deep_qa_calls_preserved": [
+    "SourceTextSlotLockQA",
+    "TypographyFillQA",
+    "LocalTypographyFitQA",
+    "SourceParagraphStyleQA",
+    "VisualAnchorIntegrityQA",
+    "FixedCanvasTextRegionQA",
+    "VisualPageExpansionQA",
+    "SourceInkGeometryQA",
+    "SourceVisualGroupQA",
+    "SourceTargetTopologyQA",
+    "VisualExecutionIntegrityQA",
+    "FinalRenderTruthQA",
+    "ResidualProseTruthQA",
+    "SemanticStructureClosureQA",
+    "FormulaAdjacentProseQA",
+    "GlyphTokenIntegrityQA",
+    "SemanticRoleTranslationQA",
+    "ShortFragmentResidualQA",
+    "MathTokenSequenceQA",
+    "TableCellTranslationQA"
+  ],
+  "routing": {
+    "fast": "early return after FAST_GATE",
+    "release": "existing deep QA chain",
+    "debug": "existing deep QA chain",
+    "regression": "existing deep QA chain"
+  },
+  "cli": "--qa-mode {fast,release,debug,regression}"
+}

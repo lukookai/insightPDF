@@ -1,0 +1,51 @@
+{
+  "schema_version": "fast.v04.performance_comparison.v1",
+  "decision": "pass",
+  "existing_artifact_baseline": {
+    "qa_accumulated_seconds": 1862.239,
+    "qa_accumulated_human": "31m02s",
+    "source": "E:\\Code\\fanyi\\outputs\\fast_v01\\bottleneck_ranking.json"
+  },
+  "fast_gate_pages": [
+    {
+      "page_key": "ppat_p011",
+      "fast_gate_time": 0.001344,
+      "heavy_qa_skipped_count": 8,
+      "pdf_reopen_count": 1,
+      "unnecessary_pdf_reopen_count": 0,
+      "rasterize_count": 0,
+      "chromium_launch_count": 0,
+      "overlay_generation_count": 0,
+      "under_two_second_target": true
+    },
+    {
+      "page_key": "2504_p011",
+      "fast_gate_time": 0.001111,
+      "heavy_qa_skipped_count": 8,
+      "pdf_reopen_count": 1,
+      "unnecessary_pdf_reopen_count": 0,
+      "rasterize_count": 0,
+      "chromium_launch_count": 0,
+      "overlay_generation_count": 0,
+      "under_two_second_target": true
+    },
+    {
+      "page_key": "2504_p005",
+      "fast_gate_time": 0.000944,
+      "heavy_qa_skipped_count": 8,
+      "pdf_reopen_count": 1,
+      "unnecessary_pdf_reopen_count": 0,
+      "rasterize_count": 0,
+      "chromium_launch_count": 0,
+      "overlay_generation_count": 0,
+      "under_two_second_target": true
+    }
+  ],
+  "aggregate": {
+    "fast_gate_time_total": 0.003399,
+    "fast_gate_time_max": 0.001344,
+    "heavy_qa_skipped_count_per_page": 8,
+    "unnecessary_pdf_reopen_count": 0,
+    "rasterize_count": 0
+  }
+}

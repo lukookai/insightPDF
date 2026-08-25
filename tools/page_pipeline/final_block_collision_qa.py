@@ -39,10 +39,9 @@ def _union(boxes: list[list[float]]) -> list[float] | None:
             round(max(box[3] for box in boxes), 3)]
 
 
-def capture_dom_from_page(page: Any, screenshot_path: str | Path) -> dict:
+def capture_dom_from_page(
+        page: Any, screenshot_path: str | Path | None = None) -> dict:
     """Capture the collision ledger from an already-loaded Chromium page."""
-    screenshot_path = Path(screenshot_path).resolve()
-    screenshot_path.parent.mkdir(parents=True, exist_ok=True)
     result = page.evaluate(r"""() => {
           const rr = r => ({x:r.x,y:r.y,width:r.width,height:r.height,
                             right:r.right,bottom:r.bottom});
@@ -126,16 +125,27 @@ def capture_dom_from_page(page: Any, screenshot_path: str | Path) -> dict:
           }
           const hard=[];
           for(const el of document.querySelectorAll(
-              '.formula-seg,.figure-region,.translated-cell')){
-            hard.push({kind:el.className||el.tagName,rect:rr(el.getBoundingClientRect())});
+              '.formula-seg,.figure-region,.figure-img,.translated-cell')){
+            hard.push({kind:el.className||el.tagName,
+              formula_id:el.dataset.formula||'',
+              segment_id:el.dataset.segment||'',
+              figure_id:el.dataset.figure||'',
+              region_id:el.dataset.region||'',
+              cell_id:el.dataset.cellId||el.dataset.cell||'',
+              rect:rr(el.getBoundingClientRect())});
           }
           return {body:rr(document.body.getBoundingClientRect()),blocks,hard};
         }""")
-    body = result["body"]
-    page.screenshot(path=str(screenshot_path), clip={
-        "x": 0, "y": 0, "width": body["width"],
-        "height": body["height"]})
-    result["screenshot"] = str(screenshot_path)
+    if screenshot_path is not None:
+        target = Path(screenshot_path).resolve()
+        target.parent.mkdir(parents=True, exist_ok=True)
+        body = result["body"]
+        page.screenshot(path=str(target), clip={
+            "x": 0, "y": 0, "width": body["width"],
+            "height": body["height"]})
+        result["screenshot"] = str(target)
+    else:
+        result["screenshot"] = None
     return result
 
 

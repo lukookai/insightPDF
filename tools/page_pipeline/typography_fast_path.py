@@ -147,7 +147,7 @@ class TypographyBatchSession:
         return target
 
     def capture_dom(self, state: Any | None = None, *, capture_name: str,
-                    screenshot_path: str | Path,
+                    screenshot_path: str | Path | None = None,
                     html_path: str | Path | None = None) -> dict[str, Any]:
         """Capture a RenderLedger from this page; never emits a PDF."""
         if state is not None:
@@ -163,9 +163,11 @@ class TypographyBatchSession:
         self.dom_captures.append({
             "capture_name": capture_name,
             "html_path": str(self._current_html_path),
-            "screenshot_path": str(Path(screenshot_path).resolve()),
+            "screenshot_path": (str(Path(screenshot_path).resolve())
+                                if screenshot_path is not None else None),
             "reason": "in_memory_dom_render_ledger",
             "pdf_printed": False,
+            "rasterized": screenshot_path is not None,
         })
         return snapshot
 

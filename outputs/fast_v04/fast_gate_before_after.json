@@ -1,0 +1,288 @@
+{
+  "schema_version": "fast.v04.fast_gate_before_after.v1",
+  "decision": "pass",
+  "source_revision": "c3f44662d53f2627908b5266316575b48c63bd24",
+  "before": {
+    "default_post_render_qa": "unconditional existing deep QA chain",
+    "deep_qa_call_count": 20,
+    "heavy_qa_category_count": 8,
+    "deep_qa_calls": [
+      "SourceTextSlotLockQA",
+      "TypographyFillQA",
+      "LocalTypographyFitQA",
+      "SourceParagraphStyleQA",
+      "VisualAnchorIntegrityQA",
+      "FixedCanvasTextRegionQA",
+      "VisualPageExpansionQA",
+      "SourceInkGeometryQA",
+      "SourceVisualGroupQA",
+      "SourceTargetTopologyQA",
+      "VisualExecutionIntegrityQA",
+      "FinalRenderTruthQA",
+      "ResidualProseTruthQA",
+      "SemanticStructureClosureQA",
+      "FormulaAdjacentProseQA",
+      "GlyphTokenIntegrityQA",
+      "SemanticRoleTranslationQA",
+      "ShortFragmentResidualQA",
+      "MathTokenSequenceQA",
+      "TableCellTranslationQA"
+    ]
+  },
+  "after": {
+    "default_qa_mode": "fast",
+    "post_render_qa": "FAST_GATE only",
+    "deep_qa_calls_in_fast_hot_path": 0,
+    "pages": [
+      {
+        "page_key": "ppat_p011",
+        "doc": "ppat",
+        "page": 11,
+        "decision": "pass",
+        "fast_gate": {
+          "schema_version": "fast.v04.production_fast_gate.v1",
+          "qa_mode": "fast",
+          "decision": "pass",
+          "checks": {
+            "render_success": true,
+            "physical_page_count_valid": true,
+            "required_translation_missing_count": true,
+            "required_table_cell_missing_count": true,
+            "source_span_multi_primary_owner_count": true,
+            "obvious_block_collision_count": true,
+            "obvious_overflow_count": true,
+            "hard_anchor_missing_count": true,
+            "invalid_bbox_count": true
+          },
+          "metrics": {
+            "required_translation_missing_count": 0,
+            "required_table_cell_missing_count": 0,
+            "source_span_multi_primary_owner_count": 0,
+            "obvious_block_collision_count": 0,
+            "obvious_overflow_count": 0,
+            "hard_anchor_missing_count": 0,
+            "invalid_bbox_count": 0
+          },
+          "details": {
+            "required_translation_missing": [],
+            "required_table_cell_missing": [],
+            "obvious_overflow": [],
+            "hard_anchor_missing": [],
+            "invalid_bbox": [],
+            "pdf_open_error": null
+          },
+          "performance": {
+            "fast_gate_time": 0.001344,
+            "heavy_qa_skipped_count": 8,
+            "pdf_reopen_count": 1,
+            "unnecessary_pdf_reopen_count": 0,
+            "rasterize_count": 0,
+            "chromium_launch_count": 0,
+            "overlay_generation_count": 0
+          },
+          "physical_page_count": 1,
+          "expected_physical_page_count": 1,
+          "heavy_qa_skipped": [
+            "full_math_provenance_audit",
+            "source_protected_html_pdf_chain_audit",
+            "full_figure_ownership_audit",
+            "painted_ink_deep_audit",
+            "full_raster_visual_qa",
+            "contact_sheet",
+            "review_bundle",
+            "full_document_regression"
+          ],
+          "evidence_policy": {
+            "page_model_reused": true,
+            "render_ledger_reused": true,
+            "final_render_metadata_reused": true,
+            "source_pdf_reparsed": false,
+            "math_atom_rebuilt": false,
+            "ownership_recomputed": false,
+            "full_page_rasterized": false
+          }
+        },
+        "correctness": {
+          "final_pdf_pixel_diff_count": 0,
+          "slot_geometry_mutation_count": 0,
+          "hard_anchor_moved_count": 0,
+          "production_special_case_count": 0,
+          "pixel_diff_evidence_reused": true,
+          "new_rasterization_performed": false
+        },
+        "input_artifacts": {
+          "page_model": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\ppat_source_chain\\pages\\p011\\stitched_page_model.json",
+          "render_ledger": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p011\\visual_page_qa.json",
+          "final_html_metadata": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p011\\zh_visual.html",
+          "final_pdf": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\ppat_p011\\zh_visual.pdf"
+        }
+      },
+      {
+        "page_key": "2504_p011",
+        "doc": "2504",
+        "page": 11,
+        "decision": "pass",
+        "fast_gate": {
+          "schema_version": "fast.v04.production_fast_gate.v1",
+          "qa_mode": "fast",
+          "decision": "pass",
+          "checks": {
+            "render_success": true,
+            "physical_page_count_valid": true,
+            "required_translation_missing_count": true,
+            "required_table_cell_missing_count": true,
+            "source_span_multi_primary_owner_count": true,
+            "obvious_block_collision_count": true,
+            "obvious_overflow_count": true,
+            "hard_anchor_missing_count": true,
+            "invalid_bbox_count": true
+          },
+          "metrics": {
+            "required_translation_missing_count": 0,
+            "required_table_cell_missing_count": 0,
+            "source_span_multi_primary_owner_count": 0,
+            "obvious_block_collision_count": 0,
+            "obvious_overflow_count": 0,
+            "hard_anchor_missing_count": 0,
+            "invalid_bbox_count": 0
+          },
+          "details": {
+            "required_translation_missing": [],
+            "required_table_cell_missing": [],
+            "obvious_overflow": [],
+            "hard_anchor_missing": [],
+            "invalid_bbox": [],
+            "pdf_open_error": null
+          },
+          "performance": {
+            "fast_gate_time": 0.001111,
+            "heavy_qa_skipped_count": 8,
+            "pdf_reopen_count": 1,
+            "unnecessary_pdf_reopen_count": 0,
+            "rasterize_count": 0,
+            "chromium_launch_count": 0,
+            "overlay_generation_count": 0
+          },
+          "physical_page_count": 1,
+          "expected_physical_page_count": 1,
+          "heavy_qa_skipped": [
+            "full_math_provenance_audit",
+            "source_protected_html_pdf_chain_audit",
+            "full_figure_ownership_audit",
+            "painted_ink_deep_audit",
+            "full_raster_visual_qa",
+            "contact_sheet",
+            "review_bundle",
+            "full_document_regression"
+          ],
+          "evidence_policy": {
+            "page_model_reused": true,
+            "render_ledger_reused": true,
+            "final_render_metadata_reused": true,
+            "source_pdf_reparsed": false,
+            "math_atom_rebuilt": false,
+            "ownership_recomputed": false,
+            "full_page_rasterized": false
+          }
+        },
+        "correctness": {
+          "final_pdf_pixel_diff_count": 0,
+          "slot_geometry_mutation_count": 0,
+          "hard_anchor_moved_count": 0,
+          "production_special_case_count": 0,
+          "pixel_diff_evidence_reused": true,
+          "new_rasterization_performed": false
+        },
+        "input_artifacts": {
+          "page_model": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\2504_source_chain\\pages\\p011\\stitched_page_model.json",
+          "render_ledger": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p011\\visual_page_qa.json",
+          "final_html_metadata": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p011\\zh_visual.html",
+          "final_pdf": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p011\\zh_visual.pdf"
+        }
+      },
+      {
+        "page_key": "2504_p005",
+        "doc": "2504",
+        "page": 5,
+        "decision": "pass",
+        "fast_gate": {
+          "schema_version": "fast.v04.production_fast_gate.v1",
+          "qa_mode": "fast",
+          "decision": "pass",
+          "checks": {
+            "render_success": true,
+            "physical_page_count_valid": true,
+            "required_translation_missing_count": true,
+            "required_table_cell_missing_count": true,
+            "source_span_multi_primary_owner_count": true,
+            "obvious_block_collision_count": true,
+            "obvious_overflow_count": true,
+            "hard_anchor_missing_count": true,
+            "invalid_bbox_count": true
+          },
+          "metrics": {
+            "required_translation_missing_count": 0,
+            "required_table_cell_missing_count": 0,
+            "source_span_multi_primary_owner_count": 0,
+            "obvious_block_collision_count": 0,
+            "obvious_overflow_count": 0,
+            "hard_anchor_missing_count": 0,
+            "invalid_bbox_count": 0
+          },
+          "details": {
+            "required_translation_missing": [],
+            "required_table_cell_missing": [],
+            "obvious_overflow": [],
+            "hard_anchor_missing": [],
+            "invalid_bbox": [],
+            "pdf_open_error": null
+          },
+          "performance": {
+            "fast_gate_time": 0.000944,
+            "heavy_qa_skipped_count": 8,
+            "pdf_reopen_count": 1,
+            "unnecessary_pdf_reopen_count": 0,
+            "rasterize_count": 0,
+            "chromium_launch_count": 0,
+            "overlay_generation_count": 0
+          },
+          "physical_page_count": 1,
+          "expected_physical_page_count": 1,
+          "heavy_qa_skipped": [
+            "full_math_provenance_audit",
+            "source_protected_html_pdf_chain_audit",
+            "full_figure_ownership_audit",
+            "painted_ink_deep_audit",
+            "full_raster_visual_qa",
+            "contact_sheet",
+            "review_bundle",
+            "full_document_regression"
+          ],
+          "evidence_policy": {
+            "page_model_reused": true,
+            "render_ledger_reused": true,
+            "final_render_metadata_reused": true,
+            "source_pdf_reparsed": false,
+            "math_atom_rebuilt": false,
+            "ownership_recomputed": false,
+            "full_page_rasterized": false
+          }
+        },
+        "correctness": {
+          "final_pdf_pixel_diff_count": 0,
+          "slot_geometry_mutation_count": 0,
+          "hard_anchor_moved_count": 0,
+          "production_special_case_count": 0,
+          "pixel_diff_evidence_reused": true,
+          "new_rasterization_performed": false
+        },
+        "input_artifacts": {
+          "page_model": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_runs_v2\\2504_source_chain\\pages\\p005\\stitched_page_model.json",
+          "render_ledger": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p005\\visual_page_qa.json",
+          "final_html_metadata": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p005\\zh_visual.html",
+          "final_pdf": "E:\\Code\\fanyi\\outputs\\visual_v07_task4m\\fresh_visual_pages\\2504_p005\\zh_visual.pdf"
+        }
+      }
+    ]
+  }
+}
