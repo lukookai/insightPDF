@@ -36,7 +36,6 @@ REPO = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(REPO / "tools" / "page_pipeline"))
 sys.path.insert(0, str(REPO / "实现源码" / "pdf_translator"))
 
-from _chromium_pdf import render_html_to_pdf  # noqa: E402
 from front_matter import classify_front_matter  # noqa: E402
 from typography import build_typography  # noqa: E402
 from html_render import build_unified_html  # noqa: E402
@@ -234,52 +233,22 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
             prose_excluded_segments=(
                 recovery.get("prose_excluded_segments") or {}))
 
-    html = _build_html(flows)
     html_path = out_dir / "zh_visual.html"
     pdf_path_out = out_dir / "zh_visual.pdf"
-    html_path.write_text(html, encoding="utf-8")
-    render_html_to_pdf(html_path, pdf_path_out)
-
-    # ---- visual-v07 task 3: local typography fit, then Task 2 fallback ---
-    from final_block_collision_qa import final_block_collision_qa
-    initial_collision_qa = final_block_collision_qa(
-        model, html_path=html_path, final_pdf_path=pdf_path_out,
-        screenshot_path=out_dir / "final_block_collision_initial.png")
-    final_collision_qa = initial_collision_qa
-
-    # ---- visual-v07 task 4B: source-slot geometry, then slot-local fit ---
-    # The initial Chromium capture is only mapping/baseline provenance.  A
-    # unique high-confidence soft block is moved back to its SourceTextSlot,
-    # receives source-equivalent L0 typography, and exhausts L0-L4 inside
-    # that immutable envelope before any legacy fallback is considered.
+    # ---- fast-v03: one browser from baseline DOM through final print -----
+    # Source-slot provenance, Fit/Fill, and collision prechecks consume the
+    # live DOM/RenderLedger.  No intermediate PDF exists; the same Chromium
+    # page prints the final delivery once and supplies the final DOM snapshot.
+    from final_block_collision_qa import (
+        final_block_collision_qa_from_snapshot,
+    )
     from source_text_slot import build_source_text_slots
-    source_text_slots = build_source_text_slots(
-        model, visual_groups=visual_groups,
-        layout_baseline_blocks=initial_collision_qa["blocks"],
-        recovered_blocks=recovery.get("recovered") or [],
-        layout_grid=grid)
     from source_text_slot_lock import apply_geometry_locks_to_flows
-    flows, source_text_slot_lock = apply_geometry_locks_to_flows(
-        flows, source_text_slots)
-
-    # ---- visual-v07 task 4D: source-relative paragraph indent -----------
-    # This runs only after SourceTextSlot ownership is frozen and before Fit
-    # / Fill.  It adds paragraph-content markup; geometry remains immutable.
     from source_paragraph_style_qa import (
         detect_source_first_line_indent_candidates,
         extract_source_page_lines,
     )
-    source_paragraph_style_candidates = (
-        detect_source_first_line_indent_candidates(
-            extract_source_page_lines(pdf_path, page_idx)))
     from source_paragraph_style import apply_source_paragraph_styles_to_flows
-    flows, source_paragraph_style = apply_source_paragraph_styles_to_flows(
-        flows, model, source_text_slots, source_paragraph_style_candidates)
-
-    # ---- fast-v02: one browser, two DOM rounds, zero candidate PDFs -----
-    # Round 1 measures every Fit level for every locked block in one live
-    # DOM.  Round 2 validates those selections and batch-measures all Fill
-    # levels.  Only the resulting formal HTML is printed below.
     from typography_fast_path import (
         TypographyBatchSession,
         empty_prefill_collision_qa,
@@ -292,6 +261,30 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
 
     with TypographyBatchSession(
             _build_html, out_dir / "_typography_fast_path") as fast_session:
+        initial_snapshot = fast_session.capture_dom(
+            flows, capture_name="source_slot_baseline",
+            screenshot_path=out_dir / "final_block_collision_initial.png")
+        initial_collision_qa = final_block_collision_qa_from_snapshot(
+            model, snapshot=initial_snapshot)
+
+        # SourceTextSlot geometry still comes only from source-owned objects;
+        # the DOM ledger contributes mapping/baseline provenance, not geometry.
+        source_text_slots = build_source_text_slots(
+            model, visual_groups=visual_groups,
+            layout_baseline_blocks=initial_collision_qa["blocks"],
+            recovered_blocks=recovery.get("recovered") or [],
+            layout_grid=grid)
+        flows, source_text_slot_lock = apply_geometry_locks_to_flows(
+            flows, source_text_slots)
+
+        source_paragraph_style_candidates = (
+            detect_source_first_line_indent_candidates(
+                extract_source_page_lines(pdf_path, page_idx)))
+        flows, source_paragraph_style = (
+            apply_source_paragraph_styles_to_flows(
+                flows, model, source_text_slots,
+                source_paragraph_style_candidates))
+
         flows, source_text_slot_lock = fit_locked_flows_fast(
             flows, source_text_slot_lock, initial_collision_qa,
             fast_session)
@@ -322,16 +315,18 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         flows, local_typography_fill = fill_locked_flows_fast(
             flows, source_text_slot_lock,
             local_typography_fill_candidates, fast_session)
+
+        fast_session.print_pdf(
+            flows, pdf_path_out, html_path=html_path,
+            reason="final_delivery_after_dom_fit_fill")
+        final_snapshot = fast_session.capture_dom(
+            capture_name="final_delivery_render_ledger",
+            screenshot_path=out_dir / "typography_fast_path_final.png")
+        final_collision_qa = final_block_collision_qa_from_snapshot(
+            model, snapshot=final_snapshot, final_pdf_path=pdf_path_out)
         typography_fast_path = write_fast_trace(
             out_dir / "typography_fast_path.json", fast_session,
             source_text_slot_lock, local_typography_fill)
-
-    html = _build_html(flows)
-    html_path.write_text(html, encoding="utf-8")
-    render_html_to_pdf(html_path, pdf_path_out)
-    final_collision_qa = final_block_collision_qa(
-        model, html_path=html_path, final_pdf_path=pdf_path_out,
-        screenshot_path=out_dir / "typography_fast_path_final.png")
 
     local_typography_fit = {
         "schema_version": "visual_v07.local_typography_fit.v1",
@@ -591,6 +586,12 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
     hard["production_special_case_count"] = 0
     hard["typography_trial_pdf_print_count"] = int(
         typography_fast_path.get("typography_trial_pdf_print_count") or 0)
+    hard["intermediate_pdf_print_count"] = int(
+        typography_fast_path.get("intermediate_pdf_print_count") or 0)
+    hard["final_pdf_print_count_not_one"] = int(
+        int(typography_fast_path.get("final_pdf_print_count") or 0) != 1)
+    hard["total_pdf_print_count_gt2"] = int(
+        int(typography_fast_path.get("pdf_print_count") or 0) > 2)
     hard["typography_measurement_round_excess_count"] = max(
         0, int(typography_fast_path.get(
             "typography_measurement_round_count") or 0) - 2)

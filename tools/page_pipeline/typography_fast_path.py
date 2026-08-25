@@ -17,6 +17,7 @@ import copy
 import json
 from dataclasses import asdict
 from pathlib import Path
+import time
 from typing import Any, Callable
 
 from local_typography_fill import (
@@ -90,11 +91,19 @@ class TypographyBatchSession:
         self.measurement_round_count = 0
         self.browser_launch_count = 0
         self.typography_trial_pdf_print_count = 0
+        self.pdf_print_count = 0
+        self.intermediate_pdf_print_count = 0
+        self.final_pdf_print_count = 0
+        self.dom_load_count = 0
+        self.dom_capture_count = 0
         self.candidate_measurement_count = 0
         self._playwright = None
         self._browser = None
         self._page = None
+        self._current_html_path: Path | None = None
         self.rounds: list[dict[str, Any]] = []
+        self.pdf_prints: list[dict[str, Any]] = []
+        self.dom_captures: list[dict[str, Any]] = []
 
     def __enter__(self) -> "TypographyBatchSession":
         from playwright.sync_api import sync_playwright
@@ -115,22 +124,96 @@ class TypographyBatchSession:
         if self._playwright is not None:
             self._playwright.stop()
 
-    def measure(self, state: Any, requests: list[dict[str, Any]], *,
-                round_name: str) -> dict[str, dict[str, dict[str, Any]]]:
+    def _require_page(self) -> Any:
         if self._page is None:
             raise RuntimeError("TypographyBatchSession is not open")
+        return self._page
+
+    def load_state(self, state: Any, *, artifact_name: str,
+                   html_path: str | Path | None = None) -> Path:
+        """Load one state into the persistent page without printing a PDF."""
+        page = self._require_page()
+        target = (Path(html_path) if html_path is not None
+                  else self.work_dir / (artifact_name + ".html"))
+        target = target.resolve()
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(self.html_builder(state), encoding="utf-8")
+        page.goto(target.as_uri(), wait_until="networkidle")
+        page.evaluate("document.fonts && document.fonts.ready")
+        page.wait_for_function(
+            "Array.from(document.images).every(image => image.complete)")
+        self.dom_load_count += 1
+        self._current_html_path = target
+        return target
+
+    def capture_dom(self, state: Any | None = None, *, capture_name: str,
+                    screenshot_path: str | Path,
+                    html_path: str | Path | None = None) -> dict[str, Any]:
+        """Capture a RenderLedger from this page; never emits a PDF."""
+        if state is not None:
+            self.load_state(state, artifact_name=capture_name,
+                            html_path=html_path)
+        elif self._current_html_path is None:
+            raise RuntimeError("capture_dom requires a loaded state")
+        from final_block_collision_qa import capture_dom_from_page
+
+        snapshot = capture_dom_from_page(
+            self._require_page(), screenshot_path)
+        self.dom_capture_count += 1
+        self.dom_captures.append({
+            "capture_name": capture_name,
+            "html_path": str(self._current_html_path),
+            "screenshot_path": str(Path(screenshot_path).resolve()),
+            "reason": "in_memory_dom_render_ledger",
+            "pdf_printed": False,
+        })
+        return snapshot
+
+    def print_pdf(self, state: Any, pdf_path: str | Path, *,
+                  html_path: str | Path, reason: str = "final_delivery",
+                  bounded_correction: bool = False) -> dict[str, Any]:
+        """Print from this session, enforcing a two-print absolute ceiling."""
+        if self.pdf_print_count >= 2:
+            raise RuntimeError("bounded PDF print budget exceeded")
+        if bounded_correction and self.final_pdf_print_count == 0:
+            raise RuntimeError("bounded correction requires a first print")
+        if not bounded_correction and self.final_pdf_print_count:
+            raise RuntimeError("final delivery PDF was already printed")
+        loaded = self.load_state(
+            state, artifact_name="final_delivery", html_path=html_path)
+        target = Path(pdf_path).resolve()
+        target.parent.mkdir(parents=True, exist_ok=True)
+        started = time.perf_counter()
+        data = self._require_page().pdf(
+            print_background=True, prefer_css_page_size=True)
+        target.write_bytes(data)
+        elapsed = time.perf_counter() - started
+        self.pdf_print_count += 1
+        self.final_pdf_print_count += 1
+        event = {
+            "sequence": self.pdf_print_count,
+            "classification": ("bounded_formal_correction"
+                               if bounded_correction else "final_delivery"),
+            "reason": reason,
+            "html_path": str(loaded),
+            "pdf_path": str(target),
+            "elapsed_seconds": round(elapsed, 6),
+            "intermediate": False,
+        }
+        self.pdf_prints.append(event)
+        return copy.deepcopy(event)
+
+    def measure(self, state: Any, requests: list[dict[str, Any]], *,
+                round_name: str) -> dict[str, dict[str, dict[str, Any]]]:
         if self.measurement_round_count >= self.MAX_ROUNDS:
             raise RuntimeError("typography measurement round budget exceeded")
         self.measurement_round_count += 1
         html_path = self.work_dir / (
             "typography_fast_round_%d_%s.html"
             % (self.measurement_round_count, round_name))
-        html_path.write_text(self.html_builder(state), encoding="utf-8")
-        self._page.goto(html_path.resolve().as_uri(), wait_until="networkidle")
-        self._page.wait_for_function(
-            "Array.from(document.images).every(image => image.complete)")
-        self._page.evaluate("document.fonts && document.fonts.ready")
-        raw = self._page.evaluate(r"""requests => {
+        self.load_state(state, artifact_name=html_path.stem,
+                        html_path=html_path)
+        raw = self._require_page().evaluate(r"""requests => {
           const paintedRect = el => {
             const painted=[];
             const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);
@@ -225,20 +308,28 @@ class TypographyBatchSession:
         corrections = [int(row.get("typography_correction_count") or 0)
                        for row in records]
         return {
-            "schema_version": "fast.v02.typography_fast_path.v1",
+            "schema_version": "fast.v03.chromium_page_session.v1",
             "strategy": (
                 "one prediction -> one shared DOM Fit batch -> one shared "
-                "DOM validation/Fill batch -> formal PDF only"),
+                "DOM validation/Fill batch -> one final PDF print"),
             "browser_launch_count": self.browser_launch_count,
+            "dom_load_count": self.dom_load_count,
+            "dom_capture_count": self.dom_capture_count,
             "typography_measurement_round_count": (
                 self.measurement_round_count),
             "candidate_measurement_count": self.candidate_measurement_count,
             "typography_trial_pdf_print_count": (
                 self.typography_trial_pdf_print_count),
+            "pdf_print_count": self.pdf_print_count,
+            "intermediate_pdf_print_count": (
+                self.intermediate_pdf_print_count),
+            "final_pdf_print_count": self.final_pdf_print_count,
             "typography_correction_count_max": max(corrections, default=0),
             "typography_correction_count_gt1": sum(
                 value > 1 for value in corrections),
             "rounds": copy.deepcopy(self.rounds),
+            "dom_captures": copy.deepcopy(self.dom_captures),
+            "pdf_prints": copy.deepcopy(self.pdf_prints),
         }
 
 

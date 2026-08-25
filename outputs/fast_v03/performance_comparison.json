@@ -1,0 +1,44 @@
+{
+  "schema_version": "fast.v03.performance_comparison.v1",
+  "decision": "pass",
+  "baseline_file": "E:\\Code\\fanyi\\outputs\\fast_v01\\slow_page_ranking.json",
+  "pages": [
+    {
+      "page_key": "ppat_p011",
+      "frozen_full_page_seconds": 496.089,
+      "targeted_fast_v03_seconds": 40.345939,
+      "final_pdf_print_seconds": 0.664432,
+      "before_chromium_launch_count": 5,
+      "after_chromium_launch_count": 1,
+      "before_pdf_print_count": 2,
+      "after_pdf_print_count": 1,
+      "avoided_pdf_print_count": 1,
+      "avoided_chromium_launch_count": 4
+    },
+    {
+      "page_key": "2504_p011",
+      "frozen_full_page_seconds": 247.296,
+      "targeted_fast_v03_seconds": 10.200533,
+      "final_pdf_print_seconds": 0.471625,
+      "before_chromium_launch_count": 5,
+      "after_chromium_launch_count": 1,
+      "before_pdf_print_count": 2,
+      "after_pdf_print_count": 1,
+      "avoided_pdf_print_count": 1,
+      "avoided_chromium_launch_count": 4
+    },
+    {
+      "page_key": "2504_p005",
+      "frozen_full_page_seconds": 231.076,
+      "targeted_fast_v03_seconds": 12.293497,
+      "final_pdf_print_seconds": 0.737149,
+      "before_chromium_launch_count": 5,
+      "after_chromium_launch_count": 1,
+      "before_pdf_print_count": 2,
+      "after_pdf_print_count": 1,
+      "avoided_pdf_print_count": 1,
+      "avoided_chromium_launch_count": 4
+    }
+  ],
+  "scope_note": "Targeted frozen-fixture timing only; no full-paper performance claim and no translation execution."
+}

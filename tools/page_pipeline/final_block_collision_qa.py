@@ -39,21 +39,11 @@ def _union(boxes: list[list[float]]) -> list[float] | None:
             round(max(box[3] for box in boxes), 3)]
 
 
-def _capture_dom(html_path: str | Path, screenshot_path: str | Path) -> dict:
-    from playwright.sync_api import sync_playwright
-
-    html_path = Path(html_path).resolve()
+def capture_dom_from_page(page: Any, screenshot_path: str | Path) -> dict:
+    """Capture the collision ledger from an already-loaded Chromium page."""
     screenshot_path = Path(screenshot_path).resolve()
     screenshot_path.parent.mkdir(parents=True, exist_ok=True)
-    with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(args=["--no-sandbox",
-                                                   "--disable-gpu"])
-        page = browser.new_page(viewport={"width": 900, "height": 1200},
-                                device_scale_factor=2)
-        page.goto(html_path.as_uri(), wait_until="networkidle")
-        page.wait_for_function(
-            "Array.from(document.images).every(image => image.complete)")
-        result = page.evaluate(r"""() => {
+    result = page.evaluate(r"""() => {
           const rr = r => ({x:r.x,y:r.y,width:r.width,height:r.height,
                             right:r.right,bottom:r.bottom});
           const blocks=[];
@@ -141,12 +131,34 @@ def _capture_dom(html_path: str | Path, screenshot_path: str | Path) -> dict:
           }
           return {body:rr(document.body.getBoundingClientRect()),blocks,hard};
         }""")
-        body = result["body"]
-        page.screenshot(path=str(screenshot_path), clip={
-            "x": 0, "y": 0, "width": body["width"],
-            "height": body["height"]})
-        browser.close()
+    body = result["body"]
+    page.screenshot(path=str(screenshot_path), clip={
+        "x": 0, "y": 0, "width": body["width"],
+        "height": body["height"]})
     result["screenshot"] = str(screenshot_path)
+    return result
+
+
+def _capture_dom(html_path: str | Path, screenshot_path: str | Path) -> dict:
+    """Compatibility wrapper for standalone QA callers.
+
+    The fast production path calls :func:`capture_dom_from_page` so it can
+    reuse the page that performed Typography measurement and final printing.
+    """
+    from playwright.sync_api import sync_playwright
+
+    html_path = Path(html_path).resolve()
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(args=["--no-sandbox",
+                                                   "--disable-gpu"])
+        page = browser.new_page(viewport={"width": 900, "height": 1200},
+                                device_scale_factor=2)
+        page.goto(html_path.as_uri(), wait_until="networkidle")
+        page.evaluate("document.fonts && document.fonts.ready")
+        page.wait_for_function(
+            "Array.from(document.images).every(image => image.complete)")
+        result = capture_dom_from_page(page, screenshot_path)
+        browser.close()
     return result
 
 
@@ -309,11 +321,16 @@ def _pdf_painted_ink_assignment(
     return assigned
 
 
-def final_block_collision_qa(
-        page_model: dict, *, html_path: str | Path,
-        final_pdf_path: str | Path, screenshot_path: str | Path,
+def final_block_collision_qa_from_snapshot(
+        page_model: dict, *, snapshot: dict,
+        final_pdf_path: str | Path | None = None,
         extra_block_metadata: dict[str, dict[str, Any]] | None = None) -> dict:
-    snapshot = _capture_dom(html_path, screenshot_path)
+    """Evaluate collision truth from an in-memory DOM/RenderLedger snapshot.
+
+    ``final_pdf_path`` is optional for the pre-slot DOM-only check.  The final
+    delivery gate supplies it and retains the existing PDF text/raster ink
+    evidence without launching another Chromium process.
+    """
     source = _source_metadata(page_model)
     source.update(extra_block_metadata or {})
     blocks = []
@@ -388,9 +405,13 @@ def final_block_collision_qa(
     hard_boxes = [_bbox(row["rect"]) for row in snapshot["hard"]]
     page_height = float(snapshot["body"]["height"]) * PT_PER_CSS_PX
     _assign_tracks(blocks, hard_boxes, page_height)
-    pdf_boxes = _pdf_word_assignment(final_pdf_path, blocks)
-    painted_boxes = _pdf_painted_ink_assignment(
-        final_pdf_path, blocks, pdf_boxes)
+    if final_pdf_path is not None:
+        pdf_boxes = _pdf_word_assignment(final_pdf_path, blocks)
+        painted_boxes = _pdf_painted_ink_assignment(
+            final_pdf_path, blocks, pdf_boxes)
+    else:
+        pdf_boxes = {block["flow_fragment_id"]: None for block in blocks}
+        painted_boxes = {block["flow_fragment_id"]: None for block in blocks}
     for block in blocks:
         block["pdf_rendered_bbox"] = pdf_boxes.get(block["flow_fragment_id"])
         block["final_pdf_painted_ink_bbox"] = painted_boxes.get(
@@ -509,18 +530,34 @@ def final_block_collision_qa(
         "geometry_truth": {
             "primary": (
                 "union(chromium_dom_measured_bbox, "
-                "final_pdf_painted_glyph_bbox)"),
+                "final_pdf_painted_glyph_bbox)"
+                if final_pdf_path is not None
+                else "chromium_dom_measured_bbox"),
             "dom_component": "chromium_dom_measured_bbox",
             "painted_ink_component": (
-                "final_pdf_raster_ink_within_text_owner_glyph_bbox"),
+                "final_pdf_raster_ink_within_text_owner_glyph_bbox"
+                if final_pdf_path is not None else None),
             "painted_owner_constraint": (
-                "final_pdf_text_layer_at_dom_line_positions"),
+                "final_pdf_text_layer_at_dom_line_positions"
+                if final_pdf_path is not None else None),
+            "pdf_evidence_used": final_pdf_path is not None,
             "render_identity": "data-render-id/data-flow-fragment",
             "allowed_tolerance": (
                 "relative font-size + line-height + source-relation policy"),
         },
         "screenshot": snapshot["screenshot"],
     }
+
+
+def final_block_collision_qa(
+        page_model: dict, *, html_path: str | Path,
+        final_pdf_path: str | Path, screenshot_path: str | Path,
+        extra_block_metadata: dict[str, dict[str, Any]] | None = None) -> dict:
+    """Standalone compatibility entry point with its own Chromium capture."""
+    snapshot = _capture_dom(html_path, screenshot_path)
+    return final_block_collision_qa_from_snapshot(
+        page_model, snapshot=snapshot, final_pdf_path=final_pdf_path,
+        extra_block_metadata=extra_block_metadata)
 
 
 def render_collision_overlay(qa: dict, screenshot_path: str | Path,

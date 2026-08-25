@@ -1,0 +1,323 @@
+{
+  "schema_version": "fast.v03.print_before_after.v1",
+  "decision": "pass",
+  "scope": [
+    "ppat_p011",
+    "2504_p011",
+    "2504_p005"
+  ],
+  "before": [
+    {
+      "page_key": "ppat_p011",
+      "source_revision": "8bb128d70bc63afb98d25dcac486a3a1648c2d48",
+      "chromium_launch_count": 5,
+      "pdf_print_count": 2,
+      "total_pdf_print_count": 2,
+      "intermediate_pdf_print_count": 1,
+      "final_pdf_print_count": 1,
+      "typography_trial_pdf_print_count": 0,
+      "events": [
+        {
+          "sequence": 1,
+          "operation": "chromium_launch_and_pdf_print",
+          "reason": "initial layout PDF for SourceTextSlot/collision precheck",
+          "function": "render_html_to_pdf",
+          "classification": "intermediate_pdf"
+        },
+        {
+          "sequence": 2,
+          "operation": "chromium_launch_and_dom_capture",
+          "reason": "initial FinalBlockCollisionQA DOM measurement",
+          "function": "final_block_collision_qa._capture_dom",
+          "classification": "dom_measurement"
+        },
+        {
+          "sequence": 3,
+          "operation": "chromium_launch_and_dom_measurement",
+          "reason": "Typography Fit/Fill shared candidate measurement",
+          "function": "TypographyBatchSession.__enter__",
+          "classification": "typography_measurement"
+        },
+        {
+          "sequence": 4,
+          "operation": "chromium_launch_and_pdf_print",
+          "reason": "final delivery PDF after Typography Fit/Fill",
+          "function": "render_html_to_pdf",
+          "classification": "final_pdf"
+        },
+        {
+          "sequence": 5,
+          "operation": "chromium_launch_and_dom_capture",
+          "reason": "final FinalBlockCollisionQA DOM measurement",
+          "function": "final_block_collision_qa._capture_dom",
+          "classification": "collision_validation"
+        }
+      ],
+      "evidence": "pre-fast-v03 run_visual_v06_checkpoint.py called render_html_to_pdf + final_block_collision_qa before slots, opened TypographyBatchSession, then called both functions again"
+    },
+    {
+      "page_key": "2504_p011",
+      "source_revision": "8bb128d70bc63afb98d25dcac486a3a1648c2d48",
+      "chromium_launch_count": 5,
+      "pdf_print_count": 2,
+      "total_pdf_print_count": 2,
+      "intermediate_pdf_print_count": 1,
+      "final_pdf_print_count": 1,
+      "typography_trial_pdf_print_count": 0,
+      "events": [
+        {
+          "sequence": 1,
+          "operation": "chromium_launch_and_pdf_print",
+          "reason": "initial layout PDF for SourceTextSlot/collision precheck",
+          "function": "render_html_to_pdf",
+          "classification": "intermediate_pdf"
+        },
+        {
+          "sequence": 2,
+          "operation": "chromium_launch_and_dom_capture",
+          "reason": "initial FinalBlockCollisionQA DOM measurement",
+          "function": "final_block_collision_qa._capture_dom",
+          "classification": "dom_measurement"
+        },
+        {
+          "sequence": 3,
+          "operation": "chromium_launch_and_dom_measurement",
+          "reason": "Typography Fit/Fill shared candidate measurement",
+          "function": "TypographyBatchSession.__enter__",
+          "classification": "typography_measurement"
+        },
+        {
+          "sequence": 4,
+          "operation": "chromium_launch_and_pdf_print",
+          "reason": "final delivery PDF after Typography Fit/Fill",
+          "function": "render_html_to_pdf",
+          "classification": "final_pdf"
+        },
+        {
+          "sequence": 5,
+          "operation": "chromium_launch_and_dom_capture",
+          "reason": "final FinalBlockCollisionQA DOM measurement",
+          "function": "final_block_collision_qa._capture_dom",
+          "classification": "collision_validation"
+        }
+      ],
+      "evidence": "pre-fast-v03 run_visual_v06_checkpoint.py called render_html_to_pdf + final_block_collision_qa before slots, opened TypographyBatchSession, then called both functions again"
+    },
+    {
+      "page_key": "2504_p005",
+      "source_revision": "8bb128d70bc63afb98d25dcac486a3a1648c2d48",
+      "chromium_launch_count": 5,
+      "pdf_print_count": 2,
+      "total_pdf_print_count": 2,
+      "intermediate_pdf_print_count": 1,
+      "final_pdf_print_count": 1,
+      "typography_trial_pdf_print_count": 0,
+      "events": [
+        {
+          "sequence": 1,
+          "operation": "chromium_launch_and_pdf_print",
+          "reason": "initial layout PDF for SourceTextSlot/collision precheck",
+          "function": "render_html_to_pdf",
+          "classification": "intermediate_pdf"
+        },
+        {
+          "sequence": 2,
+          "operation": "chromium_launch_and_dom_capture",
+          "reason": "initial FinalBlockCollisionQA DOM measurement",
+          "function": "final_block_collision_qa._capture_dom",
+          "classification": "dom_measurement"
+        },
+        {
+          "sequence": 3,
+          "operation": "chromium_launch_and_dom_measurement",
+          "reason": "Typography Fit/Fill shared candidate measurement",
+          "function": "TypographyBatchSession.__enter__",
+          "classification": "typography_measurement"
+        },
+        {
+          "sequence": 4,
+          "operation": "chromium_launch_and_pdf_print",
+          "reason": "final delivery PDF after Typography Fit/Fill",
+          "function": "render_html_to_pdf",
+          "classification": "final_pdf"
+        },
+        {
+          "sequence": 5,
+          "operation": "chromium_launch_and_dom_capture",
+          "reason": "final FinalBlockCollisionQA DOM measurement",
+          "function": "final_block_collision_qa._capture_dom",
+          "classification": "collision_validation"
+        }
+      ],
+      "evidence": "pre-fast-v03 run_visual_v06_checkpoint.py called render_html_to_pdf + final_block_collision_qa before slots, opened TypographyBatchSession, then called both functions again"
+    }
+  ],
+  "after": [
+    {
+      "page_key": "ppat_p011",
+      "print_path": {
+        "chromium_launch_count": 1,
+        "pdf_print_count": 1,
+        "total_pdf_print_count": 1,
+        "intermediate_pdf_print_count": 0,
+        "final_pdf_print_count": 1,
+        "typography_trial_pdf_print_count": 0,
+        "typography_measurement_round_count": 2,
+        "dom_capture_count": 2,
+        "events": [
+          {
+            "sequence": 1,
+            "classification": "final_delivery",
+            "reason": "final_delivery_after_in_dom_measurement_fit_fill",
+            "html_path": "E:\\Code\\fanyi\\tmp\\pdfs\\fast_v03\\ppat_p011\\fast_v03.html",
+            "pdf_path": "E:\\Code\\fanyi\\tmp\\pdfs\\fast_v03\\ppat_p011\\fast_v03.pdf",
+            "elapsed_seconds": 0.664432,
+            "intermediate": false
+          }
+        ],
+        "dom_captures": [
+          {
+            "capture_name": "source_slot_and_collision_precheck",
+            "html_path": "E:\\Code\\fanyi\\tmp\\pdfs\\fast_v03\\ppat_p011\\session\\source_slot_and_collision_precheck.html",
+            "screenshot_path": "E:\\Code\\fanyi\\tmp\\pdfs\\fast_v03\\ppat_p011\\initial_dom.png",
+            "reason": "in_memory_dom_render_ledger",
+            "pdf_printed": false
+          },
+          {
+            "capture_name": "final_collision_validation",
+            "html_path": "E:\\Code\\fanyi\\tmp\\pdfs\\fast_v03\\ppat_p011\\fast_v03.html",
+            "screenshot_path": "E:\\Code\\fanyi\\tmp\\pdfs\\fast_v03\\ppat_p011\\final_dom.png",
+            "reason": "in_memory_dom_render_ledger",
+            "pdf_printed": false
+          }
+        ]
+      },
+      "metrics": {
+        "visual_pixel_diff_count": 0,
+        "slot_geometry_mutation_count": 0,
+        "final_block_collision_count": 0,
+        "hard_anchor_moved_count": 0,
+        "overflow_count": 0,
+        "production_special_case_count": 0
+      },
+      "old_final_pdf_sha256": "6cff0e60b51e35bc75b70a297f36b2bf9d2fc801626e99c04f319dd4b7e1beaf",
+      "new_fixture_pdf_sha256": "86c1d999b7ed52c853fb4e029a6d1a49efae5f907109d4e2f421373fe5341817",
+      "review_image": "E:\\Code\\fanyi\\outputs\\fast_v03\\review_bundle\\ppat_p011_old_new.png"
+    },
+    {
+      "page_key": "2504_p011",
+      "print_path": {
+        "chromium_launch_count": 1,
+        "pdf_print_count": 1,
+        "total_pdf_print_count": 1,
+        "intermediate_pdf_print_count": 0,
+        "final_pdf_print_count": 1,
+        "typography_trial_pdf_print_count": 0,
+        "typography_measurement_round_count": 2,
+        "dom_capture_count": 2,
+        "events": [
+          {
+            "sequence": 1,
+            "classification": "final_delivery",
+            "reason": "final_delivery_after_in_dom_measurement_fit_fill",
+            "html_path": "E:\\Code\\fanyi\\tmp\\pdfs\\fast_v03\\2504_p011\\fast_v03.html",
+            "pdf_path": "E:\\Code\\fanyi\\tmp\\pdfs\\fast_v03\\2504_p011\\fast_v03.pdf",
+            "elapsed_seconds": 0.471625,
+            "intermediate": false
+          }
+        ],
+        "dom_captures": [
+          {
+            "capture_name": "source_slot_and_collision_precheck",
+            "html_path": "E:\\Code\\fanyi\\tmp\\pdfs\\fast_v03\\2504_p011\\session\\source_slot_and_collision_precheck.html",
+            "screenshot_path": "E:\\Code\\fanyi\\tmp\\pdfs\\fast_v03\\2504_p011\\initial_dom.png",
+            "reason": "in_memory_dom_render_ledger",
+            "pdf_printed": false
+          },
+          {
+            "capture_name": "final_collision_validation",
+            "html_path": "E:\\Code\\fanyi\\tmp\\pdfs\\fast_v03\\2504_p011\\fast_v03.html",
+            "screenshot_path": "E:\\Code\\fanyi\\tmp\\pdfs\\fast_v03\\2504_p011\\final_dom.png",
+            "reason": "in_memory_dom_render_ledger",
+            "pdf_printed": false
+          }
+        ]
+      },
+      "metrics": {
+        "visual_pixel_diff_count": 0,
+        "slot_geometry_mutation_count": 0,
+        "final_block_collision_count": 0,
+        "hard_anchor_moved_count": 0,
+        "overflow_count": 0,
+        "production_special_case_count": 0
+      },
+      "old_final_pdf_sha256": "af29f5ab9c35a5110414eda65cc0514a1f42b1131056267fda5f25a89ab02b8c",
+      "new_fixture_pdf_sha256": "a3cee0fc19acc64e6ee0bc5856cf8b404fa0450d1f763ec739ece048b32b4c50",
+      "review_image": "E:\\Code\\fanyi\\outputs\\fast_v03\\review_bundle\\2504_p011_old_new.png"
+    },
+    {
+      "page_key": "2504_p005",
+      "print_path": {
+        "chromium_launch_count": 1,
+        "pdf_print_count": 1,
+        "total_pdf_print_count": 1,
+        "intermediate_pdf_print_count": 0,
+        "final_pdf_print_count": 1,
+        "typography_trial_pdf_print_count": 0,
+        "typography_measurement_round_count": 2,
+        "dom_capture_count": 2,
+        "events": [
+          {
+            "sequence": 1,
+            "classification": "final_delivery",
+            "reason": "final_delivery_after_in_dom_measurement_fit_fill",
+            "html_path": "E:\\Code\\fanyi\\tmp\\pdfs\\fast_v03\\2504_p005\\fast_v03.html",
+            "pdf_path": "E:\\Code\\fanyi\\tmp\\pdfs\\fast_v03\\2504_p005\\fast_v03.pdf",
+            "elapsed_seconds": 0.737149,
+            "intermediate": false
+          }
+        ],
+        "dom_captures": [
+          {
+            "capture_name": "source_slot_and_collision_precheck",
+            "html_path": "E:\\Code\\fanyi\\tmp\\pdfs\\fast_v03\\2504_p005\\session\\source_slot_and_collision_precheck.html",
+            "screenshot_path": "E:\\Code\\fanyi\\tmp\\pdfs\\fast_v03\\2504_p005\\initial_dom.png",
+            "reason": "in_memory_dom_render_ledger",
+            "pdf_printed": false
+          },
+          {
+            "capture_name": "final_collision_validation",
+            "html_path": "E:\\Code\\fanyi\\tmp\\pdfs\\fast_v03\\2504_p005\\fast_v03.html",
+            "screenshot_path": "E:\\Code\\fanyi\\tmp\\pdfs\\fast_v03\\2504_p005\\final_dom.png",
+            "reason": "in_memory_dom_render_ledger",
+            "pdf_printed": false
+          }
+        ]
+      },
+      "metrics": {
+        "visual_pixel_diff_count": 0,
+        "slot_geometry_mutation_count": 0,
+        "final_block_collision_count": 0,
+        "hard_anchor_moved_count": 0,
+        "overflow_count": 0,
+        "production_special_case_count": 0
+      },
+      "old_final_pdf_sha256": "3339ee0d8c9ac9fdaba7ae078e131be18bec6467e64f58faa9eb930c9eee6b63",
+      "new_fixture_pdf_sha256": "7e1e583e62821a18cf22cac094a272f5fe7fefbb049079f64b3980ef459e54ba",
+      "review_image": "E:\\Code\\fanyi\\outputs\\fast_v03\\review_bundle\\2504_p005_old_new.png"
+    }
+  ],
+  "hard_metrics": {
+    "chromium_launch_count_max": 1,
+    "pdf_print_count_max": 1,
+    "intermediate_pdf_print_count": 0,
+    "final_pdf_print_count_not_one": 0,
+    "typography_trial_pdf_print_count": 0,
+    "visual_pixel_diff_count": 0,
+    "slot_geometry_mutation_count": 0,
+    "final_block_collision_count": 0,
+    "hard_anchor_moved_count": 0,
+    "overflow_count": 0,
+    "production_special_case_count": 0
+  }
+}
