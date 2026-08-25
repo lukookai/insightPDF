@@ -276,104 +276,62 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
     flows, source_paragraph_style = apply_source_paragraph_styles_to_flows(
         flows, model, source_text_slots, source_paragraph_style_candidates)
 
-    trial_number = [0]
-
-    def _render_typography_trial(trial_flows, trial_key, fragments):
-        from local_typography_fit import measure_paragraph_blocks
-
-        trial_number[0] += 1
-        safe_key = "".join(
-            char if char.isalnum() or char in "-_." else "_"
-            for char in str(trial_key))
-        trial_html_path = out_dir / (
-            "_local_typography_trial_%02d_%s.html"
-            % (trial_number[0], safe_key))
-        trial_html_path.write_text(_build_html(trial_flows),
-                                   encoding="utf-8")
-        return measure_paragraph_blocks(
-            trial_html_path, fragments,
-            screenshot_path=out_dir / (
-                "_local_typography_trial_%02d_%s.png"
-                % (trial_number[0], safe_key)))
-
-    if source_text_slot_lock["geometry_locked_block_count"]:
-        html = _build_html(flows)
-        html_path.write_text(html, encoding="utf-8")
-        render_html_to_pdf(html_path, pdf_path_out)
-        locked_l0_collision_qa = final_block_collision_qa(
-            model, html_path=html_path, final_pdf_path=pdf_path_out,
-            screenshot_path=out_dir / "source_slot_lock_l0.png")
-        from local_typography_fit import fit_locked_flows_with_browser
-        flows, source_text_slot_lock = fit_locked_flows_with_browser(
-            flows, source_text_slot_lock, initial_collision_qa,
-            _render_typography_trial)
-        html = _build_html(flows)
-        html_path.write_text(html, encoding="utf-8")
-        render_html_to_pdf(html_path, pdf_path_out)
-        final_collision_qa = final_block_collision_qa(
-            model, html_path=html_path, final_pdf_path=pdf_path_out,
-            screenshot_path=out_dir / "source_slot_lock_after_fit.png")
-    else:
-        locked_l0_collision_qa = initial_collision_qa
-
-    slot_capacity_unresolved = int(source_text_slot_lock.get(
-        "slot_capacity_unresolved_count", 0))
-    if slot_capacity_unresolved:
-        unresolved.extend({
-            "fragment_id": row.get("flow_fragment_id"),
-            "slot_id": row.get("slot_id"),
-            "reason": "source slot capacity unresolved after L4",
-        } for row in source_text_slot_lock.get("records") or []
-                          if row.get("geometry_locked")
-                          and row.get("fit_success") is False)
-
-    # ---- visual-v07 task 4C: source-occupancy typography fill ----------
-    # Candidate detection uses source spans/SourceInkGeometry versus the
-    # Task 4B Chromium painted-content truth.  FIT_APPLIED blocks and source
-    # slots intersecting a Figure are excluded before any fill trial.
+    # ---- fast-v02: one browser, two DOM rounds, zero candidate PDFs -----
+    # Round 1 measures every Fit level for every locked block in one live
+    # DOM.  Round 2 validates those selections and batch-measures all Fill
+    # levels.  Only the resulting formal HTML is printed below.
+    from typography_fast_path import (
+        TypographyBatchSession,
+        empty_prefill_collision_qa,
+        fill_locked_flows_fast,
+        fit_locked_flows_fast,
+        write_fast_trace,
+    )
     from local_typography_fill_qa import (
         detect_typography_fill_candidates)
-    local_typography_fill_candidates = detect_typography_fill_candidates(
-        model, source_text_slots, source_text_slot_lock,
-        final_collision_qa, source_ink=ink,
-        translation_closure_pass=(slot_capacity_unresolved == 0
-                                  and not unresolved))
 
-    def _render_fill_trial(trial_flows, trial_key, fragments):
-        from local_typography_fit import measure_paragraph_blocks
+    with TypographyBatchSession(
+            _build_html, out_dir / "_typography_fast_path") as fast_session:
+        flows, source_text_slot_lock = fit_locked_flows_fast(
+            flows, source_text_slot_lock, initial_collision_qa,
+            fast_session)
 
-        trial_number[0] += 1
-        safe_key = "".join(
-            char if char.isalnum() or char in "-_." else "_"
-            for char in str(trial_key))
-        stem = "_local_typography_fill_trial_%02d_%s" % (
-            trial_number[0], safe_key)
-        trial_html_path = out_dir / (stem + ".html")
-        trial_pdf_path = out_dir / (stem + ".pdf")
-        trial_html_path.write_text(_build_html(trial_flows),
-                                   encoding="utf-8")
-        render_html_to_pdf(trial_html_path, trial_pdf_path)
-        measurements = measure_paragraph_blocks(
-            trial_html_path, fragments,
-            screenshot_path=out_dir / (stem + ".png"))
-        collision_qa = final_block_collision_qa(
-            model, html_path=trial_html_path,
-            final_pdf_path=trial_pdf_path,
-            screenshot_path=out_dir / (stem + "_collision.png"))
-        return {"measurements": measurements,
-                "collision_qa": collision_qa}
+        slot_capacity_unresolved = int(source_text_slot_lock.get(
+            "slot_capacity_unresolved_count", 0))
+        if slot_capacity_unresolved:
+            unresolved.extend({
+                "fragment_id": row.get("flow_fragment_id"),
+                "slot_id": row.get("slot_id"),
+                "reason": "source slot capacity unresolved after L4",
+            } for row in source_text_slot_lock.get("records") or []
+                              if row.get("geometry_locked")
+                              and row.get("fit_success") is False)
 
-    from local_typography_fill import fill_locked_flows_with_browser
-    flows, local_typography_fill = fill_locked_flows_with_browser(
-        flows, local_typography_fill_candidates, _render_fill_trial)
-    if any(row.get("fill_applied")
-           for row in local_typography_fill.get("records") or []):
-        html = _build_html(flows)
-        html_path.write_text(html, encoding="utf-8")
-        render_html_to_pdf(html_path, pdf_path_out)
-        final_collision_qa = final_block_collision_qa(
-            model, html_path=html_path, final_pdf_path=pdf_path_out,
-            screenshot_path=out_dir / "local_typography_fill_final.png")
+        # SourceTextSlots are immutable and every accepted round-1 ink box
+        # is inside its slot, so candidate detection can use this DOM signal
+        # rather than printing an intermediate PDF.  The final formal PDF is
+        # still checked by FinalBlockCollisionQA below.
+        locked_l0_collision_qa = empty_prefill_collision_qa(
+            source_text_slot_lock)
+        local_typography_fill_candidates = (
+            detect_typography_fill_candidates(
+                model, source_text_slots, source_text_slot_lock,
+                locked_l0_collision_qa, source_ink=ink,
+                translation_closure_pass=(slot_capacity_unresolved == 0
+                                          and not unresolved)))
+        flows, local_typography_fill = fill_locked_flows_fast(
+            flows, source_text_slot_lock,
+            local_typography_fill_candidates, fast_session)
+        typography_fast_path = write_fast_trace(
+            out_dir / "typography_fast_path.json", fast_session,
+            source_text_slot_lock, local_typography_fill)
+
+    html = _build_html(flows)
+    html_path.write_text(html, encoding="utf-8")
+    render_html_to_pdf(html_path, pdf_path_out)
+    final_collision_qa = final_block_collision_qa(
+        model, html_path=html_path, final_pdf_path=pdf_path_out,
+        screenshot_path=out_dir / "typography_fast_path_final.png")
 
     local_typography_fit = {
         "schema_version": "visual_v07.local_typography_fit.v1",
@@ -390,45 +348,17 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         "placements": [], "unresolved": [],
     }
     if final_collision_qa["metrics"]["final_block_collision_count"] > 0:
-        import shutil
-        shutil.copy2(html_path, out_dir / "zh_visual_initial.html")
-        shutil.copy2(pdf_path_out, out_dir / "zh_visual_initial.pdf")
-        from local_typography_fit import (fit_flows_with_browser,
-                                          mark_repack_usage,
-                                          measure_paragraph_blocks,
-                                          heading_hierarchy_violation_count)
-
-        flows, local_typography_fit = fit_flows_with_browser(
-            flows, final_collision_qa, _render_typography_trial)
-        html = _build_html(flows)
-        html_path.write_text(html, encoding="utf-8")
-        render_html_to_pdf(html_path, pdf_path_out)
-        final_collision_qa = final_block_collision_qa(
-            model, html_path=html_path, final_pdf_path=pdf_path_out,
-            screenshot_path=(
-                out_dir / "final_block_collision_after_local_fit.png"))
-
-        # Only floor-exhausted collisions may enter Task 2's region-local
-        # browser-measured repack.  A successful local fit keeps every
-        # successor at its original source-derived top.
-        from browser_measured_repack import repack_flows_from_final_geometry
-        if final_collision_qa["metrics"]["final_block_collision_count"] > 0:
-            flows, browser_repack = repack_flows_from_final_geometry(
-                flows, final_collision_qa)
-        local_typography_fit = mark_repack_usage(
-            local_typography_fit, browser_repack)
-        if browser_repack["unresolved_count"]:
-            unresolved.extend(browser_repack["unresolved"])
-        elif browser_repack["applied"]:
-            html = _build_html(flows)
-            html_path.write_text(html, encoding="utf-8")
-            render_html_to_pdf(html_path, pdf_path_out)
-            final_collision_qa = final_block_collision_qa(
-                model, html_path=html_path, final_pdf_path=pdf_path_out,
-                screenshot_path=out_dir / "final_block_collision_final.png")
-        local_typography_fit["heading_hierarchy_violation_count"] = (
-            heading_hierarchy_violation_count(
-                local_typography_fit["records"], final_collision_qa))
+        # The fast branch never re-enters an unbounded trial/repack loop.
+        # Preserve geometry, surface the hard failure, and let the existing
+        # final collision gate block the page.
+        local_typography_fit["fast_path_blocked"] = True
+        local_typography_fit["fast_path_block_reason"] = (
+            "final collision remains after two-round typography budget")
+        unresolved.append({
+            "reason": "fast typography budget exhausted",
+            "collision_count": int(final_collision_qa["metrics"][
+                "final_block_collision_count"]),
+        })
 
     from source_text_slot_lock_qa import source_text_slot_lock_qa
     source_text_slot_lock_audit = source_text_slot_lock_qa(
@@ -659,6 +589,13 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
     hard["source_prose_vector_still_rendered_count"] = int(
         hard.get("translatable_source_residual_fragment_count", 0))
     hard["production_special_case_count"] = 0
+    hard["typography_trial_pdf_print_count"] = int(
+        typography_fast_path.get("typography_trial_pdf_print_count") or 0)
+    hard["typography_measurement_round_excess_count"] = max(
+        0, int(typography_fast_path.get(
+            "typography_measurement_round_count") or 0) - 2)
+    hard["typography_correction_count_gt1"] = int(
+        typography_fast_path.get("typography_correction_count_gt1") or 0)
     # merge v01-v03 regression gates
     hard.update({
         "anchor_displaced_count": anchor["metrics"]["anchor_displaced_count"],
@@ -719,6 +656,7 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         "local_typography_fill_qa": local_typography_fill_audit,
         "local_typography_fit": local_typography_fit,
         "local_typography_fit_qa": local_typography_fit_audit,
+        "typography_fast_path": typography_fast_path,
         "source_paragraph_style_candidates": (
             source_paragraph_style_candidates),
         "source_paragraph_style": source_paragraph_style,

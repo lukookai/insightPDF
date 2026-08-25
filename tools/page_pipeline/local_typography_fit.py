@@ -259,6 +259,17 @@ def _paragraph_tag(html_text: str, fragment_id: str) -> re.Match[str] | None:
         % re.escape(fragment), html_text, re.IGNORECASE)
 
 
+def _set_data_attr(tag: str, name: str, value: str) -> str:
+    """Set one audit attribute without accumulating duplicate HTML attrs."""
+    pattern = r'\b%s="[^"]*"' % re.escape(name)
+    attribute = '%s="%s"' % (
+        name, html_lib.escape(str(value), quote=True))
+    if re.search(pattern, tag, re.IGNORECASE):
+        return re.sub(pattern, attribute, tag, count=1,
+                      flags=re.IGNORECASE)
+    return tag[:-1] + " " + attribute + ">"
+
+
 def patch_html_fit_level(html_text: str, fragment_id: str, *,
                          source_font_size: float,
                          source_line_height: float,
@@ -285,12 +296,14 @@ def patch_html_fit_level(html_text: str, fragment_id: str, *,
                        style, count=1)
     style = _safe_wrapping(style, level.wrapping)
     new_tag = tag[:style_match.start(1)] + style + tag[style_match.end(1):]
-    audit_attrs = (
-        ' data-local-fit-level="%s" data-local-font-scale="%.3f"'
-        ' data-local-line-height-scale="%.3f" data-local-wrapping="%s"'
-        % (level.fit_level, level.font_scale, level.line_height_scale,
-           level.wrapping))
-    new_tag = new_tag[:-1] + audit_attrs + ">"
+    for name, value in {
+            "data-local-fit-level": level.fit_level,
+            "data-local-font-scale": "%.3f" % level.font_scale,
+            "data-local-line-height-scale": "%.3f" % (
+                level.line_height_scale),
+            "data-local-wrapping": level.wrapping,
+    }.items():
+        new_tag = _set_data_attr(new_tag, name, value)
     return html_text[:matched.start()] + new_tag + html_text[matched.end():]
 
 

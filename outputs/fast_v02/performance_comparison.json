@@ -1,0 +1,50 @@
+{
+  "schema_version": "fast.v02.performance_comparison.v1",
+  "before": [
+    {
+      "page_key": "ppat_p011",
+      "frozen_page_seconds": 496.089,
+      "typography_trial_render_count": 15,
+      "typography_trial_pdf_print_count": 10
+    },
+    {
+      "page_key": "2504_p011",
+      "frozen_page_seconds": 247.296,
+      "typography_trial_render_count": 59,
+      "typography_trial_pdf_print_count": 0
+    },
+    {
+      "page_key": "2504_p005",
+      "frozen_page_seconds": 231.076,
+      "typography_trial_render_count": 45,
+      "typography_trial_pdf_print_count": 0
+    }
+  ],
+  "after": [
+    {
+      "page_key": "ppat_p011",
+      "typography_seconds": 14.706459,
+      "formal_pdf_print_seconds": 6.605176,
+      "typography_measurement_round_count": 2,
+      "browser_launch_count": 1,
+      "typography_trial_pdf_print_count": 0
+    },
+    {
+      "page_key": "2504_p011",
+      "typography_seconds": 3.579928,
+      "formal_pdf_print_seconds": 2.476701,
+      "typography_measurement_round_count": 2,
+      "browser_launch_count": 1,
+      "typography_trial_pdf_print_count": 0
+    },
+    {
+      "page_key": "2504_p005",
+      "typography_seconds": 4.21818,
+      "formal_pdf_print_seconds": 2.88339,
+      "typography_measurement_round_count": 2,
+      "browser_launch_count": 1,
+      "typography_trial_pdf_print_count": 0
+    }
+  ],
+  "scope_note": "New timing is targeted frozen-fixture Typography plus one formal fixture PDF print, not a full production-page wall clock."
+}
