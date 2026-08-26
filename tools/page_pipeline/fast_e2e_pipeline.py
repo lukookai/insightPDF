@@ -1,18 +1,14 @@
-"""Thin end-to-end adapter over the existing document and FAST page paths.
+"""Thin end-to-end adapter for the real FAST production route.
 
-No translation, layout, typography, rendering, or QA policy lives here.  The
-adapter invokes the repository's established generic source-document entry,
-then invokes ``run_visual_v06_checkpoint.render_visual_page`` for the final
-FAST pages and merges those formal one-page PDFs.
+The adapter reuses source preparation and the current visual page renderer;
+it contains no parsing, translation, layout, typography, rendering, or QA
+policy of its own.
 """
 from __future__ import annotations
 
-import json
-import os
-import re
-import subprocess
 import sys
-from collections import deque
+from collections.abc import Callable
+from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -25,168 +21,25 @@ if TYPE_CHECKING:
     from live_progress import LiveProgressReporter
 
 
-_RAW_PAGE_RE = re.compile(r"raw page\s+(\d+)/(\d+):", re.IGNORECASE)
-_CACHE_RE = re.compile(
-    r"translation cache:\s*hit=(\d+)\s+miss=(\d+)", re.IGNORECASE)
-_TRANSLATION_PROGRESS_RE = re.compile(
-    r"translation progress:\s*(\d+)/(\d+)", re.IGNORECASE)
-_SOURCE_RENDER_RE = re.compile(
-    r"render page\s+(\d+)/(\d+)", re.IGNORECASE)
-
-
 class FastE2EError(RuntimeError):
     """Production failure carrying the exact progress context."""
 
-    def __init__(self, message: str, *, stage: str,
-                 page: int | None = None,
-                 page_count: int | None = None) -> None:
+    def __init__(
+        self,
+        message: str,
+        *,
+        stage: str,
+        page: int | None = None,
+        page_count: int | None = None,
+    ) -> None:
         super().__init__(message)
         self.stage = stage
         self.page = page
         self.page_count = page_count
 
 
-def _load(path: str | Path, default: Any = None) -> Any:
-    try:
-        return json.loads(Path(path).read_text(encoding="utf-8"))
-    except Exception:  # noqa: BLE001
-        return default
-
-
-def _source_chain_command(
-    source_pdf: Path,
-    source_chain: Path,
-    *,
-    config: str | Path,
-) -> list[str]:
-    """Return the existing generic production command without altering it."""
-    return [
-        sys.executable,
-        "-u",
-        str(HERE / "run_document.py"),
-        "--pdf",
-        str(source_pdf),
-        "--out",
-        str(source_chain),
-        "--config",
-        str(Path(config)),
-        "--phase4d1c",
-        "--typography-profile",
-        str(REPO / "outputs" / "phase4d2a_typography_audit"
-            / "balanced_chinese_profile.json"),
-    ]
-
-
-def _run_existing_source_chain(
-    source_pdf: Path,
-    source_chain: Path,
-    *,
-    config: str | Path,
-    reporter: LiveProgressReporter,
-) -> dict[str, int]:
-    """Stream the existing source-chain process and expose its boundaries.
-
-    Parsing these already-stable status lines only drives telemetry.  It does
-    not choose, retry, skip, or modify any production operation.
-    """
-    source_chain.mkdir(parents=True, exist_ok=True)
-    environment = os.environ.copy()
-    environment["PYTHONUNBUFFERED"] = "1"
-    environment["PYTHONUTF8"] = "1"
-    command = _source_chain_command(
-        source_pdf, source_chain, config=config)
-    tail: deque[str] = deque(maxlen=40)
-    cache_hit = 0
-    cache_miss = 0
-    current_stage = "preflight"
-    reporter.start_stage(current_stage)
-    process = subprocess.Popen(
-        command,
-        cwd=str(REPO),
-        env=environment,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        text=True,
-        encoding="utf-8",
-        errors="replace",
-        bufsize=1,
-    )
-    assert process.stdout is not None
-    for raw_line in process.stdout:
-        line = raw_line.rstrip()
-        tail.append(line)
-        raw_match = _RAW_PAGE_RE.search(line)
-        if raw_match:
-            if current_stage != "pdf_parse/page_model":
-                reporter.transition("pdf_parse/page_model")
-                current_stage = "pdf_parse/page_model"
-            reporter.set_stage_context(
-                page=int(raw_match.group(1)),
-                page_count=int(raw_match.group(2)))
-            reporter.info(
-                current_stage,
-                page=int(raw_match.group(1)),
-                page_count=int(raw_match.group(2)),
-                message=(f"page {raw_match.group(1)}/"
-                         f"{raw_match.group(2)} page_model"))
-            continue
-        cache_match = _CACHE_RE.search(line)
-        if cache_match:
-            if current_stage != "translation/cache":
-                reporter.transition("translation/cache")
-                current_stage = "translation/cache"
-            cache_hit = int(cache_match.group(1))
-            cache_miss = int(cache_match.group(2))
-            reporter.info(
-                current_stage,
-                message=f"cache_hit={cache_hit} cache_miss={cache_miss}",
-                cache_hit=cache_hit,
-                cache_miss=cache_miss)
-            continue
-        translation_match = _TRANSLATION_PROGRESS_RE.search(line)
-        if translation_match:
-            if current_stage != "translation/cache":
-                reporter.transition("translation/cache")
-                current_stage = "translation/cache"
-            reporter.info(
-                current_stage,
-                message=(f"translation {translation_match.group(1)}/"
-                         f"{translation_match.group(2)}"),
-                completed=int(translation_match.group(1)),
-                total=int(translation_match.group(2)))
-            continue
-        render_match = _SOURCE_RENDER_RE.search(line)
-        if render_match:
-            if current_stage != "source_chain_render":
-                reporter.transition("source_chain_render")
-                current_stage = "source_chain_render"
-            reporter.set_stage_context(
-                page=int(render_match.group(1)),
-                page_count=int(render_match.group(2)))
-            reporter.info(
-                current_stage,
-                page=int(render_match.group(1)),
-                page_count=int(render_match.group(2)),
-                message=(f"source chain page {render_match.group(1)}/"
-                         f"{render_match.group(2)}"))
-    return_code = process.wait()
-    if return_code != 0:
-        detail = "\n".join(tail)
-        raise RuntimeError(
-            f"existing source production pipeline exited {return_code}"
-            + (f"\n{detail}" if detail else ""))
-    reporter.finish_stage(cache_hit=cache_hit, cache_miss=cache_miss)
-    audit = _load(source_chain / "translation_cache_audit.json", {}) or {}
-    preflight = _load(source_chain / "preflight.json", {}) or {}
-    return {
-        "cache_hit": int(audit.get("cache_hit", cache_hit) or 0),
-        "cache_miss": int(audit.get("cache_miss", cache_miss) or 0),
-        "page_count": int(preflight.get("page_count") or 0),
-    }
-
-
 def _merge_page_pdfs(page_paths: list[Path], output_path: Path) -> None:
-    """Finalize existing one-page FAST outputs into the delivery PDF."""
+    """Finalize formal one-page FAST outputs into the delivery PDF."""
     import pymupdf
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -203,6 +56,26 @@ def _merge_page_pdfs(page_paths: list[Path], output_path: Path) -> None:
         merged.close()
 
 
+def _prepare_source_chain(*args: Any, **kwargs: Any) -> dict[str, Any]:
+    from fast_source_preparation import prepare_fast_source_chain
+    return prepare_fast_source_chain(*args, **kwargs)
+
+
+def _load_visual_module() -> Any:
+    import run_visual_v06_checkpoint
+    return run_visual_v06_checkpoint
+
+
+@dataclass(frozen=True)
+class FastE2EDependencies:
+    """Injectable route boundaries used by the no-I/O routing smoke."""
+
+    prepare_source_chain: Callable[..., dict[str, Any]] = (
+        _prepare_source_chain)
+    load_visual_module: Callable[[], Any] = _load_visual_module
+    merge_page_pdfs: Callable[[list[Path], Path], None] = _merge_page_pdfs
+
+
 def run_fast_e2e(
     *,
     input_pdf: str | Path,
@@ -210,8 +83,9 @@ def run_fast_e2e(
     qa_mode: str = "fast",
     reporter: LiveProgressReporter,
     config: str | Path = "runs/config.json",
+    dependencies: FastE2EDependencies | None = None,
 ) -> dict[str, Any]:
-    """Run the existing generic source chain and existing FAST visual path."""
+    """Prepare source models, render FAST pages, gate, and finalize."""
     source_pdf = Path(input_pdf).resolve()
     destination = Path(output_dir).resolve()
     if not source_pdf.is_file():
@@ -221,17 +95,20 @@ def run_fast_e2e(
     source_chain = destination / "_source_chain"
     visual_root = destination / "pages"
     final_pdf = destination / f"{source_pdf.stem}_zh_fast.pdf"
+    route = dependencies or FastE2EDependencies()
 
-    cache = _run_existing_source_chain(
-        source_pdf, source_chain, config=config, reporter=reporter)
-    page_count = int(cache.get("page_count") or 0)
+    source = route.prepare_source_chain(
+        source_pdf,
+        source_chain,
+        config=config,
+        reporter=reporter)
+    page_count = int(source.get("page_count") or 0)
     if page_count <= 0:
         raise FastE2EError(
             "preflight found no physical pages", stage="preflight")
 
     # Configure, but do not copy, the current FAST page production function.
-    import run_visual_v06_checkpoint as visual
-
+    visual = route.load_visual_module()
     doc_key = "fast_input"
     visual.OUT = destination
     visual.DOCS = {
@@ -242,11 +119,10 @@ def run_fast_e2e(
         }
     }
     visual.TABLE_TRANSLATION_CACHE_PATHS = [
-        source_chain / "translation_cache.json"]
+        Path(path) for path in source.get("translation_cache_paths", [])]
 
-    with reporter.stage("document_partition"):
-        partition = visual.build_document_partition(
-            doc_key, list(range(1, page_count + 1)))
+    partition = visual.build_document_partition(
+        doc_key, list(range(1, page_count + 1)))
 
     page_pdfs: list[Path] = []
     for page in range(1, page_count + 1):
@@ -266,32 +142,38 @@ def run_fast_e2e(
         )
         if result.get("error"):
             raise FastE2EError(
-                str(result["error"]), stage="ownership/math/slots",
-                page=page, page_count=page_count)
+                str(result["error"]),
+                stage="ownership/math/slots",
+                page=page,
+                page_count=page_count)
         if result.get("decision") != "pass":
             raise FastE2EError(
                 f"FAST_GATE blocked page {page}/{page_count}: "
-                f"{result.get('hard_metrics')}", stage="fast_gate",
-                page=page, page_count=page_count)
+                f"{result.get('hard_metrics')}",
+                stage="fast_gate",
+                page=page,
+                page_count=page_count)
         reporter.finish_page(page, page_count)
         page_pdf = page_dir / "zh_visual.pdf"
         if not page_pdf.is_file():
             raise FastE2EError(
                 f"final page PDF missing: {page_pdf}",
-                stage="chromium_render", page=page,
+                stage="chromium_render",
+                page=page,
                 page_count=page_count)
         page_pdfs.append(page_pdf)
 
     with reporter.stage("pdf_finalize"):
-        _merge_page_pdfs(page_pdfs, final_pdf)
+        route.merge_page_pdfs(page_pdfs, final_pdf)
 
     return {
         "pages": page_count,
         "output": str(final_pdf),
-        "cache_hit": cache["cache_hit"],
-        "cache_miss": cache["cache_miss"],
+        "cache_hit": int(source.get("cache_hit") or 0),
+        "cache_miss": int(source.get("cache_miss") or 0),
         "qa_mode": qa_mode,
+        "canonical_translation_cache": source.get("canonical_cache"),
     }
 
 
-__all__ = ["FastE2EError", "run_fast_e2e"]
+__all__ = ["FastE2EDependencies", "FastE2EError", "run_fast_e2e"]

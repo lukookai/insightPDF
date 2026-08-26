@@ -143,7 +143,11 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
     grid = _load(src_dir / "page_grid.json", {}) or _load(
         src_dir / "qa.json", {}).get("page_grid", {})
     qa_old = _load(src_dir / "qa.json", {})
-    bottom_reserved = qa_old.get("bottom_reserved_regions", [])
+    fast_source_context = _load(
+        src_dir / "fast_source_context.json", {}) or {}
+    bottom_reserved = fast_source_context.get(
+        "bottom_reserved_regions",
+        qa_old.get("bottom_reserved_regions", []))
     if not model or not translations:
         return {"page": page, "error": "missing page artifacts"}
 

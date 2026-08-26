@@ -1,0 +1,77 @@
+{
+  "schema_version": "fast.v05b.route_audit.v1",
+  "decision": "pass",
+  "before": [
+    "parse + translation",
+    "legacy source-chain render",
+    "deep QA",
+    "delivery gate blocks",
+    "FAST renderer unreachable"
+  ],
+  "after": [
+    "preflight",
+    "pdf_parse/page_model",
+    "translation/cache",
+    "current FAST visual renderer",
+    "FAST_GATE",
+    "pdf_finalize"
+  ],
+  "expected_stage_order": [
+    "preflight",
+    "pdf_parse/page_model",
+    "translation/cache",
+    "page",
+    "ownership/math/slots",
+    "html/layout",
+    "typography",
+    "chromium_render",
+    "fast_gate",
+    "pdf_finalize"
+  ],
+  "actual_stage_order": [
+    "preflight",
+    "pdf_parse/page_model",
+    "translation/cache",
+    "page",
+    "ownership/math/slots",
+    "html/layout",
+    "typography",
+    "chromium_render",
+    "fast_gate",
+    "pdf_finalize"
+  ],
+  "stage_order_matches": true,
+  "forbidden_stage_call_counts": {
+    "phase4d1c_call_count": 0,
+    "legacy_render_count": 0,
+    "formula_render_trace_count": 0,
+    "delivery_gate_call_count": 0,
+    "deep_qa_count": 0
+  },
+  "call_counts": {
+    "source_prepare_call_count": 1,
+    "document_partition_count": 1,
+    "fast_renderer_call_count": 1,
+    "fast_gate_call_count": 1,
+    "pdf_finalize_call_count": 1,
+    "translation_api_call_count": 0,
+    "pdf_open_count": 0,
+    "rasterize_count": 0,
+    "chromium_launch_count": 0
+  },
+  "cache_policy": {
+    "key_depends_on_output_dir": false,
+    "canonical_cache_is_output_local": false,
+    "existing_caches_are_read_in_place": true,
+    "cache_copy_per_run_count": 0,
+    "smoke_cache_hit": 7,
+    "smoke_cache_miss": 0
+  },
+  "smoke_external_operations": {
+    "full_document_run_count": 0,
+    "translation_api_call_count": 0,
+    "pdf_open_count": 0,
+    "rasterize_count": 0,
+    "chromium_launch_count": 0
+  }
+}
