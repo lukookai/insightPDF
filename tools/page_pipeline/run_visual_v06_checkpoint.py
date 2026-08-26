@@ -123,9 +123,18 @@ def build_document_partition(doc_key, pages):
 
 def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
                        dry_run=False, table_cache_paths=None,
-                       qa_mode="fast"):
+                       qa_mode="fast", progress_callback=None,
+                       page_count=None):
     from production_fast_gate import normalize_qa_mode
     qa_mode = normalize_qa_mode(qa_mode)
+
+    def _progress(event, stage, **details):
+        """Optional telemetry hook; a no-op for every existing caller."""
+        if progress_callback is not None:
+            progress_callback(
+                event=event, stage=stage, page=page,
+                page_count=page_count, **details)
+
     info = DOCS[doc_key]
     pdf_path = info["pdf"]
     src_dir = info["src"] / "pages" / ("p%03d" % page)
@@ -137,6 +146,8 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
     bottom_reserved = qa_old.get("bottom_reserved_regions", [])
     if not model or not translations:
         return {"page": page, "error": "missing page artifacts"}
+
+    _progress("START", "ownership/math/slots")
 
     # ---- visual-v07 task 1: table-cell translation closure --------------
     # Reuse the existing LogicalCell + row/column/ruling geometry.  Only the
@@ -227,6 +238,7 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         pdf_path=pdf_path, page_idx=page_idx)
     flows = layout.build_visual_flows()
     unresolved = layout.unresolved
+    _progress("DONE", "ownership/math/slots")
 
     # ---- render ----------------------------------------------------------
     t0 = time.time()
@@ -267,6 +279,7 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
     from local_typography_fill_qa import (
         detect_typography_fill_candidates)
 
+    _progress("START", "html/layout")
     with TypographyBatchSession(
             _build_html, out_dir / "_typography_fast_path") as fast_session:
         initial_snapshot = fast_session.capture_dom(
@@ -276,6 +289,8 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
                 else out_dir / "final_block_collision_initial.png"))
         initial_collision_qa = final_block_collision_qa_from_snapshot(
             model, snapshot=initial_snapshot)
+        _progress("DONE", "html/layout")
+        _progress("START", "typography")
 
         # SourceTextSlot geometry still comes only from source-owned objects;
         # the DOM ledger contributes mapping/baseline provenance, not geometry.
@@ -326,6 +341,8 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
             flows, source_text_slot_lock,
             local_typography_fill_candidates, fast_session)
 
+        _progress("DONE", "typography")
+        _progress("START", "chromium_render")
         fast_session.print_pdf(
             flows, pdf_path_out, html_path=html_path,
             reason="final_delivery_after_dom_fit_fill")
@@ -340,6 +357,7 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         typography_fast_path = write_fast_trace(
             out_dir / "typography_fast_path.json", fast_session,
             source_text_slot_lock, local_typography_fill)
+        _progress("DONE", "chromium_render")
 
     local_typography_fit = {
         "schema_version": "visual_v07.local_typography_fit.v1",
@@ -371,6 +389,7 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
     # ---- fast-v04: production FAST_GATE, no deep QA hot path ------------
     if qa_mode == "fast":
         from production_fast_gate import run_fast_gate
+        _progress("START", "fast_gate")
         fast_gate = run_fast_gate(
             model, final_pdf_path=pdf_path_out,
             render_ledger={
@@ -381,6 +400,15 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
             source_text_slot_lock=source_text_slot_lock,
             render_metadata=typography_fast_path,
             flows=flows, expected_physical_page_count=1)
+        _progress(
+            "INFO", "fast_gate",
+            message="FAST_GATE %s" % fast_gate["decision"].upper(),
+            status=("pass" if fast_gate["decision"] == "pass"
+                    else "failed"))
+        _progress(
+            "DONE", "fast_gate",
+            status=("pass" if fast_gate["decision"] == "pass"
+                    else "failed"), decision=fast_gate["decision"])
         render_ms = int((time.time() - t0) * 1000)
         fast_hard = dict(fast_gate["metrics"])
         fast_hard.update({
