@@ -20,6 +20,15 @@ from production_fast_gate import QA_MODES
 Pipeline = Callable[..., dict[str, Any]]
 
 
+def _configure_utf8_console() -> None:
+    """Keep Chinese progress readable in Windows terminals and log pipes."""
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure is not None:
+            reconfigure(encoding="utf-8", errors="replace",
+                        line_buffering=True)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Run the existing FAST PDF production path with live "
@@ -43,6 +52,7 @@ def main(
     reporter_factory: Callable[..., LiveProgressReporter] = (
         LiveProgressReporter),
 ) -> int:
+    _configure_utf8_console()
     args = build_parser().parse_args(argv)
     output_dir = Path(args.output_dir).resolve()
     reporter = reporter_factory(

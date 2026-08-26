@@ -39,6 +39,67 @@ def _stage_summary_name(stage: str) -> str:
     }.get(stage, stage)
 
 
+_STAGE_DISPLAY_NAMES = {
+    "preflight": "预检",
+    "pdf_parse/page_model": "PDF 解析 / 页面模型",
+    "translation/cache": "翻译 / 缓存",
+    "ownership/math/slots": "文本归属 / 数学公式 / 文本槽",
+    "html/layout": "HTML 构建 / 页面布局",
+    "typography": "字体排版",
+    "chromium_render": "浏览器生成 PDF",
+    "fast_gate": "快速质量检查",
+    "pdf_finalize": "合并最终 PDF",
+    "document_partition": "文档分区",
+    "page": "页面",
+    "pipeline": "生产流程",
+    "complete": "全部完成",
+}
+
+_SUMMARY_DISPLAY_NAMES = {
+    "pdf_parse": "PDF 解析",
+    "translation": "翻译",
+    "ownership_math_slots": "归属 / 数学 / 文本槽",
+    "layout": "页面布局",
+    "typography": "字体排版",
+    "chromium": "浏览器生成 PDF",
+    "fast_gate": "快速质量检查",
+    "finalize": "合并最终 PDF",
+    "preflight": "预检",
+}
+
+
+def _stage_display_name(stage: str) -> str:
+    """Return a Chinese terminal label while keeping stable JSONL keys."""
+    return _STAGE_DISPLAY_NAMES.get(stage, stage)
+
+
+def _summary_display_name(stage: str) -> str:
+    return _SUMMARY_DISPLAY_NAMES.get(stage, _stage_display_name(stage))
+
+
+def _human_info_message(
+    stage: str,
+    message: str | None,
+    status: str,
+    details: dict[str, Any],
+) -> str:
+    if stage == "translation/cache" \
+            and ("cache_hit" in details or "cache_miss" in details):
+        return (
+            f"缓存命中={int(details.get('cache_hit') or 0)} "
+            f"缓存缺失={int(details.get('cache_miss') or 0)}")
+    if stage == "translation/cache" \
+            and ("completed" in details or "total" in details):
+        return (
+            f"翻译进度：{int(details.get('completed') or 0)}/"
+            f"{int(details.get('total') or 0)}")
+    if stage == "fast_gate":
+        decision = "通过" if status == "pass" else (
+            "失败" if status == "failed" else "检查中")
+        return f"快速质量检查：{decision}"
+    return message or _stage_display_name(stage)
+
+
 @dataclass
 class _ActiveStage:
     name: str
@@ -141,12 +202,13 @@ class LiveProgressReporter:
                 total_elapsed = max(0.0, now - self._started)
                 page_label = ""
                 if active.page is not None and active.page_count is not None:
-                    page_label = f"page {active.page}/{active.page_count} "
+                    page_label = (
+                        f"第 {active.page}/{active.page_count} 页 · ")
                 self._write_terminal(
-                    f"{self._prefix(total_elapsed)} RUNNING "
-                    f"{page_label}{active.name}\n"
-                    f"{' ' * 19}stage_elapsed={stage_elapsed:.1f}s\n"
-                    f"{' ' * 19}total_elapsed={total_elapsed:.1f}s")
+                    f"{self._prefix(total_elapsed)} 处理中 "
+                    f"{page_label}{_stage_display_name(active.name)}\n"
+                    f"{' ' * 19}当前阶段已用时={stage_elapsed:.1f}秒\n"
+                    f"{' ' * 19}总用时={total_elapsed:.1f}秒")
                 self._append({
                     "event": "RUNNING", "stage": active.name,
                     "page": active.page, "page_count": active.page_count,
@@ -172,9 +234,10 @@ class LiveProgressReporter:
             self._active = active
             page_label = ""
             if page is not None and page_count is not None:
-                page_label = f"page {page}/{page_count} "
+                page_label = f"第 {page}/{page_count} 页 · "
             self._write_terminal(
-                f"{self._prefix()} START  {page_label}{stage}")
+                f"{self._prefix()} 开始  "
+                f"{page_label}{_stage_display_name(stage)}")
             self._append({
                 "event": "START", "stage": stage, "page": page,
                 "page_count": page_count, "stage_elapsed_s": 0.0,
@@ -198,10 +261,11 @@ class LiveProgressReporter:
             self._active = None
             page_label = ""
             if active.page is not None and active.page_count is not None:
-                page_label = f"page {active.page}/{active.page_count} "
+                page_label = (
+                    f"第 {active.page}/{active.page_count} 页 · ")
             self._write_terminal(
-                f"{self._prefix()} DONE   {page_label}{active.name:<28}"
-                f" {elapsed:.1f}s")
+                f"{self._prefix()} 完成  {page_label}"
+                f"{_stage_display_name(active.name)}  {elapsed:.1f}秒")
             self._append({
                 "event": "DONE", "stage": active.name,
                 "page": active.page, "page_count": active.page_count,
@@ -256,7 +320,7 @@ class LiveProgressReporter:
             self._page_started[page] = self._clock()
             self._current_page = (page, page_count)
             self._write_terminal(
-                f"{self._prefix()} START  page {page}/{page_count}")
+                f"{self._prefix()} 开始  第 {page}/{page_count} 页")
             self._append({
                 "event": "START", "stage": "page",
                 "page": page, "page_count": page_count,
@@ -273,8 +337,8 @@ class LiveProgressReporter:
             if self._current_page == (page, page_count):
                 self._current_page = None
             self._write_terminal(
-                f"{self._prefix()} DONE   page {page}/{page_count:<18}"
-                f" {elapsed:.1f}s")
+                f"{self._prefix()} 完成  第 {page}/{page_count} 页  "
+                f"{elapsed:.1f}秒")
             self._append({
                 "event": "DONE", "stage": "page", "page": page,
                 "page_count": page_count, "stage_elapsed_s": elapsed,
@@ -298,7 +362,8 @@ class LiveProgressReporter:
             stage_elapsed = (
                 max(0.0, self._clock() - active.started)
                 if active is not None and active.name == stage else 0.0)
-            display = message or stage
+            display = _human_info_message(
+                stage, message, status, details)
             self._write_terminal(f"{self._prefix()}        {display}")
             self._append({
                 "event": "INFO", "stage": stage, "page": page,
@@ -356,14 +421,15 @@ class LiveProgressReporter:
                 stage_elapsed = 0.0
             message = f"{type(error).__name__}: {error}" \
                 if isinstance(error, BaseException) else str(error)
-            self._write_terminal(f"{self._prefix()} FAILED")
-            self._write_terminal(f"{' ' * 19}page={actual_page}")
-            self._write_terminal(f"{' ' * 19}stage={actual_stage}")
+            self._write_terminal(f"{self._prefix()} 失败")
+            self._write_terminal(f"{' ' * 19}页面={actual_page}")
             self._write_terminal(
-                f"{' ' * 19}total_elapsed={self.total_elapsed_s:.1f}s")
+                f"{' ' * 19}阶段={_stage_display_name(actual_stage)}")
             self._write_terminal(
-                f"{' ' * 19}stage_elapsed={stage_elapsed:.1f}s")
-            self._write_terminal(f"{' ' * 19}error={message}")
+                f"{' ' * 19}总用时={self.total_elapsed_s:.1f}秒")
+            self._write_terminal(
+                f"{' ' * 19}当前阶段已用时={stage_elapsed:.1f}秒")
+            self._write_terminal(f"{' ' * 19}错误={message}")
             self._append({
                 "event": "FAILED", "stage": actual_stage,
                 "page": actual_page, "page_count": actual_page_count,
@@ -389,13 +455,14 @@ class LiveProgressReporter:
             if self._page_durations:
                 slowest_page, slowest_time = max(
                     self._page_durations.items(), key=lambda item: item[1])
-            self._write_terminal(f"{self._prefix(total)} COMPLETE")
-            self._write_terminal(f"{' ' * 19}pages={pages}")
-            self._write_terminal(f"{' ' * 19}total={total:.1f}s")
-            self._write_terminal(f"{' ' * 19}output={Path(output).resolve()}")
+            self._write_terminal(f"{self._prefix(total)} 全部完成")
+            self._write_terminal(f"{' ' * 19}页数={pages}")
+            self._write_terminal(f"{' ' * 19}总用时={total:.1f}秒")
+            self._write_terminal(
+                f"{' ' * 19}输出文件={Path(output).resolve()}")
             self._write_terminal("")
-            self._write_terminal("DURATION RANKING")
-            self._write_terminal(f"  TOTAL              {total:.1f}s")
+            self._write_terminal("耗时排名")
+            self._write_terminal(f"  总用时             {total:.1f}秒")
             required = (
                 "pdf_parse", "translation", "layout", "typography",
                 "chromium", "fast_gate", "finalize")
@@ -404,9 +471,12 @@ class LiveProgressReporter:
                 ((name, self._durations.get(name, 0.0)) for name in names),
                 key=lambda item: item[1], reverse=True)
             for name, seconds in ranked:
-                self._write_terminal(f"  {name:<18} {seconds:.1f}s")
-            self._write_terminal(f"  slowest_page       {slowest_page}")
-            self._write_terminal(f"  slowest_page_time  {slowest_time:.1f}s")
+                self._write_terminal(
+                    f"  {_summary_display_name(name):<18} "
+                    f"{seconds:.1f}秒")
+            self._write_terminal(f"  最慢页面           {slowest_page}")
+            self._write_terminal(
+                f"  最慢页面耗时       {slowest_time:.1f}秒")
             summary = {
                 "pages": pages, "total_elapsed_s": round(total, 6),
                 "output": str(Path(output).resolve()),

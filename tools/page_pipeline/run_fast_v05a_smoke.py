@@ -83,10 +83,10 @@ def _success_smoke(root: Path) -> None:
         pipeline=fake_pipeline, reporter_factory=reporter_factory)
     assert code == 0
     text = stream.getvalue()
-    assert "RUNNING page 1/1 typography" in text
-    assert "FAST_GATE PASS" in text
-    assert "COMPLETE" in text
-    assert "slowest_page" in text
+    assert "处理中 第 1/1 页 · 字体排版" in text
+    assert "快速质量检查：通过" in text
+    assert "全部完成" in text
+    assert "最慢页面" in text
     records = _records(output_dir / "progress.jsonl")
     assert records
     assert all(REQUIRED_FIELDS <= set(row) for row in records)
@@ -117,9 +117,9 @@ def _failure_smoke(root: Path) -> None:
         pipeline=fake_pipeline, reporter_factory=reporter_factory)
     assert code == 1
     text = stream.getvalue()
-    assert "FAILED" in text
-    assert "page=2" in text
-    assert "stage=typography" in text
+    assert "失败" in text
+    assert "页面=2" in text
+    assert "阶段=字体排版" in text
     assert "synthetic smoke failure" in text
     records = _records(output_dir / "progress.jsonl")
     assert records[-1]["event"] == "FAILED"
