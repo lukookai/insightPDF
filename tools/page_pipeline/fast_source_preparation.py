@@ -203,6 +203,8 @@ def prepare_fast_source_chain(
     config: str | Path,
     reporter: LiveProgressReporter,
     canonical_cache_path: str | Path | None = None,
+    translation_cache_enabled: bool = False,
+    translation_provider=None,
 ) -> dict[str, Any]:
     """Build FAST renderer inputs and stop before legacy render/deep QA."""
     pdf_path = Path(source_pdf).resolve()
@@ -249,16 +251,20 @@ def prepare_fast_source_chain(
         config_path = Path(config)
         if not config_path.is_absolute():
             config_path = REPO / config_path
-        cache = SharedDocumentTranslationCache(
-            run_document.DocumentTranslationCache,
-            run_document._cache_key,
-            canonical_path=canonical_cache_path)
+        cache = None
+        if translation_cache_enabled:
+            cache = SharedDocumentTranslationCache(
+                run_document.DocumentTranslationCache,
+                run_document._cache_key,
+                canonical_path=canonical_cache_path)
         translations, _ = run_document.translate_document(
             document,
             cache,
             run_document.load_config(config_path),
             destination,
-            dry_run=False)
+            dry_run=False,
+            cache_enabled=translation_cache_enabled,
+            translation_provider=translation_provider)
         for page in document["pages"]:
             page_number = int(page["page"])
             page_dir = destination / "pages" / f"p{page_number:03d}"
@@ -280,16 +286,34 @@ def prepare_fast_source_chain(
                 "bottom_reserved_regions": bottom_reserved,
             })
 
-        cache_hit = int(document.get(
-            "cache_post_invalidation_hit_count", 0) or 0)
-        cache_miss = int(document.get("new_translation_call_count", 0) or 0)
-        reporter.info(
-            "translation/cache",
-            message=f"cache_hit={cache_hit} cache_miss={cache_miss}",
-            cache_hit=cache_hit,
-            cache_miss=cache_miss,
-            canonical_cache=str(cache.path),
-            cache_seed_count=len(cache.seed_caches))
+        cache_hit = int(document.get("cache_hit", 0) or 0)
+        provider_item_count = int(
+            document.get("new_translation_call_count", 0) or 0)
+        cache_lookup_count = int(
+            document.get("cache_lookup_count", 0) or 0)
+        cache_read_count = int(document.get("cache_read_count", 0) or 0)
+        cache_write_count = int(document.get("cache_write_count", 0) or 0)
+        if translation_cache_enabled:
+            reporter.info(
+                "translation/cache",
+                message=(f"cache_enabled=true cache_hit={cache_hit} "
+                         f"provider_items={provider_item_count}"),
+                translation_cache_enabled=True,
+                cache_hit=cache_hit,
+                provider_item_count=provider_item_count,
+                canonical_cache=str(cache.path),
+                cache_seed_count=len(cache.seed_caches))
+        else:
+            reporter.info(
+                "translation/cache",
+                message=("cache_enabled=false "
+                         f"provider_items={provider_item_count}"),
+                translation_cache_enabled=False,
+                cache_hit=0,
+                provider_item_count=provider_item_count,
+                cache_lookup_count=0,
+                cache_read_count=0,
+                cache_write_count=0)
 
     _dump(destination / "fast_source_manifest.json", {
         "schema_version": "fast.source_manifest.v1",
@@ -298,17 +322,31 @@ def prepare_fast_source_chain(
         "route": "parse_document_model_translation_only",
         "legacy_render_executed": False,
         "deep_qa_executed": False,
-        "canonical_translation_cache": str(cache.path),
-        "translation_cache_seed_count": len(cache.seed_caches),
+        "translation_cache_enabled": bool(translation_cache_enabled),
+        "cache_lookup_count": cache_lookup_count,
+        "cache_read_count": cache_read_count,
+        "cache_write_count": cache_write_count,
+        "cache_hit": cache_hit,
+        "canonical_translation_cache": (
+            str(cache.path) if cache is not None else None),
+        "translation_cache_seed_count": (
+            len(cache.seed_caches) if cache is not None else 0),
     })
     return {
         "page_count": int(preflight.get("page_count") or page_count),
         "cache_hit": cache_hit,
-        "cache_miss": cache_miss,
-        "canonical_cache": str(cache.path),
-        "translation_cache_paths": [
-            str(path) for path in cache.source_paths],
-        "cache_hit_by_path": dict(cache.lookup_hit_by_path),
+        "cache_miss": provider_item_count,
+        "provider_item_count": provider_item_count,
+        "translation_cache_enabled": bool(translation_cache_enabled),
+        "cache_lookup_count": cache_lookup_count,
+        "cache_read_count": cache_read_count,
+        "cache_write_count": cache_write_count,
+        "canonical_cache": (str(cache.path) if cache is not None else None),
+        "translation_cache_paths": (
+            [str(path) for path in cache.source_paths]
+            if cache is not None else []),
+        "cache_hit_by_path": (
+            dict(cache.lookup_hit_by_path) if cache is not None else {}),
     }
 
 

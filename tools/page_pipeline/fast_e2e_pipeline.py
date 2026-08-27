@@ -83,6 +83,7 @@ def run_fast_e2e(
     qa_mode: str = "fast",
     reporter: LiveProgressReporter,
     config: str | Path = "runs/config.json",
+    translation_cache_enabled: bool = False,
     dependencies: FastE2EDependencies | None = None,
 ) -> dict[str, Any]:
     """Prepare source models, render FAST pages, gate, and finalize."""
@@ -101,7 +102,8 @@ def run_fast_e2e(
         source_pdf,
         source_chain,
         config=config,
-        reporter=reporter)
+        reporter=reporter,
+        translation_cache_enabled=translation_cache_enabled)
     page_count = int(source.get("page_count") or 0)
     if page_count <= 0:
         raise FastE2EError(
@@ -171,6 +173,11 @@ def run_fast_e2e(
         "output": str(final_pdf),
         "cache_hit": int(source.get("cache_hit") or 0),
         "cache_miss": int(source.get("cache_miss") or 0),
+        "translation_cache_enabled": bool(
+            source.get("translation_cache_enabled", False)),
+        "cache_lookup_count": int(source.get("cache_lookup_count") or 0),
+        "cache_read_count": int(source.get("cache_read_count") or 0),
+        "cache_write_count": int(source.get("cache_write_count") or 0),
         "qa_mode": qa_mode,
         "canonical_translation_cache": source.get("canonical_cache"),
     }

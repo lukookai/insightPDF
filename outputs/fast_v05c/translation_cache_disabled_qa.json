@@ -1,0 +1,25 @@
+{
+  "schema_version": "fast.v05c.translation_cache_disabled_qa.v1",
+  "decision": "pass",
+  "translation_cache_enabled": false,
+  "cache_lookup_count": 0,
+  "cache_read_count": 0,
+  "cache_write_count": 0,
+  "cache_hit": 0,
+  "provider_item_count": 1,
+  "cache_file_created_count": 0,
+  "provider_item_ids": [
+    "MOCK_LP1"
+  ],
+  "provider_received_required_item": true,
+  "real_translation_api_call_count": 0,
+  "default_switches": {
+    "translate_document": false,
+    "prepare_fast_source_chain": false,
+    "run_fast_e2e": false,
+    "cli": "off"
+  },
+  "all_normal_entry_defaults_off": true,
+  "cache_implementation_deleted": false,
+  "explicit_opt_in_available": true
+}

@@ -228,7 +228,8 @@ def _table_translation_items(page):
     return items
 
 
-def translate_document(document, cache, config, out_dir, dry_run=False):
+def translate_document(document, cache, config, out_dir, dry_run=False, *,
+                       cache_enabled=False, translation_provider=None):
     items = [{"item_id": p["logical_paragraph_id"], "type": "paragraph",
               "source_text": p.get("translation_source_text") or p["source_text"],
               "style_role": p.get("style_role") or "body",
@@ -238,8 +239,16 @@ def translate_document(document, cache, config, out_dir, dry_run=False):
         items.extend(_table_translation_items(page))
     translations = {}
     misses = []
+    cache_lookup_count = 0
+    cache_read_count = 0
+    cache_write_count = 0
     for item in items:
-        hit = cache.get(item)
+        if cache_enabled:
+            cache_lookup_count += 1
+            cache_read_count += 1
+            hit = cache.get(item)
+        else:
+            hit = None
         if hit is None:
             misses.append(item)
         else:
@@ -275,7 +284,9 @@ def translate_document(document, cache, config, out_dir, dry_run=False):
                 and len(src.strip()) >= 8:
             # verbatim English returned for a translatable prose item
             translations.pop(item["item_id"], None)
-            cache.delete(item)  # invalidate in the persisted cache too
+            if cache_enabled:
+                cache.delete(item)  # invalidate persisted cache too
+                cache_write_count += 1
             invalidated.append({**item,
                                 "invalidated_reason":
                                 "verbatim_source_for_translatable_prose"})
@@ -287,9 +298,18 @@ def translate_document(document, cache, config, out_dir, dry_run=False):
                   % (item["item_id"], (item["source_text"] or "")[:50]))
     misses = [item for item in items if item["item_id"] not in translations]
     post_invalidation_hit_count = len(items) - len(misses)
-    print("translation cache: hit=%d miss=%d (invalidated=%d)"
-           % (post_invalidation_hit_count,
-              len(misses), len(invalidated)))
+    if cache_enabled:
+        print("translation cache: hit=%d miss=%d (invalidated=%d)"
+              % (post_invalidation_hit_count,
+                 len(misses), len(invalidated)))
+    else:
+        print("translation cache: disabled; direct provider items=%d"
+              % len(misses))
+    document["translation_cache_enabled"] = bool(cache_enabled)
+    document["cache_lookup_count"] = cache_lookup_count
+    document["cache_read_count"] = cache_read_count
+    document["cache_write_count"] = cache_write_count
+    document["cache_hit"] = post_invalidation_hit_count if cache_enabled else 0
     document["cache_initial_hit_count"] = initial_hit_count
     document["cache_initial_miss_count"] = len(initial_misses)
     document["cache_invalidated_count"] = len(invalidated)
@@ -302,7 +322,14 @@ def translate_document(document, cache, config, out_dir, dry_run=False):
         use_bridge = False
         for start in range(0, len(misses), tb.BATCH_SIZE):
             chunk = misses[start:start + tb.BATCH_SIZE]
-            if dry_run:
+            if translation_provider is not None:
+                got = translation_provider(
+                    chunk,
+                    token=config.get("token"),
+                    base_url=config.get("base_url"),
+                    model=config.get("model"),
+                    dry_run=dry_run)
+            elif dry_run:
                 got = tb.translate_batch(chunk, dry_run=True)
             elif use_bridge:
                 got = _translate_via_ssl_bridge(chunk, config, out_dir)
@@ -323,10 +350,11 @@ def translate_document(document, cache, config, out_dir, dry_run=False):
             for item in chunk:
                 value = got[item["item_id"]]
                 translations[item["item_id"]] = value
-                if not dry_run:
+                if cache_enabled and not dry_run:
                     # Persist after every successful item: interruption never
                     # invalidates a completed API batch.
                     cache.put(item, value)
+                    cache_write_count += 1
             print("translation progress: %d/%d" %
                   (min(start + len(chunk), len(misses)), len(misses)))
     # Empty translation fallback: an empty API result loses the paragraph
@@ -367,19 +395,29 @@ def translate_document(document, cache, config, out_dir, dry_run=False):
               % len(retried_items))
         for start in range(0, len(retried_items), tb.BATCH_SIZE):
             chunk = retried_items[start:start + tb.BATCH_SIZE]
-            try:
-                import ssl  # noqa: F401
-                got = tb.translate_batch(
-                    chunk, token=config["token"],
-                    base_url=config["base_url"], model=config["model"],
+            if translation_provider is not None:
+                got = translation_provider(
+                    chunk,
+                    token=config.get("token"),
+                    base_url=config.get("base_url"),
+                    model=config.get("model"),
                     dry_run=False)
-            except (ImportError, tb.TranslationError):
-                got = _translate_via_ssl_bridge(chunk, config, out_dir)
+            else:
+                try:
+                    import ssl  # noqa: F401
+                    got = tb.translate_batch(
+                        chunk, token=config["token"],
+                        base_url=config["base_url"], model=config["model"],
+                        dry_run=False)
+                except (ImportError, tb.TranslationError):
+                    got = _translate_via_ssl_bridge(chunk, config, out_dir)
             for item in chunk:
                 value = got.get(item["item_id"], "")
                 if value.strip():
                     translations[item["item_id"]] = value
-                    cache.put(item, value)
+                    if cache_enabled:
+                        cache.put(item, value)
+                        cache_write_count += 1
                 else:
                     translations[item["item_id"]] = item["source_text"]
                     fallback_ids.add(item["item_id"])
@@ -458,7 +496,9 @@ def translate_document(document, cache, config, out_dir, dry_run=False):
         document["restored_formula_placeholder_count"] = \
             _restore_dropped_placeholders
     assign_fragment_translations(document, translations)
-    document["translation_cache"] = str(cache.path)
+    document["cache_write_count"] = cache_write_count
+    document["translation_cache"] = (
+        str(cache.path) if cache_enabled and cache is not None else None)
     return translations, items
 
 
@@ -834,6 +874,9 @@ def main():
     parser.add_argument("--config", default="runs/config.json")
     parser.add_argument("--translation-cache-seed", default=None,
                         help="copy an existing translation_cache.json into a new output root")
+    parser.add_argument(
+        "--translation-cache", choices=("off", "on"), default="off",
+        help="default: off; explicitly select on to read/write the legacy cache")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--scan-only", action="store_true")
@@ -906,15 +949,23 @@ def main():
     config = load_config(args.config)
     if not config["token"] and not args.dry_run:
         raise RuntimeError("missing DEEPSEEK_API_KEY")
+    cache_enabled = args.translation_cache == "on"
+    if args.translation_cache_seed and not cache_enabled:
+        raise RuntimeError(
+            "--translation-cache-seed requires --translation-cache on")
     cache_path = out_dir / "translation_cache.json"
-    if (args.translation_cache_seed and not cache_path.exists()):
-        shutil.copy2(Path(args.translation_cache_seed).resolve(), cache_path)
-    cache = DocumentTranslationCache(cache_path)
-    # Preserve the exact initial lookup state for a truthful cache audit;
-    # translate_document performs narrow in-place invalidation/updates.
-    initial_cache_snapshot = json.loads(json.dumps(cache.data))
+    cache = None
+    initial_cache_snapshot = {}
+    if cache_enabled:
+        if (args.translation_cache_seed and not cache_path.exists()):
+            shutil.copy2(Path(args.translation_cache_seed).resolve(), cache_path)
+        cache = DocumentTranslationCache(cache_path)
+        # Preserve the exact initial lookup state for a truthful cache audit;
+        # translate_document performs narrow in-place invalidation/updates.
+        initial_cache_snapshot = json.loads(json.dumps(cache.data))
     translations, translation_items = translate_document(
-        document, cache, config, out_dir, dry_run=args.dry_run)
+        document, cache, config, out_dir, dry_run=args.dry_run,
+        cache_enabled=cache_enabled)
 
     page_results = {}
     structural_qas = {}
@@ -1151,6 +1202,11 @@ def main():
         out_path=out_dir / "translation_cache_audit.json")
     cache_audit["seed_path"] = (str(Path(args.translation_cache_seed).resolve())
                                 if args.translation_cache_seed else None)
+    cache_audit["translation_cache_enabled"] = cache_enabled
+    cache_audit["cache_lookup_count"] = document.get("cache_lookup_count", 0)
+    cache_audit["cache_read_count"] = document.get("cache_read_count", 0)
+    cache_audit["cache_write_count"] = document.get("cache_write_count", 0)
+    cache_audit["cache_hit"] = document.get("cache_hit", 0)
     cache_audit["actual_new_translation_call_count"] = document.get(
         "new_translation_call_count", 0)
     cache_audit["post_invalidation_hit_count"] = document.get(
@@ -1298,7 +1354,8 @@ def main():
         "output_root": str(out_dir),
         "full_preview": str(delivery_preview) if delivery_preview else None,
         "debug_preview": str(debug_preview),
-        "translation_cache": str(cache.path),
+        "translation_cache_enabled": cache_enabled,
+        "translation_cache": (str(cache.path) if cache is not None else None),
         "page_status": {str(number): ("complete" if number in page_results else "failed")
                         for number in range(1, page_count + 1)},
         "failures": failures,

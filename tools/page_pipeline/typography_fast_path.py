@@ -242,10 +242,16 @@ class TypographyBatchSession:
           };
           const output={};
           for(const request of requests){
-            const selector=`.paragraph-block[data-flow-fragment="${
+            const selector=`[data-render-id="${
+              CSS.escape(request.render_id)}"][data-flow-fragment="${
               CSS.escape(request.flow_fragment_id)}"]`;
-            const el=document.querySelector(selector);
-            if(!el){ output[request.flow_fragment_id]=null; continue; }
+            const matches=document.querySelectorAll(selector);
+            if(matches.length!==1){
+              output[request.flow_fragment_id]={
+                __render_identity_match_count:matches.length};
+              continue;
+            }
+            const el=matches[0];
             const saved=el.style.cssText;
             const rows={};
             for(const variant of request.variants){
@@ -283,11 +289,21 @@ class TypographyBatchSession:
           }
           return output;
         }""", requests)
-        missing = [request["flow_fragment_id"] for request in requests
-                   if raw.get(request["flow_fragment_id"]) is None]
+        missing = [
+            request["flow_fragment_id"] for request in requests
+            if raw.get(request["flow_fragment_id"]) is None
+            or int((raw.get(request["flow_fragment_id"]) or {}).get(
+                "__render_identity_match_count", 1)) == 0]
+        duplicates = [
+            request["flow_fragment_id"] for request in requests
+            if int((raw.get(request["flow_fragment_id"]) or {}).get(
+                "__render_identity_match_count", 1)) > 1]
         if missing:
             raise ValueError("fast typography DOM block missing: %s"
                              % ", ".join(missing))
+        if duplicates:
+            raise ValueError("fast typography DOM identity duplicate: %s"
+                             % ", ".join(duplicates))
         result: dict[str, dict[str, dict[str, Any]]] = {}
         for request in requests:
             fragment = request["flow_fragment_id"]
@@ -352,6 +368,10 @@ def _fit_requests(lock_trace: dict[str, Any]) -> list[dict[str, Any]]:
         source_font = float(candidate.get("source_font_size") or 0.0)
         source_line = float(candidate.get("source_line_height") or 0.0)
         requests.append({
+            "render_id": str(candidate.get("render_id")
+                             or candidate.get("paragraph_id")
+                             or str(candidate["flow_fragment_id"]).split(
+                                 "-F", 1)[0]),
             "flow_fragment_id": str(candidate["flow_fragment_id"]),
             "base_wrapping": _base_wrapping(),
             "variants": [{
@@ -488,6 +508,9 @@ def _fill_requests(lock_trace: dict[str, Any],
         line = float(record.get("final_line_height")
                      or record.get("source_line_height") or 0.0)
         requests.append({
+            "render_id": str(record.get("render_id")
+                             or record.get("paragraph_id")
+                             or fragment.split("-F", 1)[0]),
             "flow_fragment_id": fragment,
             "base_wrapping": _base_wrapping(),
             "variants": [{

@@ -40,9 +40,11 @@ def _success_smoke(root: Path) -> None:
             path, terminal=terminal, heartbeat_interval_s=0.03,
             stream=stream)
 
-    def fake_pipeline(*, input_pdf, output_dir, qa_mode, reporter, config):
+    def fake_pipeline(*, input_pdf, output_dir, qa_mode, reporter, config,
+                      translation_cache_enabled):
         assert input_pdf == input_path.resolve()
         assert qa_mode == "fast"
+        assert translation_cache_enabled is False
         assert config == "runs/config.json"
         with reporter.stage("preflight"):
             pass

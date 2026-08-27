@@ -141,9 +141,11 @@ def _run_route_smoke(root: Path) -> tuple[dict, dict[str, int], Path]:
     run_output = root / "run"
     shared_cache = root / "shared" / "translation_cache.json"
 
-    def prepare_source(source_pdf, source_chain, *, config, reporter):
+    def prepare_source(source_pdf, source_chain, *, config, reporter,
+                       translation_cache_enabled):
         calls["source_prepare_call_count"] += 1
         assert Path(source_pdf) == input_pdf.resolve()
+        assert translation_cache_enabled is False
         assert Path(source_chain).parent == run_output.resolve()
         assert config == "runs/config.json"
         with reporter.stage("preflight"):

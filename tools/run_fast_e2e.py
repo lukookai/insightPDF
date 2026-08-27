@@ -42,6 +42,9 @@ def build_parser() -> argparse.ArgumentParser:
                         help="show flushed live terminal progress")
     parser.add_argument("--config", default="runs/config.json",
                         help="existing translation backend config")
+    parser.add_argument(
+        "--translation-cache", choices=("off", "on"), default="off",
+        help="default: off; use on only for an explicit cache-enabled run")
     return parser
 
 
@@ -64,6 +67,7 @@ def main(
             qa_mode=args.qa_mode,
             reporter=reporter,
             config=args.config,
+            translation_cache_enabled=args.translation_cache == "on",
         )
         reporter.complete(
             pages=int(result["pages"]),

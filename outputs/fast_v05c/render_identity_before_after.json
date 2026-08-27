@@ -1,0 +1,162 @@
+{
+  "schema_version": "fast.v05c.render_identity_before_after.v1",
+  "frozen_fixture": {
+    "html": "E:\\Code\\fanyi\\outputs\\fast_e2e\\PPAT_run3\\pages\\p001\\_typography_fast_path\\source_slot_baseline.html",
+    "page_model": "E:\\Code\\fanyi\\outputs\\fast_e2e\\PPAT_run3\\_source_chain\\pages\\p001\\stitched_page_model.json",
+    "paragraph_ids": [
+      "DLP00002",
+      "DLP00004"
+    ],
+    "flow_fragment_ids": [
+      "DLP00002-F0",
+      "DLP00004-F0"
+    ]
+  },
+  "before": {
+    "schema_version": "fast.v05c.specialized_render_identity_qa.v1",
+    "decision": "fail",
+    "hard_metrics": {
+      "specialized_render_identity_missing_count": 2,
+      "typography_dom_missing_count": 2,
+      "render_identity_duplicate_count": 0,
+      "slot_geometry_mutation_count": 0,
+      "hard_anchor_moved_count": 0,
+      "production_special_case_count": 0
+    },
+    "expected": [
+      {
+        "paragraph_id": "DLP00002",
+        "render_id": "DLP00002",
+        "flow_fragment_id": "DLP00002-F0",
+        "semantic_role": "heading"
+      },
+      {
+        "paragraph_id": "DLP00004",
+        "render_id": "DLP00004",
+        "flow_fragment_id": "DLP00004-F0",
+        "semantic_role": "caption"
+      }
+    ],
+    "specialized_dom_element_count": 2,
+    "missing_identity": [
+      {
+        "paragraph_id": "DLP00002",
+        "render_id": "DLP00002",
+        "flow_fragment_id": "DLP00002-F0",
+        "semantic_role": "heading",
+        "missing_attributes": [
+          "data-flow-fragment",
+          "data-render-id",
+          "data-render-source"
+        ],
+        "candidate_count": 1
+      },
+      {
+        "paragraph_id": "DLP00004",
+        "render_id": "DLP00004",
+        "flow_fragment_id": "DLP00004-F0",
+        "semantic_role": "caption",
+        "missing_attributes": [
+          "data-flow-fragment",
+          "data-render-id",
+          "data-render-source",
+          "data-role"
+        ],
+        "candidate_count": 1
+      }
+    ],
+    "typography_dom_missing": [
+      {
+        "paragraph_id": "DLP00002",
+        "render_id": "DLP00002",
+        "flow_fragment_id": "DLP00002-F0",
+        "semantic_role": "heading",
+        "matching_dom_identity_count": 0,
+        "reason": "identity_missing"
+      },
+      {
+        "paragraph_id": "DLP00004",
+        "render_id": "DLP00004",
+        "flow_fragment_id": "DLP00004-F0",
+        "semantic_role": "caption",
+        "matching_dom_identity_count": 0,
+        "reason": "identity_missing"
+      }
+    ],
+    "duplicate_identities": []
+  },
+  "after": {
+    "schema_version": "fast.v05c.specialized_render_identity_qa.v1",
+    "decision": "pass",
+    "hard_metrics": {
+      "specialized_render_identity_missing_count": 0,
+      "typography_dom_missing_count": 0,
+      "render_identity_duplicate_count": 0,
+      "slot_geometry_mutation_count": 0,
+      "hard_anchor_moved_count": 0,
+      "production_special_case_count": 0
+    },
+    "expected": [
+      {
+        "paragraph_id": "DLP00002",
+        "render_id": "DLP00002",
+        "flow_fragment_id": "DLP00002-F0",
+        "semantic_role": "heading"
+      },
+      {
+        "paragraph_id": "DLP00004",
+        "render_id": "DLP00004",
+        "flow_fragment_id": "DLP00004-F0",
+        "semantic_role": "caption"
+      }
+    ],
+    "specialized_dom_element_count": 2,
+    "missing_identity": [],
+    "typography_dom_missing": [],
+    "duplicate_identities": [],
+    "typography_writeback": {
+      "typography_writeback_mismatch_count": 0,
+      "records": [
+        {
+          "render_id": "DLP00002",
+          "specialized_role": "author",
+          "flow_fragment_id": "DLP00002-F0",
+          "expected": {
+            "font_size": 7.567,
+            "line_height": 9.573,
+            "text_indent_em": 0.0
+          },
+          "actual": {
+            "font_size": 7.567,
+            "line_height": 9.573,
+            "text_indent_em": 0.0
+          },
+          "typography_writeback_match": true
+        },
+        {
+          "render_id": "DLP00004",
+          "specialized_role": "caption",
+          "flow_fragment_id": "DLP00004-F0",
+          "expected": {
+            "font_size": 8.603,
+            "line_height": 10.887,
+            "text_indent_em": 0.5
+          },
+          "actual": {
+            "font_size": 8.603,
+            "line_height": 10.887,
+            "text_indent_em": 0.5
+          },
+          "typography_writeback_match": true
+        }
+      ]
+    }
+  },
+  "typography_selector_before": ".paragraph-block[data-flow-fragment]",
+  "typography_selector_after": "[data-render-id][data-flow-fragment] (exact identity pair)",
+  "production_special_cases": [],
+  "chromium_launch_count": 0,
+  "pdf_open_count": 0,
+  "page_rasterize_count": 0,
+  "real_translation_api_call_count": 0
+}

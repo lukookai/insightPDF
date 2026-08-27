@@ -403,6 +403,7 @@ def _assign_frontmatter_paras(frontmatter, para_regions):
 def _render_frontmatter_blocks(para_map, roles, translations, grid, fm,
                                ty, inline_map, svg_name, page_w, page_h,
                                out_dir, full_svg,
+                               flow_items_by_pid=None,
                                bottom_reserved_regions=None,
                                latin_gap=0.0, number_gap=0.0,
                                inline_gap_l=0.0, inline_gap_r=0.0,
@@ -416,6 +417,16 @@ def _render_frontmatter_blocks(para_map, roles, translations, grid, fm,
     cf_w = max(cf["x1"] - cf["x0"], 1.0)
     track0 = grid["columns"][0]
     track0_w = max(track0["x1"] - track0["x0"], 1.0)
+    flow_items_by_pid = flow_items_by_pid or {}
+    emitted_identities = set()
+
+    from render_identity import (
+        render_identity_attributes,
+        soft_text_render_identity,
+        specialized_typography_attributes,
+        specialized_typography_state,
+        specialized_typography_style,
+    )
 
     def para_bbox(pid):
         return para_map[pid]["payload"].get("bbox") or [0, 0, 0, 0]
@@ -434,14 +445,56 @@ def _render_frontmatter_blocks(para_map, roles, translations, grid, fm,
                                       inline_gap_r=inline_gap_r,
                                       gap_collector=gap_collector)
 
-    def block(pid, cls, left, top, width, extra_style=""):
+    def _flow(pid):
+        values = flow_items_by_pid.get(pid) or []
+        return values[0] if values else None
+
+    def _identity_and_typography(pid, specialized_role, default_font,
+                                 default_line):
+        flow_item = _flow(pid)
+        identity = soft_text_render_identity(
+            pid, flow_item, semantic_role=specialized_role)
+        key = (identity["render_id"], identity["flow_fragment_id"])
+        if key in emitted_identities:
+            # A source paragraph may contain both author and affiliation
+            # parts.  Each DOM render unit remains unique while both receive
+            # the same source-relative typography state.
+            identity = soft_text_render_identity(
+                pid, flow_item, semantic_role=specialized_role,
+                identity_suffix=specialized_role)
+            key = (identity["render_id"], identity["flow_fragment_id"])
+        if key in emitted_identities:
+            raise ValueError("duplicate specialized RenderIdentity: %s/%s"
+                             % key)
+        emitted_identities.add(key)
+        typography_state = specialized_typography_state(
+            flow_item,
+            default_font_size=default_font,
+            default_line_height=default_line)
+        return (
+            render_identity_attributes(identity),
+            specialized_typography_attributes(typography_state),
+            specialized_typography_style(typography_state),
+            typography_state,
+        )
+
+    def block(pid, cls, left, top, width, *, specialized_role,
+              default_font, default_line, extra_style=""):
         inner = inner_zh(pid)
         if not inner:
             return ""
-        return ('<div class="%s" data-para="%s" '
+        identity_attrs, typography_attrs, typography_style, state = (
+            _identity_and_typography(
+                pid, specialized_role, default_font, default_line))
+        if state["content_top_offset"]:
+            inner = ('<span class="slot-text-content" '
+                     'style="position:relative;top:%.3fpt;">%s</span>'
+                     % (state["content_top_offset"], inner))
+        return ('<div class="%s" data-para="%s" %s %s '
                 'style="position:absolute;left:%.3fpt;'
-                'top:%.3fpt;width:%.3fpt;%s">%s</div>'
-                % (cls, pid, left, top, width, extra_style, inner))
+                'top:%.3fpt;width:%.3fpt;%s%s">%s</div>'
+                % (cls, pid, identity_attrs, typography_attrs,
+                   left, top, width, extra_style, typography_style, inner))
 
     # ---- TitleBlock: full width, centered, source y ----
     title_ids = [pid for pid, role in roles.items() if role == "title"]
@@ -449,7 +502,11 @@ def _render_frontmatter_blocks(para_map, roles, translations, grid, fm,
         pid = sorted(title_ids, key=lambda p: para_bbox(p)[1])[0]
         fm_title = (fm or {}).get("title") or {}
         top = fm_title.get("bbox", para_bbox(pid))[1]
-        parts.append(block(pid, "title-block", cf["x0"], top, cf_w))
+        parts.append(block(
+            pid, "title-block", cf["x0"], top, cf_w,
+            specialized_role="title",
+            default_font=ty["title_font_size"],
+            default_line=ty["title_line_height"]))
 
     # ---- AuthorBlock / AffiliationBlock: merged, centered, full width.
     #      A mixed paragraph ("Zhiyuan Liu1 Maosong Sun† 清华大学 ...")
@@ -466,7 +523,7 @@ def _render_frontmatter_blocks(para_map, roles, translations, grid, fm,
                           "", text).strip()
         return text if (re.search(r"[\u4e00-\u9fffA-Za-z]", stripped)) else ""
 
-    def _render_part(pid, part):
+    def _render_part(pid, part, specialized_role):
         part = _clean_part(part)
         if not part:
             return None
@@ -479,9 +536,21 @@ def _render_frontmatter_blocks(para_map, roles, translations, grid, fm,
                                       inline_gap_l=inline_gap_l,
                                       inline_gap_r=inline_gap_r,
                                       gap_collector=gap_collector)
-        # each logical paragraph keeps its own data-para for the visual QA
-        return ('<span data-para="%s" data-role="%s">%s</span>'
-                % (pid, para.get("style_role") or "body", html))
+        default_prefix = ("author" if specialized_role == "author"
+                          else "affiliation")
+        identity_attrs, typography_attrs, typography_style, state = (
+            _identity_and_typography(
+                pid, specialized_role,
+                ty[default_prefix + "_font_size"],
+                ty[default_prefix + "_line_height"]))
+        if state["content_top_offset"]:
+            typography_style += "position:relative;top:%.3fpt;" % (
+                state["content_top_offset"])
+        # each logical paragraph keeps its own data-para for visual QA; the
+        # element also carries the same RenderIdentity contract as prose.
+        return ('<span data-para="%s" %s %s style="%s">%s</span>'
+                % (pid, identity_attrs, typography_attrs,
+                   typography_style, html))
 
     author_html = []
     aff_html = []
@@ -491,8 +560,10 @@ def _render_frontmatter_blocks(para_map, roles, translations, grid, fm,
         if not zh:
             continue
         a_part, f_part = _split_author_affiliation(zh)
-        for html_list, part in ((author_html, a_part), (aff_html, f_part)):
-            h = _render_part(pid, part)
+        for html_list, part, specialized_role in (
+                (author_html, a_part, "author"),
+                (aff_html, f_part, "affiliation")):
+            h = _render_part(pid, part, specialized_role)
             if h:
                 html_list.append(h)
     if author_html:
@@ -530,8 +601,13 @@ def _render_frontmatter_blocks(para_map, roles, translations, grid, fm,
     if ab_ids:
         pid = ab_ids[0]
         top = para_bbox(pid)[1]
-        parts.append(block(pid, "abstract-heading", track0["x0"], top,
-                           track0_w, "text-align:center;"))
+        abstract_line = round(ty["abstract_heading_font_size"] * 1.3, 3)
+        parts.append(block(
+            pid, "abstract-heading", track0["x0"], top, track0_w,
+            specialized_role="abstract_heading",
+            default_font=ty["abstract_heading_font_size"],
+            default_line=abstract_line,
+            extra_style="text-align:center;"))
     body_ids = [pid for pid, role in roles.items()
                 if role == "abstract_body"]
     if body_ids:
@@ -542,9 +618,11 @@ def _render_frontmatter_blocks(para_map, roles, translations, grid, fm,
         left = track0["x0"] + inset_l
         width = max(track0_w - inset_l - inset_r, 1.0)
         fam = ("font-family:%s;" % body_family) if body_family else ""
-        parts.append(block(pid, "abstract-body", left, bb[1], width,
-                           "font-size:%.2fpt;line-height:%.2fpt;%s"
-                           % (ty["body_font_size"], ty["body_line_height"], fam)))
+        parts.append(block(
+            pid, "abstract-body", left, bb[1], width,
+            specialized_role="abstract_body",
+            default_font=ty["body_font_size"],
+            default_line=ty["body_line_height"], extra_style=fam))
 
     # ---- CaptionBlock: bound to the figure (same x, figure width) ----
     cap_ids = [pid for pid, role in roles.items() if role == "caption"]
@@ -558,7 +636,11 @@ def _render_frontmatter_blocks(para_map, roles, translations, grid, fm,
         else:
             left = para_bbox(pid)[0]
             width = cf_w
-        parts.append(block(pid, "caption-block", left, top, width))
+        parts.append(block(
+            pid, "caption-block", left, top, width,
+            specialized_role="caption",
+            default_font=ty["caption_font_size"],
+            default_line=ty["caption_line_height"]))
 
     # ---- FootnoteBlock: page-bottom band, footnote typography ----
     fn_ids = sorted([pid for pid, role in roles.items()
@@ -570,10 +652,11 @@ def _render_frontmatter_blocks(para_map, roles, translations, grid, fm,
             bb = para_bbox(pid)
             top = (float(reserved["y0"]) if reserved else
                    max(bb[1], page_h * 0.72))
-            parts.append(block(pid, "footnote-block", cf["x0"], top, cf_w,
-                               "font-size:%.2fpt;line-height:%.2fpt;"
-                               % (ty["footnote_font_size"],
-                                  ty["footnote_line_height"])))
+            parts.append(block(
+                pid, "footnote-block", cf["x0"], top, cf_w,
+                specialized_role="footnote",
+                default_font=ty["footnote_font_size"],
+                default_line=ty["footnote_line_height"]))
     return parts
 
 
@@ -717,6 +800,23 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
     para_regions = [r for r in page_model["regions"] if r["type"] == "text"]
     para_by_id = {r["payload"]["paragraph_id"]: r for r in para_regions}
 
+    if not flow_items:
+        for r in para_regions:
+            p = r["payload"]
+            flow_items.append((
+                {"col_x0": p.get("col_x0", r["bbox"][0]),
+                 "col_x1": p.get("col_x1", r["bbox"][2])},
+                {"kind": "paragraph",
+                 "paragraph_id": p["paragraph_id"],
+                 "flow_fragment_id": p["paragraph_id"] + "-F0",
+                 "fragment_index": 0, "continuation": False,
+                 "flow_y": p.get("anchor_y", r["bbox"][1]),
+                 "render_text": translations.get(
+                     p["paragraph_id"], p["source_text"])}))
+    flow_items_by_pid = {}
+    for _flow, _item in flow_items:
+        flow_items_by_pid.setdefault(_item["paragraph_id"], []).append(_item)
+
     # Phase 4D.1: front-matter paragraphs render as dedicated blocks; they
     # are skipped in the ordinary paragraph flow (the flow still carries
     # their y for cursor continuity -- only the HTML output changes).
@@ -728,6 +828,7 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
         fm_parts = _render_frontmatter_blocks(
             para_by_id, fm_roles, translations, grid, frontmatter, ty,
             inline_map, svg_name, page_w, page_h, out_dir, full_svg,
+            flow_items_by_pid=flow_items_by_pid,
             bottom_reserved_regions=bottom_reserved_regions,
             latin_gap=ty.get("cjk_latin_gap_em", 0.0) if balanced else 0.0,
             number_gap=ty.get("cjk_number_gap_em", 0.0) if balanced else 0.0,
@@ -736,17 +837,6 @@ def build_unified_html(page_model, translations, pdf, out_dir, *,
             gap_collector=gap_collector,
             body_family=body_family if balanced else None)
 
-    if not flow_items:
-        for r in para_regions:
-            p = r["payload"]
-            flow_items.append((
-                {"col_x0": p.get("col_x0", r["bbox"][0]),
-                 "col_x1": p.get("col_x1", r["bbox"][2])},
-                {"paragraph_id": p["paragraph_id"],
-                 "flow_fragment_id": p["paragraph_id"] + "-F0",
-                 "fragment_index": 0, "continuation": False,
-                 "flow_y": p.get("anchor_y", r["bbox"][1]),
-                 "render_text": translations.get(p["paragraph_id"], p["source_text"])}))
     for flow, fl in flow_items:
         if fl["paragraph_id"] in fm_skip:
             continue  # front-matter block renders separately
