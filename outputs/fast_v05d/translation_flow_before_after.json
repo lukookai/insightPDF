@@ -1,0 +1,64 @@
+{
+  "schema_version": "fast.v05d.translation_flow_before_after.v1",
+  "fixture": {
+    "page_model": "E:\\Code\\fanyi\\outputs\\fast_e2e\\PPAT_run3\\_source_chain\\pages\\p001\\stitched_page_model.json",
+    "old_translation": "E:\\Code\\fanyi\\outputs\\fast_e2e\\PPAT_run3\\_source_chain\\pages\\p001\\translation.json",
+    "source_pdf": "C:\\Users\\74496\\Desktop\\PPAT.pdf",
+    "page": 1
+  },
+  "before": {
+    "flow": [
+      "normal translation completes",
+      "renderer discovers prose recovery candidates",
+      "renderer invokes per-recovery translation router"
+    ],
+    "recovery_candidate_after_translation_count": 5,
+    "candidate_ids": [
+      "PAF_B1_00",
+      "PAF_B1_01",
+      "PAF_B1_02",
+      "PAF_B1_03",
+      "PAF_B1_04"
+    ],
+    "renderer_translation_possible": true
+  },
+  "after": {
+    "flow": [
+      "parse/semantic detection",
+      "recovery candidate discovery",
+      "unified translation preparation batch",
+      "renderer consumes prepared targets",
+      "FAST_GATE"
+    ],
+    "recovery_candidate_after_translation_count": 0,
+    "translation_item_count": 11,
+    "provider_batch_count": 1,
+    "provider_item_count": 11,
+    "translation_time": 0.002699,
+    "candidate_discovery_time": 34.404718,
+    "normal_item_count": 6,
+    "prose_recovery_item_count": 5,
+    "semantic_role_counts": {
+      "body": 8,
+      "caption": 1,
+      "heading": 2
+    },
+    "normal_and_recovery_share_provider_batch": true,
+    "independent_recovery_provider_request_count": 0
+  },
+  "provider_batches": [
+    [
+      "DLP00000",
+      "DLP00001",
+      "DLP00002",
+      "DLP00003",
+      "DLP00004",
+      "DLP00005",
+      "PAF_B1_00",
+      "PAF_B1_01",
+      "PAF_B1_02",
+      "PAF_B1_03",
+      "PAF_B1_04"
+    ]
+  ]
+}

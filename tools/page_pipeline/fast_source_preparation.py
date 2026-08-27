@@ -237,6 +237,29 @@ def prepare_fast_source_chain(
                 stage="pdf_parse/page_model")
         document = build_document_model(pdf_path, raw_pages)
         apply_document_semantics(document)
+        # FAST v05D: candidate discovery keeps the established recovery
+        # geometry/semantic rules but runs before the unified translation
+        # batch.  Recovered ids join the document-wide id namespace so every
+        # translation item is unique across pages.
+        from fast_translation_preparation import (
+            discover_page_prose_recovery,
+            prose_recovery_translation_items,
+        )
+        recovery_by_page: dict[int, dict[str, Any]] = {}
+        recovery_translation_items: list[dict[str, str]] = []
+        existing_translation_ids = {
+            str(paragraph.get("logical_paragraph_id") or "")
+            for paragraph in document.get("logical_paragraphs") or []}
+        for page_model in document["pages"]:
+            page_number = int(page_model["page"])
+            recovery = discover_page_prose_recovery(
+                page_model, pdf_path, page_number - 1,
+                existing_ids=existing_translation_ids)
+            recovery_by_page[page_number] = recovery
+            page_items = prose_recovery_translation_items(recovery)
+            recovery_translation_items.extend(page_items)
+            existing_translation_ids.update(
+                item["item_id"] for item in page_items)
         page_context, layout_profile = _build_document_layout_context(
             pdf_path, document, run_document=run_document)
         _dump(destination / "document_layout_profile.json", layout_profile)
@@ -264,10 +287,23 @@ def prepare_fast_source_chain(
             destination,
             dry_run=False,
             cache_enabled=translation_cache_enabled,
-            translation_provider=translation_provider)
+            translation_provider=translation_provider,
+            additional_items=recovery_translation_items)
+        from fast_translation_preparation import (
+            apply_prepared_recovery_translations,
+            prepared_recovery_missing_targets,
+        )
+        required_target_missing_before_render_count = 0
         for page in document["pages"]:
             page_number = int(page["page"])
             page_dir = destination / "pages" / f"p{page_number:03d}"
+            prepared_recovery = apply_prepared_recovery_translations(
+                recovery_by_page[page_number], translations)
+            missing_recovery = prepared_recovery_missing_targets(
+                prepared_recovery)
+            required_target_missing_before_render_count += len(
+                missing_recovery)
+            _dump(page_dir / "prose_recovery.json", prepared_recovery)
             page_translation = run_document.page_translations(
                 page, translations)
             context = page_context[page_number]
@@ -284,15 +320,33 @@ def prepare_fast_source_chain(
             _dump(page_dir / "fast_source_context.json", {
                 "schema_version": "fast.source_context.v1",
                 "bottom_reserved_regions": bottom_reserved,
+                "prose_recovery_prepared": True,
+                "prose_recovery_candidate_count": len(
+                    prepared_recovery.get("recovered") or []),
+                "required_target_missing_before_render_count": len(
+                    missing_recovery),
             })
 
+        if required_target_missing_before_render_count:
+            raise FastSourcePreparationError(
+                "translation_preparation_incomplete: "
+                f"missing recovery targets="
+                f"{required_target_missing_before_render_count}",
+                stage="translation/cache")
+
         cache_hit = int(document.get("cache_hit", 0) or 0)
-        provider_item_count = int(
-            document.get("new_translation_call_count", 0) or 0)
         cache_lookup_count = int(
             document.get("cache_lookup_count", 0) or 0)
         cache_read_count = int(document.get("cache_read_count", 0) or 0)
         cache_write_count = int(document.get("cache_write_count", 0) or 0)
+        translation_item_count = int(
+            document.get("translation_item_count", 0) or 0)
+        provider_batch_count = int(
+            document.get("provider_batch_count", 0) or 0)
+        provider_item_count = int(
+            document.get("provider_item_count", 0) or 0)
+        translation_time = float(document.get("translation_time", 0.0) or 0.0)
+        prose_recovery_candidate_count = len(recovery_translation_items)
         if translation_cache_enabled:
             reporter.info(
                 "translation/cache",
@@ -300,7 +354,10 @@ def prepare_fast_source_chain(
                          f"provider_items={provider_item_count}"),
                 translation_cache_enabled=True,
                 cache_hit=cache_hit,
+                translation_item_count=translation_item_count,
+                provider_batch_count=provider_batch_count,
                 provider_item_count=provider_item_count,
+                translation_time=translation_time,
                 canonical_cache=str(cache.path),
                 cache_seed_count=len(cache.seed_caches))
         else:
@@ -310,7 +367,10 @@ def prepare_fast_source_chain(
                          f"provider_items={provider_item_count}"),
                 translation_cache_enabled=False,
                 cache_hit=0,
+                translation_item_count=translation_item_count,
+                provider_batch_count=provider_batch_count,
                 provider_item_count=provider_item_count,
+                translation_time=translation_time,
                 cache_lookup_count=0,
                 cache_read_count=0,
                 cache_write_count=0)
@@ -319,14 +379,24 @@ def prepare_fast_source_chain(
         "schema_version": "fast.source_manifest.v1",
         "source_pdf": str(pdf_path),
         "page_count": page_count,
-        "route": "parse_document_model_translation_only",
+        "route": (
+            "parse_document_model_recovery_discovery_unified_translation"),
         "legacy_render_executed": False,
         "deep_qa_executed": False,
+        "recovery_discovery_completed_before_translation": True,
         "translation_cache_enabled": bool(translation_cache_enabled),
         "cache_lookup_count": cache_lookup_count,
         "cache_read_count": cache_read_count,
         "cache_write_count": cache_write_count,
         "cache_hit": cache_hit,
+        "translation_item_count": translation_item_count,
+        "provider_batch_count": provider_batch_count,
+        "provider_item_count": provider_item_count,
+        "translation_time": translation_time,
+        "prose_recovery_candidate_count": prose_recovery_candidate_count,
+        "recovery_candidate_after_translation_count": 0,
+        "required_target_missing_before_render_count": (
+            required_target_missing_before_render_count),
         "canonical_translation_cache": (
             str(cache.path) if cache is not None else None),
         "translation_cache_seed_count": (
@@ -336,7 +406,14 @@ def prepare_fast_source_chain(
         "page_count": int(preflight.get("page_count") or page_count),
         "cache_hit": cache_hit,
         "cache_miss": provider_item_count,
+        "translation_item_count": translation_item_count,
+        "provider_batch_count": provider_batch_count,
         "provider_item_count": provider_item_count,
+        "translation_time": translation_time,
+        "prose_recovery_candidate_count": prose_recovery_candidate_count,
+        "recovery_candidate_after_translation_count": 0,
+        "required_target_missing_before_render_count": (
+            required_target_missing_before_render_count),
         "translation_cache_enabled": bool(translation_cache_enabled),
         "cache_lookup_count": cache_lookup_count,
         "cache_read_count": cache_read_count,

@@ -4,8 +4,7 @@
 Default production path per page:
 
     source page model
-    -> prose-adopted formula recovery (translates swallowed prose via the
-       existing DeepSeek batch pipeline; ONLY external API calls)
+    -> pretranslated prose-adopted formula recovery artifact
     -> FixedCanvasAnchorLayout (recovered prose as soft text, prose-adopted
        formulas excluded from formula rendering)
     -> build_unified_html (+RenderIdentity data-render-source)
@@ -151,18 +150,88 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
     if not model or not translations:
         return {"page": page, "error": "missing page artifacts"}
 
+    fast_renderer = qa_mode == "fast"
+
+    def _translation_incomplete(exc):
+        return {
+            "page": page,
+            "error": "translation_preparation_incomplete",
+            "error_code": "translation_preparation_incomplete",
+            "error_detail": str(exc),
+            "required_target_missing_before_render_count": len(
+                getattr(exc, "missing_items", []) or []),
+            "renderer_translation_api_call_count": 0,
+            "prose_recovery_translation_api_call_count": 0,
+        }
+
     _progress("START", "ownership/math/slots")
+
+    from fast_translation_preparation import (
+        TranslationPreparationIncompleteError,
+        renderer_translation_provider_guard,
+    )
+    # Validate translation preparation at the first renderer boundary,
+    # before table closure, front-matter classification, layout, or browser
+    # work.  FAST never discovers or translates recovery prose here.
+    if fast_renderer:
+        from fast_translation_preparation import require_prepared_prose_recovery
+        recovery_path = src_dir / "prose_recovery.json"
+        if not recovery_path.is_file():
+            return _translation_incomplete(
+                TranslationPreparationIncompleteError(
+                    [{"item_id": "prose_recovery.json",
+                      "type": "prose_recovery_artifact",
+                      "source_text": ""}], owner="prose_recovery"))
+        recovery = _load(recovery_path, {}) or {}
+        try:
+            recovery_guard = require_prepared_prose_recovery(recovery)
+        except TranslationPreparationIncompleteError as exc:
+            return _translation_incomplete(exc)
+        api_calls = 0
 
     # ---- visual-v07 task 1: table-cell translation closure --------------
     # Reuse the existing LogicalCell + row/column/ruling geometry.  Only the
     # canonical target/render fields on each cell are enriched here.
     from table_cell_translation import close_table_cell_translations
-    token = _api_token() if not dry_run else ""
-    model, table_translation = close_table_cell_translations(
-        model, translations=translations,
-        cache_paths=(table_cache_paths or TABLE_TRANSLATION_CACHE_PATHS),
-        token=token, base_url=DEFAULT_BASE_URL, model_name=DEFAULT_MODEL,
-        dry_run=dry_run)
+    api_token = "" if (dry_run or fast_renderer) else _api_token()
+    table_paths = ([] if fast_renderer else
+                   (table_cache_paths if table_cache_paths is not None
+                    else TABLE_TRANSLATION_CACHE_PATHS))
+    try:
+        model, table_translation = close_table_cell_translations(
+            model, translations=translations,
+            cache_paths=table_paths,
+            token=api_token, base_url=DEFAULT_BASE_URL,
+            model_name=DEFAULT_MODEL,
+            dry_run=dry_run,
+            provider=(renderer_translation_provider_guard
+                      if fast_renderer else translate_batch))
+    except TranslationPreparationIncompleteError as exc:
+        return _translation_incomplete(exc)
+    if fast_renderer and table_translation.get(
+            "table_translation_provider_cell_count", 0):
+        missing_cells = []
+        for region in model.get("regions") or []:
+            if region.get("type") != "table":
+                continue
+            for cell in (region.get("payload") or {}).get("cells") or []:
+                if cell.get("translation_route") == "translation_provider" \
+                        or cell.get("translation_status") == \
+                        "translation_failed":
+                    missing_cells.append({
+                        "item_id": str(cell.get("cell_id") or ""),
+                        "type": "table_cell",
+                        "source_text": str(cell.get("source_text") or ""),
+                    })
+        if not missing_cells:
+            missing_cells.append({
+                "item_id": "required_table_target",
+                "type": "table_cell",
+                "source_text": "",
+            })
+        return _translation_incomplete(
+            TranslationPreparationIncompleteError(
+                missing_cells, owner="table_cell"))
 
     page_idx = page - 1
     frontmatter = classify_front_matter(pdf_path, page_idx, grid)
@@ -179,50 +248,57 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         for token, value in (para.get("protected_runs") or {}).items():
             width_map[token] = max(len(value) * size * 0.58, 3.0)
 
-    # ---- visual-v05: prose-adopted formula recovery ----------------------
-    from prose_adopted_formula_recovery import recover_prose_adopted_formulas
-    translator_fn = None
-    if not dry_run and token:
-        from math_dense_translation_router import translate_math_dense
+    # ---- prose recovery: FAST already loaded its prepared artifact -------
+    if not fast_renderer:
+        # Explicit release/debug/regression compatibility path.  FAST never
+        # enters this branch and therefore cannot construct a provider.
+        from prose_adopted_formula_recovery import recover_prose_adopted_formulas
+        translator_fn = None
+        if not dry_run and api_token:
+            from math_dense_translation_router import translate_math_dense
 
-        def _plain_chat(prompt, protected_text):
-            """One plain-text chat round (no json_object wrapper)."""
-            import requests as _req
-            payload = {
-                "model": DEFAULT_MODEL,
-                "messages": [
-                    {"role": "system",
-                     "content": "You translate technical paper text from "
-                                "English into Simplified Chinese."},
-                    {"role": "user",
-                     "content": "%s\n\n%s" % (prompt, protected_text)},
-                ],
-                "thinking": {"type": "disabled"},
-                "temperature": 0,
-            }
-            resp = _req.post(
-                "%s/chat/completions" % DEFAULT_BASE_URL,
-                json=payload, timeout=240,
-                headers={"Authorization": "Bearer %s" % token})
-            resp.raise_for_status()
-            return resp.json()["choices"][0]["message"]["content"].strip()
+            def _plain_chat(prompt, protected_text):
+                """One plain-text chat round (no json_object wrapper)."""
+                import requests as _req
+                payload = {
+                    "model": DEFAULT_MODEL,
+                    "messages": [
+                        {"role": "system",
+                         "content": "You translate technical paper text from "
+                                    "English into Simplified Chinese."},
+                        {"role": "user",
+                         "content": "%s\n\n%s" % (prompt, protected_text)},
+                    ],
+                    "thinking": {"type": "disabled"},
+                    "temperature": 0,
+                }
+                resp = _req.post(
+                    "%s/chat/completions" % DEFAULT_BASE_URL,
+                    json=payload, timeout=240,
+                    headers={"Authorization": "Bearer %s" % api_token})
+                resp.raise_for_status()
+                return resp.json()["choices"][0]["message"][
+                    "content"].strip()
 
-        def _md_translate(items):
-            """Translate recovered prose via the math-dense router (explicit
-            prose-to-Chinese instruction; validates + retries)."""
-            out = {}
-            for it in items:
-                src = it["source_text"]
-                result = translate_math_dense(src, _plain_chat)
-                out[it["item_id"]] = result.get("restored_result") or ""
-            return out
-        translator_fn = _md_translate
-    recovery = recover_prose_adopted_formulas(
-        model, translations, pdf_path, page_idx,
-        translator_fn=translator_fn,
-        existing_ids=set(translations.keys()))
-    api_calls = recovery.get("api_calls", 0)
-    print("    [v04] prose recovery: %d recovered paras, %d api calls"
+            def _md_translate(items):
+                out = {}
+                for item in items:
+                    result = translate_math_dense(
+                        item["source_text"], _plain_chat)
+                    out[item["item_id"]] = (
+                        result.get("restored_result") or "")
+                return out
+            translator_fn = _md_translate
+        recovery = recover_prose_adopted_formulas(
+            model, translations, pdf_path, page_idx,
+            translator_fn=translator_fn,
+            existing_ids=set(translations.keys()))
+        api_calls = recovery.get("api_calls", 0)
+        recovery_guard = {
+            "required_target_missing_before_render_count": 0,
+            "prose_recovery_translation_api_call_count": api_calls,
+        }
+    print("    [v04] prose recovery: %d recovered paras, %d renderer api calls"
           % (len(recovery.get("recovered", [])), api_calls), flush=True)
 
     # ---- visual layout ---------------------------------------------------
@@ -460,6 +536,13 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
             "api_calls": (api_calls
                           + table_translation["table_translation_api_calls"]),
             "prose_translation_api_calls": api_calls,
+            "renderer_translation_api_call_count": (
+                api_calls
+                + table_translation["table_translation_api_calls"]),
+            "prose_recovery_translation_api_call_count": api_calls,
+            "required_target_missing_before_render_count": (
+                recovery_guard.get(
+                    "required_target_missing_before_render_count", 0)),
             "table_translation": table_translation,
             "table_structure": table_structure,
             "source_text_slots": source_text_slots,
@@ -762,6 +845,11 @@ def render_visual_page(doc_key, page, out_dir, fragment_targets=None,
         "prose_recovery": recovery.get("trace", {}),
         "api_calls": api_calls + table_translation["table_translation_api_calls"],
         "prose_translation_api_calls": api_calls,
+        "renderer_translation_api_call_count": (
+            api_calls + table_translation["table_translation_api_calls"]),
+        "prose_recovery_translation_api_call_count": api_calls,
+        "required_target_missing_before_render_count": recovery_guard.get(
+            "required_target_missing_before_render_count", 0),
         "table_translation": table_translation,
         "table_cell_translation_qa": table_cell_qa,
         "table_structure": table_structure,

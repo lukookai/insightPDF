@@ -127,6 +127,8 @@ def run_fast_e2e(
         doc_key, list(range(1, page_count + 1)))
 
     page_pdfs: list[Path] = []
+    renderer_translation_api_call_count = 0
+    prose_recovery_translation_api_call_count = 0
     for page in range(1, page_count + 1):
         page_dir = visual_root / f"p{page:03d}"
         page_dir.mkdir(parents=True, exist_ok=True)
@@ -142,6 +144,10 @@ def run_fast_e2e(
             progress_callback=reporter.callback,
             page_count=page_count,
         )
+        renderer_translation_api_call_count += int(
+            result.get("renderer_translation_api_call_count") or 0)
+        prose_recovery_translation_api_call_count += int(
+            result.get("prose_recovery_translation_api_call_count") or 0)
         if result.get("error"):
             raise FastE2EError(
                 str(result["error"]),
@@ -178,6 +184,19 @@ def run_fast_e2e(
         "cache_lookup_count": int(source.get("cache_lookup_count") or 0),
         "cache_read_count": int(source.get("cache_read_count") or 0),
         "cache_write_count": int(source.get("cache_write_count") or 0),
+        "translation_item_count": int(
+            source.get("translation_item_count") or 0),
+        "provider_batch_count": int(source.get("provider_batch_count") or 0),
+        "provider_item_count": int(source.get("provider_item_count") or 0),
+        "translation_time": float(source.get("translation_time") or 0.0),
+        "recovery_candidate_after_translation_count": int(
+            source.get("recovery_candidate_after_translation_count") or 0),
+        "required_target_missing_before_render_count": int(
+            source.get("required_target_missing_before_render_count") or 0),
+        "renderer_translation_api_call_count": (
+            renderer_translation_api_call_count),
+        "prose_recovery_translation_api_call_count": (
+            prose_recovery_translation_api_call_count),
         "qa_mode": qa_mode,
         "canonical_translation_cache": source.get("canonical_cache"),
     }

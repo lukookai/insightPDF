@@ -229,7 +229,9 @@ def _table_translation_items(page):
 
 
 def translate_document(document, cache, config, out_dir, dry_run=False, *,
-                       cache_enabled=False, translation_provider=None):
+                       cache_enabled=False, translation_provider=None,
+                       additional_items=None):
+    translation_started = time.perf_counter()
     items = [{"item_id": p["logical_paragraph_id"], "type": "paragraph",
               "source_text": p.get("translation_source_text") or p["source_text"],
               "style_role": p.get("style_role") or "body",
@@ -237,11 +239,25 @@ def translate_document(document, cache, config, out_dir, dry_run=False, *,
              for p in document["logical_paragraphs"]]
     for page in document["pages"]:
         items.extend(_table_translation_items(page))
+    items.extend(dict(item) for item in (additional_items or []))
+    seen_item_ids = set()
+    duplicate_item_ids = set()
+    for item in items:
+        item_id = str(item.get("item_id") or "")
+        if item_id in seen_item_ids:
+            duplicate_item_ids.add(item_id)
+        seen_item_ids.add(item_id)
+    duplicate_item_ids = sorted(duplicate_item_ids)
+    if duplicate_item_ids:
+        raise ValueError("duplicate unified translation item ids: %s"
+                         % ", ".join(duplicate_item_ids))
     translations = {}
     misses = []
     cache_lookup_count = 0
     cache_read_count = 0
     cache_write_count = 0
+    provider_batch_count = 0
+    provider_item_count = 0
     for item in items:
         if cache_enabled:
             cache_lookup_count += 1
@@ -322,6 +338,8 @@ def translate_document(document, cache, config, out_dir, dry_run=False, *,
         use_bridge = False
         for start in range(0, len(misses), tb.BATCH_SIZE):
             chunk = misses[start:start + tb.BATCH_SIZE]
+            provider_batch_count += 1
+            provider_item_count += len(chunk)
             if translation_provider is not None:
                 got = translation_provider(
                     chunk,
@@ -395,6 +413,8 @@ def translate_document(document, cache, config, out_dir, dry_run=False, *,
               % len(retried_items))
         for start in range(0, len(retried_items), tb.BATCH_SIZE):
             chunk = retried_items[start:start + tb.BATCH_SIZE]
+            provider_batch_count += 1
+            provider_item_count += len(chunk)
             if translation_provider is not None:
                 got = translation_provider(
                     chunk,
@@ -497,6 +517,11 @@ def translate_document(document, cache, config, out_dir, dry_run=False, *,
             _restore_dropped_placeholders
     assign_fragment_translations(document, translations)
     document["cache_write_count"] = cache_write_count
+    document["translation_item_count"] = len(items)
+    document["provider_batch_count"] = provider_batch_count
+    document["provider_item_count"] = provider_item_count
+    document["translation_time"] = round(
+        time.perf_counter() - translation_started, 6)
     document["translation_cache"] = (
         str(cache.path) if cache_enabled and cache is not None else None)
     return translations, items
